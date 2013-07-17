@@ -1,0 +1,67 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug27.2.dtd" >
+   <PATCH nodename="C:\vvvv\contributions\asio\Noise.v4p" systemname="Noise" filename="C:\vvvv\contributions\asio\Noise.v4p">
+   <NODE componentmode="Hidden" hiddenwhenlocked="0" id="0" managers="" nodename="RandomSpread (Spreads)" systemname="RandomSpread (Spreads)">
+   <PIN pinname="Random Seed" pintype="Input" visible="1">
+   </PIN>
+   <BOUNDS height="100" left="1500" top="1905" type="Node" width="100">
+   </BOUNDS>
+   <PIN pinname="Spread Count" pintype="Input" slicecount="1" visible="1" values="1024">
+   </PIN>
+   <PIN pinname="Output" pintype="Output" visible="1">
+   </PIN>
+   <PIN encoded="0" pinname="Descriptive Name" pintype="Configuration" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Input" pintype="Input" slicecount="1" visible="1" values="0">
+   </PIN>
+   <PIN pinname="Width" pintype="Input" visible="1">
+   </PIN>
+   <PIN pinname="ID" pintype="Output" visible="-1">
+   </PIN>
+   </NODE>
+   <NODE componentmode="Hidden" id="1" nodename="Random (Value)" systemname="Random (Value)">
+   <BOUNDS height="100" left="2250" top="1500" type="Node" width="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Is Integer" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Scale" slicecount="1" values="1000">
+   </PIN>
+   <PIN pinname="Enabled" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="1" srcpinname="Output" dstnodeid="0" dstpinname="Random Seed">
+   </LINK>
+   <NODE id="2" systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)">
+   <PIN pinname="Descriptive Name" slicecount="1" values="Output" encoded="0">
+   </PIN>
+   <BOUNDS type="Box" left="1500" top="2505" width="750" height="225">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1500" top="2505" width="750" height="225">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" visible="1">
+   </PIN>
+   </NODE>
+   <BOUNDS type="Window" left="4110" top="7665" width="4305" height="3510">
+   </BOUNDS>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="4" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Node" left="2145" top="600" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2145" top="600" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="0.01">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Level" encoded="0">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Width">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Output" dstnodeid="2" dstpinname="Y Input Value">
+   </LINK>
+   </PATCH>
