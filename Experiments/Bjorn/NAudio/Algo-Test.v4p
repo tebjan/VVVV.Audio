@@ -1,0 +1,349 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta29.2.dtd" >
+   <PATCH nodename="C:\Users\Björn\Documents\GitHub\VVVV.Audio\Experiments\Bjorn\NAudio\Algo-Test.v4p" systemname="Algo-Test" filename="C:\Users\Björn\Dropbox\vvvv\tobemerged\NAudio\Algo-Test.v4p">
+   <BOUNDS type="Window" left="0" top="-225" width="18585" height="11700">
+   </BOUNDS>
+   <NODE systemname="WaveOut (Naudio Wasapi)" filename="plugins\WasapiNaudioWaveOut\WasapiNaudioWaveOut.csproj" nodename="WaveOut (Naudio Wasapi)" componentmode="Hidden" id="94">
+   <BOUNDS type="Node" left="1530" top="8400" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="99" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2505" top="300" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2505" top="300" width="8955" height="405">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="|(t&gt;&gt;6^t&amp;0x25||t+(t^t&gt;&gt;11)-t* (( ((t%24)==1)?2:6)&amp;t&gt;&gt;11)^t&lt;&lt;1&amp;( ((t&amp;0x256)==1)?t&gt;&gt;4:t&gt;&gt;10) )|">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="t">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Switch (String Input)" nodename="Switch (String Input)" componentmode="Hidden" id="106">
+   <BOUNDS type="Node" left="2340" top="6810" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   <PIN pinname="Input Count" slicecount="1" values="8">
+   </PIN>
+   <PIN pinname="Input 3" visible="1">
+   </PIN>
+   <PIN pinname="Input 4" visible="1">
+   </PIN>
+   <PIN pinname="Input 5" visible="1">
+   </PIN>
+   <PIN pinname="Input 6" visible="1">
+   </PIN>
+   <PIN pinname="Input 7" visible="1">
+   </PIN>
+   <PIN pinname="Input 8" visible="1">
+   </PIN>
+   <PIN pinname="Switch">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="99" srcpinname="Output String" dstnodeid="106" dstpinname="Input 1">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="108" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2655" top="960" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2655" top="960" width="8955" height="405">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="t*(t&gt;&gt;10)">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="t">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="108" srcpinname="Output String" dstnodeid="106" dstpinname="Input 2">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="109" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2835" top="1605" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2835" top="1605" width="8955" height="405">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="|(t*9&amp;t&gt;&gt;4||t*5&amp;t&gt;&gt;7||t*3&amp;t/1024)-1|">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="t">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="109" srcpinname="Output String" dstnodeid="106" dstpinname="Input 3">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="110" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2745" top="8130" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2745" top="8130" width="7275" height="1080">
+   </BOUNDS>
+   <PIN pinname="Default" slicecount="1" values="Default">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Input String" slicecount="1" values="Ok">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="111" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2985" top="2265" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2985" top="2265" width="8955" height="405">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="(t&gt;&gt;6&amp;1)==1?t&gt;&gt;5:-t&gt;&gt;4">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="t">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="111" srcpinname="Output String" dstnodeid="106" dstpinname="Input 4">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="112" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="3150" top="2775" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3150" top="2775" width="9000" height="660">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="| ((t*(&quot;36364689&quot;[(int)t&gt;&gt;13&amp;7]&amp;15))/12&amp;128)&cr;&lf;+(((((t&gt;&gt;12)^(t&gt;&gt;12)-2)%11*t)/4||t&gt;&gt;13)&amp;127)|">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="t">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="112" srcpinname="Output String" dstnodeid="106" dstpinname="Input 5">
+   </LINK>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="113">
+   <BOUNDS type="Node" left="4260" top="6720" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4260" top="6720" width="5010" height="240">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="8" values="5,5,5,5,1,1,5,5">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="Columns" slicecount="1" values="8">
+   </PIN>
+   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
+   </PIN>
+   </NODE>
+   <NODE systemname="GetSlice (Spreads)" nodename="GetSlice (Spreads)" componentmode="Hidden" id="114">
+   <BOUNDS type="Node" left="4260" top="7095" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Index" visible="1">
+   </PIN>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="113" srcpinname="Y Output Value" dstnodeid="114" dstpinname="Input">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="115" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="3300" top="3540" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3300" top="3540" width="9045" height="780">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="| (((int)(3e3/(y=t&amp;16383))&amp;1)*35) +&cr;&lf;(x=t*(&quot;6689&quot;[(int)t&gt;&gt;16&amp;3]&amp;15)/24&amp;127)*y/4e4 +&cr;&lf;((t&gt;&gt;8^t&gt;&gt;10||t&gt;&gt;14||x)&amp;63)|">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="t">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="115" srcpinname="Output String" dstnodeid="106" dstpinname="Input 6">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="116" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="3480" top="4500" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3480" top="4500" width="8955" height="405">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="t+(t&amp;t^t&gt;&gt;6)-t*((t&gt;&gt;9)&amp;((t%16)==1?2:6)&amp;t&gt;&gt;9)">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="t">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="116" srcpinname="Output String" dstnodeid="106" dstpinname="Input 7">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="117" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="3615" top="5100" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3615" top="5100" width="8955" height="405">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="|t*5&amp;(t&gt;&gt;7)||t*3&amp;(t*4&gt;&gt;10)|">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="t">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="117" srcpinname="Output String" dstnodeid="106" dstpinname="Input 8">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="119" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="255" top="9420" width="6585" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="255" top="9420" width="6585" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="http://countercomplex.blogspot.se/2011/10/some-deep-analysis-of-one-line-music.html">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="120">
+   <BOUNDS type="Node" left="8040" top="10170" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="8040" top="10170" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="12645" top="6210" width="6240" height="5010">
+   </BOUNDS>
+   </NODE>
+   <NODE systemname="AlgorithmicSP (NAudio Source)" filename="plugins\SourceNAudioAlgorithmicSP\SourceNAudioAlgorithmicSP.csproj" nodename="AlgorithmicSP (NAudio Source)" componentmode="Hidden" id="96">
+   <BOUNDS type="Node" left="1530" top="7770" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Algorithm" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Pan" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Scaler" visible="1">
+   </PIN>
+   <PIN pinname="Repeat every n-samples" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="106" srcpinname="Output" dstnodeid="96" dstpinname="Algorithm">
+   </LINK>
+   <LINK srcnodeid="96" srcpinname="Output" dstnodeid="94" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="96" srcpinname="Status" dstnodeid="110" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="114" srcpinname="Output" dstnodeid="96" dstpinname="Repeat every n-samples">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="121" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="1560" top="1020" width="915" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1560" top="1020" width="915" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|Change me|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="122" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="4980" top="5955" width="12330" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4980" top="5955" width="12330" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|Most of these oneliners are made for 8000 samples/sec, repeating every sample 5 times at 44100 samps/sec is a crude aproximation and they don&apos;t sound like the originals|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="123" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="5010" top="6225" width="11085" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="5010" top="6225" width="11085" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|Should maybe include my original 8kHz version too, this version of Algorithmic node was quickly hacked to work at 44.1kHz with the ISampleProvider links|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="124" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="12555" top="3735" width="975" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="12555" top="3735" width="2505" height="420">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|special case: uses vars, rate/pitch also slightly off|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE id="107" nodename="IOBox (Value Advanced)" componentmode="InABox" systemname="IOBox (Value Advanced)">
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   <BOUNDS type="Node" left="1575" top="1380" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1575" top="1380" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="107" srcpinname="Y Output Value" dstnodeid="114" dstpinname="Index" linkstyle="Bezier">
+   <LINKPOINT x="1645" y="3885">
+   </LINKPOINT>
+   <LINKPOINT x="4850" y="4800">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="107" srcpinname="Y Output Value" dstnodeid="106" dstpinname="Switch" linkstyle="Bezier">
+   <LINKPOINT x="1610" y="3895">
+   </LINKPOINT>
+   <LINKPOINT x="2350" y="4535">
+   </LINKPOINT>
+   </LINK>
+   </PATCH>
