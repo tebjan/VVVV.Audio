@@ -1,0 +1,63 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Experiments\Bjorn\NAudio\EngineTest1.v4p" systemname="EngineTest1" filename="C:\Dev\vvvv\VVVV.Audio\Experiments\Bjorn\NAudio\EngineTest1.v4p">
+   <BOUNDS type="Window" left="480" top="3165" width="9420" height="7965">
+   </BOUNDS>
+   <NODE systemname="AudioEngine (Naudio)" filename="plugins\WasapiNaudioWaveOut\WasapiNaudioWaveOut.csproj" nodename="AudioEngine (Naudio)" componentmode="Hidden" id="3">
+   <BOUNDS type="Node" left="6060" top="3435" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Control Panel" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
+   </PIN>
+   </NODE>
+   <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="5">
+   <BOUNDS type="Node" left="3270" top="4815" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3270" top="4815" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="1935" top="10245" width="18615" height="4860">
+   </BOUNDS>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="6" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="6060" top="2265" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="6060" top="2265" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Play">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="6" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Play">
+   </LINK>
+   <LINK srcnodeid="4" srcpinname="Output" dstnodeid="2" dstpinname="Input">
+   </LINK>
+   <NODE id="4" systemname="SignalGenerator (Naudio)" filename="plugins\NaudioSignalGenerator\NaudioSignalGenerator.csproj" nodename="SignalGenerator (Naudio)" componentmode="Hidden">
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Gain" slicecount="1" values="0.5">
+   </PIN>
+   <BOUNDS type="Node" left="870" top="1290" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Type" slicecount="1" values="Sin">
+   </PIN>
+   <PIN pinname="Frequency" slicecount="1" values="440">
+   </PIN>
+   </NODE>
+   <NODE id="2" systemname="AudioOut (Naudio)" filename="plugins\WasapiNaudioWaveOut\WasapiNaudioWaveOut.csproj" nodename="AudioOut (Naudio)" componentmode="Hidden">
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <BOUNDS type="Node" left="855" top="3015" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   </PATCH>

@@ -1,6 +1,6 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta30.2.dtd" >
-   <PATCH nodename="C:\Users\Björn\Documents\GitHub\VVVV.Audio\Experiments\Bjorn\NAudio\poly-algo.v4p" systemname="poly-algo" filename="C:\Users\Björn\Dropbox\vvvv\tobemerged\NAudio\poly-algo.v4p">
-   <BOUNDS type="Window" left="360" top="0" width="17445" height="11340">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Experiments\Bjorn\NAudio\poly-algo.v4p" systemname="poly-algo" filename="C:\Users\Björn\Dropbox\vvvv\tobemerged\NAudio\poly-algo.v4p">
+   <BOUNDS type="Window" left="585" top="570" width="16290" height="12810">
    </BOUNDS>
    <NODE systemname="Blinker (Animation)" nodename="Blinker (Animation)" componentmode="Hidden" id="1">
    <BOUNDS type="Node" left="2670" top="510" width="100" height="100">
@@ -179,7 +179,7 @@
    </PIN>
    </NODE>
    <NODE systemname="ADSR (Animation)" nodename="ADSR (Animation)" componentmode="Hidden" id="13">
-   <BOUNDS type="Node" left="2700" top="6225" width="100" height="100">
+   <BOUNDS type="Node" left="2700" top="6015" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -469,7 +469,7 @@
    <LINK srcnodeid="14" srcpinname="Output" dstnodeid="13" dstpinname="Input">
    </LINK>
    <NODE systemname="WaveOut (Naudio Wasapi)" filename="plugins\WasapiNaudioWaveOut\WasapiNaudioWaveOut.csproj" nodename="WaveOut (Naudio Wasapi)" componentmode="Hidden" id="37">
-   <BOUNDS type="Node" left="1950" top="11310" width="100" height="100">
+   <BOUNDS type="Node" left="1965" top="12120" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
@@ -737,9 +737,9 @@
    <LINK srcnodeid="100" srcpinname="Output 8" dstnodeid="96" dstpinname="Pan">
    </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="101" systemname="IOBox (String)">
-   <BOUNDS type="Node" left="5070" top="10560" width="0" height="0">
+   <BOUNDS type="Node" left="7170" top="11505" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="5070" top="10560" width="7170" height="345">
+   <BOUNDS type="Box" left="7170" top="11505" width="7170" height="345">
    </BOUNDS>
    <PIN pinname="Input String" slicecount="1" values="|(Tone(t+B*Tone(t, A*C), A+0.0005*Tone(t, A)))*127*D+127|">
    </PIN>
@@ -785,7 +785,7 @@
    <LINK srcnodeid="102" srcpinname="Y Output Value" dstnodeid="89" dstpinname="Gain">
    </LINK>
    <NODE systemname="Echo (NAudio.FX)" filename="plugins\NAudio.FXEcho\NAudio.FXEcho.csproj" nodename="Echo (NAudio.FX)" componentmode="Hidden" id="103">
-   <BOUNDS type="Node" left="1965" top="10695" width="100" height="100">
+   <BOUNDS type="Node" left="1995" top="11325" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -795,5 +795,33 @@
    <LINK srcnodeid="89" srcpinname="Output" dstnodeid="103" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="103" srcpinname="Output" dstnodeid="37" dstpinname="Input">
+   </LINK>
+   <NODE systemname="MainLoop (VVVV)" nodename="MainLoop (VVVV)" componentmode="Hidden" id="-6">
+   <BOUNDS type="Node" left="12555" top="5370" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Maximum forground fps" slicecount="1" values="333">
+   </PIN>
+   <PIN pinname="Maximum background fpsS" slicecount="1" values="400">
+   </PIN>
+   <PIN pinname="Increase Timing Precision" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Timing (Debug)" nodename="Timing (Debug)" componentmode="Hidden" id="104">
+   <BOUNDS type="Node" left="13650" top="5385" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="105" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="13650" top="6330" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="13650" top="6330" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="104" srcpinname="frames per second" dstnodeid="105" dstpinname="Y Input Value">
    </LINK>
    </PATCH>
