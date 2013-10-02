@@ -9,6 +9,7 @@ using VVVV.Utils.VColor;
 using VVVV.Utils.VMath;
 
 using NAudio.Wave;
+using NAudio.Wave.Asio;
 using NAudio.CoreAudioApi;
 using NAudio.Wave.SampleProviders;
 using NAudio.Utils;
@@ -144,45 +145,53 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	public class NodeOutputProvider : ISampleProvider
+	public class AudioSignal : ISampleProvider, IDisposable
 	{
-		private bool FNeedsRead;
-		public void Reset()
+		
+		public AudioSignal(int sampleRate)
+	    {
+	        this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 1);
+	    	AudioService.Engine.FinishedReading += EngineFinishedReading;
+	    }
+		
+		protected void EngineFinishedReading(object sender, EventArgs e)
 		{
 			FNeedsRead = true;
 		}
 		
-		public NodeOutputProvider(WaveFormat format)
-	    {
-	        this.WaveFormat = format;
-	    }
+		public void Dispose()
+		{
+			AudioService.Engine.FinishedReading -= EngineFinishedReading;
+		}
 		
-		public ISampleProvider Source
+		
+		public AudioSignal Source
 		{
 			set
 			{
-				lock(FUpstreamProvider)
+				lock(FUpstreamLock)
 				{
 					FUpstreamProvider = value;
 				}
 			}
 		}
 		
-		protected ISampleProvider FUpstreamProvider;
-		protected float[] FReadBuffer;
+		
+		protected AudioSignal FUpstreamProvider;
+		protected object FUpstreamLock = new object();
+		protected float[] FReadBuffer = new float[1];
+		
+		private bool FNeedsRead = true;
+		
 	    public int Read(float[] buffer, int offset, int count)
 	    {
+	    	FReadBuffer = BufferHelpers.Ensure(FReadBuffer, count);
 	    	if(FNeedsRead)
 	    	{
-	    		lock(FUpstreamProvider)
-	    		{
-	    			FReadBuffer = new float[count];
-	    			FUpstreamProvider.Read(FReadBuffer, offset, count);
-	    		}
+	    		this.FillBuffer(FReadBuffer, offset, count);
 	    		
 	    		FNeedsRead = false;
 	    	}
-	    	
 	    	
 	        for (int i = 0; i < count; i++)
 	        {
@@ -191,6 +200,15 @@ namespace VVVV.Nodes
 	    	
 	        return count;
 	    }
+		
+		protected virtual void FillBuffer(float[] buffer, int offset, int count)
+		{
+			lock(FUpstreamLock)
+			{
+				if(FUpstreamProvider != null)
+					FUpstreamProvider.Read(buffer, offset, count);
+			}
+		}
 	
 	    public WaveFormat WaveFormat
 	    {
@@ -198,40 +216,74 @@ namespace VVVV.Nodes
 	    	protected set;
 	    	
 	    }
-		
 	}
 
-	
-	public class AudioNodeBase : IPluginEvaluate, IDisposable
+	public class SineSignal : AudioSignal
 	{
-		
-		
-		ISpread<ISampleProvider> OutBuffer;
-		
-		[Import]
-		IHDEHost FHost;
-		
-		protected void Init()
+		public SineSignal(double frequency)
+			: base(44100)
 		{
-			FHost.MainLoop.OnPrepareGraph += PrepareGraph;
+			Frequency = frequency;
 		}
 		
-		protected void PrepareGraph(object sender, EventArgs e)
+		private double Frequency;
+		public double Gain = 0.1;
+		private double TwoPi = Math.PI * 2;
+		private int nSample = 0;
+		
+		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			//Reset();
+			
+			var sampleRate = this.WaveFormat.SampleRate;
+			var multiple = TwoPi*Frequency/sampleRate;
+			for (int i = 0; i < count; i++)
+			{
+				// Sinus Generator
+				
+				buffer[i] = (float)(Gain*Math.Sin(nSample*multiple));
+				
+				unchecked
+				{
+					nSample++;
+				}
+			}
+			
 		}
 		
+	}
+	
+	[PluginInfo(Name = "Sine", Category = "Naudio", Version = "Source", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
+	public class AudioSourceNodeBase : IPluginEvaluate
+	{
+		[Input("Frequency", DefaultValue = 440)]
+		IDiffSpread<double> Frequency;
 		
+		[Input("Gain", DefaultValue = 0.1)]
+		IDiffSpread<double> Gain;
 		
+		[Output("Audio Out")]
+		ISpread<AudioSignal> OutBuffer;
+
 		public void Evaluate(int SpreadMax)
 		{
+			//OutBuffer.ResizeAndDispose(SpreadMax, index =>  new SineSignal(Frequency[index]));
 			
-			//FLogger.Log(LogType.Debug, "hi tty!");
-		}
-		
-		public void Dispose()
-		{
+			if(Frequency.IsChanged)
+			{
+				OutBuffer.SliceCount = SpreadMax;
+				for(int i=0; i<SpreadMax; i++)
+				{
+					OutBuffer[i] = new SineSignal(Frequency[i]);
+				}
+			}
 			
+			if(Gain.IsChanged)
+			{
+				for(int i=0; i<SpreadMax; i++)
+				{
+					(OutBuffer[i] as SineSignal).Gain  = Gain[i];
+				}
+			}
 		}
 	}
 	
@@ -246,18 +298,27 @@ namespace VVVV.Nodes
 		Wave
 	}
 	
-	public class VAudioEngine: IDisposable
+	public class AudioEngine: IDisposable
 	{
-		public VAudioEngine()
+		public AudioEngine()
 		{
 			AsioOut = new AsioOut();
 			// get format FAsioOut....
-			var format = WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);
-			MultiInputProvider = new MultipleSampleToWaveProvider(format);
+			var format = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
+			MultiInputProvider = new MultipleSampleToWaveProvider(format, () => OnFinishedReading());
 		}
 		
 		MultipleSampleToWaveProvider MultiInputProvider;
 		public AsioOut AsioOut;
+		
+		public event EventHandler FinishedReading;
+		
+		protected void OnFinishedReading()
+		{
+			var handle = FinishedReading;
+			if(handle != null)
+				handle(this, new EventArgs());
+		}
 		
 		#region asio
 		
@@ -300,14 +361,14 @@ namespace VVVV.Nodes
 		#endregion asio
 		
 		
-		public void AddOutput(ISpread<ISampleProvider> provider)
+		public void AddOutput(ISpread<AudioSignal> provider)
 		{
 			if(provider == null) return;
 			foreach(var p in provider)
 				MultiInputProvider.Add(p);
 		}
 		
-		public void RemoveOutput(ISpread<ISampleProvider> provider)
+		public void RemoveOutput(ISpread<AudioSignal> provider)
 		{
 			if(provider == null) return;
 			foreach(var p in provider)
@@ -315,16 +376,16 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	public static class VAudioService
+	public static class AudioService
 	{
-		static VAudioService()
+		static AudioService()
 		{
-			FAudioEngine = new VAudioEngine();
+			FAudioEngine = new AudioEngine();
 		}
 		
-		private static VAudioEngine FAudioEngine;
+		private static AudioEngine FAudioEngine;
 		
-		public static VAudioEngine Engine
+		public static AudioEngine Engine
 		{
 			get
 			{
@@ -334,21 +395,23 @@ namespace VVVV.Nodes
 		
 	}
 	
-	    /// <summary>
+	/// <summary>
     /// Helper class for when you need to convert back to an IWaveProvider from
     /// an ISampleProvider. Keeps it as IEEE float
     /// </summary>
     public class MultipleSampleToWaveProvider : IWaveProvider
     {
         private List<ISampleProvider> source = new List<ISampleProvider>();
-
+		private Action FReadingFinished;
+    	
         /// <summary>
         /// Initializes a new instance of the WaveProviderFloatToWaveProvider class
         /// </summary>
         /// <param name="source">Source wave provider</param>
-        public MultipleSampleToWaveProvider(WaveFormat format)
+        public MultipleSampleToWaveProvider(WaveFormat format, Action readingFinished)
         {
         	this.WaveFormat = format;
+        	this.FReadingFinished = readingFinished;
         }
     	
     	public void Add(ISampleProvider provider)
@@ -366,38 +429,46 @@ namespace VVVV.Nodes
     			source.Remove(provider);
     		}
     	}
-
+    	
         /// <summary>
         /// Reads from this provider
         /// </summary>
     	float[] FMixerBuffer = new float[1];
+    	
+    	//this is called from the soundcard
         public int Read(byte[] buffer, int offset, int count)
         {
             int samplesNeeded = count / 4;
             WaveBuffer wb = new WaveBuffer(buffer);
         	
+        	//fix buffer size
         	FMixerBuffer = BufferHelpers.Ensure(FMixerBuffer, samplesNeeded);
         	
-        	for(int j=0; j<samplesNeeded; j++)
-        	{
-        		wb.FloatBuffer[j] = 0;// * invCount;
-        	}
+        	//empty buffer
+        	wb.Clear();
         	
         	lock(source)
         	{
         		var inputCount = source.Count;
-        		var invCount = 1.0f/inputCount;
+        		//var invCount = 1.0f/inputCount;
         		for(int i=0; i<inputCount; i++)
         		{
-            		source[i].Read(FMixerBuffer, offset / 4, samplesNeeded);
-        			
-        			//add to output buffer
-        			for(int j=0; j<samplesNeeded; j++)
+        			if(source[i] != null)
         			{
-        				wb.FloatBuffer[j] += FMixerBuffer[j] * invCount;
-        				FMixerBuffer[j] = 0;
+        				//starts the calculation of the audio graph
+        				source[i].Read(FMixerBuffer, offset / 4, samplesNeeded);
+        				
+        				//add to output buffer
+        				for(int j=0; j<samplesNeeded; j++)
+        				{
+        					wb.FloatBuffer[j] += FMixerBuffer[j];
+        					FMixerBuffer[j] = 0;
+        				}
         			}
         		}
+        		
+        		//tell  the engine that reading has finished
+				FReadingFinished();
         	}
             return count; //always run 
         }
@@ -429,13 +500,13 @@ namespace VVVV.Nodes
 
 		[Import()]
 		ILogger FLogger;
-		VAudioEngine FEngine;
+		AudioEngine FEngine;
 		#endregion fields & pins	
 		
 		[ImportingConstructor]
 		public AudioEngineNode()
 		{
-			FEngine = VAudioService.Engine;
+			FEngine = AudioService.Engine;
 			
 			var drivers = AsioOut.GetDriverNames();
 			
@@ -481,7 +552,7 @@ namespace VVVV.Nodes
 	{
 		#region fields & pins
 		[Input("Input")]
-		IDiffSpread<ISampleProvider> FInput;
+		IDiffSpread<AudioSignal> FInput;
 
 		//[Output("Output")]
 		//ISpread<double> FOutput;
@@ -490,21 +561,21 @@ namespace VVVV.Nodes
 		ILogger FLogger;
 		#endregion fields & pins
 
-		private ISpread<ISampleProvider> LastProvider;
+		private ISpread<AudioSignal> LastProvider;
 		public AudioOutNode()
 		{
-			LastProvider = new Spread<ISampleProvider>();
+			LastProvider = new Spread<AudioSignal>();
 		}
 		
 		public void Dispose()
 		{
-			VAudioService.Engine.RemoveOutput(LastProvider);
+			AudioService.Engine.RemoveOutput(LastProvider);
 		}
 		
 		private void RestartAudio()
 		{
-			VAudioService.Engine.RemoveOutput(LastProvider);
-			VAudioService.Engine.AddOutput(FInput);
+			AudioService.Engine.RemoveOutput(LastProvider);
+			AudioService.Engine.AddOutput(FInput);
 			LastProvider.AssignFrom(FInput);
 		}		
 		

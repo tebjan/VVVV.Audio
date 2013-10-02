@@ -2,3 +2,4 @@
 *._dynamic_.*.dll
 *.cache
 *.FileListAbsolute.txt
+*.pdb

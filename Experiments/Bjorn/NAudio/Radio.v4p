@@ -1,0 +1,117 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Experiments\Bjorn\NAudio\Radio.v4p" systemname="Radio" filename="C:\Dev\vvvv\VVVV.Audio\Experiments\Bjorn\NAudio\Radio.v4p">
+   <BOUNDS type="Window" left="480" top="3165" width="9420" height="7965">
+   </BOUNDS>
+   <NODE systemname="AudioEngine (Naudio)" filename="plugins\WasapiNaudioWaveOut\WasapiNaudioWaveOut.csproj" nodename="AudioEngine (Naudio)" componentmode="Hidden" id="3">
+   <BOUNDS type="Node" left="6150" top="3810" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Control Panel" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
+   </PIN>
+   </NODE>
+   <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="5">
+   <BOUNDS type="Node" left="3270" top="4815" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3270" top="4815" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="1935" top="10245" width="18615" height="4860">
+   </BOUNDS>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="6" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="6150" top="2640" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="6150" top="2640" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Play">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="6" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Play">
+   </LINK>
+   <LINK srcnodeid="4" srcpinname="Output" dstnodeid="2" dstpinname="Input">
+   </LINK>
+   <NODE id="4" systemname="SignalGenerator (Naudio)" filename="plugins\NaudioSignalGenerator\NaudioSignalGenerator.csproj" nodename="SignalGenerator (Naudio)" componentmode="Hidden">
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Gain" slicecount="1" values="0.5">
+   </PIN>
+   <BOUNDS type="Node" left="3330" top="2430" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Type" slicecount="1" values="Sin">
+   </PIN>
+   <PIN pinname="Frequency" slicecount="1" values="440" visible="1">
+   </PIN>
+   </NODE>
+   <NODE id="2" systemname="AudioOut (Naudio)" filename="plugins\WasapiNaudioWaveOut\WasapiNaudioWaveOut.csproj" nodename="AudioOut (Naudio)" componentmode="Hidden">
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <BOUNDS type="Node" left="3330" top="3705" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   <NODE systemname="LFO (Animation)" nodename="LFO (Animation)" componentmode="Hidden" id="7">
+   <BOUNDS type="Node" left="3735" top="420" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Period" slicecount="1" values="0.06">
+   </PIN>
+   <PIN pinname="Cycles" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Map (Value)" nodename="Map (Value)" componentmode="Hidden" id="8">
+   <BOUNDS type="Node" left="3330" top="1590" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Destination Minimum" slicecount="1" values="200">
+   </PIN>
+   <PIN pinname="Destination Maximum" slicecount="1" values="1000">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="8" srcpinname="Output" dstnodeid="4" dstpinname="Frequency">
+   </LINK>
+   <NODE systemname="MainLoop (VVVV)" nodename="MainLoop (VVVV)" componentmode="Hidden" id="-6">
+   <BOUNDS type="Node" left="6135" top="5370" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Increase Timing Precision" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Maximum forground fps" slicecount="1" values="10">
+   </PIN>
+   </NODE>
+   <NODE systemname="Change (Animation)" nodename="Change (Animation)" componentmode="Hidden" id="9">
+   <BOUNDS type="Node" left="4410" top="885" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="OnChange" visible="1">
+   </PIN>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Random (Value)" nodename="Random (Value)" componentmode="Hidden" id="10">
+   <BOUNDS type="Node" left="4620" top="1380" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Enabled" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="9" srcpinname="OnChange" dstnodeid="10" dstpinname="Enabled">
+   </LINK>
+   <LINK srcnodeid="10" srcpinname="Output" dstnodeid="8" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="7" srcpinname="Cycles" dstnodeid="9" dstpinname="Input">
+   </LINK>
+   </PATCH>
