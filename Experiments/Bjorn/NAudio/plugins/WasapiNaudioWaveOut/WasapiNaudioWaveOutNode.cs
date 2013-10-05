@@ -298,7 +298,7 @@ namespace VVVV.Nodes
 		Wave
 	}
 	
-	public class AudioEngine: IDisposable
+	public class AudioEngine: IDisposable, IStartable
 	{
 		public AudioEngine()
 		{
@@ -356,6 +356,15 @@ namespace VVVV.Nodes
 			}
 		}
 		
+		#region IStatable
+		//Needed for IStartable. Do nothing right now...
+        public void Start()	{}
+
+        //Shutdown engine when vvvv ends so vvvv process isn't left running
+        public void Shutdown()
+		{ Cleanup(); }
+		#endregion IStatable		
+		
 		#endregion asio
 		
 		
@@ -376,11 +385,6 @@ namespace VVVV.Nodes
 	
 	public static class AudioService
 	{
-		static AudioService()
-		{
-			FAudioEngine = new AudioEngine();
-		}
-		
 		private static AudioEngine FAudioEngine;
 		
 		public static AudioEngine Engine
@@ -391,6 +395,10 @@ namespace VVVV.Nodes
 			}
 		}
 		
+		static AudioService()
+		{
+			FAudioEngine = new AudioEngine();
+		}		
 	}
 	
 	/// <summary>
