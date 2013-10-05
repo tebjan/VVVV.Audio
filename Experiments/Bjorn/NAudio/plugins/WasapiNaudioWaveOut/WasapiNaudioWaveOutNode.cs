@@ -302,8 +302,6 @@ namespace VVVV.Nodes
 	{
 		public AudioEngine()
 		{
-			AsioOut = new AsioOut();
-			// get format FAsioOut....
 			var format = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
 			MultiInputProvider = new MultipleSampleToWaveProvider(format, () => OnFinishedReading());
 		}
