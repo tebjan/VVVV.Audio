@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Core\AudioEffectSignal.cs" />
     <Compile Include="Core\AudioEngine.cs" />
+    <Compile Include="Core\AudioEngineTimer.cs" />
     <Compile Include="Core\AudioSignal.cs" />
     <Compile Include="Core\MasterWaveProvider.cs" />
     <Compile Include="Nodes\AudioEngineNode.cs" />

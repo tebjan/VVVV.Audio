@@ -22,67 +22,19 @@ namespace VVVV.Audio
 		Wave
 	}
 	
-	public class AudioEngineSettings
-	{
-		private int FBufferSize;
-		public int BufferSize
-		{
-			get
-			{
-				return FBufferSize;
-			}
-			
-			set
-			{
-				FBufferSize = value;
-				OnBufferSizeChanged();
-			}
-		}
-		
-		public event EventHandler BufferSizeChanged;
-		
-		void OnBufferSizeChanged()
-		{
-			var handler = BufferSizeChanged;
-			if(handler != null)
-			{
-				handler(this, new EventArgs());
-			}
-		}
-		
-		private int FSampleRate;
-		public int SampleRate
-		{
-			get
-			{
-				return FSampleRate;
-			}
-			
-			set
-			{
-				FSampleRate = value;
-				OnSampleRateChanged();
-			}
-		}
-		
-		public event EventHandler SampleRateChanged;
-		
-		void OnSampleRateChanged()
-		{
-			var handler = SampleRateChanged;
-			if(handler != null)
-			{
-				handler(this, new EventArgs());
-			}
-		}
-	}
-	
 	
 	public class AudioEngine: IDisposable
 	{
+		//this mixes multiple sample providers from the graph to a waveprovider which is set to
+		MasterWaveProvider MasterWaveProvider;
+		
+		//the driver wrapper
+		public AsioOut AsioOut;
+		
 		public AudioEngine()
 		{
 			Settings = new AudioEngineSettings { SampleRate = 44100, BufferSize = 512 };
+			Timer = new AudioEngineTimer(Settings.SampleRate);
 			var format = WaveFormat.CreateIeeeFloatWaveFormat(Settings.SampleRate, 1);
 			MasterWaveProvider = new MasterWaveProvider(format, () => OnFinishedReading());
 		}
@@ -93,9 +45,35 @@ namespace VVVV.Audio
 			private set;
 		}
 		
-		MasterWaveProvider MasterWaveProvider;
-		public AsioOut AsioOut;
+		public AudioEngineTimer Timer
+		{
+			get;
+			private set;
+		}
 		
+		private bool FPlay;
+		public bool Play
+		{
+			set
+			{
+				FPlay = value;
+				if(FPlay) AsioOut.Play();
+				else AsioOut.Pause();
+			}
+			
+			get
+			{
+				return FPlay;
+			}
+			
+		}
+		
+		public void Stop()
+		{
+			AsioOut.Stop();
+		}
+
+		//tells the subscribers to prepare for the next frame
 		public event EventHandler FinishedReading;
 		
 		protected void OnFinishedReading()
@@ -105,6 +83,7 @@ namespace VVVV.Audio
 				handle(this, new EventArgs());
 		}
 		
+		//add/remove outputs
 		public void AddOutput(IEnumerable<AudioSignal> provider)
 		{
 			if(provider == null) return;
@@ -121,6 +100,9 @@ namespace VVVV.Audio
 		
 		#region asio
 		
+		/// <summary>
+		/// Set the Driver name, this initializes the output driver
+		/// </summary>
 		public string DriverName
 		{
 			get
@@ -176,12 +158,69 @@ namespace VVVV.Audio
 		}
 		
 		#endregion asio
+		
+	}
 	
+
+	
+	public class AudioEngineSettings
+	{
+		private int FBufferSize;
+		public int BufferSize
+		{
+			get
+			{
+				return FBufferSize;
+			}
+			
+			set
+			{
+				FBufferSize = value;
+				OnBufferSizeChanged();
+			}
+		}
+		
+		public event EventHandler BufferSizeChanged;
+		
+		void OnBufferSizeChanged()
+		{
+			var handler = BufferSizeChanged;
+			if(handler != null)
+			{
+				handler(this, new EventArgs());
+			}
+		}
+		
+		private int FSampleRate;
+		public int SampleRate
+		{
+			get
+			{
+				return FSampleRate;
+			}
+			
+			set
+			{
+				FSampleRate = value;
+				OnSampleRateChanged();
+			}
+		}
+		
+		public event EventHandler SampleRateChanged;
+		
+		void OnSampleRateChanged()
+		{
+			var handler = SampleRateChanged;
+			if(handler != null)
+			{
+				handler(this, new EventArgs());
+			}
+		}
 	}
 	
 	/// <summary>
 	/// Static and naive access to the AudioEngine
-	/// TODO: find better life time management	
+	/// TODO: find better life time management
 	/// </summary>
 	public static class AudioService
 	{
@@ -206,5 +245,3 @@ namespace VVVV.Audio
 		}
 	}
 }
-
-

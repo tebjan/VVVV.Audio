@@ -33,6 +33,12 @@ namespace VVVV.Nodes
 		
 		[Input("Control Panel", IsBang = true)]
 		IDiffSpread<bool> FShowPanelIn;
+		
+		[Output("Input Chanels")]
+		ISpread<int> FInputChannels;
+		
+		[Output("Output Chanels")]
+		ISpread<int> FOutputChannels;
 	
 		[Import()]
 		ILogger FLogger;
@@ -63,7 +69,9 @@ namespace VVVV.Nodes
 			if(FDriverIn.IsChanged)
 			{
 				FEngine.DriverName = FDriverIn[0].Name;
-				if(FPlayIn[0]) FEngine.AsioOut.Play();
+				FEngine.Play = FPlayIn[0];
+				FInputChannels[0] = FEngine.AsioOut.DriverInputChannelCount;
+				FOutputChannels[0] = FEngine.AsioOut.DriverOutputChannelCount;
 			}
 			
 			if(FShowPanelIn[0])
@@ -73,8 +81,7 @@ namespace VVVV.Nodes
 			
 			if(FPlayIn.IsChanged)
 			{
-				if(FPlayIn[0]) FEngine.AsioOut.Play();
-				else FEngine.AsioOut.Stop();
+				FEngine.Play = FPlayIn[0];
 			}
 		}
 		
