@@ -34,6 +34,9 @@ namespace VVVV.Nodes
 		[Input("Control Panel", IsBang = true)]
 		IDiffSpread<bool> FShowPanelIn;
 		
+		[Output("Time")]
+		ISpread<double> FTime;
+		
 		[Output("Input Chanels")]
 		ISpread<int> FInputChannels;
 		
@@ -61,6 +64,8 @@ namespace VVVV.Nodes
 				drivers = new string[]{"No ASIO!? -> go download ASIO4All"};
 				EnumManager.UpdateEnum("NAudioASIO", drivers[0], drivers);
 			}
+			
+			//FTime[0] = FEngine.Timer.Time;
 		}
 		
 		//called when data for any output pin is requested

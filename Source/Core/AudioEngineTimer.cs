@@ -25,6 +25,8 @@ namespace VVVV.Audio
 		public void Progress(int samplesCount)
 		{
 			FSamplePosition += samplesCount;
+			FTime = FSamplePosition/(double)FSampleRate;
+			FBeat = (FTime/60) * BPM;
 		}
 		
 		public long BufferStart
@@ -33,6 +35,30 @@ namespace VVVV.Audio
 			{
 				return FSamplePosition;
 			}
+		}
+		
+		double FTime = 0;
+		public double Time
+		{
+			get
+			{
+				return FTime;
+			}
+		}
+		
+		double FBeat = 0;
+		public double Beat
+		{
+			get
+			{
+				return FBeat;
+			}
+		}
+		
+		public double BPM
+		{
+			get;
+			set;
 		}
 			
 	}

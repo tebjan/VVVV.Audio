@@ -27,13 +27,13 @@ namespace VVVV.Audio
 	public class MasterWaveProvider : IWaveProvider
 	{
 		private List<ISampleProvider> source = new List<ISampleProvider>();
-		private Action FReadingFinished;
+		private Action<int> FReadingFinished;
 		
 		/// <summary>
 		/// Initializes a new instance of the WaveProviderFloatToWaveProvider class
 		/// </summary>
 		/// <param name="source">Source wave provider</param>
-		public MasterWaveProvider(WaveFormat format, Action readingFinished)
+		public MasterWaveProvider(WaveFormat format, Action<int> readingFinished)
 		{
 			this.WaveFormat = format;
 			this.FReadingFinished = readingFinished;
@@ -93,7 +93,7 @@ namespace VVVV.Audio
 				}
 				
 				//tell  the engine that reading has finished
-				FReadingFinished();
+				FReadingFinished(samplesNeeded);
 			}
 			return count; //always run
 		}

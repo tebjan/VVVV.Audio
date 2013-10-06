@@ -36,7 +36,7 @@ namespace VVVV.Audio
 			Settings = new AudioEngineSettings { SampleRate = 44100, BufferSize = 512 };
 			Timer = new AudioEngineTimer(Settings.SampleRate);
 			var format = WaveFormat.CreateIeeeFloatWaveFormat(Settings.SampleRate, 1);
-			MasterWaveProvider = new MasterWaveProvider(format, () => OnFinishedReading());
+			MasterWaveProvider = new MasterWaveProvider(format, samples => OnFinishedReading(samples));
 		}
 		
 		public AudioEngineSettings Settings
@@ -45,6 +45,7 @@ namespace VVVV.Audio
 			private set;
 		}
 		
+		private object FTimerLock = new Object();
 		public AudioEngineTimer Timer
 		{
 			get;
@@ -76,11 +77,16 @@ namespace VVVV.Audio
 		//tells the subscribers to prepare for the next frame
 		public event EventHandler FinishedReading;
 		
-		protected void OnFinishedReading()
+		protected void OnFinishedReading(int calledSamples)
 		{
 			var handle = FinishedReading;
 			if(handle != null)
 				handle(this, new EventArgs());
+			
+			lock(FTimerLock)
+			{
+				Timer.Progress(calledSamples);
+			}
 		}
 		
 		//add/remove outputs
