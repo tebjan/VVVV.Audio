@@ -50,6 +50,8 @@
     <Reference Include="VVVV.Utils3rdParty" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AudioEngine.cs" />
+    <Compile Include="Core\MultipleSampleToWaveProvider.cs" />
     <Compile Include="Core\WasapiNaudioWaveOutNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

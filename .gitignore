@@ -3,5 +3,5 @@
 *.cache
 *.FileListAbsolute.txt
 *.pdb
-Sources/bin/
-Sources/obj
+Source/bin/
+Source/obj
