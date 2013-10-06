@@ -225,7 +225,7 @@
    <LINK srcnodeid="36" srcpinname="Output" dstnodeid="23" dstpinname="Frequency">
    </LINK>
    <NODE systemname="AudioOut (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden" id="38">
-   <BOUNDS type="Node" left="2415" top="8280" width="100" height="100">
+   <BOUNDS type="Node" left="2460" top="8175" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
@@ -269,11 +269,11 @@
    <LINK srcnodeid="41" srcpinname="Audio Out" dstnodeid="40" dstpinname="Input 2">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="47" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="3285" top="5475" width="795" height="240">
+   <BOUNDS type="Box" left="3285" top="5535" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="3285" top="5475" width="0" height="0">
+   <BOUNDS type="Node" left="3285" top="5535" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="1.76">
+   <PIN pinname="Y Input Value" slicecount="1" values="1.9">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -285,7 +285,7 @@
    <LINK srcnodeid="47" srcpinname="Y Output Value" dstnodeid="41" dstpinname="Frequency">
    </LINK>
    <NODE systemname="Multiply (Audio Spectral)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Multiply (Audio Spectral)" componentmode="Hidden" id="49">
-   <BOUNDS type="Node" left="1620" top="6225" width="100" height="100">
+   <BOUNDS type="Node" left="1410" top="6090" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
@@ -297,9 +297,9 @@
    <LINK srcnodeid="49" srcpinname="Audio Out" dstnodeid="40" dstpinname="Input 1">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="50" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="2085" top="5325" width="795" height="240">
+   <BOUNDS type="Box" left="1680" top="5355" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="2085" top="5325" width="0" height="0">
+   <BOUNDS type="Node" left="1680" top="5355" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="2">
    </PIN>
@@ -319,7 +319,7 @@
    <LINK srcnodeid="29" srcpinname="Output" dstnodeid="23" dstpinname="Gain">
    </LINK>
    <NODE systemname="Add (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Add (Audio)" componentmode="Hidden" id="51">
-   <BOUNDS type="Node" left="3135" top="6975" width="100" height="100">
+   <BOUNDS type="Node" left="2445" top="7590" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1" slicecount="1" values="||">
    </PIN>
@@ -335,7 +335,7 @@
    </PIN>
    <PIN pinname="Frequency" visible="1">
    </PIN>
-   <PIN pinname="Gain" visible="1" slicecount="1" values="0.05">
+   <PIN pinname="Gain" visible="1" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="52" systemname="IOBox (Value Advanced)">
@@ -343,7 +343,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="4935" top="5970" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="440">
+   <PIN pinname="Y Input Value" slicecount="1" values="500">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -354,10 +354,10 @@
    </NODE>
    <LINK srcnodeid="52" srcpinname="Y Output Value" dstnodeid="53" dstpinname="Frequency">
    </LINK>
+   <LINK srcnodeid="51" srcpinname="Audio Out" dstnodeid="38" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="40" srcpinname="Audio Out" dstnodeid="51" dstpinname="Input 1">
+   </LINK>
    <LINK srcnodeid="53" srcpinname="Audio Out" dstnodeid="51" dstpinname="Input 2">
-   </LINK>
-   <LINK srcnodeid="49" srcpinname="Audio Out" dstnodeid="51" dstpinname="Input 1">
-   </LINK>
-   <LINK srcnodeid="40" srcpinname="Audio Out" dstnodeid="38" dstpinname="Input">
    </LINK>
    </PATCH>

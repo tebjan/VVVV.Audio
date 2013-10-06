@@ -56,19 +56,23 @@ namespace VVVV.Nodes
 			FTempBuffer = BufferHelpers.Ensure(FTempBuffer, count);
 			lock(FInputLock)
 			{
-				if(FInputs != null && FInputs.SliceCount > 0 && FInputs[0] != null)
+				if(FInputs != null && FInputs.SliceCount > 0)
 				{
-					//first
-					FInputs[0].Read(buffer, offset, count);
-					
-					//rest
-					for(int slice = 1; slice < FInputs.SliceCount; slice++)
+					bool first = true;
+					for(int slice = 0; slice < FInputs.SliceCount; slice++)
 					{
 						if(FInputs[slice] != null)
 						{
-							FInputs[slice].Read(FTempBuffer, offset, count);
-							
-							Operation(buffer, FTempBuffer, offset, count);
+							if(first)
+							{
+								FInputs[slice].Read(buffer, offset, count);
+								first = false;
+							}
+							else //rest
+							{
+								FInputs[slice].Read(FTempBuffer, offset, count);
+								Operation(buffer, FTempBuffer, offset, count);
+							}
 						}
 					}
 				}

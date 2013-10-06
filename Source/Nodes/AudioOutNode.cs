@@ -35,35 +35,31 @@ namespace VVVV.Nodes
 		ILogger FLogger;
 		#endregion fields & pins
 	
-		private ISpread<AudioSignal> LastProvider;
+		private ISpread<AudioSignal> LastSignals;
 		public AudioOutNode()
 		{
-			LastProvider = new Spread<AudioSignal>();
+			LastSignals = new Spread<AudioSignal>();
 		}
 		
 		public void Dispose()
 		{
-			AudioService.Engine.RemoveOutput(LastProvider);
+			AudioService.Engine.RemoveOutput(LastSignals);
 		}
 		
-		private void RestartAudio()
+		private void AssignSignals()
 		{
-			AudioService.Engine.RemoveOutput(LastProvider);
+			AudioService.Engine.RemoveOutput(LastSignals);
 			AudioService.Engine.AddOutput(FInput);
-			LastProvider.AssignFrom(FInput);
+			LastSignals.AssignFrom(FInput);
 		}		
 		
 		//called when data for any output pin is requested
 		public void Evaluate(int SpreadMax)
 		{
-			//FOutput.SliceCount = SpreadMax;
-	
 			if(FInput.IsChanged)
 			{
-				RestartAudio();
+				AssignSignals();
 			}
-	
-			//FLogger.Log(LogType.Debug, "hi tty!");
 		}
 	}
 }
