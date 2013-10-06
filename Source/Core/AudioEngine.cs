@@ -1,26 +1,60 @@
 ﻿#region usings
 using System;
 using System.Collections.Generic;
-
+using NAudio.CoreAudioApi;
+using NAudio.Utils;
 using NAudio.Wave;
 using NAudio.Wave.Asio;
-using NAudio.CoreAudioApi;
 using NAudio.Wave.SampleProviders;
-using NAudio.Utils;
-
-
 using VVVV.Core.Logging;
+using VVVV.PluginInterfaces.V2;
+
 #endregion usings
 
-namespace VVVV.Nodes
+namespace VVVV.Audio
 {
-		
+	
 	public enum AudioOutType
 	{
 		Asio,
 		Wasapi,
 		DirectSound,
 		Wave
+	}
+	
+	public class AudioEngineSettings
+	{
+		private int FBufferSize;
+		public int BufferSize
+		{
+			get
+			{
+				return FBufferSize;
+			}
+			
+			
+			set
+			{
+				OnBufferSizeChanged();
+			}
+		}
+		
+		public event EventHandler BufferSizeChanged;
+		
+		void OnBufferSizeChanged()
+		{
+			var handler = BufferSizeChanged;
+			if(handler != null)
+			{
+				handler(this, new EventArgs());
+			}
+		}
+		
+		public int SampleRate
+		{
+			get;
+			set;
+		}
 	}
 	
 	
@@ -53,19 +87,19 @@ namespace VVVV.Nodes
 		}
 		
 		//init driver
-	        public void CreateAsio()
-	        {
-	        	//recreate device if necessary
-	        	if (this.AsioOut != null)
-	        	{
-	        		Cleanup();
-	        	}
-	        	
-	        	this.AsioOut = new AsioOut(DriverName);
-	        	
-	        	this.AsioOut.Init(MultiInputProvider);
-	        }
-	        
+		public void CreateAsio()
+		{
+			//recreate device if necessary
+			if (this.AsioOut != null)
+			{
+				Cleanup();
+			}
+			
+			this.AsioOut = new AsioOut(DriverName);
+			
+			this.AsioOut.Init(MultiInputProvider);
+		}
+		
 		//close
 		public void Dispose()
 		{
@@ -84,23 +118,23 @@ namespace VVVV.Nodes
 		
 		#region IStatable
 		//Needed for IStartable. Do nothing right now...
-	        public void Start()	{}
-	
-	        //Shutdown engine when vvvv ends so vvvv process isn't left running
-	        public void Shutdown()
+		public void Start()	{}
+		
+		//Shutdown engine when vvvv ends so vvvv process isn't left running
+		public void Shutdown()
 		{ Cleanup(); }
-		#endregion IStatable		
+		#endregion IStatable
 		
 		#endregion asio
 		
-		public void AddOutput(ISpread<AudioSignal> provider)
+		public void AddOutput(IEnumerable<AudioSignal> provider)
 		{
 			if(provider == null) return;
 			foreach(var p in provider)
 				MultiInputProvider.Add(p);
 		}
 		
-		public void RemoveOutput(ISpread<AudioSignal> provider)
+		public void RemoveOutput(IEnumerable<AudioSignal> provider)
 		{
 			if(provider == null) return;
 			foreach(var p in provider)
@@ -123,7 +157,7 @@ namespace VVVV.Nodes
 		static AudioService()
 		{
 			FAudioEngine = new AudioEngine();
-		}		
+		}
 	}
 }
 

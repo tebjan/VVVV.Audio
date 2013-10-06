@@ -39,20 +39,35 @@
     <Reference Include="NAudio">
       <HintPath>Dependencies\NAudio.dll</HintPath>
     </Reference>
-    <Reference Include="SlimDX" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition.Codeplex" />
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition.Codeplex">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="VVVV.Core" />
-    <Reference Include="VVVV.PluginInterfaces" />
-    <Reference Include="VVVV.Utils" />
-    <Reference Include="VVVV.Utils3rdParty" />
+    <Reference Include="VVVV.Core">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VVVV.PluginInterfaces">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VVVV.Utils">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VVVV.Utils3rdParty">
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AudioEffectSignal.cs" />
     <Compile Include="Core\AudioEngine.cs" />
+    <Compile Include="Core\AudioSignal.cs" />
     <Compile Include="Core\MultipleSampleToWaveProvider.cs" />
-    <Compile Include="Core\WasapiNaudioWaveOutNode.cs" />
+    <Compile Include="Nodes\AudioEngineNode.cs" />
+    <Compile Include="Nodes\AudioOutNode.cs" />
+    <Compile Include="Nodes\SineSignalNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
