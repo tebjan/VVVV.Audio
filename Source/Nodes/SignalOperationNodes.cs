@@ -189,7 +189,7 @@ namespace VVVV.Nodes
 	{
 	}
 	
-	[PluginInfo(Name = "Subtract", Category = "Audio", Version = "Subtracts", Help = "Multiplies audio signals", AutoEvaluate = true, Tags = "Difference")]
+	[PluginInfo(Name = "Subtract", Category = "Audio", Version = "Spectral", Help = "Subtracts audio signals", AutoEvaluate = true, Tags = "Difference")]
 	public class SignalSubtractSpectralNode: SignalOperationSpectralNode<AudioSignalSubtractOperator>
 	{
 	}

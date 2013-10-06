@@ -51,7 +51,6 @@ namespace VVVV.Nodes
 				else if(phase < 0)
 					phase += TwoPi;
 			}
-			
 		}
 	}
 	
