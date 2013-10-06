@@ -32,9 +32,9 @@ namespace VVVV.Audio
 				return FBufferSize;
 			}
 			
-			
 			set
 			{
+				FBufferSize = value;
 				OnBufferSizeChanged();
 			}
 		}
@@ -50,23 +50,50 @@ namespace VVVV.Audio
 			}
 		}
 		
+		private int FSampleRate;
 		public int SampleRate
 		{
-			get;
-			set;
+			get
+			{
+				return FSampleRate;
+			}
+			
+			set
+			{
+				FSampleRate = value;
+				OnSampleRateChanged();
+			}
+		}
+		
+		public event EventHandler SampleRateChanged;
+		
+		void OnSampleRateChanged()
+		{
+			var handler = SampleRateChanged;
+			if(handler != null)
+			{
+				handler(this, new EventArgs());
+			}
 		}
 	}
 	
 	
-	public class AudioEngine: IDisposable, IStartable
+	public class AudioEngine: IDisposable
 	{
 		public AudioEngine()
 		{
-			var format = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
-			MultiInputProvider = new MultipleSampleToWaveProvider(format, () => OnFinishedReading());
+			Settings = new AudioEngineSettings { SampleRate = 44100, BufferSize = 512 };
+			var format = WaveFormat.CreateIeeeFloatWaveFormat(Settings.SampleRate, 1);
+			MasterWaveProvider = new MasterWaveProvider(format, () => OnFinishedReading());
 		}
 		
-		MultipleSampleToWaveProvider MultiInputProvider;
+		public AudioEngineSettings Settings
+		{
+			get;
+			private set;
+		}
+		
+		MasterWaveProvider MasterWaveProvider;
 		public AsioOut AsioOut;
 		
 		public event EventHandler FinishedReading;
@@ -78,26 +105,50 @@ namespace VVVV.Audio
 				handle(this, new EventArgs());
 		}
 		
+		public void AddOutput(IEnumerable<AudioSignal> provider)
+		{
+			if(provider == null) return;
+			foreach(var p in provider)
+				MasterWaveProvider.Add(p);
+		}
+		
+		public void RemoveOutput(IEnumerable<AudioSignal> provider)
+		{
+			if(provider == null) return;
+			foreach(var p in provider)
+				MasterWaveProvider.Remove(p);
+		}
+		
 		#region asio
 		
 		public string DriverName
 		{
-			get;
-			set;
+			get
+			{
+				return AsioOut.DriverName;
+			}
+			
+			set
+			{
+				if(AsioOut == null || AsioOut.DriverName != value)
+				{
+					CreateAsio(value);
+				}
+			}
 		}
 		
 		//init driver
-		public void CreateAsio()
+		private void CreateAsio(string driverName)
 		{
-			//recreate device if necessary
+			//dispose device if necessary
 			if (this.AsioOut != null)
 			{
 				Cleanup();
 			}
 			
-			this.AsioOut = new AsioOut(DriverName);
+			this.AsioOut = new AsioOut(driverName);
 			
-			this.AsioOut.Init(MultiInputProvider);
+			this.AsioOut.Init(MasterWaveProvider);
 		}
 		
 		//close
@@ -116,32 +167,22 @@ namespace VVVV.Audio
 			}
 		}
 		
-		#region IStatable
-		//Needed for IStartable. Do nothing right now...
-		public void Start()	{}
-		
-		//Shutdown engine when vvvv ends so vvvv process isn't left running
-		public void Shutdown()
-		{ Cleanup(); }
-		#endregion IStatable
+		public string[] AsioDriverNames
+		{
+			get
+			{
+				return AsioOut.GetDriverNames();
+			}
+		}
 		
 		#endregion asio
-		
-		public void AddOutput(IEnumerable<AudioSignal> provider)
-		{
-			if(provider == null) return;
-			foreach(var p in provider)
-				MultiInputProvider.Add(p);
-		}
-		
-		public void RemoveOutput(IEnumerable<AudioSignal> provider)
-		{
-			if(provider == null) return;
-			foreach(var p in provider)
-				MultiInputProvider.Remove(p);
-		}
+	
 	}
 	
+	/// <summary>
+	/// Static and naive access to the AudioEngine
+	/// TODO: find better life time management	
+	/// </summary>
 	public static class AudioService
 	{
 		private static AudioEngine FAudioEngine;
@@ -150,13 +191,18 @@ namespace VVVV.Audio
 		{
 			get
 			{
+				if(FAudioEngine == null)
+				{
+					FAudioEngine = new AudioEngine();
+				}
+				
 				return FAudioEngine;
 			}
 		}
 		
-		static AudioService()
+		public static void DisposeEngine()
 		{
-			FAudioEngine = new AudioEngine();
+			FAudioEngine.Dispose();
 		}
 	}
 }

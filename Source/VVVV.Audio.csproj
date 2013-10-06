@@ -57,6 +57,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.Composition.Codeplex">
       <HintPath>..\VVVV\lib\core\System.ComponentModel.Composition.Codeplex.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -81,7 +82,7 @@
     <Compile Include="Core\AudioEffectSignal.cs" />
     <Compile Include="Core\AudioEngine.cs" />
     <Compile Include="Core\AudioSignal.cs" />
-    <Compile Include="Core\MultipleSampleToWaveProvider.cs" />
+    <Compile Include="Core\MasterWaveProvider.cs" />
     <Compile Include="Nodes\AudioEngineNode.cs" />
     <Compile Include="Nodes\AudioOutNode.cs" />
     <Compile Include="Nodes\SineSignalNode.cs" />

@@ -19,6 +19,8 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Audio
 {
+	
+	//DRAFT
 	public interface IAudioEffect
 	{
 		unsafe void Process(float* sample);

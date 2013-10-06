@@ -24,7 +24,7 @@ namespace VVVV.Audio
 	/// Helper class for when you need to convert back to an IWaveProvider from
 	/// an ISampleProvider. Keeps it as IEEE float
 	/// </summary>
-	public class MultipleSampleToWaveProvider : IWaveProvider
+	public class MasterWaveProvider : IWaveProvider
 	{
 		private List<ISampleProvider> source = new List<ISampleProvider>();
 		private Action FReadingFinished;
@@ -33,7 +33,7 @@ namespace VVVV.Audio
 		/// Initializes a new instance of the WaveProviderFloatToWaveProvider class
 		/// </summary>
 		/// <param name="source">Source wave provider</param>
-		public MultipleSampleToWaveProvider(WaveFormat format, Action readingFinished)
+		public MasterWaveProvider(WaveFormat format, Action readingFinished)
 		{
 			this.WaveFormat = format;
 			this.FReadingFinished = readingFinished;

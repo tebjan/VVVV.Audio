@@ -58,24 +58,32 @@ namespace VVVV.Audio
 		
 		private bool FNeedsRead = true;
 		
+		
 	    public int Read(float[] buffer, int offset, int count)
 	    {
+	    	//ensure buffer size
 	    	FReadBuffer = BufferHelpers.Ensure(FReadBuffer, count);
-	    	if(FNeedsRead)
+	    
+	    	//first call per frame
+	    	if(FNeedsRead) 
 	    	{
 	    		this.FillBuffer(FReadBuffer, offset, count);
 	    		
 	    		FNeedsRead = false;
 	    	}
 	    	
-	        for (int i = 0; i < count; i++)
-	        {
-	            buffer[offset + i] = FReadBuffer[i];
-	        }
+	    	//every call
+	        Array.Copy(FReadBuffer, offset, buffer, offset, count);
 	    	
 	        return count;
 	    }
 		
+	    /// <summary>
+	    /// This method should be overwritten in the sub class to do the actual processing work
+	    /// </summary>
+	    /// <param name="buffer">The buffer to fill</param>
+	    /// <param name="offset">Write offset for the buffer</param>
+	    /// <param name="count">Count of samples need</param>
 		protected virtual void FillBuffer(float[] buffer, int offset, int count)
 		{
 			lock(FUpstreamLock)

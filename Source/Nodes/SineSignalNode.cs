@@ -23,32 +23,32 @@ namespace VVVV.Nodes
 {
 	public class SineSignal : AudioSignal
 	{
-		public SineSignal(double frequency)
+		public SineSignal(float frequency)
 			: base(44100)
 		{
 			Frequency = frequency;
 		}
 		
-		private double Frequency;
-		public double Gain = 0.1;
-		private double TwoPi = Math.PI * 2;
-		private int nSample = 0;
+		public float Frequency;
+		public float Gain = 0.1f;
+		private float TwoPi = (float)(Math.PI * 2);
+		private float phase = 0;
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			
 			var sampleRate = this.WaveFormat.SampleRate;
-			var multiple = TwoPi*Frequency/sampleRate;
+			var increment = TwoPi*Frequency/sampleRate;
 			for (int i = 0; i < count; i++)
 			{
 				// Sinus Generator
+				buffer[i] = Gain*(float)Math.Sin(phase);
 				
-				buffer[i] = (float)(Gain*Math.Sin(nSample*multiple));
-				
-				unchecked
-				{
-					nSample++;
-				}
+				phase += increment;
+				if(phase > TwoPi)
+					phase -= TwoPi;
+				else if(phase < 0)
+					phase += TwoPi;
 			}
 			
 		}
@@ -58,24 +58,25 @@ namespace VVVV.Nodes
 	public class SineSignalNode : IPluginEvaluate
 	{
 		[Input("Frequency", DefaultValue = 440)]
-		IDiffSpread<double> Frequency;
+		IDiffSpread<float> Frequency;
 		
 		[Input("Gain", DefaultValue = 0.1)]
-		IDiffSpread<double> Gain;
+		IDiffSpread<float> Gain;
 		
 		[Output("Audio Out")]
 		ISpread<AudioSignal> OutBuffer;
 		
 		public void Evaluate(int SpreadMax)
 		{
-			//OutBuffer.ResizeAndDispose(SpreadMax, index =>  new SineSignal(Frequency[index]));
+			OutBuffer.ResizeAndDispose(SpreadMax, index => new SineSignal(Frequency[index]));
 			
 			if(Frequency.IsChanged)
 			{
-				OutBuffer.SliceCount = SpreadMax;
 				for(int i=0; i<SpreadMax; i++)
 				{
-					OutBuffer[i] = new SineSignal(Frequency[i]);
+					if(OutBuffer[i] == null) OutBuffer[i] = new SineSignal(Frequency[i]); 
+					
+					(OutBuffer[i] as SineSignal).Frequency = Frequency[i];
 				}
 			}
 			

@@ -22,7 +22,7 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {
 	[PluginInfo(Name = "AudioEngine", Category = "Audio", Help = "Configures the audio engine", AutoEvaluate = true, Tags = "Asio")]
-	public class AudioEngineNode : IPluginEvaluate
+	public class AudioEngineNode : IPluginEvaluate, IDisposable
 	{
 		#region fields & pins
 		[Input("Play", DefaultValue = 0)]
@@ -44,7 +44,7 @@ namespace VVVV.Nodes
 		{
 			FEngine = AudioService.Engine;
 			
-			var drivers = AsioOut.GetDriverNames();
+			var drivers = FEngine.AsioDriverNames;
 			
 			if (drivers.Length > 0)
 			{
@@ -63,7 +63,6 @@ namespace VVVV.Nodes
 			if(FDriverIn.IsChanged)
 			{
 				FEngine.DriverName = FDriverIn[0].Name;
-				FEngine.CreateAsio();
 				if(FPlayIn[0]) FEngine.AsioOut.Play();
 			}
 			
@@ -77,6 +76,12 @@ namespace VVVV.Nodes
 				if(FPlayIn[0]) FEngine.AsioOut.Play();
 				else FEngine.AsioOut.Stop();
 			}
+		}
+		
+		//HACK: coupled lifetime of engine to this node
+		public void Dispose()
+		{
+			AudioService.DisposeEngine();
 		}
 	
 	}

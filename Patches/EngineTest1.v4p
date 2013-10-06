@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
    <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Patches\EngineTest1.v4p" systemname="EngineTest1" filename="C:\Dev\vvvv\VVVV.Audio\Experiments\Bjorn\NAudio\EngineTest1.v4p">
-   <BOUNDS type="Window" left="4725" top="1470" width="11640" height="10110">
+   <BOUNDS type="Window" left="3540" top="2085" width="11880" height="9690">
    </BOUNDS>
    <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="5">
    <BOUNDS type="Node" left="495" top="8715" width="100" height="100">
@@ -105,9 +105,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="31" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="9675" top="2565" width="795" height="240">
+   <BOUNDS type="Box" left="8850" top="2835" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="9675" top="2565" width="0" height="0">
+   <BOUNDS type="Node" left="8850" top="2835" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="10">
    </PIN>
@@ -182,20 +182,6 @@
    <PIN pinname="Input 2" slicecount="1" visible="1" values="6.34,6.84,7.34,7.84,8.34,8.84,9.34,9.84,10.34,10.84">
    </PIN>
    </NODE>
-   <NODE systemname="Sine (Naudio Source)" filename="..\Source\bin\AnyCPU\Debug\VVVV.Audio.dll" nodename="Sine (Naudio Source)" componentmode="Hidden" id="23">
-   <BOUNDS type="Node" left="3405" top="6585" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Audio Out" visible="1">
-   </PIN>
-   <PIN pinname="Frequency" visible="1">
-   </PIN>
-   <PIN pinname="Gain" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="29" srcpinname="Output" dstnodeid="23" dstpinname="Gain">
-   </LINK>
-   <LINK srcnodeid="36" srcpinname="Output" dstnodeid="23" dstpinname="Frequency">
-   </LINK>
    <NODE systemname="AudioEngine (Audio)" filename="..\Source\bin\AnyCPU\Debug\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden" id="37">
    <BOUNDS type="Node" left="6315" top="7530" width="100" height="100">
    </BOUNDS>
@@ -209,13 +195,15 @@
    <NODE id="30" systemname="LinearSpread (Spreads)" nodename="LinearSpread (Spreads)" componentmode="Hidden">
    <PIN pinname="Spread Count">
    </PIN>
-   <BOUNDS type="Node" left="3930" top="3330" width="100" height="100">
+   <BOUNDS type="Node" left="3900" top="3330" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input" slicecount="1" values="8.59">
+   <PIN pinname="Input" slicecount="1" values="9">
    </PIN>
-   <PIN pinname="Width" slicecount="1" values="5">
+   <PIN pinname="Width" slicecount="1" values="5.16">
    </PIN>
    <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Phase" visible="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="30" srcpinname="Output" dstnodeid="36" dstpinname="Input 2">
@@ -224,12 +212,36 @@
    </LINK>
    <LINK srcnodeid="6" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Play">
    </LINK>
-   <NODE systemname="AudioOut (Naudio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="AudioOut (Naudio)" componentmode="Hidden" id="38">
+   <NODE systemname="Sine (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Sine (Audio Source)" componentmode="Hidden" id="23">
+   <BOUNDS type="Node" left="3405" top="6585" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Frequency" visible="1">
+   </PIN>
+   <PIN pinname="Gain" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="29" srcpinname="Output" dstnodeid="23" dstpinname="Gain">
+   </LINK>
+   <LINK srcnodeid="36" srcpinname="Output" dstnodeid="23" dstpinname="Frequency">
+   </LINK>
+   <NODE systemname="AudioOut (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden" id="38">
    <BOUNDS type="Node" left="3390" top="7395" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="23" srcpinname="Audio Out" dstnodeid="38" dstpinname="Input">
+   </LINK>
+   <NODE systemname="LFO (Animation)" nodename="LFO (Animation)" componentmode="Hidden" id="39">
+   <BOUNDS type="Node" left="4575" top="2535" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Period" slicecount="1" values="120">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="39" srcpinname="Output" dstnodeid="30" dstpinname="Phase">
    </LINK>
    </PATCH>
