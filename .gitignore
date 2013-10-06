@@ -5,3 +5,5 @@
 *.pdb
 Source/bin/
 Source/obj
+VVVV/
+Patches/plugins/bin/

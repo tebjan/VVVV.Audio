@@ -52,10 +52,9 @@ namespace VVVV.Nodes
 			}
 			
 		}
-		
 	}
 	
-	[PluginInfo(Name = "Sine", Category = "Naudio", Version = "Source", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
+	[PluginInfo(Name = "Sine", Category = "Audio", Version = "Source", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
 	public class SineSignalNode : IPluginEvaluate
 	{
 		[Input("Frequency", DefaultValue = 440)]
