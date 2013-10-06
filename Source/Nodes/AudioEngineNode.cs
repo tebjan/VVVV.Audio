@@ -28,6 +28,9 @@ namespace VVVV.Nodes
 		[Input("Play", DefaultValue = 0)]
 		IDiffSpread<bool> FPlayIn;
 		
+		[Input("BPM", DefaultValue = 120)]
+		IDiffSpread<double> FBPMIn;
+		
 		[Input("Driver", EnumName = "NAudioASIO")]
 		IDiffSpread<EnumEntry> FDriverIn;
 		
@@ -36,6 +39,9 @@ namespace VVVV.Nodes
 		
 		[Output("Time")]
 		ISpread<double> FTime;
+		
+		[Output("Beat")]
+		ISpread<double> FBeat;
 		
 		[Output("Input Chanels")]
 		ISpread<int> FInputChannels;
@@ -65,7 +71,6 @@ namespace VVVV.Nodes
 				EnumManager.UpdateEnum("NAudioASIO", drivers[0], drivers);
 			}
 			
-			//FTime[0] = FEngine.Timer.Time;
 		}
 		
 		//called when data for any output pin is requested
@@ -88,6 +93,14 @@ namespace VVVV.Nodes
 			{
 				FEngine.Play = FPlayIn[0];
 			}
+			
+			if(FBPMIn.IsChanged)
+			{
+				FEngine.Timer.BPM = FBPMIn[0];
+			}
+			
+			FTime[0] = FEngine.Timer.Time;
+			FBeat[0] = FEngine.Timer.Beat;
 		}
 		
 		//HACK: coupled lifetime of engine to this node

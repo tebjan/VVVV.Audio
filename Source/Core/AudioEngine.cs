@@ -83,7 +83,7 @@ namespace VVVV.Audio
 			if(handle != null)
 				handle(this, new EventArgs());
 			
-			lock(FTimerLock)
+			//lock(FTimerLock) //needed?
 			{
 				Timer.Progress(calledSamples);
 			}
