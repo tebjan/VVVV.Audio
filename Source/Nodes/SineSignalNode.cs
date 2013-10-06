@@ -23,10 +23,11 @@ namespace VVVV.Nodes
 {
 	public class SineSignal : AudioSignal
 	{
-		public SineSignal(float frequency)
+		public SineSignal(float frequency, float gain)
 			: base(44100)
 		{
 			Frequency = frequency;
+			Gain = gain;
 		}
 		
 		public float Frequency;
@@ -68,13 +69,13 @@ namespace VVVV.Nodes
 		
 		public void Evaluate(int SpreadMax)
 		{
-			OutBuffer.ResizeAndDispose(SpreadMax, index => new SineSignal(Frequency[index]));
+			OutBuffer.ResizeAndDispose(SpreadMax, index => new SineSignal(Frequency[index], Gain[index]));
 			
 			if(Frequency.IsChanged)
 			{
 				for(int i=0; i<SpreadMax; i++)
 				{
-					if(OutBuffer[i] == null) OutBuffer[i] = new SineSignal(Frequency[i]); 
+					if(OutBuffer[i] == null) OutBuffer[i] = new SineSignal(Frequency[i], Gain[i]); 
 					
 					(OutBuffer[i] as SineSignal).Frequency = Frequency[i];
 				}
