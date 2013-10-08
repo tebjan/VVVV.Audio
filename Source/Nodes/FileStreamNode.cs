@@ -17,7 +17,7 @@ using VVVV.Utils.VMath;
 namespace VVVV.Nodes
 {
 	#region PluginInfo
-	[PluginInfo(Name = "FileStream", Category = "Audio", Help = "Plays Back wave files", Tags = "")]
+	[PluginInfo(Name = "FileStream", Category = "Audio", Help = "Plays Back sound files", Tags = "wav, mp3, aiff", Author = "beyon")]
 	#endregion PluginInfo
 	public class NAudioFileStreamNode : AudioSignal, IPluginEvaluate
 	{

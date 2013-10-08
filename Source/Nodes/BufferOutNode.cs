@@ -21,58 +21,46 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	public class LevelMeterSignal : SinkSignal<double>
+	public class BufferOutSignal : SinkSignal<float[]>
 	{
-		public LevelMeterSignal(AudioSignal input)
+		public BufferOutSignal(AudioSignal input)
 			: base(44100)
 		{
 			if (input == null)
 				throw new ArgumentNullException("Input of LevelMeterSignal construcor is null");
-			FInput = input;
+			Source = input;
 		}
-		
-		protected AudioSignal FInput;
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			FInput.Read(buffer, offset, count);
-			
-			var max = 0.0;
-			for (int i = offset; i < count; i++)
-			{
-				max = Math.Max(max, buffer[i]);
-			}
-			
-			FStack.Push(Math.Max(20.0 * Math.Log10(max), -90.0));
+			FSource.Read(buffer, offset, count);
+			FStack.Push((float[])buffer.Clone());
 		}
 	}
 	
-	[PluginInfo(Name = "Meter", Category = "Audio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Meter, dB")]
-	public class LevelMeterSignalNode : IPluginEvaluate
+	[PluginInfo(Name = "GetBuffer", Category = "Audio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Scope, Samples")]
+	public class BufferOutNode : IPluginEvaluate
 	{
-		[Input("Input", DefaultValue = 0.1)]
+		[Input("Input")]
 		IDiffSpread<AudioSignal> FInput;
 		
-		[Input("Smoothing")]
-		IDiffSpread<double> FSmoothing;
+		[Output("Buffer")]
+		ISpread<ISpread<float>> FLevelOut;
 		
-		[Output("Level")]
-		ISpread<double> FLevelOut;
-		
-		Spread<LevelMeterSignal> FBufferReaders = new Spread<LevelMeterSignal>();
+		Spread<BufferOutSignal> FBufferReaders = new Spread<BufferOutSignal>();
 		
 		public void Evaluate(int SpreadMax)
 		{
 			if(FInput.IsChanged)
 			{
 				//delete and dispose all inputs
-				FBufferReaders.ResizeAndDispose(0, () => new LevelMeterSignal(FInput[0]));
+				FBufferReaders.ResizeAndDispose(0, () => new BufferOutSignal(FInput[0]));
 				
 				FBufferReaders.SliceCount = SpreadMax;
 				for (int i = 0; i < SpreadMax; i++)
 				{
 					if(FInput[i] != null)
-						FBufferReaders[i] = (new LevelMeterSignal(FInput[i]));
+						FBufferReaders[i] = (new BufferOutSignal(FInput[i]));
 					
 				}
 				
@@ -82,17 +70,24 @@ namespace VVVV.Nodes
 			//output value
 			for (int i = 0; i < SpreadMax; i++)
 			{
-				
 				if(FBufferReaders[i] != null)
 				{
-					var val = 0.0;
+					var spread = FLevelOut[i];
+					float[] val = null;
 					FBufferReaders[i].GetLatestValue(out val);
-					var smooth = FSmoothing[i];
-					FLevelOut[i] = FLevelOut[i] * smooth + val * (1-smooth);
+					if(val != null)
+					{
+						if(spread == null)
+						{
+							spread = new Spread<float>(val.Length);
+						}
+						spread.SliceCount = val.Length;
+						spread.AssignFrom(val);
+					}
 				}
 				else
 				{
-					FLevelOut[i] = 0;
+					FLevelOut[i].SliceCount = 0;
 				}
 			}
 		}

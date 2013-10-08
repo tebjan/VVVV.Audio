@@ -46,13 +46,13 @@ namespace VVVV.Audio
 			{
 				lock(FUpstreamLock)
 				{
-					FUpstreamProvider = value;
+					FSource = value;
 				}
 			}
 		}
 		
 		
-		protected AudioSignal FUpstreamProvider;
+		protected AudioSignal FSource;
 		protected object FUpstreamLock = new object();
 		protected float[] FReadBuffer = new float[1];
 		
@@ -63,6 +63,8 @@ namespace VVVV.Audio
 	    {
 	    	//ensure buffer size
 	    	FReadBuffer = BufferHelpers.Ensure(FReadBuffer, count);
+	    	if(FReadBuffer.Length > count)
+	    		FReadBuffer = new float[count];
 	    
 	    	//first call per frame
 	    	if(FNeedsRead) 
@@ -88,8 +90,8 @@ namespace VVVV.Audio
 		{
 			lock(FUpstreamLock)
 			{
-				if(FUpstreamProvider != null)
-					FUpstreamProvider.Read(buffer, offset, count);
+				if(FSource != null)
+					FSource.Read(buffer, offset, count);
 			}
 		}
 	

@@ -118,7 +118,7 @@ namespace VVVV.Audio
 				//then evaluate the sinks
 				for (int i = 0; i < FSinks.Count; i++)
 				{
-					FSinks[i].Read(offset, count);
+					FSinks[i].Read(offset / 4, samplesNeeded);
 				}
 				
 				//tell  the engine that reading has finished
