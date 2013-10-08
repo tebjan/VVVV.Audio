@@ -87,14 +87,18 @@
     <Compile Include="Nodes\AudioEngineNode.cs" />
     <Compile Include="Nodes\AudioOutNode.cs" />
     <Compile Include="Nodes\BufferOutNode.cs" />
+    <Compile Include="Nodes\FFTOutNode.cs" />
     <Compile Include="Nodes\FileStreamNode.cs" />
     <Compile Include="Nodes\LevelMeterSignalNode.cs" />
     <Compile Include="Nodes\SignalOperationNodes.cs" />
     <Compile Include="Nodes\SineSignalNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\AudioUtils.cs" />
+    <Compile Include="Utils\FFT.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core" />
+    <Folder Include="Utils" />
     <Folder Include="Nodes" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
