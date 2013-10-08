@@ -20,13 +20,16 @@ namespace VVVV.Audio
 		public AudioEngineTimer(int sampleRate)
 		{
 			FSampleRate = sampleRate;
+			BPM = 120;
 		}
 		
 		public void Progress(int samplesCount)
 		{
 			FSamplePosition += samplesCount;
-			FTime = FSamplePosition/(double)FSampleRate;
-			FBeat = (FTime/60) * BPM;
+			var deltaTime = samplesCount/(double)FSampleRate;
+			var deltaBeat = deltaTime * FTimeToBPM;
+			FBeat += deltaBeat;
+			FTime = FBeat * FBPMToTime;
 		}
 		
 		public long BufferStart
@@ -55,10 +58,21 @@ namespace VVVV.Audio
 			}
 		}
 		
+		double FBPM;
+		double FTimeToBPM;
+		double FBPMToTime;
 		public double BPM
 		{
-			get;
-			set;
+			get
+			{
+				return FBPM;
+			}
+			set
+			{
+				FBPM = value;
+				FTimeToBPM = FBPM/60.0;
+				FBPMToTime = 60.0/FBPM;
+			}
 		}
 			
 	}
