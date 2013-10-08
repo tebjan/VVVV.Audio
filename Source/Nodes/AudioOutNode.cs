@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Collections.Generic;
+using System.Linq;
 
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
@@ -27,38 +28,35 @@ namespace VVVV.Nodes
 		#region fields & pins
 		[Input("Input")]
 		IDiffSpread<AudioSignal> FInput;
-	
-		//[Output("Output")]
-		//ISpread<double> FOutput;
 		
 		[Import()]
 		ILogger FLogger;
 		#endregion fields & pins
 	
-		private ISpread<AudioSignal> LastSignals;
+		private ISpread<MasterChannel> LastSignals;
 		public AudioOutNode()
 		{
-			LastSignals = new Spread<AudioSignal>();
+			LastSignals = new Spread<MasterChannel>();
 		}
 		
 		public void Dispose()
 		{
 			AudioService.Engine.RemoveOutput(LastSignals);
-		}
-		
-		private void AssignSignals()
-		{
-			AudioService.Engine.RemoveOutput(LastSignals);
-			AudioService.Engine.AddOutput(FInput);
-			LastSignals.AssignFrom(FInput);
-		}		
+		}	
 		
 		//called when data for any output pin is requested
 		public void Evaluate(int SpreadMax)
 		{
 			if(FInput.IsChanged)
 			{
-				AssignSignals();
+				AudioService.Engine.RemoveOutput(LastSignals);
+				LastSignals.SliceCount = SpreadMax;
+				for (int i = 0; i < SpreadMax; i++)
+				{
+					LastSignals[i] = new MasterChannel(FInput[i], i);
+				}
+				
+				AudioService.Engine.AddOutput(LastSignals);
 			}
 		}
 	}

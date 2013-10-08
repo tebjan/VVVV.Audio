@@ -20,6 +20,18 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Audio
 {
+	public class MasterChannel
+	{
+		public MasterChannel(AudioSignal sig, int channel)
+		{
+			Signal = sig;
+			Channel = channel;
+		}
+		
+		public AudioSignal Signal;
+		public int Channel;
+	}
+	
 	/// <summary>
 	/// Helper class for when you need to convert back to an IWaveProvider from
 	/// an ISampleProvider. Keeps it as IEEE float
@@ -27,7 +39,7 @@ namespace VVVV.Audio
 	public class MasterWaveProvider : IWaveProvider
 	{
 		private object FSourceLock =  new object();
-		private List<ISampleProvider> FSources = new List<ISampleProvider>();
+		private List<MasterChannel> FSources = new List<MasterChannel>();
 		private List<IAudioSink> FSinks = new List<IAudioSink>();
 		private Action<int> FReadingFinished;
 		
@@ -42,7 +54,7 @@ namespace VVVV.Audio
 		}
 		
 		//add/remove sample providers
-		public void Add(ISampleProvider provider)
+		public void Add(MasterChannel provider)
 		{
 			lock(FSourceLock)
 			{
@@ -51,7 +63,7 @@ namespace VVVV.Audio
 			}
 		}
 		
-		public void Remove(ISampleProvider provider)
+		public void Remove(MasterChannel provider)
 		{
 			lock(FSourceLock)
 			{
@@ -86,7 +98,8 @@ namespace VVVV.Audio
 		//this gets called from the soundcard
 		public int Read(byte[] buffer, int offset, int count)
 		{
-			int samplesNeeded = count / 4;
+			var channels = WaveFormat.Channels;
+			int samplesNeeded = count / (4*channels);
 			WaveBuffer wb = new WaveBuffer(buffer);
 			
 			//fix buffer size
@@ -98,18 +111,18 @@ namespace VVVV.Audio
 			lock(FSources)
 			{
 				var inputCount = FSources.Count;
-				//var invCount = 1.0f/inputCount;
 				for(int i=0; i<inputCount; i++)
 				{
-					if(FSources[i] != null)
+					if(FSources[i].Signal != null)
 					{
 						//starts the calculation of the audio graph
-						FSources[i].Read(FMixerBuffer, offset / 4, samplesNeeded);
+						FSources[i].Signal.Read(FMixerBuffer, offset / 4, samplesNeeded);
+						var chan = FSources[i].Channel % channels;
 						
 						//add to output buffer
 						for(int j=0; j<samplesNeeded; j++)
 						{
-							wb.FloatBuffer[j] += FMixerBuffer[j];
+							wb.FloatBuffer[j*channels + chan] += FMixerBuffer[j];
 							FMixerBuffer[j] = 0;
 						}
 					}
@@ -133,7 +146,7 @@ namespace VVVV.Audio
 		public WaveFormat WaveFormat
 		{
 			get;
-			protected set;
+			set;
 		}
 	}
 }

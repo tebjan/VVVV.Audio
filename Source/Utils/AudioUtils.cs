@@ -15,9 +15,9 @@ namespace VVVV.Audio
 	/// </summary>
 	public sealed class AudioUtils
 	{
-		public static double SampleTodBs(float sample)
+		public static double SampleTodBs(double sample, double mindB = -90.0)
 		{
-			return  20.0 * Math.Log10(Math.Abs(sample));
+			return  Math.Max(20.0 * Math.Log10(Math.Abs(sample)), mindB);
 		}
 	}
 }

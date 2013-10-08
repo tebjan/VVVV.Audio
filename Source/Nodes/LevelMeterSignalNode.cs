@@ -40,10 +40,10 @@ namespace VVVV.Nodes
 			var max = 0.0;
 			for (int i = offset; i < count; i++)
 			{
-				max = Math.Max(max, buffer[i]);
+				max = Math.Max(max, Math.Abs(buffer[i]));
 			}
 			
-			FStack.Push(Math.Max(20.0 * Math.Log10(max), -90.0));
+			FStack.Push(AudioUtils.SampleTodBs(max));
 		}
 	}
 	

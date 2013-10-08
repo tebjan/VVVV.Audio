@@ -135,14 +135,14 @@ namespace VVVV.Audio
 		}
 		
 		//add/remove outputs
-		public void AddOutput(IEnumerable<AudioSignal> provider)
+		public void AddOutput(IEnumerable<MasterChannel> provider)
 		{
 			if(provider != null)
 				foreach(var p in provider)
 					MasterWaveProvider.Add(p);
 		}
 		
-		public void RemoveOutput(IEnumerable<AudioSignal> provider)
+		public void RemoveOutput(IEnumerable<MasterChannel> provider)
 		{
 			if(provider != null)
 				foreach(var p in provider)
@@ -177,7 +177,7 @@ namespace VVVV.Audio
 			set
 			{
 				if(AsioOut == null || AsioOut.DriverName != value)
-				{
+				{ 
 					CreateAsio(value);
 				}
 			}
@@ -193,7 +193,7 @@ namespace VVVV.Audio
 			}
 			
 			this.AsioOut = new AsioOut(driverName);
-			
+			MasterWaveProvider.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, AsioOut.DriverOutputChannelCount);
 			this.AsioOut.Init(MasterWaveProvider);
 		}
 		
