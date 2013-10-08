@@ -125,18 +125,18 @@ namespace VVVV.Nodes
 		{
 			if(Inputs.IsChanged)
 			{
-				OutBuffer.SliceCount = SpreadMax;
+				OutBuffer.SliceCount = 0;
 				for(int outSlice=0; outSlice<SpreadMax; outSlice++)
 				{
-					if(OutBuffer[outSlice] == null) OutBuffer[outSlice] = new TOperator();
-					var sig = (OutBuffer[outSlice] as AudioSignalOperator);
-					if(sig.Inputs == null) sig.Inputs = new Spread<AudioSignal>(Inputs.SliceCount);
-					else sig.Inputs.SliceCount = Inputs.SliceCount;
+					var sig = new TOperator();
+					sig.Inputs = new Spread<AudioSignal>(Inputs.SliceCount);
 					
 					for(int i=0; i<Inputs.SliceCount; i++)
 					{
 						sig.Inputs[i] = Inputs[i][outSlice];
 					}
+					
+					OutBuffer.Add(sig);
 				}
 			}
 		}
