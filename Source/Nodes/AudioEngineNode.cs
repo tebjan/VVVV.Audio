@@ -25,6 +25,7 @@ namespace VVVV.Nodes
 	public class AudioEngineNode : IPluginEvaluate, IDisposable
 	{
 		#region fields & pins
+		#pragma warning disable 0649
 		[Input("Play", DefaultValue = 0)]
 		IDiffSpread<bool> FPlayIn;
 		
@@ -52,6 +53,7 @@ namespace VVVV.Nodes
 		[Import()]
 		ILogger FLogger;
 		AudioEngine FEngine;
+		#pragma warning restore
 		#endregion fields & pins	
 		
 		[ImportingConstructor]

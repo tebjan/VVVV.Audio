@@ -34,7 +34,7 @@ namespace VVVV.Audio
 			FNeedsRead = true;
 		}
 		
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			AudioService.Engine.FinishedReading -= EngineFinishedReading;
 		}

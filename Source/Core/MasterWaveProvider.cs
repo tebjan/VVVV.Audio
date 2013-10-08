@@ -26,7 +26,9 @@ namespace VVVV.Audio
 	/// </summary>
 	public class MasterWaveProvider : IWaveProvider
 	{
-		private List<ISampleProvider> source = new List<ISampleProvider>();
+		private object FSourceLock =  new object();
+		private List<ISampleProvider> FSources = new List<ISampleProvider>();
+		private List<IAudioSink> FSinks = new List<IAudioSink>();
 		private Action<int> FReadingFinished;
 		
 		/// <summary>
@@ -39,21 +41,42 @@ namespace VVVV.Audio
 			this.FReadingFinished = readingFinished;
 		}
 		
+		//add/remove sample providers
 		public void Add(ISampleProvider provider)
 		{
-			lock(source)
+			lock(FSourceLock)
 			{
-				source.Add(provider);
+				if(!FSources.Contains(provider))
+					FSources.Add(provider);
 			}
 		}
 		
 		public void Remove(ISampleProvider provider)
 		{
-			lock(source)
+			lock(FSourceLock)
 			{
-				source.Remove(provider);
+				FSources.Remove(provider);
 			}
 		}
+		
+		//add/remove sinks
+		public void AddSink(IAudioSink sink)
+		{
+			lock(FSourceLock)
+			{
+				if(!FSinks.Contains(sink))
+					FSinks.Add(sink);
+			}
+		}
+		
+		public void RemoveSink(IAudioSink sink)
+		{
+			lock(FSourceLock)
+			{
+				FSinks.Remove(sink);
+			}
+		}
+
 		
 		/// <summary>
 		/// Reads from this provider
@@ -72,16 +95,16 @@ namespace VVVV.Audio
 			//empty buffer
 			wb.Clear();
 			
-			lock(source)
+			lock(FSources)
 			{
-				var inputCount = source.Count;
+				var inputCount = FSources.Count;
 				//var invCount = 1.0f/inputCount;
 				for(int i=0; i<inputCount; i++)
 				{
-					if(source[i] != null)
+					if(FSources[i] != null)
 					{
 						//starts the calculation of the audio graph
-						source[i].Read(FMixerBuffer, offset / 4, samplesNeeded);
+						FSources[i].Read(FMixerBuffer, offset / 4, samplesNeeded);
 						
 						//add to output buffer
 						for(int j=0; j<samplesNeeded; j++)
@@ -90,6 +113,12 @@ namespace VVVV.Audio
 							FMixerBuffer[j] = 0;
 						}
 					}
+				}
+				
+				//then evaluate the sinks
+				for (int i = 0; i < FSinks.Count; i++)
+				{
+					FSinks[i].Read(offset, count);
 				}
 				
 				//tell  the engine that reading has finished

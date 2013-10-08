@@ -86,6 +86,8 @@
     <Compile Include="Core\MasterWaveProvider.cs" />
     <Compile Include="Nodes\AudioEngineNode.cs" />
     <Compile Include="Nodes\AudioOutNode.cs" />
+    <Compile Include="Nodes\FileStreamNode.cs" />
+    <Compile Include="Nodes\LevelMeterSignalNode.cs" />
     <Compile Include="Nodes\SignalOperationNodes.cs" />
     <Compile Include="Nodes\SineSignalNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

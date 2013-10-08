@@ -1,6 +1,8 @@
 ﻿#region usings
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+
 using NAudio.CoreAudioApi;
 using NAudio.Utils;
 using NAudio.Wave;
@@ -22,6 +24,49 @@ namespace VVVV.Audio
 		Wave
 	}
 	
+	public interface IAudioSink
+	{
+		void Read(int offset, int count);
+	}
+	
+	public class SinkSignal<TStack> : AudioSignal, IAudioSink, IDisposable
+	{
+		protected ConcurrentStack<TStack> FStack = new ConcurrentStack<TStack>();
+
+		public SinkSignal(int sampleRate)
+			: base(sampleRate)
+		{
+			AudioService.AddSink(this);
+		}
+		
+		private TStack FLastValue;
+		public bool GetLatestValue(out TStack value)
+		{
+			if(FStack.IsEmpty)
+			{
+				value = FLastValue;
+				return true;
+			}
+			
+			var ret = FStack.TryPeek(out value);
+			FLastValue = value;
+			FStack.Clear();
+			return ret;
+		}
+		
+		protected float[] FInternalBuffer;
+		public void Read(int offset, int count)
+		{
+			FInternalBuffer = BufferHelpers.Ensure(FInternalBuffer, count);
+			base.Read(FInternalBuffer, offset, count);
+		}
+		
+		public override void Dispose()
+		{
+			base.Dispose();
+			AudioService.RemoveSink(this);
+		}
+	}
 	
 	public class AudioEngine: IDisposable
 	{
@@ -92,16 +137,29 @@ namespace VVVV.Audio
 		//add/remove outputs
 		public void AddOutput(IEnumerable<AudioSignal> provider)
 		{
-			if(provider == null) return;
-			foreach(var p in provider)
-				MasterWaveProvider.Add(p);
+			if(provider != null)
+				foreach(var p in provider)
+					MasterWaveProvider.Add(p);
 		}
 		
 		public void RemoveOutput(IEnumerable<AudioSignal> provider)
 		{
-			if(provider == null) return;
-			foreach(var p in provider)
-				MasterWaveProvider.Remove(p);
+			if(provider != null)
+				foreach(var p in provider)
+					MasterWaveProvider.Remove(p);
+		}
+		
+		//add/remove sinks
+		public void AddSink(IAudioSink sink)
+		{
+			if (sink != null)
+				MasterWaveProvider.AddSink(sink);
+		}
+		
+		public void RemoveSink(IAudioSink sink)
+		{
+			if (sink != null)
+				MasterWaveProvider.RemoveSink(sink);
 		}
 		
 		#region asio
@@ -248,6 +306,16 @@ namespace VVVV.Audio
 		public static void DisposeEngine()
 		{
 			FAudioEngine.Dispose();
+		}
+		
+		public static void AddSink(IAudioSink sink)
+		{
+			FAudioEngine.AddSink(sink);
+		}
+		
+		public static void RemoveSink(IAudioSink sink)
+		{
+			FAudioEngine.RemoveSink(sink);
 		}
 	}
 }
