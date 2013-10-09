@@ -4,39 +4,260 @@
         "Jacobi.Vst.Interop"
     </assembly>
     <members>
-        <member name="M:Jacobi.Vst.Interop.Host.VstManagedPluginContext.Initialize(System.String)">
-            <summary>
-Initializes the PluginContext instance with the plugin pointed to by the <paramref name="pluginPath" />.
-</summary>
-            <param name="pluginPath">An absolute path the the plugin dll (that contains the exported 
-'VSTPluginMain' function). Must not be null or empty.</param>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.GetObjectEnumerator">
+            <summary>Object based enumerator.</summary>
         </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstManagedPluginContext.#ctor(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
-            <summary>
-Constructs a new uninitialized instance using the <paramref name="hostCmdStub" />.
-</summary>
-            <param name="hostCmdStub">An implementation of the host command stub. Must not be null.</param>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.GetEnumerator">
+            <summary>Retrieves the enumerator object to retrieve <see cref="T:Jacobi.Vst.Core.VstAudioPrecisionBuffer" />'s.</summary>
         </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstManagedPluginContext.CreateInternal(System.String,Jacobi.Vst.Core.Host.IVstHostCommandStub)">
-            <summary>
-Constructs a new uninitialized instance using the <paramref name="hostCmdStub" />.
-</summary>
-            <param name="pluginPath">An absolute path the the plugin dll. Must not be null or empty.</param>
-            <param name="hostCmdStub">An implementation of the host command stub. Must not be null.</param>
-            <remarks>Returns null when not successful.</remarks>
+        <member name="P:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.BufferSize">
+            <summary>Gets the size of a single buffer.</summary>
         </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstManagedPluginContext.AcceptPluginInfoData(System.Boolean)">
-            <summary>
-Copies the new values provided by the Plugin to the <see cref="P:Jacobi.Vst.Interop.Host.VstPluginContext.PluginInfo" /> property.
-</summary>
-            <param name="raiseEvents">When true the <see cref="E:Jacobi.Vst.Interop.Host.VstPluginContext.PropertyChanged" /> event will be raised for each property that has changed.</param>
-            <remarks>All property names will be prefixed with 'PluginInfo.' to indicate the path to the property.</remarks>
+        <member name="P:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.BufferCount">
+            <summary>Gets the number of buffers.</summary>
         </member>
-        <member name="T:Jacobi.Vst.Interop.Host.VstManagedPluginContext">
-            <summary>
-Implements a PluginContext for a Managed Plugin, bypassing the double interop that would occur.
-</summary>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.ClearAllBuffers">
+            <summary>Clears all buffers this instance manages.</summary>
         </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.ClearBuffer(Jacobi.Vst.Core.VstAudioPrecisionBuffer)">
+            <summary>Clears (set all values to 0.0) a single buffer.</summary>
+            <param name="buffer">The buffer to be cleared. Must not be null.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.ToArray">
+            <summary>Retrieves the buffers objects, one for each buffer.</summary>
+            <returns>Returns an array of <see cref="T:Jacobi.Vst.Core.VstAudioPrecisionBuffer" /> instances.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.Dispose">
+            <summary>Disposes the instance and free's the unmanaged memory.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.#ctor(System.Int32,System.Int32)">
+            <summary>Constructs a new instance for the specified number and size of buffers.</summary>
+            <param name="bufferCount">The number of buffers.</param>
+            <param name="bufferSize">The size of a single buffer.</param>
+        </member>
+        <member name="T:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager">
+            <summary>
+The VstAudioPrecisionBufferManager class manages one continues block of unmanaged memory
+to service a number of audio buffers.
+</summary>
+            <remarks>The class is instantiated specifying the number and size of buffers that 
+can be accessed using the <see cref="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.ToArray" /> method. The life time of the 
+unmanaged memory that backs up the buffers is coupled to the life time of the
+VstAudioPrecisionBufferManager instance. Calling the <see cref="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.Dispose" /> method will free
+the unmanaged memory.</remarks>
+        </member>
+        <member name="T:VstAutomationStates">
+Automation States returned by #audioMasterGetAutomationState. 
+</member>
+        <member name="T:VstProcessLevels">
+Process Levels returned by #audioMasterGetCurrentProcessLevel. 
+</member>
+        <member name="T:VstPanLawType">
+PanLaw Type. 
+</member>
+        <member name="T:VstPatchChunkInfo">
+Structure used for #effBeginLoadBank/#effBeginLoadProgram. 
+</member>
+        <member name="T:VstFileSelectType">
+Types used in #VstFileSelect structure. 
+</member>
+        <member name="T:VstFileSelectCommand">
+Command constants used in #VstFileSelect structure. 
+</member>
+        <member name="T:VstFileSelect">
+File Selector Description used in #audioMasterOpenFileSelector. 
+</member>
+        <member name="T:VstFileType">
+File filter used in #VstFileSelect. 
+</member>
+        <member name="T:VstModifierKey">
+Modifier flags used in #VstKeyCode. 
+</member>
+        <member name="T:VstVirtualKey">
+Platform-independent definition of Virtual Keys (used in #VstKeyCode). 
+</member>
+        <member name="T:VstKeyCode">
+Structure used for keyUp/keyDown. 
+</member>
+        <member name="T:__VstWindowDeprecated">
+\deprecated Structure used for #openWindow and #closeWindow (deprecated in VST 2.4). 
+</member>
+        <member name="T:VstAudioFileMarker">
+Audio file marker. 
+</member>
+        <member name="T:VstAudioFileFlags">
+Flags used in #VstAudioFile. 
+</member>
+        <member name="T:VstAudioFile">
+Structure passed to #offlineNotify and #offlineStart 
+</member>
+        <member name="T:VstOfflineOption">
+Option passed to #offlineRead/#offlineWrite. 
+</member>
+        <member name="T:VstOfflineTaskFlags">
+Flags used in #VstOfflineTask. 
+</member>
+        <member name="T:VstOfflineTask">
+Offline Task Description. 
+</member>
+        <member name="T:VstSpeakerArrangementType">
+Speaker Arrangement Types
+</member>
+        <member name="T:VstUserSpeakerType">
+User-defined speaker types, to be extended in the negative range.
+	Will be handled as their corresponding speaker types with abs values:
+	e.g abs(#kSpeakerU1) == #kSpeakerL, abs(#kSpeakerU2) == #kSpeakerR) 
+</member>
+        <member name="T:VstSpeakerType">
+Speaker Types. 
+</member>
+        <member name="T:VstSpeakerArrangement">
+Speaker Arrangement. 
+</member>
+        <member name="T:VstSpeakerProperties">
+Speaker Properties.
+	The origin for azimuth is right (as by math conventions dealing with radians).
+	The elevation origin is also right, visualizing a rotation of a circle across the
+	-pi/pi axis of the horizontal circle. Thus, an elevation of -pi/2 corresponds
+	to bottom, and a speaker standing on the left, and 'beaming' upwards would have
+	an azimuth of -pi, and an elevation of pi/2.
+	For user interface representation, grads are more likely to be used, and the
+	origins will obviously 'shift' accordingly. 
+</member>
+        <member name="T:MidiKeyName">
+MIDI Key Description. 
+</member>
+        <member name="T:MidiProgramCategory">
+MIDI Program Category. 
+</member>
+        <member name="T:VstMidiProgramNameFlags">
+Flags used in MidiProgramName. 
+</member>
+        <member name="T:MidiProgramName">
+MIDI Program Description. 
+</member>
+        <member name="T:VstPlugCategory">
+Plug-in Categories. 
+</member>
+        <member name="T:VstPinPropertiesFlags">
+Flags used in #VstPinProperties. 
+</member>
+        <member name="T:VstPinProperties">
+Pin Properties used in #effGetInputProperties and #effGetOutputProperties. 
+</member>
+        <member name="T:VstParameterFlags">
+Flags used in #VstParameterProperties. 
+</member>
+        <member name="T:VstParameterProperties">
+Parameter Properties used in #effGetParameterProperties. 
+</member>
+        <member name="T:VstProcessPrecision">
+Symbolic precision constants used for effSetProcessPrecision. 
+</member>
+        <member name="T:AEffectXOpcodes">
+VST 2.x dispatcher Opcodes (Host to Plug-in). Extension of #AEffectOpcodes 
+</member>
+        <member name="T:AudioMasterOpcodesX">
+VST 2.x dispatcher Opcodes (Plug-in to Host). Extension of #AudioMasterOpcodes 
+</member>
+        <member name="T:VstHostLanguage">
+Language code returned by audioMasterGetLanguage. 
+</member>
+        <member name="T:VstVariableIo">
+Variable IO for Offline Processing. 
+</member>
+        <member name="T:VstSmpteFrameRate">
+SMPTE Frame Rates. 
+</member>
+        <member name="T:VstTimeInfoFlags">
+Flags used in #VstTimeInfo. 
+</member>
+        <member name="T:VstTimeInfo">
+VstTimeInfo requested via #audioMasterGetTime.  @see AudioEffectX::getTimeInfo 
+
+\note VstTimeInfo::samplePos :Current Position. It must always be valid, and should not cost a lot to ask for. The sample position is ahead of the time displayed to the user. In sequencer stop mode, its value does not change. A 32 bit integer is too small for sample positions, and it's a double to make it easier to convert between ppq and samples.
+\note VstTimeInfo::ppqPos : At tempo 120, 1 quarter makes 1/2 second, so 2.0 ppq translates to 48000 samples at 48kHz sample rate.
+.25 ppq is one sixteenth note then. if you need something like 480ppq, you simply multiply ppq by that scaler.
+\note VstTimeInfo::barStartPos : Say we're at bars/beats readout 3.3.3. That's 2 bars + 2 q + 2 sixteenth, makes 2 * 4 + 2 + .25 = 10.25 ppq. at tempo 120, that's 10.25 * .5 = 5.125 seconds, times 48000 = 246000 samples (if my calculator servers me well :-). 
+\note VstTimeInfo::samplesToNextClock : MIDI Clock Resolution (24 per Quarter Note), can be negative the distance to the next midi clock (24 ppq, pulses per quarter) in samples. unless samplePos falls precicely on a midi clock, this will either be negative such that the previous MIDI clock is addressed, or positive when referencing the following (future) MIDI clock.
+
+</member>
+        <member name="T:VstMidiSysexEvent">
+MIDI Sysex Event (to be casted from #VstEvent). 
+</member>
+        <member name="T:VstMidiEventFlags">
+Flags used in #VstMidiEvent. 
+</member>
+        <member name="T:VstMidiEvent">
+MIDI Event (to be casted from VstEvent). 
+</member>
+        <member name="T:VstEvents">
+A block of events for the current processed audio block. 
+</member>
+        <member name="T:VstEventTypes">
+VstEvent Types used by #VstEvent. 
+</member>
+        <member name="T:VstEvent">
+A generic timestamped event. 
+</member>
+        <member name="T:Vst2StringConstants">
+String length limits (in characters excl. 0 byte). 
+</member>
+        <member name="T:ERect">
+Structure used for #effEditGetRect. 
+</member>
+        <member name="M:vst_strncat(System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte*,System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte!System.Runtime.CompilerServices.IsConst*,System.UInt32)">
+String concatenation taking care of null terminator. 
+</member>
+        <member name="M:vst_strncpy(System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte*,System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte!System.Runtime.CompilerServices.IsConst*,System.UInt32)">
+String copy taking care of null terminator. 
+</member>
+        <member name="T:VstStringConstants">
+String length limits (in characters excl. 0 byte) 
+</member>
+        <member name="T:AudioMasterOpcodes">
+Basic dispatcher Opcodes (Plug-in to Host) 
+</member>
+        <member name="T:AEffectOpcodes">
+Basic dispatcher Opcodes (Host to Plug-in) 
+</member>
+        <member name="T:VstAEffectFlags">
+AEffect flags 
+</member>
+        <member name="F:AEffect.processDoubleReplacing">
+Process double-precision audio samples in replacing mode @see AudioEffect::processDoubleReplacing 
+</member>
+        <member name="F:AEffect.processReplacing">
+Process audio samples in replacing mode @see AudioEffect::processReplacing 
+</member>
+        <member name="F:AEffect.getParameter">
+Returns current value of automatable parameter @see AudioEffect::getParameter
+</member>
+        <member name="F:AEffect.setParameter">
+Set new value of automatable parameter @see AudioEffect::setParameter 
+</member>
+        <member name="F:AEffect.__processDeprecated">
+\deprecated Accumulating process mode is deprecated in VST 2.4! Use AEffect::processReplacing instead! 
+</member>
+        <member name="F:AEffect.dispatcher">
+Host to Plug-in dispatcher @see AudioEffect::dispatcher 
+</member>
+        <member name="T:AEffect">
+@endcond
+Four Character Constant (for AEffect-&gt;uniqueID) 
+AEffect magic number 
+Basic VST Effect "C" Interface. 
+</member>
+        <member name="D:audioMasterCallback">
+@cond ignore
+</member>
+        <member name="D:VstInt16">
+Define SDK Version (you can generate different versions (from 2.0 to 2.4) of this SDK by setting the unwanted extensions to 0). 
+Current VST Version 
+Disable for Hosts to serve Plug-ins below VST 2.4 
+Declares identifier as deprecated. 
+Define for 64 Bit Platform. 
+</member>
         <member name="M:Jacobi.Vst.Interop.Host.VstUnmanagedPluginContext.Uninitialize">
             <summary>Cleans up unmanaged resources.</summary>
         </member>
@@ -90,31 +311,37 @@ Disposes managed resources and calls the finalizer.
 Implements a PluginContext for an unmanaged Plugin, marshalling the calls between the Context and the Plugin.
 </summary>
         </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstHostCommandProxy.Dispatch(System.Int32,System.Int32,System.Int32,System.Void*,System.Single)">
-            <summary>Dispatches the <paramref name="opcode" /> and its parameters to one of the methods on the
-<see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" /> interface.</summary>
-            <param name="opcode">Indicates the type of message.</param>
-            <param name="index">Optional argument.</param>
-            <param name="value">Optional argument.</param>
-            <param name="ptr">Optional argument.</param>
-            <param name="opt">Optional argument.</param>
-            <returns>Returns the return value of the method called on the 
-<see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" /> interface.</returns>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstHostCommandProxy.Finalize">
-            <summary>Disposes unmanaged resources.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstHostCommandProxy.Dispose">
-            <summary>Disposes managed resources and calls the finalizer.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstHostCommandProxy.#ctor(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
-            <summary>Construcs a new instance based on a reference to the <paramref name="hostCmdStub" />.</summary>
-            <param name="hostCmdStub">Must not be null.</param>
-        </member>
-        <member name="T:Jacobi.Vst.Interop.Host.VstHostCommandProxy">
+        <member name="M:Jacobi.Vst.Interop.Host.VstManagedPluginContext.Initialize(System.String)">
             <summary>
-The VstHostCommandProxy class dispatches incoming requests from the plugin to an implementation of
-the <see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" /> interface.
+Initializes the PluginContext instance with the plugin pointed to by the <paramref name="pluginPath" />.
+</summary>
+            <param name="pluginPath">An absolute path the the plugin dll (that contains the exported 
+'VSTPluginMain' function). Must not be null or empty.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstManagedPluginContext.#ctor(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Constructs a new uninitialized instance using the <paramref name="hostCmdStub" />.
+</summary>
+            <param name="hostCmdStub">An implementation of the host command stub. Must not be null.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstManagedPluginContext.CreateInternal(System.String,Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Constructs a new uninitialized instance using the <paramref name="hostCmdStub" />.
+</summary>
+            <param name="pluginPath">An absolute path the the plugin dll. Must not be null or empty.</param>
+            <param name="hostCmdStub">An implementation of the host command stub. Must not be null.</param>
+            <remarks>Returns null when not successful.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstManagedPluginContext.AcceptPluginInfoData(System.Boolean)">
+            <summary>
+Copies the new values provided by the Plugin to the <see cref="P:Jacobi.Vst.Interop.Host.VstPluginContext.PluginInfo" /> property.
+</summary>
+            <param name="raiseEvents">When true the <see cref="E:Jacobi.Vst.Interop.Host.VstPluginContext.PropertyChanged" /> event will be raised for each property that has changed.</param>
+            <remarks>All property names will be prefixed with 'PluginInfo.' to indicate the path to the property.</remarks>
+        </member>
+        <member name="T:Jacobi.Vst.Interop.Host.VstManagedPluginContext">
+            <summary>
+Implements a PluginContext for a Managed Plugin, bypassing the double interop that would occur.
 </summary>
         </member>
         <member name="M:Jacobi.Vst.Interop.Host.VstPluginContext.Uninitialize">
@@ -231,6 +458,33 @@ Note that <c>Open</c> is not called on the Plugin by the context but it does cal
 Close on the plugin when the context is disposed.
 </remarks>
         </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstHostCommandProxy.Dispatch(System.Int32,System.Int32,System.Int32,System.Void*,System.Single)">
+            <summary>Dispatches the <paramref name="opcode" /> and its parameters to one of the methods on the
+<see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" /> interface.</summary>
+            <param name="opcode">Indicates the type of message.</param>
+            <param name="index">Optional argument.</param>
+            <param name="value">Optional argument.</param>
+            <param name="ptr">Optional argument.</param>
+            <param name="opt">Optional argument.</param>
+            <returns>Returns the return value of the method called on the 
+<see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" /> interface.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstHostCommandProxy.Finalize">
+            <summary>Disposes unmanaged resources.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstHostCommandProxy.Dispose">
+            <summary>Disposes managed resources and calls the finalizer.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstHostCommandProxy.#ctor(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>Construcs a new instance based on a reference to the <paramref name="hostCmdStub" />.</summary>
+            <param name="hostCmdStub">Must not be null.</param>
+        </member>
+        <member name="T:Jacobi.Vst.Interop.Host.VstHostCommandProxy">
+            <summary>
+The VstHostCommandProxy class dispatches incoming requests from the plugin to an implementation of
+the <see cref="T:Jacobi.Vst.Core.Host.IVstHostCommandStub" /> interface.
+</summary>
+        </member>
         <member name="M:Jacobi.Vst.Interop.TimeCriticalScope.Dispose">
             <summary>
 Restores the latency mode of the GC to its original value.
@@ -245,152 +499,6 @@ Constructs a new instance and sets the latence mode of the GC.
             <summary>
 The TimeCriticalScope sets the Latency Mode of the GC to 'LowLatency' during the lifetime of the instance (scope).
 </summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Bootstrapper.Finalize">
-            <summary>
-Unregisters the bootstrapper from the AssemlbyResolve event.
-</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Bootstrapper.Dispose">
-            <summary>
-Destructor.
-</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Bootstrapper.#ctor(System.String,Jacobi.Vst.Interop.Plugin.Configuration)">
-            <summary>
-Constructs a new instance initialized with the specified <paramref name="basePath" />
-as well as the paths loaded from the "vstnetProbePaths" config appSettings.
-</summary>
-        </member>
-        <member name="T:Jacobi.Vst.Interop.Bootstrapper">
-            <summary>
-The Bootstrapper class temporarily subscribes to the AssemlbyResolve event of the current AppDomain.
-</summary>
-            <remarks>
-It is only used to load the Jacobi.Vst.Core assembly.
-</remarks>
-        </member>
-        <member name="F:Jacobi.Vst.Interop.Plugin.Configuration.VstNetManagedAssemblyName">
-            <summary>
-The appSettgins config setting 'vstnetManagedAssemblyName'.
-</summary>
-        </member>
-        <member name="F:Jacobi.Vst.Interop.Plugin.Configuration.VstNetProbePaths">
-            <summary>
-The appSettgins config setting 'vstnetProbePaths'.
-</summary>
-        </member>
-        <member name="P:Jacobi.Vst.Interop.Plugin.Configuration.ManagedAssemblyName">
-            <summary>
-The managed assembly name override. Can be null.
-</summary>
-        </member>
-        <member name="P:Jacobi.Vst.Interop.Plugin.Configuration.ProbePaths">
-            <summary>
-The probe path config setting. Can be null.
-</summary>
-        </member>
-        <member name="P:Jacobi.Vst.Interop.Plugin.Configuration.PluginConfig">
-            <summary>
-The loaded configuration object. Can be null.
-</summary>
-        </member>
-        <member name="P:Jacobi.Vst.Interop.Plugin.Configuration.IsValid">
-            <summary />
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Plugin.Configuration.#ctor(System.String)">
-            <summary>
-Constructs a new instance based on the file path of the plugin assembly (renamed Interop).
-</summary>
-        </member>
-        <member name="T:Jacobi.Vst.Interop.Plugin.Configuration">
-            <summary>
-The Configuration class manages the plugin specific config file.
-</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.GetObjectEnumerator">
-            <summary>Object based enumerator.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.GetEnumerator">
-            <summary>Retrieves the enumerator object to retrieve <see cref="T:Jacobi.Vst.Core.VstAudioPrecisionBuffer" />'s.</summary>
-        </member>
-        <member name="P:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.BufferSize">
-            <summary>Gets the size of a single buffer.</summary>
-        </member>
-        <member name="P:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.BufferCount">
-            <summary>Gets the number of buffers.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.ClearAllBuffers">
-            <summary>Clears all buffers this instance manages.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.ClearBuffer(Jacobi.Vst.Core.VstAudioPrecisionBuffer)">
-            <summary>Clears (set all values to 0.0) a single buffer.</summary>
-            <param name="buffer">The buffer to be cleared. Must not be null.</param>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.ToArray">
-            <summary>Retrieves the buffers objects, one for each buffer.</summary>
-            <returns>Returns an array of <see cref="T:Jacobi.Vst.Core.VstAudioPrecisionBuffer" /> instances.</returns>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.Dispose">
-            <summary>Disposes the instance and free's the unmanaged memory.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.#ctor(System.Int32,System.Int32)">
-            <summary>Constructs a new instance for the specified number and size of buffers.</summary>
-            <param name="bufferCount">The number of buffers.</param>
-            <param name="bufferSize">The size of a single buffer.</param>
-        </member>
-        <member name="T:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager">
-            <summary>
-The VstAudioPrecisionBufferManager class manages one continues block of unmanaged memory
-to service a number of audio buffers.
-</summary>
-            <remarks>The class is instantiated specifying the number and size of buffers that 
-can be accessed using the <see cref="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.ToArray" /> method. The life time of the 
-unmanaged memory that backs up the buffers is coupled to the life time of the
-VstAudioPrecisionBufferManager instance. Calling the <see cref="M:Jacobi.Vst.Interop.Host.VstAudioPrecisionBufferManager.Dispose" /> method will free
-the unmanaged memory.</remarks>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.GetObjectEnumerator">
-            <summary>Object based enumerator.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.GetEnumerator">
-            <summary>Retrieves the enumerator object to retrieve <see cref="T:Jacobi.Vst.Core.VstAudioBuffer" />'s.</summary>
-        </member>
-        <member name="P:Jacobi.Vst.Interop.Host.VstAudioBufferManager.BufferSize">
-            <summary>Gets the size of a single buffer.</summary>
-        </member>
-        <member name="P:Jacobi.Vst.Interop.Host.VstAudioBufferManager.BufferCount">
-            <summary>Gets the number of buffers.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.ClearAllBuffers">
-            <summary>Clears all buffers this instance manages.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.ClearBuffer(Jacobi.Vst.Core.VstAudioBuffer)">
-            <summary>Clears (set all values to 0.0) a single buffer.</summary>
-            <param name="buffer">The buffer to be cleared. Must not be null.</param>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.ToArray">
-            <summary>Retrieves the buffers objects, one for each buffer.</summary>
-            <returns>Returns an array of <see cref="T:Jacobi.Vst.Core.VstAudioBuffer" /> instances.</returns>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.Dispose">
-            <summary>Disposes the instance and free's the unmanaged memory.</summary>
-        </member>
-        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.#ctor(System.Int32,System.Int32)">
-            <summary>Constructs a new instance for the specified number and size of buffers.</summary>
-            <param name="bufferCount">The number of buffers.</param>
-            <param name="bufferSize">The size of a single buffer.</param>
-        </member>
-        <member name="T:Jacobi.Vst.Interop.Host.VstAudioBufferManager">
-            <summary>
-The VstAudioBufferManager class manages one continues block of unmanaged memory
-to service a number of audio buffers.
-</summary>
-            <remarks>The class is instantiated specifying the number and size of buffers that 
-can be accessed using the <see cref="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.ToArray" /> method. The life time of the 
-unmanaged memory that backs up the buffers is coupled to the life time of the
-VstAudioBufferManager instance. Calling the <see cref="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.Dispose" /> method will free
-the unmanaged memory.</remarks>
         </member>
         <member name="M:Jacobi.Vst.Interop.Plugin.HostCommandStub.GetInputSpeakerArrangement">
             <summary>
@@ -749,218 +857,6 @@ Constructs a new instance that calls the <paramref name="cmdStub" />.
 The PluginCommandProxy dispatches calls to the Plugin.
 </summary>
         </member>
-        <member name="T:VstAutomationStates">
-Automation States returned by #audioMasterGetAutomationState. 
-</member>
-        <member name="T:VstProcessLevels">
-Process Levels returned by #audioMasterGetCurrentProcessLevel. 
-</member>
-        <member name="T:VstPanLawType">
-PanLaw Type. 
-</member>
-        <member name="T:VstPatchChunkInfo">
-Structure used for #effBeginLoadBank/#effBeginLoadProgram. 
-</member>
-        <member name="T:VstFileSelectType">
-Types used in #VstFileSelect structure. 
-</member>
-        <member name="T:VstFileSelectCommand">
-Command constants used in #VstFileSelect structure. 
-</member>
-        <member name="T:VstFileSelect">
-File Selector Description used in #audioMasterOpenFileSelector. 
-</member>
-        <member name="T:VstFileType">
-File filter used in #VstFileSelect. 
-</member>
-        <member name="T:VstModifierKey">
-Modifier flags used in #VstKeyCode. 
-</member>
-        <member name="T:VstVirtualKey">
-Platform-independent definition of Virtual Keys (used in #VstKeyCode). 
-</member>
-        <member name="T:VstKeyCode">
-Structure used for keyUp/keyDown. 
-</member>
-        <member name="T:__VstWindowDeprecated">
-\deprecated Structure used for #openWindow and #closeWindow (deprecated in VST 2.4). 
-</member>
-        <member name="T:VstAudioFileMarker">
-Audio file marker. 
-</member>
-        <member name="T:VstAudioFileFlags">
-Flags used in #VstAudioFile. 
-</member>
-        <member name="T:VstAudioFile">
-Structure passed to #offlineNotify and #offlineStart 
-</member>
-        <member name="T:VstOfflineOption">
-Option passed to #offlineRead/#offlineWrite. 
-</member>
-        <member name="T:VstOfflineTaskFlags">
-Flags used in #VstOfflineTask. 
-</member>
-        <member name="T:VstOfflineTask">
-Offline Task Description. 
-</member>
-        <member name="T:VstSpeakerArrangementType">
-Speaker Arrangement Types
-</member>
-        <member name="T:VstUserSpeakerType">
-User-defined speaker types, to be extended in the negative range.
-	Will be handled as their corresponding speaker types with abs values:
-	e.g abs(#kSpeakerU1) == #kSpeakerL, abs(#kSpeakerU2) == #kSpeakerR) 
-</member>
-        <member name="T:VstSpeakerType">
-Speaker Types. 
-</member>
-        <member name="T:VstSpeakerArrangement">
-Speaker Arrangement. 
-</member>
-        <member name="T:VstSpeakerProperties">
-Speaker Properties.
-	The origin for azimuth is right (as by math conventions dealing with radians).
-	The elevation origin is also right, visualizing a rotation of a circle across the
-	-pi/pi axis of the horizontal circle. Thus, an elevation of -pi/2 corresponds
-	to bottom, and a speaker standing on the left, and 'beaming' upwards would have
-	an azimuth of -pi, and an elevation of pi/2.
-	For user interface representation, grads are more likely to be used, and the
-	origins will obviously 'shift' accordingly. 
-</member>
-        <member name="T:MidiKeyName">
-MIDI Key Description. 
-</member>
-        <member name="T:MidiProgramCategory">
-MIDI Program Category. 
-</member>
-        <member name="T:VstMidiProgramNameFlags">
-Flags used in MidiProgramName. 
-</member>
-        <member name="T:MidiProgramName">
-MIDI Program Description. 
-</member>
-        <member name="T:VstPlugCategory">
-Plug-in Categories. 
-</member>
-        <member name="T:VstPinPropertiesFlags">
-Flags used in #VstPinProperties. 
-</member>
-        <member name="T:VstPinProperties">
-Pin Properties used in #effGetInputProperties and #effGetOutputProperties. 
-</member>
-        <member name="T:VstParameterFlags">
-Flags used in #VstParameterProperties. 
-</member>
-        <member name="T:VstParameterProperties">
-Parameter Properties used in #effGetParameterProperties. 
-</member>
-        <member name="T:VstProcessPrecision">
-Symbolic precision constants used for effSetProcessPrecision. 
-</member>
-        <member name="T:AEffectXOpcodes">
-VST 2.x dispatcher Opcodes (Host to Plug-in). Extension of #AEffectOpcodes 
-</member>
-        <member name="T:AudioMasterOpcodesX">
-VST 2.x dispatcher Opcodes (Plug-in to Host). Extension of #AudioMasterOpcodes 
-</member>
-        <member name="T:VstHostLanguage">
-Language code returned by audioMasterGetLanguage. 
-</member>
-        <member name="T:VstVariableIo">
-Variable IO for Offline Processing. 
-</member>
-        <member name="T:VstSmpteFrameRate">
-SMPTE Frame Rates. 
-</member>
-        <member name="T:VstTimeInfoFlags">
-Flags used in #VstTimeInfo. 
-</member>
-        <member name="T:VstTimeInfo">
-VstTimeInfo requested via #audioMasterGetTime.  @see AudioEffectX::getTimeInfo 
-
-\note VstTimeInfo::samplePos :Current Position. It must always be valid, and should not cost a lot to ask for. The sample position is ahead of the time displayed to the user. In sequencer stop mode, its value does not change. A 32 bit integer is too small for sample positions, and it's a double to make it easier to convert between ppq and samples.
-\note VstTimeInfo::ppqPos : At tempo 120, 1 quarter makes 1/2 second, so 2.0 ppq translates to 48000 samples at 48kHz sample rate.
-.25 ppq is one sixteenth note then. if you need something like 480ppq, you simply multiply ppq by that scaler.
-\note VstTimeInfo::barStartPos : Say we're at bars/beats readout 3.3.3. That's 2 bars + 2 q + 2 sixteenth, makes 2 * 4 + 2 + .25 = 10.25 ppq. at tempo 120, that's 10.25 * .5 = 5.125 seconds, times 48000 = 246000 samples (if my calculator servers me well :-). 
-\note VstTimeInfo::samplesToNextClock : MIDI Clock Resolution (24 per Quarter Note), can be negative the distance to the next midi clock (24 ppq, pulses per quarter) in samples. unless samplePos falls precicely on a midi clock, this will either be negative such that the previous MIDI clock is addressed, or positive when referencing the following (future) MIDI clock.
-
-</member>
-        <member name="T:VstMidiSysexEvent">
-MIDI Sysex Event (to be casted from #VstEvent). 
-</member>
-        <member name="T:VstMidiEventFlags">
-Flags used in #VstMidiEvent. 
-</member>
-        <member name="T:VstMidiEvent">
-MIDI Event (to be casted from VstEvent). 
-</member>
-        <member name="T:VstEvents">
-A block of events for the current processed audio block. 
-</member>
-        <member name="T:VstEventTypes">
-VstEvent Types used by #VstEvent. 
-</member>
-        <member name="T:VstEvent">
-A generic timestamped event. 
-</member>
-        <member name="T:Vst2StringConstants">
-String length limits (in characters excl. 0 byte). 
-</member>
-        <member name="T:ERect">
-Structure used for #effEditGetRect. 
-</member>
-        <member name="M:vst_strncat(System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte*,System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte!System.Runtime.CompilerServices.IsConst*,System.UInt32)">
-String concatenation taking care of null terminator. 
-</member>
-        <member name="M:vst_strncpy(System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte*,System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte!System.Runtime.CompilerServices.IsConst*,System.UInt32)">
-String copy taking care of null terminator. 
-</member>
-        <member name="T:VstStringConstants">
-String length limits (in characters excl. 0 byte) 
-</member>
-        <member name="T:AudioMasterOpcodes">
-Basic dispatcher Opcodes (Plug-in to Host) 
-</member>
-        <member name="T:AEffectOpcodes">
-Basic dispatcher Opcodes (Host to Plug-in) 
-</member>
-        <member name="T:VstAEffectFlags">
-AEffect flags 
-</member>
-        <member name="F:AEffect.processDoubleReplacing">
-Process double-precision audio samples in replacing mode @see AudioEffect::processDoubleReplacing 
-</member>
-        <member name="F:AEffect.processReplacing">
-Process audio samples in replacing mode @see AudioEffect::processReplacing 
-</member>
-        <member name="F:AEffect.getParameter">
-Returns current value of automatable parameter @see AudioEffect::getParameter
-</member>
-        <member name="F:AEffect.setParameter">
-Set new value of automatable parameter @see AudioEffect::setParameter 
-</member>
-        <member name="F:AEffect.__processDeprecated">
-\deprecated Accumulating process mode is deprecated in VST 2.4! Use AEffect::processReplacing instead! 
-</member>
-        <member name="F:AEffect.dispatcher">
-Host to Plug-in dispatcher @see AudioEffect::dispatcher 
-</member>
-        <member name="T:AEffect">
-@endcond
-Four Character Constant (for AEffect-&gt;uniqueID) 
-AEffect magic number 
-Basic VST Effect "C" Interface. 
-</member>
-        <member name="D:audioMasterCallback">
-@cond ignore
-</member>
-        <member name="D:VstInt16">
-Define SDK Version (you can generate different versions (from 2.0 to 2.4) of this SDK by setting the unwanted extensions to 0). 
-Current VST Version 
-Disable for Hosts to serve Plug-ins below VST 2.4 
-Declares identifier as deprecated. 
-Define for 64 Bit Platform. 
-</member>
         <member name="M:Jacobi.Vst.Interop.Host.VstPluginCommandStub.#ctor(AEffect*)">
             <summary>Constructs a new instance based on an <b>AEffect</b> structure.</summary>
         </member>
@@ -1524,6 +1420,110 @@ Constructs a new instance.
         <member name="T:Jacobi.Vst.Interop.MemoryTracker">
             <summary>
 The MemoryTracker class maintains a list of native allocated objects that can be deleted (freed) at another time.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.GetObjectEnumerator">
+            <summary>Object based enumerator.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.GetEnumerator">
+            <summary>Retrieves the enumerator object to retrieve <see cref="T:Jacobi.Vst.Core.VstAudioBuffer" />'s.</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Interop.Host.VstAudioBufferManager.BufferSize">
+            <summary>Gets the size of a single buffer.</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Interop.Host.VstAudioBufferManager.BufferCount">
+            <summary>Gets the number of buffers.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.ClearAllBuffers">
+            <summary>Clears all buffers this instance manages.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.ClearBuffer(Jacobi.Vst.Core.VstAudioBuffer)">
+            <summary>Clears (set all values to 0.0) a single buffer.</summary>
+            <param name="buffer">The buffer to be cleared. Must not be null.</param>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.ToArray">
+            <summary>Retrieves the buffers objects, one for each buffer.</summary>
+            <returns>Returns an array of <see cref="T:Jacobi.Vst.Core.VstAudioBuffer" /> instances.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.Dispose">
+            <summary>Disposes the instance and free's the unmanaged memory.</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.#ctor(System.Int32,System.Int32)">
+            <summary>Constructs a new instance for the specified number and size of buffers.</summary>
+            <param name="bufferCount">The number of buffers.</param>
+            <param name="bufferSize">The size of a single buffer.</param>
+        </member>
+        <member name="T:Jacobi.Vst.Interop.Host.VstAudioBufferManager">
+            <summary>
+The VstAudioBufferManager class manages one continues block of unmanaged memory
+to service a number of audio buffers.
+</summary>
+            <remarks>The class is instantiated specifying the number and size of buffers that 
+can be accessed using the <see cref="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.ToArray" /> method. The life time of the 
+unmanaged memory that backs up the buffers is coupled to the life time of the
+VstAudioBufferManager instance. Calling the <see cref="M:Jacobi.Vst.Interop.Host.VstAudioBufferManager.Dispose" /> method will free
+the unmanaged memory.</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Bootstrapper.Finalize">
+            <summary>
+Unregisters the bootstrapper from the AssemlbyResolve event.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Bootstrapper.Dispose">
+            <summary>
+Destructor.
+</summary>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Bootstrapper.#ctor(System.String,Jacobi.Vst.Interop.Plugin.Configuration)">
+            <summary>
+Constructs a new instance initialized with the specified <paramref name="basePath" />
+as well as the paths loaded from the "vstnetProbePaths" config appSettings.
+</summary>
+        </member>
+        <member name="T:Jacobi.Vst.Interop.Bootstrapper">
+            <summary>
+The Bootstrapper class temporarily subscribes to the AssemlbyResolve event of the current AppDomain.
+</summary>
+            <remarks>
+It is only used to load the Jacobi.Vst.Core assembly.
+</remarks>
+        </member>
+        <member name="F:Jacobi.Vst.Interop.Plugin.Configuration.VstNetManagedAssemblyName">
+            <summary>
+The appSettgins config setting 'vstnetManagedAssemblyName'.
+</summary>
+        </member>
+        <member name="F:Jacobi.Vst.Interop.Plugin.Configuration.VstNetProbePaths">
+            <summary>
+The appSettgins config setting 'vstnetProbePaths'.
+</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Interop.Plugin.Configuration.ManagedAssemblyName">
+            <summary>
+The managed assembly name override. Can be null.
+</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Interop.Plugin.Configuration.ProbePaths">
+            <summary>
+The probe path config setting. Can be null.
+</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Interop.Plugin.Configuration.PluginConfig">
+            <summary>
+The loaded configuration object. Can be null.
+</summary>
+        </member>
+        <member name="P:Jacobi.Vst.Interop.Plugin.Configuration.IsValid">
+            <summary />
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Plugin.Configuration.#ctor(System.String)">
+            <summary>
+Constructs a new instance based on the file path of the plugin assembly (renamed Interop).
+</summary>
+        </member>
+        <member name="T:Jacobi.Vst.Interop.Plugin.Configuration">
+            <summary>
+The Configuration class manages the plugin specific config file.
 </summary>
         </member>
     </members>
