@@ -1,21 +1,11 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
    <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Patches\EngineTest1.v4p" systemname="EngineTest1" filename="C:\Dev\vvvv\VVVV.Audio\Experiments\Bjorn\NAudio\EngineTest1.v4p">
-   <BOUNDS type="Window" left="4350" top="2655" width="15795" height="10770">
+   <BOUNDS type="Window" left="2130" top="1005" width="11865" height="11730">
    </BOUNDS>
-   <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="5">
-   <BOUNDS type="Node" left="10020" top="10095" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="10020" top="10095" width="2400" height="1800">
-   </BOUNDS>
-   <BOUNDS type="Window" left="16335" top="8790" width="18615" height="4860">
-   </BOUNDS>
-   <PIN pinname="Descriptive Name" slicecount="1" values="tty">
-   </PIN>
-   </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="6" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="8505" top="7260" width="480" height="480">
+   <BOUNDS type="Box" left="6390" top="8520" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="8505" top="7260" width="0" height="0">
+   <BOUNDS type="Node" left="6390" top="8520" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
@@ -34,48 +24,8 @@
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="MainLoop (VVVV)" nodename="MainLoop (VVVV)" componentmode="Hidden" id="-6">
-   <BOUNDS type="Node" left="9645" top="6570" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Maximum forground fps" slicecount="1" values="120">
-   </PIN>
-   </NODE>
-   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="25">
-   <BOUNDS type="Node" left="2475" top="2730" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="2475" top="2730" width="795" height="960">
-   </BOUNDS>
-   <PIN pinname="Rows" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Y Input Value" slicecount="4" values="265,388.95,660,1320">
-   </PIN>
-   <PIN pinname="Vector Size" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Default" slicecount="1" values="|0, 0, 0, 1|">
-   </PIN>
-   <PIN pinname="Y Output Value" visible="1">
-   </PIN>
-   </NODE>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="26" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="3405" top="2715" width="795" height="960">
-   </BOUNDS>
-   <BOUNDS type="Node" left="3405" top="2715" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="4" values="0.04,0.05,0.05,0.17">
-   </PIN>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Rows" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Vector Size" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Default" slicecount="1" values="|0, 0, 0, 1|">
-   </PIN>
-   </NODE>
    <NODE systemname="CircularSpread (Spreads)" nodename="CircularSpread (Spreads)" componentmode="Hidden" id="27">
-   <BOUNDS type="Node" left="5295" top="2475" width="100" height="100">
+   <BOUNDS type="Node" left="1800" top="2490" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Output X" visible="1">
    </PIN>
@@ -87,7 +37,7 @@
    </PIN>
    </NODE>
    <NODE systemname="LFO (Animation)" nodename="LFO (Animation)" componentmode="Hidden" id="28">
-   <BOUNDS type="Node" left="6135" top="435" width="100" height="100">
+   <BOUNDS type="Node" left="2640" top="450" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -97,7 +47,7 @@
    <LINK srcnodeid="28" srcpinname="Output" dstnodeid="27" dstpinname="Phase">
    </LINK>
    <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="29">
-   <BOUNDS type="Node" left="5280" top="3660" width="100" height="100">
+   <BOUNDS type="Node" left="1785" top="3675" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1">
    </PIN>
@@ -107,9 +57,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="31" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="6870" top="990" width="795" height="240">
+   <BOUNDS type="Box" left="2805" top="1050" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="6870" top="990" width="0" height="0">
+   <BOUNDS type="Node" left="2805" top="1050" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="13">
    </PIN>
@@ -122,18 +72,10 @@
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="31" srcpinname="Y Output Value" dstnodeid="27" dstpinname="Spread Count">
+   <LINK srcnodeid="31" srcpinname="Y Output Value" dstnodeid="27" dstpinname="Spread Count" hiddenwhenlocked="1">
    </LINK>
-   <NODE systemname="Add (Value Spectral)" nodename="Add (Value Spectral)" componentmode="Hidden" id="32">
-   <BOUNDS type="Node" left="6300" top="3585" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
    <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="33">
-   <BOUNDS type="Node" left="5280" top="3015" width="100" height="100">
+   <BOUNDS type="Node" left="1785" top="3030" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -144,14 +86,12 @@
    </NODE>
    <LINK srcnodeid="27" srcpinname="Output X" dstnodeid="33" dstpinname="Input">
    </LINK>
-   <LINK srcnodeid="31" srcpinname="Y Output Value" dstnodeid="33" dstpinname="Input 2">
-   </LINK>
-   <LINK srcnodeid="33" srcpinname="Output" dstnodeid="32" dstpinname="Input">
+   <LINK srcnodeid="31" srcpinname="Y Output Value" dstnodeid="33" dstpinname="Input 2" hiddenwhenlocked="1">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="34" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="5295" top="4140" width="795" height="240">
+   <BOUNDS type="Box" left="1800" top="4155" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="5295" top="4140" width="0" height="0">
+   <BOUNDS type="Node" left="1800" top="4155" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -162,20 +102,8 @@
    </LINK>
    <LINK srcnodeid="33" srcpinname="Output" dstnodeid="29" dstpinname="Input 1">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="35" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="6300" top="4125" width="795" height="240">
-   </BOUNDS>
-   <BOUNDS type="Node" left="6300" top="4125" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="32" srcpinname="Output" dstnodeid="35" dstpinname="Y Input Value">
-   </LINK>
    <NODE systemname="Power (Value)" nodename="Power (Value)" componentmode="Hidden" id="36">
-   <BOUNDS type="Node" left="1395" top="3780" width="100" height="100">
+   <BOUNDS type="Node" left="510" top="3780" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" slicecount="1" visible="1" values="2">
    </PIN>
@@ -187,7 +115,7 @@
    <NODE id="30" systemname="LinearSpread (Spreads)" nodename="LinearSpread (Spreads)" componentmode="Hidden">
    <PIN pinname="Spread Count">
    </PIN>
-   <BOUNDS type="Node" left="1875" top="1605" width="100" height="100">
+   <BOUNDS type="Node" left="990" top="1605" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" slicecount="1" values="8.4">
    </PIN>
@@ -200,10 +128,10 @@
    </NODE>
    <LINK srcnodeid="30" srcpinname="Output" dstnodeid="36" dstpinname="Input 2">
    </LINK>
-   <LINK srcnodeid="31" srcpinname="Y Output Value" dstnodeid="30" dstpinname="Spread Count">
+   <LINK srcnodeid="31" srcpinname="Y Output Value" dstnodeid="30" dstpinname="Spread Count" hiddenwhenlocked="1">
    </LINK>
    <NODE systemname="Sine (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Sine (Audio Source)" componentmode="Hidden" id="23">
-   <BOUNDS type="Node" left="1410" top="4665" width="100" height="100">
+   <BOUNDS type="Node" left="525" top="4665" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Audio Out" visible="1">
    </PIN>
@@ -215,7 +143,7 @@
    <LINK srcnodeid="36" srcpinname="Output" dstnodeid="23" dstpinname="Frequency">
    </LINK>
    <NODE systemname="LFO (Animation)" nodename="LFO (Animation)" componentmode="Hidden" id="39">
-   <BOUNDS type="Node" left="2535" top="960" width="100" height="100">
+   <BOUNDS type="Node" left="1650" top="960" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -229,7 +157,7 @@
    <LINK srcnodeid="39" srcpinname="Output" dstnodeid="30" dstpinname="Phase">
    </LINK>
    <NODE systemname="Multiply (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Multiply (Audio)" componentmode="Hidden" id="40">
-   <BOUNDS type="Node" left="2160" top="6705" width="330" height="270">
+   <BOUNDS type="Node" left="1590" top="6705" width="330" height="270">
    </BOUNDS>
    <PIN pinname="Input 2" visible="1">
    </PIN>
@@ -245,7 +173,7 @@
    </PIN>
    </NODE>
    <NODE systemname="Sine (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Sine (Audio Source)" componentmode="Hidden" id="41">
-   <BOUNDS type="Node" left="3285" top="6165" width="100" height="100">
+   <BOUNDS type="Node" left="1845" top="5940" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Audio Out" visible="1">
    </PIN>
@@ -255,9 +183,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="47" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="3285" top="5535" width="795" height="240">
+   <BOUNDS type="Box" left="1845" top="5310" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="3285" top="5535" width="0" height="0">
+   <BOUNDS type="Node" left="1845" top="5310" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="2">
    </PIN>
@@ -271,7 +199,7 @@
    <LINK srcnodeid="47" srcpinname="Y Output Value" dstnodeid="41" dstpinname="Frequency">
    </LINK>
    <NODE systemname="Multiply (Audio Spectral)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Multiply (Audio Spectral)" componentmode="Hidden" id="49">
-   <BOUNDS type="Node" left="1410" top="6090" width="100" height="100">
+   <BOUNDS type="Node" left="525" top="6090" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
@@ -281,9 +209,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="50" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1695" top="5295" width="795" height="240">
+   <BOUNDS type="Box" left="810" top="5295" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="1695" top="5295" width="0" height="0">
+   <BOUNDS type="Node" left="810" top="5295" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="3">
    </PIN>
@@ -303,7 +231,7 @@
    <LINK srcnodeid="29" srcpinname="Output" dstnodeid="23" dstpinname="Gain">
    </LINK>
    <NODE systemname="Blinker (Animation)" nodename="Blinker (Animation)" componentmode="Hidden" id="55">
-   <BOUNDS type="Node" left="2715" top="465" width="100" height="100">
+   <BOUNDS type="Node" left="1830" top="465" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -311,15 +239,15 @@
    </PIN>
    </NODE>
    <NODE systemname="AudioOut (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden" id="61">
-   <BOUNDS type="Node" left="2910" top="8805" width="100" height="100">
+   <BOUNDS type="Node" left="2415" top="8325" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="66" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="8505" top="8655" width="795" height="240">
+   <BOUNDS type="Box" left="6390" top="9915" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="8505" top="8655" width="0" height="0">
+   <BOUNDS type="Node" left="6390" top="9915" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -331,9 +259,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="67" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="9690" top="9060" width="795" height="240">
+   <BOUNDS type="Box" left="7575" top="9915" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="9690" top="9060" width="0" height="0">
+   <BOUNDS type="Node" left="7575" top="9915" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -345,11 +273,11 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="69" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="9660" top="7215" width="795" height="240">
+   <BOUNDS type="Box" left="7560" top="8790" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="9660" top="7215" width="0" height="0">
+   <BOUNDS type="Node" left="7560" top="8790" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="120">
+   <PIN pinname="Y Input Value" slicecount="1" values="124">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -361,9 +289,9 @@
    </PIN>
    </NODE>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="71">
-   <BOUNDS type="Node" left="795" top="9480" width="100" height="100">
+   <BOUNDS type="Node" left="1575" top="8760" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="795" top="9480" width="1395" height="1575">
+   <BOUNDS type="Box" left="1575" top="8760" width="1395" height="1575">
    </BOUNDS>
    <PIN pinname="Show Value" slicecount="1" values="0">
    </PIN>
@@ -380,18 +308,8 @@
    <PIN pinname="Columns" slicecount="1" values="5">
    </PIN>
    </NODE>
-   <NODE systemname="Add (Audio)" nodename="Add (Audio)" componentmode="Hidden" id="74" filename="plugins\bin\x86\Debug\VVVV.Audio.dll">
-   <BOUNDS type="Node" left="2925" top="7920" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input 2" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Input 1" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Audio Out" visible="1">
-   </PIN>
-   </NODE>
    <NODE systemname="FileStream (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="FileStream (Audio)" componentmode="Hidden" id="75">
-   <BOUNDS type="Node" left="8055" top="4515" width="100" height="100">
+   <BOUNDS type="Node" left="4485" top="1275" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -399,7 +317,7 @@
    </PIN>
    <PIN pinname="Play" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="Volume" slicecount="1" values="0.38">
+   <PIN pinname="Volume" slicecount="1" values="0.35">
    </PIN>
    <PIN pinname="Duration" visible="1">
    </PIN>
@@ -412,26 +330,14 @@
    <PIN pinname="Loop End Time" slicecount="1" values="100">
    </PIN>
    </NODE>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="76" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="8835" top="5145" width="795" height="240">
-   </BOUNDS>
-   <BOUNDS type="Node" left="8835" top="5145" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="75" srcpinname="Position" dstnodeid="76" dstpinname="Y Input Value">
-   </LINK>
    <LINK srcnodeid="41" srcpinname="Audio Out" dstnodeid="40" dstpinname="Input 2">
    </LINK>
    <LINK srcnodeid="55" srcpinname="Output" dstnodeid="39" dstpinname="Pause">
    </LINK>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="79">
-   <BOUNDS type="Node" left="7020" top="9285" width="100" height="100">
+   <BOUNDS type="Node" left="4515" top="8880" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="7020" top="9285" width="375" height="1440">
+   <BOUNDS type="Box" left="4515" top="8880" width="375" height="1440">
    </BOUNDS>
    <PIN pinname="Show Value" slicecount="1" values="0">
    </PIN>
@@ -449,11 +355,11 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="80" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="9405" top="3585" width="2220" height="240">
+   <BOUNDS type="Box" left="6330" top="705" width="2220" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="9405" top="3585" width="0" height="0">
+   <BOUNDS type="Node" left="6330" top="705" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" values="|D:\Live\Sets\hannover Project\FM2.mp3|">
+   <PIN pinname="Input String" slicecount="1" values="|D:\Live\Sets\hannover Project\Frequenzrutsche.wav|">
    </PIN>
    <PIN pinname="Default" slicecount="1" values="||">
    </PIN>
@@ -467,17 +373,19 @@
    <LINK srcnodeid="80" srcpinname="Output String" dstnodeid="75" dstpinname="Filename">
    </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="81" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Box" left="10845" top="7530" width="1590" height="240">
+   <BOUNDS type="Box" left="8730" top="8790" width="1590" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="10845" top="7530" width="0" height="0">
+   <BOUNDS type="Node" left="8730" top="8790" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="1" values="|ASIO4ALL v2|">
    </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Driver">
+   </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="82" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="10830" top="8505" width="795" height="240">
+   <BOUNDS type="Box" left="8715" top="9915" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="10830" top="8505" width="0" height="0">
+   <BOUNDS type="Node" left="8715" top="9915" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -491,9 +399,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="83" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="12000" top="8520" width="795" height="240">
+   <BOUNDS type="Box" left="9885" top="9915" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="12000" top="8520" width="0" height="0">
+   <BOUNDS type="Node" left="9885" top="9915" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -506,90 +414,6 @@
    <PIN pinname="Y Input Value" slicecount="1" values="2">
    </PIN>
    </NODE>
-   <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="84">
-   <BOUNDS type="Node" left="8385" top="5325" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input 2" visible="1">
-   </PIN>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="75" srcpinname="Duration" dstnodeid="84" dstpinname="Input 2">
-   </LINK>
-   <LINK srcnodeid="75" srcpinname="Position" dstnodeid="84" dstpinname="Input">
-   </LINK>
-   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="85">
-   <BOUNDS type="Node" left="8385" top="5745" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="8385" top="5745" width="4620" height="285">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" visible="1" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Minimum" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Maximum" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Show Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Show Slider" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Slider Constraints" slicecount="1" values="scY">
-   </PIN>
-   <PIN pinname="X Input Value" visible="1" pintype="Input" slicecount="1" values="0">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="84" srcpinname="Output" dstnodeid="85" dstpinname="X Input Value">
-   </LINK>
-   <NODE systemname="Sine (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Sine (Audio Source)" componentmode="Hidden" id="87">
-   <BOUNDS type="Node" left="5040" top="7395" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Audio Out" visible="1">
-   </PIN>
-   <PIN pinname="Gain" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Frequency" slicecount="1" visible="1" values="859.97">
-   </PIN>
-   </NODE>
-   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="91">
-   <BOUNDS type="Node" left="4155" top="11040" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="4155" top="11040" width="9105" height="3945">
-   </BOUNDS>
-   <PIN pinname="Rows" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Y Input Value" visible="1" slicecount="256" values="-0.145348116755486,-0.106825724244118,0.10771668702364,0.198398679494858,0.0889449119567871,-0.0371272079646587,-0.0271278358995914,0.0840159729123116,0.0345096252858639,-0.0953202173113823,-0.105555862188339,-0.000500895548611879,0.188315361738205,0.238061383366585,0.160633265972137,0.0134628228843212,-0.122361540794373,-0.150591000914574,0.0853019654750824,0.196822747588158,0.117450267076492,0.0265098456293344,0.010360237210989,-0.0281991269439459,0.0509553775191307,0.0753074735403061,0.0268250480294228,0.056844275444746,0.162725865840912,0.196931451559067,0.0447333231568336,-0.0609020479023457,-0.123748399317265,-0.0595965459942818,0.0587135665118694,0.0670312345027924,-0.0511776469647884,-0.0957354307174683,-0.0514424741268158,0.141641184687614,0.197208806872368,0.0701843053102493,0.0577585510909557,0.0668952763080597,0.00329186976887286,0.0300401244312525,0.0262976568192244,-0.0137353967875242,-0.0329796597361565,-0.0502311363816261,-0.0846485197544098,0.0215054899454117,0.101079694926739,0.0250117555260658,-0.00520268408581614,-0.0117433341220021,0.0264497250318527,-0.00721845403313637,-0.0675571337342262,-0.0117262834683061,0.0472887493669987,0.0330828502774239,0.0734342932701111,0.0376694537699223,-0.09583380818367,-0.0961421132087708,0.0498149432241917,0.107056252658367,0.0192181970924139,0.0125037115067244,-0.022534878924489,-0.0454782322049141,-0.132381796836853,-0.085809513926506,0.0408710353076458,0.0882010236382484,0.136420294642448,0.171231761574745,-0.0451907776296139,-0.152652397751808,0.0255279932171106,0.131599321961403,0.103153474628925,-0.0298336055129766,-0.0968457460403442,-0.108731895685196,-0.0444458462297916,-0.0279389228671789,-0.150778129696846,-0.183037579059601,-0.130389854311943,-0.0329773873090744,-0.019981836900115,-0.0838789939880371,-0.140363320708275,-0.0996004492044449,0.0187044590711594,0.146104991436005,0.0967366546392441,-0.000247460324317217,-0.0540785118937492,-0.0621215887367725,-0.0424172021448612,0.0336986184120178,0.0687746480107307,-0.0267487112432718,-0.120968103408813,-0.185356810688972,-0.211635574698448,-0.186233729124069,-0.0443674363195896,-0.0399193838238716,-0.101731352508068,0.0630619674921036,0.150923624634743,-0.0421696826815605,-0.149132490158081,-0.0924577713012695,-0.115365654230118,-0.0135436039417982,0.139292702078819,0.136244744062424,0.0705993622541428,-0.0250176135450602,-0.080832727253437,-0.128713443875313,-0.153872609138489,0.00253172218799591,0.137079581618309,0.114539884030819,-0.0219407957047224,-0.097225658595562,-0.0742745101451874,0.0935453921556473,0.163520723581314,0.0728982836008072,-0.045136347413063,-0.0962698683142662,-0.0330918505787849,0.0262460950762033,0.0981270596385002,0.150688394904137,0.00918500404804945,-0.0855818837881088,-0.0442262403666973,-0.00983770471066236,-0.0110677648335695,0.0298585277050734,0.0895147025585175,0.0896148607134819,0.106051698327065,0.00946631468832493,-0.00107509642839432,0.0627257078886032,0.0231978986412287,-0.0934370905160904,-0.0585284419357777,0.0453177988529205,0.056352436542511,-0.0399269424378872,-0.0127667728811502,0.0718507021665573,0.0858053267002106,0.0730743333697319,0.0402533523738384,0.0495651550590992,0.128562524914742,0.126498833298683,-0.0533264391124249,-0.166924685239792,-0.0712892189621925,0.116578280925751,0.138705909252167,0.0779237672686577,0.00569965597242117,-0.0781117007136345,0.0402932986617088,0.243181020021439,0.180553734302521,0.0756443440914154,0.0542760267853737,0.148441433906555,0.112535141408443,0.0700251013040543,0.135025784373283,0.20234851539135,0.190941780805588,0.169286847114563,0.164103925228119,0.0428501144051552,-0.044859703630209,0.0251348335295916,0.0657702386379242,0.0944162607192993,0.15127994120121,0.158369317650795,0.0875866040587425,0.0445678681135178,-0.0273114275187254,-0.0124776987358928,0.140887767076492,0.237057894468307,0.0704095363616943,-0.0582036226987839,-0.0354664884507656,0.0183474458754063,0.0778468176722527,0.111353121697903,0.101078309118748,0.0183914545923471,-0.00387651100754738,0.0063093975186348,-0.00966109614819288,-0.0286984406411648,0.103030912578106,0.062911257147789,-0.0305839069187641,0.0138339707627892,0.0629004091024399,0.0779901891946793,0.148807123303413,0.141880616545677,0.144901618361473,0.179829493165016,0.240169927477837,0.213082075119019,0.211802572011948,0.208186954259872,0.100591816008091,-0.0423108488321304,-0.118978805840015,-0.148472771048546,-0.0604436956346035,0.083002120256424,0.249951750040054,0.159573614597321,-0.0545792281627655,-0.074325330555439,0.0208732075989246,0.0900444313883781,0.15369975566864,0.126829072833061,0.0534094870090485,0.0334882587194443,-0.011478753760457,-0.0225193463265896,0.0194790214300156,0.0725235715508461,0.158865317702293,0.0567486844956875,-0.116322904825211,-0.0921591967344284,0.0323947854340076,0.121267542243004,0.0439864248037338,0.0101892780512571,-0.0557054355740547,-0.0350311324000359,0.00578988948836923,0.0699560269713402,0.0656255483627319,0.106846690177917,0.15337847173214,0.0393490418791771,0.00911807455122471,0.107605591416359,0.0859667062759399,-0.0424172878265381,-0.0931667760014534,-0.0922142937779427,-0.0472876094281673,-0.0626554787158966,-0.0553622245788574,-0.129153817892075,-0.162379533052444,-0.105166003108025,-0.0921135172247887,-0.0962809473276138,0.00719826249405742,0.10565734654665,0.0391302481293678,-0.0666899383068085,-0.112650603055954,-0.13481143116951,-0.116116382181644,-0.0597738958895206,-0.00112001923844218,-0.0315069481730461,-0.0633784532546997,-0.109887443482876,-0.25633305311203,-0.277714818716049,-0.200215071439743,-0.0637697651982307,0.00468404404819012,0.0446127578616142,-0.022010151296854,-0.183681517839432,-0.209600985050201,-0.183442890644073,-0.164880126714706,-0.147196978330612,-0.0578328743577003,-0.00786653812974691,-0.0922486037015915,-0.270774841308594,-0.242689892649651,-0.0736867561936378,-0.0534614771604538,-0.162744984030724,-0.227875769138336,-0.219608128070831,-0.201398432254791,-0.23389995098114,-0.156372666358948,-0.096831351518631,-0.0666494816541672,-0.0952134728431702,-0.147648021578789,-0.146250367164612,-0.165310770273209,-0.199360564351082,-0.149078220129013,-0.121990650892258,-0.105472676455975,-0.143613576889038,-0.220303297042847,-0.270529925823212,-0.350967794656754,-0.368303060531616,-0.11863749474287,0.0861710011959076,-0.00630423426628113,-0.172294721007347,-0.277569115161896,-0.214340165257454,-0.174954921007156,-0.199262350797653,-0.109336674213409,-0.0300462301820517,-0.0142368813976645,-0.161228328943253,-0.255098015069962,-0.201985269784927,-0.126403316855431,-0.123587846755981,-0.122852616012096,-0.121184416115284,-0.146954745054245,-0.129881247878075,-0.186785653233528,-0.147687673568726,-0.0731410011649132,-0.0498697087168694,-0.108608387410641,-0.118962869048119,-0.0989679992198944,-0.104639954864979,-0.148500815033913,-0.127057373523712,-0.0415785983204842,-0.0158850308507681,-0.0469359941780567,-0.110258892178535,-0.178985059261322,-0.206248611211777,-0.0878725796937943,0.00736373802646995,-0.0693843513727188,-0.115864440798759,-0.130299165844917,-0.14538961648941,-0.120727121829987,-0.0383762940764427,-0.0298657044768333,0.00073542445898056,0.0401639603078365,0.0432993173599243,-0.0565036609768867,-0.136144906282425,-0.220550358295441,-0.251754015684128,-0.0695547536015511,0.11520928144455,0.0949076563119888,0.016521118581295,0.0136079620569944,0.105459570884705,0.0659116581082344,-0.0421269908547401,-0.0252865925431252,-0.0356072187423706,-0.0498426593840122,0.00804919842630625,0.105222374200821,0.122239157557487,0.128439784049988,0.0545856617391109,-0.0601543784141541,-0.00632886774837971,0.116435222327709,0.17847266793251,0.206370458006859,0.092950314283371,-0.031320184469223,-0.0300517454743385,0.0589485056698322,-0.00494257919490337,-0.0656856149435043,0.0264321845024824,0.177755951881409,0.157984748482704,-0.00667720660567284,-0.0398203730583191,0.103000342845917,0.112133733928204,0.0667917728424072,0.0100668091326952,0.0610141009092331,0.225578457117081,0.25432488322258,0.0891480669379234,-0.0435821190476418,0.000206570141017437,0.0821466445922852,0.154337599873543,0.129953220486641,0.0467363633215427,0.00845871679484844,-0.0472945868968964,-0.0606493465602398,0.00663839746266603,0.0723591521382332,0.0466297790408134,0.0593986511230469,0.0244615096598864,0.0106313321739435,0.0657943934202194,0.161870628595352,0.169852703809738,0.126842111349106,0.0777455344796181,0.124196290969849,0.147906899452209,0.136949241161346,0.169413417577744,0.188936769962311,0.162438988685608,0.171117871999741,0.217071548104286,0.196558833122253,0.160924419760704,0.066283755004406,0.054271649569273,0.181165888905525,0.220710784196854,0.169555068016052,0.121995463967323,0.0621805861592293,0.109432063996792,0.123081766068935,0.0928511321544647,0.0908019244670868,0.0560024194419384,0.00412056874483824,-0.0225394889712334,0.0336264669895172,0.113940447568893,0.209972262382507,0.240928918123245,0.124911397695541,0.0811676234006882,0.0877143442630768,0.133606016635895,0.1222984790802,0.0583407990634441,-0.0115609522908926,0.0305914040654898,0.157892659306526,0.129629403352737,-0.00711405044421554,-0.087247259914875,-0.0215279012918472,0.0552444607019424,0.0551792941987514,0.0691574960947037,0.0964390262961388,0.0919115617871284,0.0049227736890316,-0.042290210723877,0.0335776880383492,0.136492908000946,0.171374067664146,0.12938404083252,0.0801267698407173,0.0653892233967781,0.0077437236905098,0.0112043339759111,-0.00297985970973969,0.00929743424057961,0.0599749088287354,0.127409145236015,0.100924752652645,0.0429874509572983,0.066766545176506,0.113190829753876,0.0827613994479179,0.00779492687433958,-0.0301872491836548,0.0205022115260363,0.0631754174828529,-0.059064943343401">
-   </PIN>
-   <PIN pinname="Minimum" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Maximum" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Show Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Show Connections" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Show Slider" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Show Grid" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Columns" slicecount="1" values="200">
-   </PIN>
-   </NODE>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="92" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="7935" top="9300" width="795" height="240">
-   </BOUNDS>
-   <BOUNDS type="Node" left="7935" top="9300" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Value Type" slicecount="1" values="Integer">
-   </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="512">
-   </PIN>
-   </NODE>
    <NODE id="37" systemname="AudioEngine (Audio)" filename="..\Source\bin\AnyCPU\Debug\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden">
    <PIN pinname="Driver">
    </PIN>
@@ -599,7 +423,7 @@
    </PIN>
    <PIN pinname="Control Panel" slicecount="1" values="0">
    </PIN>
-   <BOUNDS type="Node" left="8505" top="8115" width="3555" height="270">
+   <BOUNDS type="Node" left="6390" top="9375" width="3555" height="270">
    </BOUNDS>
    </NODE>
    <LINK srcnodeid="6" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Play">
@@ -621,7 +445,7 @@
    </PIN>
    <PIN pinname="Level" visible="1">
    </PIN>
-   <BOUNDS type="Node" left="7005" top="8925" width="100" height="100">
+   <BOUNDS type="Node" left="4500" top="8520" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Smoothing" slicecount="1" values="0.5">
    </PIN>
@@ -633,79 +457,91 @@
    </PIN>
    <PIN pinname="Level" visible="1">
    </PIN>
-   <BOUNDS type="Node" left="810" top="9045" width="100" height="100">
+   <BOUNDS type="Node" left="1590" top="8325" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Smoothing" slicecount="1" values="0.7">
    </PIN>
    </NODE>
    <LINK srcnodeid="73" srcpinname="Level" dstnodeid="71" dstpinname="Y Input Value">
    </LINK>
-   <NODE systemname="Resample (Spreads)" nodename="Resample (Spreads)" componentmode="Hidden" id="93">
-   <BOUNDS type="Node" left="2745" top="9615" width="100" height="100">
+   <LINK srcnodeid="49" srcpinname="Audio Out" dstnodeid="40" dstpinname="Input 1">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="104" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="4470" top="270" width="480" height="480">
    </BOUNDS>
-   <PIN pinname="Input" visible="1" slicecount="512" values="0.0196148939430714,0.0245567187666893,0.0288658253848553,0.0323201417922974,0.0347705408930779,0.0360521152615547,0.036201398819685,0.0353081673383713,0.0332159325480461,0.030039619654417,0.0260737258940935,0.0213558115065098,0.01611771248281,0.0105276629328728,0.00463682971894741,-0.00130832497961819,-0.00714854523539543,-0.0128828501328826,-0.0184319410473108,-0.0236083511263132,-0.0282388888299465,-0.0321776792407036,-0.0352554656565189,-0.0373181514441967,-0.0381954722106457,-0.0377896390855312,-0.0360316969454288,-0.0329213030636311,-0.0285150408744812,-0.0229262970387936,-0.016474612057209,-0.00931017845869064,-0.00168032280635089,0.00615933584049344,0.0139712803065777,0.0214918106794357,0.0287525244057178,0.0355591624975204,0.0419101938605309,0.0477543473243713,0.053001593798399,0.0575643181800842,0.0614790618419647,0.0646098181605339,0.0668202191591263,0.0680377334356308,0.0682344287633896,0.0673515647649765,0.0654070675373077,0.0624065324664116,0.058374285697937,0.0534802861511707,0.0479657426476479,0.0420733392238617,0.0358064398169518,0.029275868088007,0.02284225076437,0.0165763534605503,0.0104022612795234,0.00450737681239843,-0.000937475357204676,-0.00594836054369807,-0.0103788562119007,-0.0139560345560312,-0.0166038945317268,-0.0183409787714481,-0.0189669150859118,-0.0183285847306252,-0.0165313165634871,-0.0135807394981384,-0.00960338115692139,-0.00482791569083929,0.000573319906834513,0.00641531590372324,0.012391216121614,0.0183804668486118,0.0242833252996206,0.0297942701727152,0.0348000749945641,0.0394228547811508,0.0435282327234745,0.0469325520098209,0.0495623424649239,0.051270704716444,0.0521121434867382,0.052073422819376,0.0508125014603138,0.0482343323528767,0.0444616414606571,0.0395562946796417,0.033725943416357,0.0270121172070503,0.0196376107633114,0.0121498377993703,0.00455980934202671,-0.00288229249417782,-0.0097323814406991,-0.0159174241125584,-0.0213002376258373,-0.0256992056965828,-0.0292397923767567,-0.0318787507712841,-0.0335082709789276,-0.0342851020395756,-0.0341841951012611,-0.0332205295562744,-0.0315021649003029,-0.0289535503834486,-0.0255709961056709,-0.021500363945961,-0.0168464984744787,-0.0116892019286752,-0.00612604711204767,-0.00030428939498961,0.0054997862316668,0.0110690398141742,0.0163325555622578,0.0212167352437973,0.0255975592881441,0.0294207148253918,0.0325655862689018,0.0350131653249264,0.0367977023124695,0.0378110259771347,0.0380357056856155,0.03730408847332,0.0354287177324295,0.0324351191520691,0.0283763781189919,0.0230924934148788,0.0165985338389874,0.00907303020358086,0.000749737489968538,-0.00813176669180393,-0.0173235554248095,-0.0264935381710529,-0.0352087616920471,-0.0433201976120472,-0.0505120232701302,-0.0564568229019642,-0.0610958188772202,-0.0642506331205368,-0.0658288821578026,-0.0659187361598015,-0.0644675865769386,-0.0615345425903797,-0.0572722554206848,-0.0516311936080456,-0.0448516793549061,-0.0372086018323898,-0.0287296269088984,-0.0196152348071337,-0.0103828608989716,-0.00118693872354925,0.00772432424128056,0.0159922670572996,0.0234383624047041,0.0299514587968588,0.0353249125182629,0.0394789688289165,0.0424783676862717,0.0442824326455593,0.0449715591967106,0.0447477735579014,0.0435946024954319,0.041383221745491,0.0382834225893021,0.0342856273055077,0.0292643923312426,0.0232321973890066,0.01623909547925,0.00830001663416624,-0.000324259046465158,-0.00943169556558132,-0.0189784001559019,-0.0285322144627571,-0.0375275425612926,-0.0458190925419331,-0.0530421882867813,-0.0588261149823666,-0.0630349889397621,-0.0654720216989517,-0.0660532936453819,-0.064955823123455,-0.0622432939708233,-0.0579960905015469,-0.0524098388850689,-0.045668937265873,-0.038119338452816,-0.0300102978944778,-0.0214360579848289,-0.0126827899366617,-0.00405277870595455,0.00421164464205503,0.0119699453935027,0.0190910212695599,0.0252202190458775,0.0303415358066559,0.0344595797359943,0.0373356305062771,0.0390924401581287,0.039763618260622,0.0392307266592979,0.0378535836935043,0.0357951484620571,0.0328183956444263,0.0292235910892487,0.0251360107213259,0.0204835906624794,0.0154751837253571,0.0101264957338572,0.0045021278783679,-0.00109838601201773,-0.00668427674099803,-0.0121363941580057,-0.0171064138412476,-0.0214495323598385,-0.0249061044305563,-0.0272738225758076,-0.0284305084496737,-0.0282643157988787,-0.0268577188253403,-0.0242526903748512,-0.0205191969871521,-0.0158903114497662,-0.0105777345597744,-0.00477972207590938,0.00114034372381866,0.00712628336623311,0.0130236148834229,0.0185314081609249,0.0235572643578053,0.0281269568949938,0.0318734459578991,0.0348615907132626,0.0370347127318382,0.0381711386144161,0.0383011028170586,0.0373716130852699,0.0352739691734314,0.0321350805461407,0.0279998145997524,0.0230973809957504,0.017651941627264,0.0116798337548971,0.00567560736089945,5.50537370145321E-005,-0.00533176772296429,-0.0101573504507542,-0.0140457190573215,-0.0172101352363825,-0.0195399858057499,-0.0208477545529604,-0.0214200485497713,-0.0213560983538628,-0.0205367915332317,-0.0191780123859644,-0.017201129347086,-0.0146862044930458,-0.011799237690866,-0.00849975273013115,-0.00485191075131297,-0.00097885518334806,0.00296963891014457,0.0067504970356822,0.0102376798167825,0.0133770164102316,0.0158797837793827,0.0176249966025352,0.0185448843985796,0.0184976551681757,0.017518101260066,0.0155955823138356,0.0127651607617736,0.00916503835469484,0.00486473925411701,-3.87051841244102E-005,-0.00531459599733353,-0.0108482986688614,-0.0165259893983603,-0.0221797153353691,-0.0275260340422392,-0.0324495583772659,-0.0367349945008755,-0.0401096530258656,-0.0425807237625122,-0.0439613200724125,-0.0440553948283195,-0.043033417314291,-0.0408606454730034,-0.0375295951962471,-0.0333209782838821,-0.0285184048116207,-0.0232444945722818,-0.017736429348588,-0.0122746843844652,-0.00701987417414784,-0.00212693493813276,0.00223456649109721,0.00599328661337495,0.0091493483632803,0.011596729978919,0.0132500920444727,0.014193314127624,0.0142894731834531,0.0134804043918848,0.0118353702127934,0.00930555071681738,0.00589197454974055,0.00175007758662105,-0.00305566564202309,-0.00833530258387327,-0.0138488672673702,-0.0194573234766722,-0.0248886458575726,-0.0298393070697784,-0.034086100757122,-0.0375761575996876,-0.0401355624198914,-0.0417029187083244,-0.0422698259353638,-0.0419379249215126,-0.0408552512526512,-0.0390793196856976,-0.0365975834429264,-0.0336981788277626,-0.0306083150207996,-0.0272134691476822,-0.0234645791351795,-0.019515585154295,-0.0155334230512381,-0.0114507246762514,-0.00733886240050197,-0.00333722773939371,0.000494732987135649,0.00408743973821402,0.00711599085479975,0.00953855365514755,0.0113957151770592,0.0124925039708614,0.012806074693799,0.0122459875419736,0.010734349489212,0.00849772430956364,0.00558091653510928,0.00190510565880686,-0.00233234115876257,-0.00685435067862272,-0.0116598177701235,-0.0165380425751209,-0.0211770590394735,-0.0253670196980238,-0.0289366245269775,-0.0315939858555794,-0.0331633202731609,-0.0334872230887413,-0.0324853882193565,-0.0301353614777327,-0.0264956336468458,-0.0217035431414843,-0.0159918628633022,-0.009604980237782,-0.00280723767355084,0.0040872092358768,0.0108469882979989,0.0171305742114782,0.0226383972913027,0.0273403599858284,0.0311710499227047,0.0339825749397278,0.0358132980763912,0.0366462059319019,0.0365168377757072,0.0355139262974262,0.033681184053421,0.030990295112133,0.0275738183408976,0.0235047824680805,0.0187734216451645,0.0135222747921944,0.00801117531955242,0.00234219525009394,-0.00331217609345913,-0.00862978026270866,-0.0134747782722116,-0.0177732370793819,-0.0212373491376638,-0.0238035954535007,-0.0255942773073912,-0.0264306198805571,-0.0263021849095821,-0.0253738574683666,-0.0237279664725065,-0.0213636439293623,-0.0182894710451365,-0.0145508600398898,-0.0104074338451028,-0.00573778059333563,-0.000539592001587152,0.00495868548750877,0.01067472435534,0.0165685657411814,0.0224251374602318,0.0280275326222181,0.0332618430256844,0.0379810892045498,0.0420178100466728,0.045193038880825,0.0474495142698288,0.0487726368010044,0.0491399690508842,0.048544280230999,0.047122698277235,0.0450318865478039,0.0422307699918747,0.0388293899595737,0.035001240670681,0.0308314431458712,0.0264230221509933,0.021945359185338,0.0174731258302927,0.0131558310240507,0.00917000416666269,0.00550190452486277,0.00231757666915655,-0.000169222708791494,-0.00210045045241714,-0.00342095457017422,-0.00405763927847147,-0.00417701620608568,-0.00390841206535697,-0.00313940364867449,-0.00209368672221899,-0.000869668554514647,0.000593435019254684,0.00218802876770496,0.00386740011163056,0.00568181974813342,0.00757749052718282,0.00962785072624683,0.0116698099300265,0.0136035121977329,0.0154130570590496,0.0169505402445793,0.0181248132139444,0.0189484227448702,0.0191208347678185,0.0184784680604935,0.0172436870634556,0.0153114628046751,0.012714060023427,0.00974163599312305,0.0064803920686245,0.00309498142451048,-0.000130809610709548,-0.00308159319683909,-0.00562508963048458,-0.00759416585788131,-0.00896760076284409,-0.00969046074897051,-0.00979614164680243,-0.00933699496090412,-0.00847906805574894,-0.00726385600864887,-0.005683075170964,-0.00394119182601571,-0.00219721044413745,-0.00037766934838146,0.00132172298617661,0.00268921256065369,0.00387115147896111,0.00464387889951468,0.00496018072590232,0.00491830240935087,0.00446560513228178,0.00362230488099158,0.00247492827475071,0.00106271891854703,-0.000382523372536525,-0.00189370685257018,-0.00335212121717632,-0.00454917550086975,-0.00547469407320023,-0.00612165965139866,-0.00653581274673343,-0.0068152891471982,-0.0068905483931303,-0.00690325163304806,-0.00688520027324557,-0.0067918305285275,-0.00679705990478396,-0.00691581051796675,-0.00707485899329185,-0.00730451382696629,-0.00746341841295362,-0.0074488609097898,-0.007319918833673,-0.00703071849420667,-0.00650001363828778,-0.0057624876499176,-0.00473276618868113,-0.00348760699853301,-0.00208252901211381,-0.000478762201964855,0.00133875315077603,0.00342764449305832,0.00565209146589041,0.00791877135634422,0.0103799030184746,0.0129198124632239,0.0153157440945506,0.0175109971314669">
+   <BOUNDS type="Node" left="4470" top="270" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="Output" visible="1">
+   <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="Spread Count" slicecount="1" values="200">
+   <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Mode" slicecount="1" values="Linear">
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Play">
    </PIN>
    </NODE>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="94" systemname="IOBox (String)">
-   <BOUNDS type="Node" left="10845" top="4425" width="360" height="270">
-   </BOUNDS>
-   <BOUNDS type="Box" left="10845" top="4425" width="360" height="270">
-   </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" values="file">
-   </PIN>
-   <PIN pinname="Output String" visible="0">
-   </PIN>
-   <PIN pinname="Show Grid" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="String Type" slicecount="1" values="MultiLine">
-   </PIN>
-   </NODE>
-   <NODE systemname="FFT (Audio Sink)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="FFT (Audio Sink)" componentmode="Hidden" id="90">
-   <BOUNDS type="Node" left="4170" top="8865" width="100" height="100">
+   <LINK srcnodeid="104" srcpinname="Y Output Value" dstnodeid="75" dstpinname="Play">
+   </LINK>
+   <LINK srcnodeid="40" srcpinname="Audio Out" dstnodeid="73" dstpinname="Input">
+   </LINK>
+   <NODE systemname="VSTHost (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="VSTHost (Audio Source)" componentmode="InABox" id="106">
+   <BOUNDS type="Node" left="10815" top="7575" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
-   <PIN pinname="Buffer" visible="1">
-   </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
-   </NODE>
-   <LINK srcnodeid="90" srcpinname="Output" dstnodeid="93" dstpinname="Input">
-   </LINK>
-   <NODE systemname="Vector (2d Split)" nodename="Vector (2d Split)" componentmode="Hidden" id="95">
-   <BOUNDS type="Node" left="5610" top="9465" width="100" height="100">
+   <BOUNDS type="Window" left="14145" top="3480" width="7245" height="5370">
    </BOUNDS>
-   <PIN pinname="XY" visible="1">
-   </PIN>
-   <PIN pinname="X" visible="1">
-   </PIN>
-   <PIN pinname="Y" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="90" srcpinname="Output" dstnodeid="95" dstpinname="XY">
-   </LINK>
-   <NODE systemname="Length (2d)" filename="%VVVV%\lib\nodes\modules\2D\Length (2d).v4p" nodename="Length (2d)" componentmode="Hidden" id="96">
-   <BOUNDS type="Node" left="4155" top="9585" width="100" height="100">
+   <BOUNDS type="Box" width="6795" height="4995" left="4485" top="1965">
    </BOUNDS>
-   <PIN pinname="XY" visible="1">
-   </PIN>
-   <PIN pinname="Length" visible="1">
+   </NODE>
+   <LINK srcnodeid="75" srcpinname="Output" dstnodeid="106" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="106" srcpinname="Output" dstnodeid="78" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="40" srcpinname="Audio Out" dstnodeid="61" dstpinname="Input">
+   </LINK>
+   <NODE systemname="AudioOut (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden" id="108">
+   <BOUNDS type="Node" left="5220" top="8520" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
-   <LINK srcnodeid="90" srcpinname="Output" dstnodeid="96" dstpinname="XY">
+   <LINK srcnodeid="106" srcpinname="Output" dstnodeid="108" dstpinname="Input">
    </LINK>
-   <LINK srcnodeid="96" srcpinname="Length" dstnodeid="91" dstpinname="Y Input Value">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="97" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="8385" top="3495" width="480" height="480">
+   <NODE id="97" nodename="IOBox (Value Advanced)" componentmode="InABox" systemname="IOBox (Value Advanced)">
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   <BOUNDS type="Box" left="5145" top="270" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="8385" top="3495" width="0" height="0">
+   <BOUNDS type="Node" left="5145" top="270" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Bang">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Do Seek|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="97" srcpinname="Y Output Value" dstnodeid="75" dstpinname="Do Seek">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="110" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="10695" top="8955" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="10695" top="8955" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
@@ -717,101 +553,9 @@
    </PIN>
    <PIN pinname="Behavior" slicecount="1" values="Bang">
    </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Control Panel|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="97" srcpinname="Y Output Value" dstnodeid="75" dstpinname="Do Seek">
-   </LINK>
-   <NODE systemname="Power (Value)" nodename="Power (Value)" componentmode="Hidden" id="98">
-   <BOUNDS type="Node" left="5040" top="6960" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input 1" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Input 2" slicecount="1" values="10.32" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="98" srcpinname="Output" dstnodeid="87" dstpinname="Frequency">
-   </LINK>
-   <LINK srcnodeid="40" srcpinname="Audio Out" dstnodeid="74" dstpinname="Input 1">
-   </LINK>
-   <LINK srcnodeid="74" srcpinname="Audio Out" dstnodeid="73" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="74" srcpinname="Audio Out" dstnodeid="61" dstpinname="Input">
-   </LINK>
-   <NODE systemname="AudioOut (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden" id="99">
-   <BOUNDS type="Node" left="5595" top="8040" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="87" srcpinname="Audio Out" dstnodeid="99" dstpinname="Input">
-   </LINK>
-   <NODE systemname="LFO (Animation)" nodename="LFO (Animation)" componentmode="Hidden" id="100">
-   <BOUNDS type="Node" left="5580" top="4680" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Period" slicecount="1" values="0.1291625">
-   </PIN>
-   <PIN pinname="Reset" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Cycles" visible="1">
-   </PIN>
-   <PIN pinname="Change" visible="1">
-   </PIN>
-   </NODE>
-   <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="101">
-   <BOUNDS type="Node" left="5535" top="5655" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input 1" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Input 2" slicecount="1" values="15">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="101" srcpinname="Output" dstnodeid="98" dstpinname="Input 2">
-   </LINK>
-   <LINK srcnodeid="49" srcpinname="Audio Out" dstnodeid="40" dstpinname="Input 1">
-   </LINK>
-   <LINK srcnodeid="75" srcpinname="Output" dstnodeid="74" dstpinname="Input 2">
-   </LINK>
-   <LINK srcnodeid="87" srcpinname="Audio Out" dstnodeid="90" dstpinname="Input">
-   </LINK>
-   <NODE systemname="Random (Value)" nodename="Random (Value)" componentmode="Hidden" id="103">
-   <BOUNDS type="Node" left="5505" top="5190" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Enabled" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="103" srcpinname="Output" dstnodeid="101" dstpinname="Input 1">
-   </LINK>
-   <LINK srcnodeid="100" srcpinname="Change" dstnodeid="103" dstpinname="Enabled">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="104" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="7605" top="3600" width="480" height="480">
-   </BOUNDS>
-   <BOUNDS type="Node" left="7605" top="3600" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Value Type" slicecount="1" values="Boolean">
-   </PIN>
-   <PIN pinname="Behavior" slicecount="1" values="Toggle">
-   </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="104" srcpinname="Y Output Value" dstnodeid="75" dstpinname="Play">
-   </LINK>
-   <LINK srcnodeid="75" srcpinname="Output" dstnodeid="78" dstpinname="Input">
+   <LINK srcnodeid="110" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Control Panel">
    </LINK>
    </PATCH>
