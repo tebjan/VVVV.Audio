@@ -1,4 +1,4 @@
 VVVV.Audio
 ==========
 
-Implementaiton of an audio engine for vvvv
+Implementation of an audio engine for vvvv
