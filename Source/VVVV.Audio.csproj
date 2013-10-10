@@ -96,13 +96,14 @@
     <Compile Include="Core\MasterWaveProvider.cs" />
     <Compile Include="Core\MultiChannelSignal.cs" />
     <Compile Include="Nodes\AudioEngineNode.cs" />
-    <Compile Include="Nodes\AudioOutNode.cs" />
-    <Compile Include="Nodes\BufferOutNode.cs" />
-    <Compile Include="Nodes\FFTOutNode.cs" />
-    <Compile Include="Nodes\FileStreamNode.cs" />
-    <Compile Include="Nodes\LevelMeterSignalNode.cs" />
-    <Compile Include="Nodes\SignalOperationNodes.cs" />
-    <Compile Include="Nodes\SineSignalNode.cs" />
+    <Compile Include="Nodes\Filters\MatrixMixerNode.cs" />
+    <Compile Include="Nodes\Filters\SignalOperationNodes.cs" />
+    <Compile Include="Nodes\Sinks\AudioOutNode.cs" />
+    <Compile Include="Nodes\Sinks\BufferOutNode.cs" />
+    <Compile Include="Nodes\Sinks\FFTOutNode.cs" />
+    <Compile Include="Nodes\Sinks\LevelMeterSignalNode.cs" />
+    <Compile Include="Nodes\Sources\FileStreamNode.cs" />
+    <Compile Include="Nodes\Sources\SineSignalNode.cs" />
     <Compile Include="Nodes\VST\EditorFrame.cs" />
     <Compile Include="Nodes\VST\EditorFrame.Designer.cs">
       <DependentUpon>EditorFrame.cs</DependentUpon>
@@ -123,6 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core" />
+    <Folder Include="Nodes\Filters" />
+    <Folder Include="Nodes\Sources" />
+    <Folder Include="Nodes\Sinks" />
     <Folder Include="Nodes\VST" />
     <Folder Include="Utils" />
     <Folder Include="Nodes" />

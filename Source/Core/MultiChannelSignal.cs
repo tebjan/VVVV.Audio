@@ -91,6 +91,7 @@ namespace VVVV.Audio
 			if(FNeedsRead)
 			{
 				FillBuffer(FReadBuffers, offset, count);
+				FNeedsRead = false;
 			}
 			
 			//since the buffers are already assigned to the SingleSignals nothing more to do

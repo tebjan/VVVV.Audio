@@ -86,15 +86,19 @@ namespace VVVV.Nodes
 				inputMgr.ClearAllBuffers();
 				for (int b = 0; b < FInput.SliceCount; b++)
 				{
-					var vstBuffer = inputBuffers[b%inputCount];
-					
-					//read input, use buffer[0] as temp buffer
-					FInput[b].Read(buffer[0], offset, count);
-					
-					//copy to vst buffer
-					for (int i = 0; i < count; i++)
+					var inSig = FInput[b];
+					if(inSig != null)
 					{
-						vstBuffer[i] += buffer[0][i];
+						var vstBuffer = inputBuffers[b%inputCount];
+						
+						//read input, use buffer[0] as temp buffer
+						inSig.Read(buffer[0], offset, count);
+						
+						//copy to vst buffer
+						for (int i = 0; i < count; i++)
+						{
+							vstBuffer[i] += buffer[0][i];
+						}
 					}
 				}
 			}

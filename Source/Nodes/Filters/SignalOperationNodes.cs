@@ -21,6 +21,8 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
+	
+	
 	public abstract class AudioSignalOperator : AudioSignal
 	{
 		public AudioSignalOperator()
