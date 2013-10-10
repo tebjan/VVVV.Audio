@@ -20,15 +20,15 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Audio
 {
-	public class AudioSignal : ISampleProvider, IDisposable
+	public class AudioSignalBase : IDisposable
 	{
 		
-		public AudioSignal(int sampleRate)
-	    {
-	        this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 1);
-	    	AudioService.Engine.FinishedReading += EngineFinishedReading;
-	    }
+		public AudioSignalBase()
+		{
+			AudioService.Engine.FinishedReading += EngineFinishedReading;
+		}
 		
+		protected bool FNeedsRead = true;
 		protected void EngineFinishedReading(object sender, EventArgs e)
 		{
 			FNeedsRead = true;
@@ -38,27 +38,21 @@ namespace VVVV.Audio
 		{
 			AudioService.Engine.FinishedReading -= EngineFinishedReading;
 		}
+	}
+	
+	public class AudioSignal : AudioSignalBase, ISampleProvider, IDisposable
+	{
 		
-		
-		public AudioSignal Source
-		{
-			set
-			{
-				lock(FUpstreamLock)
-				{
-					FSource = value;
-				}
-			}
-		}
-		
-		
+		public AudioSignal(int sampleRate)
+			: base()
+	    {
+	        this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 1);
+	    }
+
 		protected AudioSignal FSource;
 		protected object FUpstreamLock = new object();
 		protected float[] FReadBuffer = new float[1];
-		
-		private bool FNeedsRead = true;
-		
-		
+
 	    public int Read(float[] buffer, int offset, int count)
 	    {
 	    	//ensure buffer size

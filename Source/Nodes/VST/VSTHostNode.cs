@@ -18,6 +18,7 @@ using VVVV.Audio.VST;
 using VVVV.Core.Logging;
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
+using VVVV.PluginInterfaces.V2.Graph;
 using VVVV.Utils.VColor;
 using VVVV.Utils.VMath;
 
@@ -25,18 +26,16 @@ using VVVV.Utils.VMath;
 
 namespace VVVV.Nodes
 {
-	public class VSTSignal : AudioSignal
+	public class VSTSignal : MultiChannelInputSignal
 	{
 		protected VstPluginContext PluginContext;
-		protected ISpread<AudioSignal> Input;
 		protected int inputCount, outputCount;
 		
 		public VSTSignal(VstPluginContext ctx, ISpread<AudioSignal> input)
-			: base(44100)
+			: base(input, ctx.PluginInfo.AudioOutputCount)
 		{
 			
 			PluginContext = ctx;
-			Input = input;
 			
 			PluginContext.PluginCommandStub.SetSampleRate(44100f);
 			PluginContext.PluginCommandStub.MainsChanged(true);
@@ -78,20 +77,25 @@ namespace VVVV.Nodes
 			}
 		}
 		
-		protected override void FillBuffer(float[] buffer, int offset, int count)
+		protected override void FillBuffer(float[][] buffer, int offset, int count)
 		{
 			ManageBuffers(count);
-			for (int b = 0; b < inputBuffers.Length; b++)
+			
+			if(FInput != null)
 			{
-				var vstBuffer = inputBuffers[b];
-				
-				//read input
-				Input[b].Read(buffer, offset, count);
-				
-				//copy to vst buffer
-				for (int i = 0; i < count; i++)
+				inputMgr.ClearAllBuffers();
+				for (int b = 0; b < FInput.SliceCount; b++)
 				{
-					vstBuffer[i] = buffer[i];
+					var vstBuffer = inputBuffers[b%inputCount];
+					
+					//read input, use buffer[0] as temp buffer
+					FInput[b].Read(buffer[0], offset, count);
+					
+					//copy to vst buffer
+					for (int i = 0; i < count; i++)
+					{
+						vstBuffer[i] += buffer[0][i];
+					}
 				}
 			}
 
@@ -105,7 +109,7 @@ namespace VVVV.Nodes
 			{
 				for (int j = 0; j < count; j++)
 				{
-					buffer[j] = outputBuffers[i][j];
+					buffer[i][j] = outputBuffers[i][j];
 				}
 			}
 
@@ -136,6 +140,9 @@ namespace VVVV.Nodes
 		
 		IHDEHost FHost;
 		
+		[Import]
+		IPluginHost FPlugHost;
+		
 		[ImportingConstructor]
 		public VSTHostNode([Import] IHDEHost host)
 		{
@@ -158,21 +165,40 @@ namespace VVVV.Nodes
 				PluginCommandStub.EditorOpen(this.Handle);
 			}
 			
-			FHost.BeforeComponentModeChange += delegate { PluginCommandStub.EditorClose(); };
-			FHost.AfterComponentModeChange += delegate { PluginCommandStub.EditorOpen(this.Handle); };
+			//when window mode changes
+			FHost.BeforeComponentModeChange += delegate(object sender, ComponentModeEventArgs args) 
+			{
+				var me = (FPlugHost as INode);
+				if(me == args.Window.Node.InternalCOMInterf)
+					PluginCommandStub.EditorClose();
+			};
+			
+			FHost.AfterComponentModeChange += delegate(object sender, ComponentModeEventArgs args)
+			{ 
+				var me = (FPlugHost as INode);
+				if(me == args.Window.Node.InternalCOMInterf)
+					PluginCommandStub.EditorOpen(this.Handle);
+			};
+			
 		}
 		
+		int FFrameDivider = 0;
 		public void Evaluate(int SpreadMax)
 		{
 			if(Input.IsChanged)
 			{
 				VstSignal = new VSTSignal(PluginContext, Input);
-				OutBuffer[0] = VstSignal;
+				OutBuffer.SliceCount = PluginContext.PluginInfo.AudioOutputCount;
+				OutBuffer.AssignFrom(VstSignal.Outputs);
 			}
 			
-			PluginContext.PluginCommandStub.EditorIdle();
+			//let plugin editor draw itself
+			if(FFrameDivider == 0)
+				PluginContext.PluginCommandStub.EditorIdle();
+			
+			FFrameDivider++;
+			FFrameDivider %= 4;
 		}
-		
 	}
 }
 

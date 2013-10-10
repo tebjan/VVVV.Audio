@@ -73,15 +73,16 @@ namespace VVVV.Audio.VST
 
         public VstPluginContext SelectedPluginContext
         {
-            get
-            {
-                if (PluginListVw.SelectedItems.Count > 0)
-                {
-                    return (VstPluginContext)PluginListVw.SelectedItems[0].Tag;
-                }
-
-                return null;
-            }
+            get;
+//            {
+//                if (PluginListVw.SelectedItems.Count > 0)
+//                {
+//                    return (VstPluginContext)PluginListVw.SelectedItems[0].Tag;
+//                }
+//
+//                return null;
+//            }
+			protected set;
         }
 
         private void HostCmdStub_PluginCalled(object sender, PluginCalledEventArgs e)
@@ -119,6 +120,9 @@ namespace VVVV.Audio.VST
 
                 FillPluginList();
             }
+            
+            this.SelectedPluginContext = ctx;
+            this.Close();
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)

@@ -28,9 +28,10 @@ namespace VVVV.Nodes
 		{
 			if (input == null)
 				throw new ArgumentNullException("Input of LevelMeterSignal construcor is null");
-			Source = input;
+			FSource = input;
 		}
 		
+		protected AudioSignal FSource;
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			FSource.Read(buffer, offset, count);
