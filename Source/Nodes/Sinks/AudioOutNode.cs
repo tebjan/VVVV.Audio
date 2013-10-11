@@ -22,7 +22,7 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	[PluginInfo(Name = "AudioOut", Category = "Audio", Help = "Audio Out", AutoEvaluate = true, Tags = "Asio, Wasapi, DirectSound, Wave")]
+	[PluginInfo(Name = "AudioOut", Category = "Audio", Help = "Audio Out", AutoEvaluate = true, Tags = "Asio")]
 	public class AudioOutNode : IPluginEvaluate, IDisposable
 	{
 		#region fields & pins

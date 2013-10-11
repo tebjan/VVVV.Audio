@@ -97,6 +97,17 @@ namespace VVVV.Audio
 			private set;
 		}
 		
+		/// <summary>
+		/// the buffers from the audio input
+		/// </summary>
+		public float[][] InputBuffers
+		{
+			get
+			{
+				return FRecordBuffers;
+			}
+		}
+		
 		private bool FPlay;
 		public bool Play
 		{
@@ -194,7 +205,30 @@ namespace VVVV.Audio
 			
 			this.AsioOut = new AsioOut(driverName);
 			MasterWaveProvider.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, AsioOut.DriverOutputChannelCount);
-			this.AsioOut.Init(MasterWaveProvider);
+			this.AsioOut.InitRecordAndPlayback(MasterWaveProvider, AsioOut.DriverInputChannelCount, 44100);
+			//register for recording
+			FRecordBuffers = new float[AsioOut.DriverInputChannelCount][];
+			for (int i = 0; i < FRecordBuffers.Length; i++)
+			{
+				FRecordBuffers[i] = new float[512];
+			}
+			this.AsioOut.AudioAvailable += AudioEngine_AudioAvailable;
+		}
+
+		protected float[][] FRecordBuffers;
+		protected void AudioEngine_AudioAvailable(object sender, AsioAudioAvailableEventArgs e)
+		{
+			//create buffers if neccessary
+			if(FRecordBuffers[0].Length != e.SamplesPerBuffer)
+			{
+				for (int i = 0; i < FRecordBuffers.Length; i++)
+				{
+					FRecordBuffers[i] = new float[e.SamplesPerBuffer];
+				}
+			}
+			
+			//fill and convert buffers
+			GetInputBuffers(FRecordBuffers, e);
 		}
 		
 		//close
@@ -208,6 +242,7 @@ namespace VVVV.Audio
 		{
 			if (this.AsioOut != null)
 			{
+				this.AsioOut.AudioAvailable -= AudioEngine_AudioAvailable;
 				this.AsioOut.Dispose();
 				this.AsioOut = null;
 			}
@@ -220,6 +255,68 @@ namespace VVVV.Audio
 				return AsioOut.GetDriverNames();
 			}
 		}
+
+
+        /// <summary>
+        /// Converts all the recorded audio into a buffer of 32 bit floating point samples
+        /// </summary>
+        /// <samples>The samples as 32 bit floating point, interleaved</samples>
+        public int GetInputBuffers(float[][] samples, AsioAudioAvailableEventArgs e)
+        {
+            int channels = e.InputBuffers.Length;
+            unsafe
+            {
+            	if (e.AsioSampleType == AsioSampleType.Int32LSB)
+            	{
+            		for (int ch = 0; ch < channels; ch++)
+            		{
+            			for (int n = 0; n < e.SamplesPerBuffer; n++)
+            			{
+            				samples[ch][n] = *((int*)e.InputBuffers[ch] + n) / (float)Int32.MaxValue;
+            			}
+            		}
+            	}
+            	else if (e.AsioSampleType == AsioSampleType.Int16LSB)
+            	{
+            		for (int ch = 0; ch < channels; ch++)
+            		{
+            			for (int n = 0; n < e.SamplesPerBuffer; n++)
+            			{
+            				samples[ch][n] = *((short*)e.InputBuffers[ch] + n) / (float)Int16.MaxValue;
+            			}
+            		}
+            	}
+            	else if (e.AsioSampleType == AsioSampleType.Int24LSB)
+            	{
+            		for (int ch = 0; ch < channels; ch++)
+            		{
+            			for (int n = 0; n < e.SamplesPerBuffer; n++)
+            			{
+            				byte *pSample = ((byte*)e.InputBuffers[ch] + n * 3);
+
+            				//int sample = *pSample + *(pSample+1) << 8 + (sbyte)*(pSample+2) << 16;
+            				int sample = pSample[0] | (pSample[1] << 8) | ((sbyte)pSample[2] << 16);
+            				samples[ch][n] = sample / 8388608.0f;
+            			}
+            		}
+            	}
+            	else if (e.AsioSampleType == AsioSampleType.Float32LSB)
+            	{
+            		for (int ch = 0; ch < channels; ch++)
+            		{
+            			for (int n = 0; n < e.SamplesPerBuffer; n++)
+            			{
+            				samples[ch][n] = *((float*)e.InputBuffers[ch] + n);
+            			}
+            		}
+            	}
+                else
+                {
+                    throw new NotImplementedException(String.Format("ASIO Sample Type {0} not supported", e.AsioSampleType));
+                }
+            }
+            return e.SamplesPerBuffer*channels;
+        }
 		
 		#endregion asio
 		

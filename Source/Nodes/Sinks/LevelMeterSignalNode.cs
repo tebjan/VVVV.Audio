@@ -65,9 +65,6 @@ namespace VVVV.Nodes
 		{
 			if(FInput.IsChanged)
 			{
-				//delete and dispose all inputs
-				FBufferReaders.ResizeAndDispose(0, () => new LevelMeterSignal(FInput[0]));
-				
 				FBufferReaders.SliceCount = SpreadMax;
 				for (int i = 0; i < SpreadMax; i++)
 				{
