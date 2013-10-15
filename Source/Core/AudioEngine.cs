@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 using NAudio.CoreAudioApi;
 using NAudio.Utils;
@@ -414,5 +415,7 @@ namespace VVVV.Audio
 		{
 			FAudioEngine.RemoveSink(sink);
 		}
+		
+		public static Dictionary<string, float[]> BufferStorage = new Dictionary<string, float[]>();
 	}
 }
