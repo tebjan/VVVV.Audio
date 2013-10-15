@@ -22,7 +22,6 @@ namespace VVVV.Audio
 {
 	public class AudioSignalBase : IDisposable
 	{
-		
 		public AudioSignalBase()
 		{
 			AudioService.Engine.FinishedReading += EngineFinishedReading;
@@ -52,24 +51,36 @@ namespace VVVV.Audio
 		protected AudioSignal FSource;
 		protected object FUpstreamLock = new object();
 		protected float[] FReadBuffer = new float[1];
+		
+		public bool NeedsBufferCopy
+		{
+			get;
+			set;
+		}
 
 	    public int Read(float[] buffer, int offset, int count)
 	    {
-	    	//ensure buffer size
-	    	FReadBuffer = BufferHelpers.Ensure(FReadBuffer, count);
-	    	if(FReadBuffer.Length > count)
-	    		FReadBuffer = new float[count];
-	    
-	    	//first call per frame
-	    	if(FNeedsRead) 
+	    	if(true || NeedsBufferCopy)
 	    	{
-	    		this.FillBuffer(FReadBuffer, offset, count);
+	    		//ensure buffer size
+	    		FReadBuffer = BufferHelpers.Ensure(FReadBuffer, count);
+	    		if(FReadBuffer.Length > count)
+	    			FReadBuffer = new float[count];
 	    		
-	    		FNeedsRead = false;
+	    		//first call per frame
+	    		if(FNeedsRead)
+	    		{
+	    			this.FillBuffer(FReadBuffer, offset, count);
+	    			FNeedsRead = false;
+	    		}
+	    		
+	    		//every call
+	    		Array.Copy(FReadBuffer, offset, buffer, offset, count);
 	    	}
-	    	
-	    	//every call
-	        Array.Copy(FReadBuffer, offset, buffer, offset, count);
+	    	else
+	    	{
+	    		this.FillBuffer(buffer, offset, count);
+	    	}
 	    	
 	        return count;
 	    }

@@ -96,6 +96,7 @@
     <Compile Include="Core\MasterWaveProvider.cs" />
     <Compile Include="Core\MultiChannelSignal.cs" />
     <Compile Include="Nodes\AudioEngineNode.cs" />
+    <Compile Include="Nodes\AudioNodeBase.cs" />
     <Compile Include="Nodes\Filters\MatrixMixerNode.cs" />
     <Compile Include="Nodes\Filters\SignalOperationNodes.cs" />
     <Compile Include="Nodes\Sinks\AudioOutNode.cs" />
