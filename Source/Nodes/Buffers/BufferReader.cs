@@ -38,9 +38,16 @@ namespace VVVV.Nodes
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if(ReadPosition >= FBufferSize) ReadPosition %= FBufferSize;
-			Array.Copy(FBuffer, ReadPosition, buffer, 0, Math.Min(FBufferSize - ReadPosition, count));
-			ReadPosition += count;
+			if(DoRead)
+			{
+				if(ReadPosition >= FBufferSize) ReadPosition %= FBufferSize;
+				Array.Copy(FBuffer, ReadPosition, buffer, 0, Math.Min(FBufferSize - ReadPosition, count));
+				ReadPosition += count;
+			}
+			else
+			{
+				buffer.ReadSilence(offset, count);
+			}
 		}
 	}
 	
@@ -53,12 +60,13 @@ namespace VVVV.Nodes
 		[Input("Read")]
 		IDiffSpread<bool> FRead;
 		
+		private bool FFirstFrame = true;
 		public override void Evaluate(int SpreadMax)
 		{
-			if(FKeys.IsChanged)
+			if(FKeys.IsChanged || FFirstFrame)
 			{
-				OutBuffer.ResizeAndDispose(0, index => new BufferReaderSignal(FKeys[index].Name));
-				for(int i=0; i<FKeys.SliceCount; i++)
+				OutBuffer.SliceCount = SpreadMax;
+				for(int i=0; i<SpreadMax; i++)
 				{
 					if(OutBuffer[i] == null) OutBuffer[i] = new BufferReaderSignal(FKeys[i].Name); 
 					
@@ -68,13 +76,13 @@ namespace VVVV.Nodes
 			
 			if(FRead.IsChanged)
 			{
-				for(int i=0; i<FKeys.SliceCount; i++)
+				for(int i=0; i<SpreadMax; i++)
 				{
-					if(OutBuffer[i] == null) OutBuffer[i] = new BufferReaderSignal(FKeys[i].Name); 
-					
 					(OutBuffer[i] as BufferReaderSignal).DoRead = FRead[i];
 				}
 			}
+			
+			FFirstFrame = false;
 		}
 	}
 }

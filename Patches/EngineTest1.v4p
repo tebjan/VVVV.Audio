@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
    <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Patches\EngineTest1.v4p" systemname="EngineTest1" filename="C:\Dev\vvvv\VVVV.Audio\Experiments\Bjorn\NAudio\EngineTest1.v4p">
-   <BOUNDS type="Window" left="255" top="585" width="15450" height="11625">
+   <BOUNDS type="Window" left="255" top="585" width="16650" height="12825">
    </BOUNDS>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="116" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="1410" top="225" width="1350" height="1770">
@@ -239,7 +239,7 @@
    </PIN>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
-   <BOUNDS type="Node" left="1500" top="6150" width="100" height="100">
+   <BOUNDS type="Node" left="1545" top="5640" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Smoothing" slicecount="1" values="0.94">
    </PIN>
@@ -247,9 +247,9 @@
    <NODE id="79" systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox">
    <PIN pinname="Y Input Value" visible="1">
    </PIN>
-   <BOUNDS type="Node" left="1515" top="6615" width="100" height="100">
+   <BOUNDS type="Node" left="975" top="6555" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="1515" top="6615" width="1590" height="1545">
+   <BOUNDS type="Box" left="975" top="6555" width="1590" height="1545">
    </BOUNDS>
    <PIN pinname="Show Value" slicecount="1" values="0">
    </PIN>
@@ -269,7 +269,7 @@
    <NODE id="163" systemname="AudioOut (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden">
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
-   <BOUNDS type="Node" left="5235" top="10425" width="750" height="270">
+   <BOUNDS type="Node" left="5865" top="10050" width="750" height="270">
    </BOUNDS>
    </NODE>
    <NODE id="37" systemname="AudioEngine (Audio)" filename="..\Source\bin\AnyCPU\Debug\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden">
@@ -301,7 +301,7 @@
    <LINK srcnodeid="6" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Play">
    </LINK>
    <NODE systemname="Power (Value)" nodename="Power (Value)" componentmode="Hidden" id="174">
-   <BOUNDS type="Node" left="4425" top="4950" width="555" height="270">
+   <BOUNDS type="Node" left="5400" top="4485" width="555" height="270">
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -311,7 +311,7 @@
    </PIN>
    </NODE>
    <NODE systemname="LinearSpread (Spreads)" nodename="LinearSpread (Spreads)" componentmode="Hidden" id="175">
-   <BOUNDS type="Node" left="4920" top="3975" width="960" height="270">
+   <BOUNDS type="Node" left="5895" top="3510" width="960" height="270">
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -319,7 +319,7 @@
    </PIN>
    </NODE>
    <NODE systemname="Map (Value)" nodename="Map (Value)" componentmode="Hidden" id="176">
-   <BOUNDS type="Node" left="4905" top="4485" width="900" height="270">
+   <BOUNDS type="Node" left="5880" top="4020" width="900" height="270">
    </BOUNDS>
    <PIN pinname="Destination Maximum" slicecount="1" values="14">
    </PIN>
@@ -335,9 +335,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="178" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="4845" top="6105" width="855" height="240">
+   <BOUNDS type="Box" left="3660" top="5625" width="855" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="4845" top="6105" width="0" height="0">
+   <BOUNDS type="Node" left="3660" top="5625" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -355,7 +355,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="8355" top="7350" width="2400" height="1800">
    </BOUNDS>
-   <BOUNDS type="Window" left="15705" top="585" width="11850" height="8040">
+   <BOUNDS type="Window" left="16950" top="405" width="11850" height="8040">
    </BOUNDS>
    <PIN pinname="EX9 Out" visible="1">
    </PIN>
@@ -445,7 +445,7 @@
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
-   <PIN pinname="Period" slicecount="1" values="1">
+   <PIN pinname="Period" slicecount="1" values="1.03333333333333">
    </PIN>
    <PIN pinname="Reverse" slicecount="1" values="0">
    </PIN>
@@ -631,13 +631,13 @@
    <LINK srcnodeid="206" srcpinname="Absolute Part" dstnodeid="205" dstpinname="Input 1">
    </LINK>
    <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="207">
-   <BOUNDS type="Node" left="5280" top="7860" width="100" height="100">
+   <BOUNDS type="Node" left="6885" top="7830" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input 2" visible="1">
+   <PIN pinname="Input 2" visible="1" slicecount="256" values="0.0046526034895797,0.0046526034895797,0.00716591191263248,0.00716591191263248,0.0297978896209144,0.0482528162260375,0.0525858536009156,0.0540469736326238,0.0533427292870861,0.0335973374311743,0.0145312913712946,0.0583978084040672,0.0374486156419616,0,0.039736769786585,0.039736769786585,0.042755362340012,0.126004906358446,0.0714263709420221,0.0450427425024593,0.0717109462988462,0.0730611172702528,0.0766231120229666,0.0276965289600224,0.0505475580439452,0.0898285296458875,0.038155159497242,0.0433055030219319,0.0433055030219319,0.0431959592405474,0.0431959592405474,0,0.0479146243841903,0.0479146243841903,0,0.0508770278831788,0.0508770278831788,0.0545924389286958,0.0545924389286958,0,0.057593113195577,0.057593113195577,0.0604133581973869,0.0604133581973869,0,0.0122000281094313,0.0122000281094313,0.0145312913712946,0.0145312913712946,0,0,0,0,0,0,0.0714263709420221,0.0714263709420221,0.0239845956508009,0.0239845956508009,0,0.0276965289600224,0.0276965289600224,0.0297978896209144,0.0297978896209144,0.0341204264348477,0.0341204264348477,0.0341204264348477,0.0335973374311743,0.0335973374311743,0.0374486156419616,0.0374486156419616,0,0.039736769786585,0.039736769786585,0,0.042755362340012,0.042755362340012,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.00226095493515245,0.00215907219894022,0.00487712534414227,0.00487712534414227,0,0.00716591191263248,0.00716591191263248,0.00973834762978891,0.00973834762978891,0.0122000281094313,0.0122000281094313,0,0.0145312913712946,0.0145312913712946,0,0,0,0,0,0,0.0714263709420221,0.0714263709420221,0.0239845956508009,0.0239845956508009,0,0.0276965289600224,0.0276965289600224,0.0297978896209144,0.0297978896209144,0.0341204264348477,0.0341204264348477,0,0.0335973374311743,0.0335973374311743,0.0374486156419616,0.0374486156419616,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
-   <PIN pinname="Input 1" slicecount="1" values="0.29">
+   <PIN pinname="Input 1" slicecount="1" values="0.18">
    </PIN>
    </NODE>
    <NODE nodename="Group (EX9)" id="208" systemname="Group (EX9)">
@@ -759,9 +759,9 @@
    <NODE id="173" systemname="MultiSine (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="MultiSine (Audio Source)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
    <PIN pinname="Audio Out" visible="1" pintype="Output">
    </PIN>
-   <BOUNDS type="Node" left="4440" top="8625" width="420" height="270">
+   <BOUNDS type="Node" left="6420" top="8355" width="420" height="270">
    </BOUNDS>
-   <BOUNDS type="Box" left="1035" top="4950" width="2400" height="1800">
+   <BOUNDS type="Box" left="3015" top="4680" width="2400" height="1800">
    </BOUNDS>
    <BOUNDS type="Window" left="0" top="0" width="6000" height="4500">
    </BOUNDS>
@@ -769,7 +769,7 @@
    </PIN>
    <PIN pinname="Frequency" pintype="Input" visible="1">
    </PIN>
-   <PIN pinname="Gain" pintype="Input" visible="1">
+   <PIN pinname="Gain" pintype="Input" visible="1" slicecount="256" values="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9.42659123267958E-005,9.42659123267958E-005,0,0.000348974037823912,0.000348974037823912,0.000589634741903759,0.000589634741903759,0,0.000845020767354249,0.000845020767354249,0.00110558615854762,0.00110558615854762,0.00135913985991509,0.00135913985991509,0,0,0,0,0,0.00501732866600743,0.00501732866600743,0,0.0021674288344928,0.0021674288344928,0.00247504481435728,0.00539090016076267,0.00267045122542439,0.00267045122542439,0.00295849563762224,0.00295849563762224,0.0064345844391372,0.00322651589664726,0.00694067140496369,0.00346405447969421,0.00346405447969421,0.0074085278110892,0.00369633989081973,0.0079552165766805,0.00400799810390036,0.00400799810390036,0.00450013252518825,0.00450013252518825,0.00450013252518825,0.00986806956330945,0.0050698320049776,0.0097835914469709,0.00445086781676261,0,0.00498142541118796,0.00498142541118796,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
    </PIN>
    <PIN pinname="Window Handle" pintype="Output">
    </PIN>
@@ -778,10 +778,8 @@
    </NODE>
    <LINK srcnodeid="174" srcpinname="Output" dstnodeid="173" dstpinname="Frequency">
    </LINK>
-   <LINK srcnodeid="207" srcpinname="Output" dstnodeid="173" dstpinname="Gain">
-   </LINK>
    <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="220">
-   <BOUNDS type="Node" left="8385" top="10590" width="330" height="270">
+   <BOUNDS type="Node" left="8250" top="10230" width="330" height="270">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1">
    </PIN>
@@ -791,8 +789,6 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="218" srcpinname="Position Out" dstnodeid="220" dstpinname="Input 1">
-   </LINK>
-   <LINK srcnodeid="220" srcpinname="Output" dstnodeid="207" dstpinname="Input 2">
    </LINK>
    <NODE systemname="BarSpread (Spreads)" nodename="BarSpread (Spreads)" componentmode="Hidden" id="221">
    <BOUNDS type="Node" left="10590" top="10140" width="100" height="100">
@@ -809,9 +805,9 @@
    <LINK srcnodeid="190" srcpinname="Y Output Value" dstnodeid="221" dstpinname="Spread Count" hiddenwhenlocked="1">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="222" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="10530" top="9540" width="795" height="240">
+   <BOUNDS type="Box" left="10575" top="9420" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="10530" top="9540" width="0" height="0">
+   <BOUNDS type="Node" left="10575" top="9420" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="148">
    </PIN>
@@ -825,17 +821,19 @@
    <LINK srcnodeid="222" srcpinname="Y Output Value" dstnodeid="221" dstpinname="Input">
    </LINK>
    <NODE systemname="CreateBuffer (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="CreateBuffer (Audio)" componentmode="Hidden" id="223">
-   <BOUNDS type="Node" left="6315" top="7500" width="100" height="100">
+   <BOUNDS type="Node" left="5355" top="6225" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Size" slicecount="1" values="220500">
+   <PIN pinname="Size" slicecount="1" values="42676">
+   </PIN>
+   <PIN pinname="Name" visible="1" slicecount="1" values="test">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="224" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="6315" top="7035" width="795" height="240">
+   <BOUNDS type="Box" left="5370" top="5325" width="825" height="525">
    </BOUNDS>
-   <BOUNDS type="Node" left="6315" top="7035" width="0" height="0">
+   <BOUNDS type="Node" left="5370" top="5325" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" values="test">
+   <PIN pinname="Input String" slicecount="2" values="test,second">
    </PIN>
    <PIN pinname="Default" slicecount="1" values="||">
    </PIN>
@@ -843,43 +841,251 @@
    </PIN>
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
+   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="224" srcpinname="Output String" dstnodeid="223" dstpinname="Name">
-   </LINK>
-   <NODE systemname="BufferWriter (Audio Sink)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="BufferWriter (Audio Sink)" componentmode="Hidden" id="226">
-   <BOUNDS type="Node" left="2790" top="9705" width="100" height="100">
+   <NODE componentmode="InABox" id="229" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
+   <BOUNDS height="100" left="2970" top="11550" type="Node" width="100">
    </BOUNDS>
+   <BOUNDS height="1500" left="2970" top="11550" type="Box" width="7530">
+   </BOUNDS>
+   <PIN pinname="Columns" slicecount="1" values="500">
+   </PIN>
+   <PIN pinname="Vector Size" slicecount="1" values="10">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="500" visible="1" values="-0.122933715581894,0.0964915230870247,-0.441235899925232,0.0782881230115891,-0.328458189964294,-0.0331870391964912,0.000332720577716827,-0.21995235979557,0.152087867259979,0.0139777883887291,-0.0382033437490463,-0.202456101775169,0.221675246953964,-0.0200603008270264,-0.0840932726860046,-0.32878652215004,0.461151778697968,0.140891805291176,-0.339093506336212,-0.0902689397335052,0.325485467910767,-0.0376908779144287,-0.217129707336426,0.1082613915205,-0.164209827780724,0.144981116056442,0.130913615226746,0.0939865708351135,-0.427886009216309,0.175348326563835,0.276517480611801,-0.0977795422077179,-0.178957566618919,0.0226912796497345,0.0682876482605934,0.0894247218966484,0.0100326798856258,-0.195536807179451,-0.0359191671013832,0.193076640367508,0.0706328451633453,-0.142653703689575,-0.123880177736282,0.0779431834816933,0.158189743757248,-0.00599052757024765,-0.158246740698814,-0.0536373853683472,0.127782091498375,0.0846376419067383,-0.0661691427230835,-0.100041717290878,0.0113480649888515,0.0837933719158173,0.0236971825361252,-0.0549208968877792,-0.00807756185531616,-0.0329639613628387,-0.115567207336426,0.584711074829102,-0.182813838124275,-0.796472311019897,0.974950551986694,-0.175425082445145,-0.777418911457062,0.904262661933899,-0.791904747486115,0.191450417041779,0.607126474380493,-1.01226472854614,0.0287867933511734,0.922989130020142,-0.360532999038696,-0.675633430480957,0.24563455581665,0.329397439956665,0.172301948070526,-0.254167944192886,-0.583962321281433,0.330126583576202,0.38375398516655,0.0663109421730042,-0.253603756427765,-0.366056561470032,-0.0726390033960342,0.392191290855408,0.304040521383286,-0.415812194347382,-0.207162126898766,0.213603436946869,0.132025301456451,-0.0914190486073494,-0.0326805412769318,-0.0184008851647377,0.0863763019442558,0.0884227007627487,0.117895595729351,-0.136990934610367,-0.12848237156868,0.0929865166544914,0.20088991522789,0.00765910744667053,-0.0945348888635635,-0.00194136053323746,-0.0605148673057556,0.095272496342659,0.0193371698260307,-0.0547611452639103,-0.234339326620102,0.129318878054619,-0.0673763155937195,-0.0608509629964828,-0.0503049269318581,0.149480149149895,-0.16907799243927,-0.0182307250797749,0.149747028946877,-0.206727772951126,0.680407524108887,0.446427583694458,0.377379298210144,0.254889369010925,-0.0736125558614731,0.270528018474579,-0.131439626216888,-0.1128239184618,0.176700294017792,0.133096680045128,-0.377292931079865,0.0456270724534988,0.152441203594208,-0.270978182554245,-0.291175752878189,0.0176948383450508,0.362916231155396,-0.299352526664734,-0.0522887036204338,-0.146630018949509,0.133636921644211,-0.171471923589706,0.321300685405731,-0.212941706180573,-0.24688732624054,0.0446692705154419,0.339330315589905,-0.118386171758175,-0.135211452841759,0.0846102833747864,-0.102975003421307,-0.0488767027854919,0.0051833763718605,0.170179307460785,-0.284136354923248,0.0903709009289742,0.100513078272343,-0.215279698371887,-0.0858183279633522,0.0395743399858475,-0.139595627784729,-0.0616074465215206,0.106417275965214,-0.0752620473504066,-0.0587719529867172,0.0112579800188541,-0.048320759087801,-0.0391394942998886,0.0408239439129829,0.0140709849074483,0.000614278018474579,0.0438164249062538,0.00604859553277493,-0.00399790704250336,0.020046342164278,0.029892360791564,0.0134133361279964,0.0324446186423302,0.0183705389499664,-0.172080934047699,0.388010561466217,-0.599345326423645,0.263049066066742,0.617589473724365,-0.582039833068848,0.594746530056,-0.24747434258461,0.313066363334656,0.0563969016075134,-0.54367458820343,1.08721721172333,-0.246033072471619,-0.992453575134277,0.79741507768631,0.474473595619202,-0.808531641960144,-0.153994828462601,0.401566833257675,0.183319807052612,0.119839668273926,-0.539910435676575,-0.314836978912354,0.507986903190613,0.245102018117905,-0.0532244443893433,-0.301211088895798,-0.252302050590515,0.168430760502815,0.453208059072495,-0.0699059218168259,-0.46497568488121,0.035618007183075,0.198143750429153,0.0529048442840576,-0.091818206012249,-0.0133104622364044,0.036946564912796,0.0993869379162788,0.143316924571991,-0.0212026722729206,-0.125848367810249,-0.10009703785181,0.240366548299789,0.0999955087900162,-0.00602071732282639,-0.143666952848434,0.064196415245533,-0.053031962364912,0.0935973972082138,-0.0372059233486652,-0.108643531799316,-0.116092205047607,0.0374512076377869,0.0195100028067827,-0.158194810152054,0.114642128348351,-0.0649928599596024,0.0454603061079979,-0.185289084911346,0.270077526569366,-0.102172128856182,-0.0854278802871704,-0.262199431657791,-0.0366003811359406,0.0802677124738693,-0.166940838098526,-0.0687827318906784,0.0241440609097481,-0.0186891630291939,0.0996676757931709,-0.139694720506668,0.161725968122482,-0.338753640651703,0.423626571893692,-0.195346161723137,0.0995950102806091,-0.252703666687012,0.484886705875397,-0.361520826816559,0.00998705625534058,0.172172635793686,0.0272307246923447,-0.19829948246479,0.0161992907524109,0.364329695701599,-0.452740013599396,0.243019253015518,-0.0833635628223419,0.224588483572006,-0.490979582071304,0.499372959136963,-0.182289496064186,-0.108701884746552,0.0828023999929428,0.143499150872231,-0.213022917509079,0.0267451554536819,0.160196900367737,-0.145276084542274,-0.000842586159706116,0.0811826139688492,-0.0318643972277641,-0.0431690029799938,0.0505592077970505,-0.0152954943478107,-0.00971912406384945,0.01512560993433,-0.00759183615446091,-0.00215475913137197,0.00725107640028,-0.00620591593906283,0.000658395700156689,0.00928531587123871,-0.00913368351757526,-0.00192005326971412,0.0076139448210597,-0.00632277084514499,0.00261457450687885,-0.00133479107171297,-0.0109567763283849,-0.28084260225296,0.536451935768127,0.523121237754822,0.0237912517040968,-0.303223997354507,0.791629374027252,-0.35841578245163,-0.613168299198151,0.844048857688904,-0.734676778316498,-0.131120204925537,1.05342364311218,-0.96287739276886,-0.327073216438293,0.931885004043579,-0.254758834838867,-0.733983039855957,0.132249891757965,0.429698288440704,0.105115294456482,-0.156519189476967,-0.509351551532745,0.146834552288055,0.4141506254673,0.0940875709056854,-0.187679842114449,-0.380004435777664,-0.0735707879066467,0.368529587984085,0.297825276851654,-0.308826923370361,-0.283542424440384,0.154534980654716,0.193592101335526,0.0112573653459549,-0.119677528738976,0.0182473286986351,0.124208554625511,0.0991984531283379,0.0680512934923172,-0.0942553579807281,-0.0588468313217163,-0.0674607753753662,0.2903952896595,0.0769052878022194,-0.1156966984272,-0.106932431459427,0.0975745469331741,0.0556119419634342,-0.0957033038139343,0.039829857647419,-0.12467997521162,-0.0627000406384468,0.0121387243270874,-0.106008678674698,0.11875307559967,-0.139360055327415,0.0573566555976868,-0.0417700707912445,0.0857148468494415,-0.166377454996109,0.731744945049286,0.659684896469116,0.02817502617836,0.362286478281021,0.337416648864746,0.268401890993118,-0.0610180497169495,0.545721411705017,-0.103575192391872,0.0689199417829514,-0.132720917463303,0.392527163028717,-0.449817299842834,0.176565036177635,0.0824834108352661,0.0092921108007431,-0.235854774713516,0.221634522080421,0.0347722545266151,-0.427613615989685,0.34012696146965,-0.0624185502529144,-0.0284665524959564,-0.384934961795807,0.612836539745331,-0.439885944128036,0.0263946056365967,-0.0324798822402954,0.343491286039352,-0.477693051099777,0.228584378957748,0.149785608053207,-0.255498826503754,0.146361291408539,0.0684377551078796,-0.060727596282959,-0.0542447343468666,0.111833870410919,-0.0576359108090401,0.0210357047617435,-0.000549059361219406,0.0178691558539867,-0.00910644978284836,-0.0362063646316528,-0.0113679692149162,0.0226841047406197,-0.0354379490017891,-0.0149695202708244,0.024278724566102,-0.0253733228892088,-0.0442832671105862,-0.00760778598487377,-0.0323087833821774,-0.0319128856062889,0.0159868970513344,0.120822541415691,-0.119036369025707,0.0127047523856163,0.0816275477409363,-0.0329530239105225,0.00397713296115398,0.0658524557948112,-0.0141591345891356,-0.00319270230829716,0.0300254244357347,-0.00416198838502169,0.00679167592898011,0.0288379024714231,0.0135186892002821,0.0144366249442101,-0.00672024628147483,-0.0311743281781673,0.0188544876873493,-0.0347901061177254,-0.00253453850746155,0.0516852885484695,0.401096284389496,0.221193253993988,-0.105343237519264,0.130823820829391,0.374405473470688,0.0684598237276077,-0.360548436641693,1.00255537033081,-0.942607343196869,0.0748987793922424,1.14893114566803,-1.20870065689087,-0.27033519744873,1.37896621227264,-0.464808344841003,-0.831163167953491,0.403774499893188,0.509712934494019,-0.0242233276367188,-0.405643850564957,-0.333774387836456,0.341219067573547,0.524806380271912,-0.0728274285793304,-0.48958432674408,-0.314051002264023,0.282521069049835,0.401085495948792,0.10052102804184,-0.354333519935608,-0.329623758792877,-0.139151468873024,0.463061958551407,-0.0711155533790588,-0.0976570397615433,0.446045696735382,-0.390495896339417,-0.122510462999344,0.440496653318405,-0.47873193025589,0.0352058000862598,0.496070683002472,-0.629461288452148,0.330386102199554,0.331556081771851,-0.559205532073975,0.230088919401169,0.318434476852417,-0.333564877510071,0.111449167132378,0.182548075914383,-0.272410333156586,0.074012503027916,0.0437990203499794,-0.0297214537858963,-0.131677985191345,0.147326812148094,-0.0389268510043621,-0.0447446331381798,-0.204179555177689,0.593369364738464,-0.0948781371116638,-0.142760708928108,0,0">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="10" values="0,0,0,0,0,0,0,0,0,0">
+   </PIN>
+   <PIN pinname="Show Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Show Slider" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Show Connections" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="207" srcpinname="Output" dstnodeid="173" dstpinname="Gain">
+   </LINK>
+   <NODE systemname="FileStream (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="FileStream (Audio)" componentmode="Hidden" id="230">
+   <BOUNDS type="Node" left="2970" top="6300" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Filename" slicecount="1" values="|D:\Live\Sets\hannover Project\Frequenzrutsche.wav|">
+   </PIN>
+   <PIN pinname="Play" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Do Seek" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <NODE systemname="Add (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Add (Audio)" componentmode="Hidden" id="231">
+   <BOUNDS type="Node" left="5880" top="9015" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   <PIN pinname="Input 1" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="173" srcpinname="Audio Out" dstnodeid="231" dstpinname="Input 2">
+   </LINK>
+   <NODE systemname="Add (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Add (Audio)" componentmode="Hidden" id="232">
+   <BOUNDS type="Node" left="3000" top="9645" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 2" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="230" srcpinname="Output" dstnodeid="232" dstpinname="Input 1">
+   </LINK>
+   <NODE systemname="BufferReader (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="BufferReader (Audio Source)" componentmode="Hidden" id="233">
+   <BOUNDS type="Node" left="4680" top="7500" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Read" slicecount="1" visible="1" values="1">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
    <PIN pinname="Buffer Key" slicecount="1" values="test">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="233" srcpinname="Audio Out" dstnodeid="231" dstpinname="Input 1">
+   </LINK>
+   <NODE systemname="BufferWriter (Audio Sink)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="BufferWriter (Audio Sink)" componentmode="Hidden" id="234">
+   <BOUNDS type="Node" left="2985" top="10230" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Preview Spread Count" slicecount="1" values="500">
    </PIN>
    <PIN pinname="Write" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="Input" visible="1" slicecount="1" values="||">
+   <PIN pinname="Input" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="BufferReader (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="BufferReader (Audio Source)" componentmode="Hidden" id="227">
-   <BOUNDS type="Node" left="5220" top="9840" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Audio Out" visible="1">
-   </PIN>
-   <PIN pinname="Read" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Buffer Key" slicecount="1" values="test">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="227" srcpinname="Audio Out" dstnodeid="163" dstpinname="Input">
+   <LINK srcnodeid="234" srcpinname="Buffer Preview" dstnodeid="229" dstpinname="Y Input Value">
    </LINK>
-   <LINK srcnodeid="173" srcpinname="Audio Out" dstnodeid="226" dstpinname="Input">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="228" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="2775" top="10305" width="795" height="240">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="235" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="3540" top="6675" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="2775" top="10305" width="0" height="0">
+   <BOUNDS type="Node" left="3540" top="6675" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    </NODE>
-   <LINK srcnodeid="226" srcpinname="Buffer Preview" dstnodeid="228" dstpinname="Y Input Value">
+   <LINK srcnodeid="230" srcpinname="Position" dstnodeid="235" dstpinname="Y Input Value">
+   </LINK>
+   <NODE systemname="Multiply (Audio)" nodename="Multiply (Audio)" componentmode="Hidden" id="236" filename="plugins\bin\x86\Debug\VVVV.Audio.dll">
+   <BOUNDS type="Node" left="3765" top="8730" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="233" srcpinname="Audio Out" dstnodeid="236" dstpinname="Input 1">
+   </LINK>
+   <NODE systemname="Sine (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Sine (Audio Source)" componentmode="Hidden" id="237">
+   <BOUNDS type="Node" left="4035" top="7515" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Frequency" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Gain" slicecount="1" values="0.82">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="237" srcpinname="Audio Out" dstnodeid="236" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="232" srcpinname="Audio Out" dstnodeid="234" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Add (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Add (Audio)" componentmode="Hidden" id="238">
+   <BOUNDS type="Node" left="4830" top="8820" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Input 1" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="239">
+   <BOUNDS type="Node" left="7530" top="5115" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="7530" top="5115" width="1170" height="285">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="2.0667">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="240">
+   <BOUNDS type="Node" left="6840" top="6075" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   <PIN pinname="Input" slicecount="1" values="44100">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="239" srcpinname="Y Output Value" dstnodeid="240" dstpinname="Input 2">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="241" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="6855" top="6480" width="1185" height="285">
+   </BOUNDS>
+   <BOUNDS type="Node" left="6855" top="6480" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="240" srcpinname="Output" dstnodeid="241" dstpinname="Y Input Value">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="242" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="3840" top="9750" width="765" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3840" top="9750" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" values="second">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="242" srcpinname="Output Enum" dstnodeid="234" dstpinname="Buffer ID">
+   </LINK>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="243">
+   <BOUNDS type="Node" left="4785" top="6735" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4785" top="6735" width="795" height="480">
+   </BOUNDS>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="2" values="1,1">
+   </PIN>
+   <PIN pinname="Vector Size" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="|0, 0|">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Read">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="243" srcpinname="Y Output Value" dstnodeid="233" dstpinname="Read">
+   </LINK>
+   <NODE systemname="Add (Audio Spectral)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Add (Audio Spectral)" componentmode="Hidden" id="244">
+   <BOUNDS type="Node" left="3720" top="9195" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="236" srcpinname="Audio Out" dstnodeid="244" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="244" srcpinname="Audio Out" dstnodeid="232" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="233" srcpinname="Audio Out" dstnodeid="238" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="231" srcpinname="Audio Out" dstnodeid="163" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="220" srcpinname="Output" dstnodeid="207" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="224" srcpinname="Output String" dstnodeid="223" dstpinname="Name">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="245" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="6270" top="5235" width="795" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="6270" top="5235" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="2" values="42676,21338">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Vector Size" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="|0, 0|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="245" srcpinname="Y Output Value" dstnodeid="223" dstpinname="Size">
    </LINK>
    </PATCH>
