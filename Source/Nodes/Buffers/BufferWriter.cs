@@ -47,11 +47,19 @@ namespace VVVV.Nodes
 			{
 				FSource.Read(buffer, offset, count);
 				if(WritePosition >= FBufferSize) WritePosition %= FBufferSize;
-				Array.Copy(buffer, 0, FBuffer, WritePosition, Math.Min(FBufferSize - WritePosition, count));
+				
+				var copyCount = Math.Min(FBufferSize - WritePosition, count);
+				Array.Copy(buffer, 0, FBuffer, WritePosition, copyCount);
+				
+				if(copyCount < count) //copy rest to front
+				{
+					Array.Copy(buffer, 0, FBuffer, 0, count - copyCount);
+				}
+				
 				WritePosition += count;
 			}
 			
-			//do proper preview
+			//do preview
 			if(FPreview.Length != PreviewSize)
 				FPreview = new float[PreviewSize];
 			var stepsize = (FBufferSize / PreviewSize) + 1;

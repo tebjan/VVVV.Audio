@@ -39,7 +39,7 @@ namespace VVVV.Audio
 		}
 	}
 	
-	public class AudioSignal : AudioSignalBase, ISampleProvider, IDisposable
+	public class AudioSignal : AudioSignalBase, ISampleProvider
 	{
 		
 		public AudioSignal(int sampleRate)

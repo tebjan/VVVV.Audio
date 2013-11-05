@@ -1,0 +1,61 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Patches\Multiply.v4p" systemname="Multiply" filename="C:\Dev\vvvv\VVVV.Audio\Patches\Multiply.v4p">
+   <BOUNDS type="Window" left="9945" top="7935" width="9000" height="6000">
+   </BOUNDS>
+   <NODE systemname="Multiply (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Multiply (Audio)" componentmode="Hidden" id="0">
+   <BOUNDS type="Node" left="2895" top="1635" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Sine (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Sine (Audio Source)" componentmode="Hidden" id="1">
+   <BOUNDS type="Node" left="2910" top="405" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Gain" slicecount="1" values="0.39">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="1" srcpinname="Audio Out" dstnodeid="0" dstpinname="Input 1">
+   </LINK>
+   <NODE systemname="AudioEngine (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden" id="2">
+   <BOUNDS type="Node" left="4500" top="2955" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
+   </PIN>
+   <PIN pinname="Control Panel" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Play" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="AudioOut (Audio)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden" id="3">
+   <BOUNDS type="Node" left="2880" top="2790" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Audio Out" dstnodeid="3" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Sine (Audio Source)" filename="plugins\bin\x86\Debug\VVVV.Audio.dll" nodename="Sine (Audio Source)" componentmode="Hidden" id="4">
+   <BOUNDS type="Node" left="3870" top="450" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Frequency" slicecount="1" values="220">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Audio Out" dstnodeid="0" dstpinname="Input 2">
+   </LINK>
+   <NODE systemname="Renderer (TTY)" filename="" nodename="Renderer (TTY)" componentmode="InAWindow" id="5">
+   <BOUNDS type="Node" left="5370" top="4260" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="5370" top="4260" width="6000" height="4500">
+   </BOUNDS>
+   <BOUNDS type="Window" left="18960" top="7935" width="7020" height="6360">
+   </BOUNDS>
+   </NODE>
+   </PATCH>

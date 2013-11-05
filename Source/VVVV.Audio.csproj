@@ -33,6 +33,8 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DebugType>None</DebugType>
     <DebugSymbols>False</DebugSymbols>
+    <StartAction>Program</StartAction>
+    <StartProgram>..\VVVV\vvvv.exe</StartProgram>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -86,6 +88,9 @@
     <Reference Include="VVVV.Utils3rdParty">
       <HintPath>..\VVVV\lib\core\VVVV.Utils3rdParty.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="yeppp-clr">
+      <HintPath>Dependencies\yeppp-clr.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +152,12 @@
     <EmbeddedResource Include="Nodes\VST\PluginForm.resx">
       <DependentUpon>PluginForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dependencies\x86\yeppp.dll">
+      <Link>yeppp.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

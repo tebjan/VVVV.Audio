@@ -54,7 +54,7 @@ namespace VVVV.Nodes
 	[PluginInfo(Name = "BufferReader", Category = "Audio", Version = "Source", Help = "Reads audio from a buffer", Tags = "samples, play")]
 	public class BufferReaderNode : AudioNodeBase
 	{
-		[Input("Buffer Key", EnumName = "AudioBufferStorageKeys")]
+		[Input("Buffer ID", EnumName = "AudioBufferStorageKeys")]
 		IDiffSpread<EnumEntry> FKeys;
 		
 		[Input("Read")]

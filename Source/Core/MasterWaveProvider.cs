@@ -20,6 +20,9 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Audio
 {
+	/// <summary>
+	/// A combination of audio signal and the driver output channel number
+	/// </summary>
 	public class MasterChannel
 	{
 		public MasterChannel(AudioSignal sig, int channel)
@@ -110,6 +113,14 @@ namespace VVVV.Audio
 			
 			lock(FSources)
 			{
+				//evaluate the sinks,
+				//e.g. buffer writers should write first to have the latest data in the buffer storage
+				for (int i = 0; i < FSinks.Count; i++)
+				{
+					FSinks[i].Read(offset / 4, samplesNeeded);
+				}
+				
+				//evaluate the inputs
 				var inputCount = FSources.Count;
 				for(int i=0; i<inputCount; i++)
 				{
@@ -128,13 +139,7 @@ namespace VVVV.Audio
 					}
 				}
 				
-				//then evaluate the sinks
-				for (int i = 0; i < FSinks.Count; i++)
-				{
-					FSinks[i].Read(offset / 4, samplesNeeded);
-				}
-				
-				//tell  the engine that reading has finished
+				//tell the engine that reading has finished
 				FReadingFinished(samplesNeeded);
 			}
 			return count; //always run

@@ -23,16 +23,14 @@ namespace VVVV.Nodes
 	[PluginInfo(Name = "CreateBuffer", Category = "Audio", Help = "Creates a buffer which can be used to write and read samples", AutoEvaluate = true, Tags = "record")]
 	public class CreateBufferNode : IPluginEvaluate, IDisposable
 	{
-		#region fields & pins
 		#pragma warning disable 0649
-		[Input("Name", DefaultString = "")]
+		[Input("Buffer ID", DefaultString = "")]
 		IDiffSpread<string> FNameIn;
 		
 		[Input("Size", DefaultValue = 1024)]
 		IDiffSpread<int> FSizeIn;
 	
 		#pragma warning restore
-		#endregion fields & pins	
 		
 		//called when data for any output pin is requested
 		public void Evaluate(int SpreadMax)

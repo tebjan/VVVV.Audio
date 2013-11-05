@@ -9,12 +9,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DemoPlugin")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("VVVV.Audio")]
+[assembly: AssemblyDescription("Audio engine for vvvv based on NAudio, VST.NET")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DemoPlugin")]
-[assembly: AssemblyCopyright("Copyright 2010")]
+[assembly: AssemblyProduct("VVVV.Audio")]
+[assembly: AssemblyCopyright("Copyright 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
