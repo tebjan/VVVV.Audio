@@ -1,0 +1,388 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>CannedBytes</name>
+  </assembly>
+  <members>
+    <member name="T:CannedBytes.ComponentModel.Composition.CompositionContainerFactory">
+      <summary>
+            Provides means to populate a MEF catalog and from that create a composition container.
+            </summary>
+      <invariant>this.catalog != null</invariant>
+    </member>
+    <member name="T:CannedBytes.DisposableBase">
+      <summary>
+            Implements the Dispose implementation pattern as a base class.
+            </summary>
+      <remarks>
+            see also http://obiwanjacobi.blogspot.nl/2006/12/two-layers-of-disposability.html
+            Derived classes that introduce unmanaged resources must implement a finalizer and
+            call Dispose(false) in that finalizer. All resources (managed and unmanaged) are
+            disposed inside the Dispose(bool) method.
+            </remarks>
+    </member>
+    <member name="M:CannedBytes.DisposableBase.Dispose">
+      <summary>
+            Call to dispose of this instance.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.DisposableBase.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Called either from <see cref="M:Dispose" /> or the Finalizer (not in this base class)
+            to dispose of this instance.
+            </summary>
+      <param name="disposeKind">Indicates what type of resources to dispose of.</param>
+      <remarks>Derived classes override to Dispose their members.</remarks>
+      <example>
+        <code>
+            if (!IsDisposed)
+            {
+                if (disposeKind == DisposeObjectKind.ManagedAndUnmanagedResources)
+                {
+                    // dispose managed resources
+                }
+                // dispose unmanaged resources
+            }
+            </code>
+      </example>
+    </member>
+    <member name="M:CannedBytes.DisposableBase.ThrowIfDisposed">
+      <summary>
+            Throws an exception if the instance has been disposed.
+            </summary>
+      <exception cref="T:System.ObjectDisposedException">Thrown when the instance is disposed.</exception>
+    </member>
+    <member name="P:CannedBytes.DisposableBase.IsDisposed">
+      <summary>
+            Gets a value indicating if this instance has been disposed.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.ComponentModel.Composition.CompositionContainerFactory.catalog">
+      <summary>
+            The composition catalog. Never null.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.ComponentModel.Composition.CompositionContainerFactory.Clear">
+      <summary>
+            Removes all catalog definitions.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.ComponentModel.Composition.CompositionContainerFactory.AddTypes(System.Type[])">
+      <summary>
+            Adds these <paramref name="types" /> to the catalog.
+            </summary>
+      <param name="types">Must not be null.</param>
+      <requires csharp="types != null" vb="types &lt;&gt; Nothing">types != null</requires>
+    </member>
+    <member name="M:CannedBytes.ComponentModel.Composition.CompositionContainerFactory.AddAllMarkedTypesInAssembly(System.Reflection.Assembly)">
+      <summary>
+            Adds all exported types in the <paramref name="assembly" />
+            to the catalog.
+            </summary>
+      <param name="assembly">Must not be null.</param>
+      <requires csharp="assembly != (System.Reflection.Assembly)null" vb="assembly &lt;&gt; ((System.Reflection.Assembly)Nothing) ">assembly != (System.Reflection.Assembly)null</requires>
+    </member>
+    <member name="M:CannedBytes.ComponentModel.Composition.CompositionContainerFactory.AddMarkedTypesInAssembly(System.Reflection.Assembly,System.Type)">
+      <summary>
+            Adds all exported type in the <paramref name="assembly" />
+            of a specific <paramref name="contract" /> to the catalog.
+            </summary>
+      <param name="assembly">May be null. Assembly is then taken from the <paramref name="contract" />.</param>
+      <param name="contract">The export contract type. Must not be null.</param>
+      <requires csharp="new CannedBytes.ComponentModel.Composition.CompositionContainerFactory.&lt;&gt;c__DisplayClassc(){
+    contract = contract, 
+}.contract != (System.Type)null" vb="(() =&gt; {
+    CannedBytes.ComponentModel.Composition.CompositionContainerFactory.&lt;&gt;c__DisplayClassc local_2_prime = New CannedBytes.ComponentModel.Composition.CompositionContainerFactory.&lt;&gt;c__DisplayClassc();
+    local_2_prime.contract = contract
+    return local_2_prime; })().contract &lt;&gt; ((System.Type)Nothing) ">new CannedBytes.ComponentModel.Composition.CompositionContainerFactory.&lt;&gt;c__DisplayClassc(){
+    contract = contract, 
+}.contract != (System.Type)null</requires>
+    </member>
+    <member name="M:CannedBytes.ComponentModel.Composition.CompositionContainerFactory.AddMarkedTypesInAssembly(System.Reflection.Assembly,System.String)">
+      <summary>
+            Adds all exported type in the <paramref name="assembly" />
+            of a specific <paramref name="contract" /> to the catalog.
+            </summary>
+      <param name="assembly">Must not be null.</param>
+      <param name="contract">The export contract. Must not be null or empty.</param>
+    </member>
+    <member name="M:CannedBytes.ComponentModel.Composition.CompositionContainerFactory.CreateNew">
+      <summary>
+            Creates a new composition container from the current catalog state.
+            </summary>
+      <returns>Never returns null.</returns>
+    </member>
+    <member name="M:CannedBytes.ComponentModel.Composition.CompositionContainerFactory.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Called to dispose the instance.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose of.</param>
+    </member>
+    <member name="M:CannedBytes.ComponentModel.Composition.CompositionContainerFactory.InvariantContract">
+      <summary>
+            The object's invariant contract.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.DisposeObjectKind">
+      <summary>
+            Identifies what kind of resources should be disposed in a call to Dispose().
+            </summary>
+    </member>
+    <member name="F:CannedBytes.DisposeObjectKind.UnmanagedResourcesOnly">
+      <summary>
+            From a Finalizer: Only dispose the unmanaged resources.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.DisposeObjectKind.ManagedAndUnmanagedResources">
+      <summary>
+            From Dispose(): Dispose both managed and unmanaged resources.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.EventHandlerCollection`1">
+      <summary>
+            Helper class to manage event delegates for multiple events.
+            </summary>
+      <typeparam name="TUserData">The type of user data available per registration.</typeparam>
+      <remarks>If an object support a lot of events or does special processing per event,
+            it is more efficient to use this collection.</remarks>
+    </member>
+    <member name="F:CannedBytes.EventHandlerCollection`1.empty">
+      <summary>An empty result.</summary>
+    </member>
+    <member name="F:CannedBytes.EventHandlerCollection`1.registrations">
+      <summary>A map of event names to event registrations.</summary>
+    </member>
+    <member name="M:CannedBytes.EventHandlerCollection`1.GetEventRegistrations(System.String)">
+      <summary>
+            Retrieves all registrations for a specific <paramref name="eventName" />.
+            </summary>
+      <param name="eventName">Can be null or empty.</param>
+      <returns>Never returns null. An empty list is returned if the <paramref name="eventName" /> was not found.</returns>
+    </member>
+    <member name="M:CannedBytes.EventHandlerCollection`1.AddEventRegistration(System.String,System.Delegate)">
+      <summary>
+            Adds an event registration to the collection for the specified <paramref name="eventName" />.
+            </summary>
+      <param name="eventName">Can be null or empty.</param>
+      <param name="handler">The actual event handler delegate. Must not be null.</param>
+      <returns>Returns the registration object that contains the user data. Never returns null.</returns>
+    </member>
+    <member name="M:CannedBytes.EventHandlerCollection`1.RemoveEventRegistration(System.String,System.Delegate)">
+      <summary>
+            Removes an event registration from the collection for the specified <paramref name="eventName" />.
+            </summary>
+      <param name="eventName">Can be null or empty.</param>
+      <param name="handler">Must not be null.</param>
+      <returns>Returns the registration object that is no longer in the collection.</returns>
+    </member>
+    <member name="M:CannedBytes.EventHandlerCollection`1.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Disposes the object by checking all user data objects and calling
+            <see cref="M:System.IDisposable.Dispose" /> if they implement it.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose.</param>
+    </member>
+    <member name="P:CannedBytes.EventHandlerCollection`1.EventNames">
+      <summary>
+            Gets a list of all the event names.
+            </summary>
+      <remarks>Note that event names can be null or empty.</remarks>
+    </member>
+    <member name="T:CannedBytes.EventHandlerRegistration`1">
+      <summary>
+            Registration information for an event handler.
+            </summary>
+      <typeparam name="TUserData">The type of user data to use.</typeparam>
+    </member>
+    <member name="M:CannedBytes.EventHandlerRegistration`1.#ctor(System.Delegate)">
+      <summary>
+            Constructs a new instance for the specified <paramref name="handler" />.
+            </summary>
+      <param name="handler">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.EventHandlerRegistration`1.InvokeHandler(System.Object[])">
+      <summary>
+            Invokes the <see cref="P:CannedBytes.EventHandlerRegistration`1.Handler" /> with the specified <paramref name="parameters" />.
+            </summary>
+      <param name="parameters">Usually 2 parameters: object sender and EventArgs (or derived) e.</param>
+    </member>
+    <member name="M:CannedBytes.EventHandlerRegistration`1.InvokeHandler(System.Windows.Threading.Dispatcher,System.Object[])">
+      <summary>
+            Invokes the <see cref="P:CannedBytes.EventHandlerRegistration`1.Handler" /> with the specified <paramref name="parameters" /> using the <paramref name="dispatcher" />.
+            </summary>
+      <param name="dispatcher">A dispatcher (WPF) object that synchronizes calling into the UI thread from another thread.</param>
+      <param name="parameters">Usually 2 parameters: object sender and EventArgs (or derived) e.</param>
+    </member>
+    <member name="P:CannedBytes.EventHandlerRegistration`1.Handler">
+      <summary>
+            Gets the event handler delegate. Never null.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.EventHandlerRegistration`1.UserData">
+      <summary>
+            Gets or sets the user data (instance).
+            </summary>
+    </member>
+    <member name="T:CannedBytes.IChainOf`1">
+      <summary>
+            The IChainOf interface is implemented by chain components
+            that implement interface T.
+            </summary>
+      <typeparam name="T">A chain interface.</typeparam>
+    </member>
+    <member name="P:CannedBytes.IChainOf`1.Successor">
+      <summary>
+            Gets or sets the next implementation of interface T this
+            instance will call.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Properties.Resources">
+      <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Properties.Resources.ResourceManager">
+      <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Properties.Resources.Culture">
+      <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Properties.Resources.DisposableBase_ObjectDisposed">
+      <summary>
+              Looks up a localized string similar to This instance of Type {0} has been disposed..
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Properties.Resources.Throw_ArgumentEmpty">
+      <summary>
+              Looks up a localized string similar to Argument can not be empty..
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Properties.Resources.Throw_ArgumentNotOfType">
+      <summary>
+              Looks up a localized string similar to Argument is not of expected Type {0}..
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Properties.Resources.Throw_ArgumentOutOfRange">
+      <summary>
+              Looks up a localized string similar to Argument is out of range. Expect a value from {0} to {1}..
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Properties.Resources.Throw_ArgumentTooLong">
+      <summary>
+              Looks up a localized string similar to Argument value '{0}' is too long. Maximum length is {1} characters..
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Properties.Resources.Throw_InvalidOperationIfSet">
+      <summary>
+              Looks up a localized string similar to The variable {0} is already set..
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Check">
+      <summary>
+            The Throw class provides static helper methods for method parameter validation.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Check.IfArgumentNull``1(``0,System.String)">
+      <summary>
+            Checks if the parameter <paramref name="argument" /> is null.
+            </summary>
+      <typeparam name="T">Inferred, no need to specify explicitly.</typeparam>
+      <param name="argument">The parameter value.</param>
+      <param name="argumentName">The parameter name.</param>
+      <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="argument" /> is null.</exception>
+    </member>
+    <member name="M:CannedBytes.Check.IfArgumentNull(System.IntPtr,System.String)">
+      <summary>
+            Checks if the parameter <paramref name="argument" /> is null.
+            </summary>
+      <param name="argument">The parameter value.</param>
+      <param name="argumentName">The parameter name.</param>
+      <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="argument" /> is null.</exception>
+    </member>
+    <member name="M:CannedBytes.Check.IfArgumentNull``1(``0,System.String,System.String)">
+      <summary>
+            Checks if the parameter <paramref name="argument" /> is null.
+            </summary>
+      <typeparam name="T">Inferred, no need to specify explicitly.</typeparam>
+      <param name="argument">The parameter value.</param>
+      <param name="argumentName">The parameter name.</param>
+      <param name="message">An exception message.</param>
+      <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="argument" /> is null.</exception>
+    </member>
+    <member name="M:CannedBytes.Check.IfArgumentEmpty(System.Guid,System.String)">
+      <summary>
+            Checks if the parameter <paramref name="argument" /> is empty.
+            </summary>
+      <param name="argument">The parameter value.</param>
+      <param name="argumentName">The name of the parameter being checked.</param>
+      <exception cref="T:System.ArgumentException">Thrown when <paramref name="argument" /> is empty.</exception>
+    </member>
+    <member name="M:CannedBytes.Check.IfArgumentNullOrEmpty(System.String,System.String)">
+      <summary>
+            Checks if the parameter <paramref name="argument" /> is null or empty.
+            </summary>
+      <param name="argument">The parameter value.</param>
+      <param name="argumentName">The parameter name.</param>
+      <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="argument" /> is null.</exception>
+      <exception cref="T:System.ArgumentException">Thrown when <paramref name="argument" /> is empty.</exception>
+    </member>
+    <member name="M:CannedBytes.Check.IfArgumentNullOrEmpty(System.Xml.XmlQualifiedName,System.String)">
+      <summary>
+            Checks if the parameter <paramref name="argument" /> is null or empty.
+            </summary>
+      <param name="argument">The parameter value.</param>
+      <param name="argumentName">The parameter name.</param>
+      <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="argument" /> is null.</exception>
+      <exception cref="T:System.ArgumentException">Thrown when <paramref name="argument" /> is empty.</exception>
+    </member>
+    <member name="M:CannedBytes.Check.IfArgumentOutOfRange``1(System.IComparable{``0},``0,``0,System.String)">
+      <summary>
+            Checks if the parameter <paramref name="argument" /> is out of range (value types).
+            </summary>
+      <typeparam name="T">The parameter data type.</typeparam>
+      <param name="argument">The parameter value.</param>
+      <param name="minValue">The parameter's minimal value.</param>
+      <param name="maxValue">The parameter's maximal value.</param>
+      <param name="argumentName">The parameter name.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">Thrown when <paramref name="argument" /> is out of range.</exception>
+    </member>
+    <member name="M:CannedBytes.Check.IfArgumentTooLong(System.String,System.Int32,System.String)">
+      <summary>
+            Tests if the number of characters in <paramref name="argument" /> exceed the <paramref name="maxLength" />.
+            </summary>
+      <param name="argument">The string argument to test. Can be null.</param>
+      <param name="maxLength">The maximum number of characters allowed for the <paramref name="argument" />.</param>
+      <param name="argumentName">The name of the argument.</param>
+      <exception cref="T:System.ArgumentException">Thrown when the number of characters of the <paramref name="argument" />
+            exceed the specified <paramref name="maxLength" />.</exception>
+      <remarks>This method does nothing if <paramref name="argument" /> is null.</remarks>
+    </member>
+    <member name="M:CannedBytes.Check.IfArgumentNotOfType``1(System.Object,System.String)">
+      <summary>
+            Checks if the parameter <paramref name="argument" /> is a certain <see cref="T:System.Type" />.
+            </summary>
+      <typeparam name="T">The <see cref="T:System.Type" /> the parameter should be.</typeparam>
+      <param name="argument">The parameter value.</param>
+      <param name="argumentName">The name of the parameter being checked.</param>
+      <exception cref="T:System.ArgumentException">Thrown when <paramref name="argument" /> is not of Type <b>T</b>.</exception>
+    </member>
+    <member name="T:CannedBytes.UnmanagedDisposableBase">
+      <summary>
+            Implements the Dispose implementation pattern for classes that own unmanaged resources.
+            </summary>
+      <remarks>
+            see also http://obiwanjacobi.blogspot.nl/2006/12/two-layers-of-disposability.html
+            </remarks>
+    </member>
+    <member name="M:CannedBytes.UnmanagedDisposableBase.Finalize">
+      <summary>
+            Destructor called by the GC.
+            </summary>
+    </member>
+  </members>
+</doc>

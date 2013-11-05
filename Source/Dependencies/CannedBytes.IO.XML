@@ -1,0 +1,383 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>CannedBytes.IO</name>
+  </assembly>
+  <members>
+    <member name="T:CannedBytes.IO.ReadOnlyStream">
+      <summary>
+            Wraps an existing stream and makes it read-only.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.IO.WrappedStream">
+      <summary>
+            The WrappedStream class can be used by derived classes to implement
+            specific functionality over an existing stream instance.
+            </summary>
+      <remarks>Most method implementations pass the call to the <see cref="P:InnerStream" />.</remarks>
+    </member>
+    <member name="F:CannedBytes.IO.WrappedStream.stream">
+      <summary>The wrapped stream.</summary>
+    </member>
+    <member name="F:CannedBytes.IO.WrappedStream.canSeek">
+      <summary>Indication if the stream is seekable.</summary>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.#ctor(System.IO.Stream)">
+      <summary>
+            Creates a seekable stream.
+            </summary>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.#ctor(System.IO.Stream,System.Boolean)">
+      <summary>
+            Creates a new stream.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="canSeek">Overrides if the stream will allow seeking.</param>
+      <remarks>Passing true to <paramref name="canSeek" /> will not guarantee the stream can seek -
+            which also depends on the wrapped <paramref name="stream" />- but it will not prohibit it.</remarks>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+      <ensures inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.Close">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.EndRead(System.IAsyncResult)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.EndRead(System.IAsyncResult)" inheritedFromTypeName="Stream" csharp="asyncResult != null" vb="asyncResult &lt;&gt; Nothing">asyncResult != null</requires>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.EndWrite(System.IAsyncResult)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.EndWrite(System.IAsyncResult)" inheritedFromTypeName="Stream" csharp="asyncResult != null" vb="asyncResult &lt;&gt; Nothing">asyncResult != null</requires>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.Flush">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.Read(System.Byte[],System.Int32,System.Int32)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+      <ensures inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="result &gt;= 0" vb="result &gt;= 0">result &gt;= 0</ensures>
+      <ensures inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="result &lt;= count" vb="result &lt;= count">result &lt;= count</ensures>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.ReadByte">
+      <inheritdocs />
+      <ensures inheritedFrom="M:System.IO.Stream.ReadByte" inheritedFromTypeName="Stream" csharp="result &gt;= -1" vb="result &gt;= -1">result &gt;= -1</ensures>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.Seek(System.Int64,System.IO.SeekOrigin)">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.SetLength(System.Int64)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.SetLength(System.Int64)" inheritedFromTypeName="Stream" csharp="value &gt;= (long)0" vb="value &gt;= ((Long )0)">value &gt;= (long)0</requires>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.Write(System.Byte[],System.Int32,System.Int32)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+    </member>
+    <member name="M:CannedBytes.IO.WrappedStream.WriteByte(System.Byte)">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.IO.WrappedStream.InnerStream">
+      <summary>
+            Gets a reference to the wrapped stream.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.IO.WrappedStream.CanRead">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.IO.WrappedStream.CanSeek">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.IO.WrappedStream.CanWrite">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.IO.WrappedStream.Length">
+      <inheritdocs />
+      <getter>
+        <ensures inheritedFrom="M:System.IO.Stream.get_Length" inheritedFromTypeName="Stream" csharp="result &gt;= (long)0" vb="result &gt;= ((Long )0)">result &gt;= (long)0</ensures>
+      </getter>
+    </member>
+    <member name="P:CannedBytes.IO.WrappedStream.Position">
+      <inheritdocs />
+      <getter>
+        <ensures inheritedFrom="M:System.IO.Stream.get_Position" inheritedFromTypeName="Stream" csharp="result &gt;= (long)0" vb="result &gt;= ((Long )0)">result &gt;= (long)0</ensures>
+      </getter>
+      <setter>
+        <requires inheritedFrom="M:System.IO.Stream.set_Position(System.Int64)" inheritedFromTypeName="Stream" csharp="value &gt;= (long)0" vb="value &gt;= ((Long )0)">value &gt;= (long)0</requires>
+      </setter>
+    </member>
+    <member name="M:CannedBytes.IO.ReadOnlyStream.#ctor(System.IO.Stream)">
+      <summary>
+            Instantiates a new seekable read-only stream.
+            </summary>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.IO.ReadOnlyStream.#ctor(System.IO.Stream,System.Boolean)">
+      <summary>
+            Instantiates a new read-only stream.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="canSeek">False to prohibit seeking.</param>
+    </member>
+    <member name="M:CannedBytes.IO.ReadOnlyStream.ValidateStreamIsReadable(System.IO.Stream)">
+      <summary>
+            Throws and exception id the <paramref name="stream" /> can not be read.
+            </summary>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.IO.ReadOnlyStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+      <ensures inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.IO.ReadOnlyStream.EndWrite(System.IAsyncResult)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.EndWrite(System.IAsyncResult)" inheritedFromTypeName="Stream" csharp="asyncResult != null" vb="asyncResult &lt;&gt; Nothing">asyncResult != null</requires>
+    </member>
+    <member name="M:CannedBytes.IO.ReadOnlyStream.Flush">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.IO.ReadOnlyStream.SetLength(System.Int64)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.SetLength(System.Int64)" inheritedFromTypeName="Stream" csharp="value &gt;= (long)0" vb="value &gt;= ((Long )0)">value &gt;= (long)0</requires>
+    </member>
+    <member name="M:CannedBytes.IO.ReadOnlyStream.Write(System.Byte[],System.Int32,System.Int32)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+    </member>
+    <member name="M:CannedBytes.IO.ReadOnlyStream.WriteByte(System.Byte)">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.IO.ReadOnlyStream.CanWrite">
+      <inheritdocs />
+    </member>
+    <member name="T:CannedBytes.IO.StreamHelpers">
+      <summary>
+            Extension method helpers for <see cref="T:System.IO.Stream" />s.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.IO.StreamHelpers.CopyTo(System.IO.Stream,System.IO.Stream,System.Int32)">
+      <summary>
+            Copies the complete content of the <paramref name="sourceStream" />
+            to the <paramref name="destinationStream" /> in chunks of <paramref name="blockSize" /> bytes.
+            </summary>
+      <param name="sourceStream">Must not be null.</param>
+      <param name="destinationStream">Must not be null.</param>
+      <param name="blockSize">The size of how many bytes are read and written at a time.</param>
+      <returns>Returns the total number of bytes transferred.</returns>
+      <requires csharp="sourceStream != null" vb="sourceStream &lt;&gt; Nothing">sourceStream != null</requires>
+      <requires csharp="destinationStream != null" vb="destinationStream &lt;&gt; Nothing">destinationStream != null</requires>
+      <requires csharp="blockSize &gt;= 0" vb="blockSize &gt;= 0">blockSize &gt;= 0</requires>
+    </member>
+    <member name="T:CannedBytes.IO.SubStream">
+      <summary>
+            The SubStream wraps an existing stream and only allows access to a part of that wrapped stream.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.IO.SubStream.streamOffset">
+      <summary>The offset into the base stream where the sub-stream starts.</summary>
+    </member>
+    <member name="F:CannedBytes.IO.SubStream.subStreamLength">
+      <summary>The length of the sub-stream.</summary>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.#ctor(System.IO.Stream,System.Boolean)">
+      <summary>
+            For derived classes that wish to compute the offset and length of the sub-stream themselves.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="canSeek">Pass true to allow seeking in the sub-stream.</param>
+      <remarks>The offset is initialized to the current position of the <paramref name="stream" />
+            but can be overruled with a call to <see cref="M:CannedBytes.IO.SubStream.SetStreamOffset(System.Int64)" />.</remarks>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.#ctor(System.IO.Stream,System.Int64)">
+      <summary>
+            Instantiates a new instance from the start of the <paramref name="stream" /> for <paramref name="length" /> bytes.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="length">Must be greater or equal to zero.</param>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.#ctor(System.IO.Stream,System.Boolean,System.Int64)">
+      <summary>
+            Instantiates a new instance from the start of the <paramref name="stream" /> for <paramref name="length" /> bytes.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="canSeek">False to prohibit seeking.</param>
+      <param name="length">Must be greater or equal to zero.</param>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.#ctor(System.IO.Stream,System.Int64,System.Int64)">
+      <summary>
+            Instantiates a new seekable instance from <paramref name="offset" /> of the <paramref name="stream" /> for <paramref name="length" /> bytes.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="offset">The offset in bytes from the start of <paramref name="stream" />.</param>
+      <param name="length">Must be greater or equal to zero.</param>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.#ctor(System.IO.Stream,System.Boolean,System.Int64,System.Int64)">
+      <summary>
+            Instantiates a new instance from <paramref name="offset" /> of the <paramref name="stream" /> for <paramref name="length" /> bytes.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="canSeek">False to prohibit seeking.</param>
+      <param name="offset">The offset in bytes from the start of <paramref name="stream" />.</param>
+      <param name="length">Must be greater or equal to zero.</param>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.SetStreamOffset(System.Int64)">
+      <summary>
+            Initializes the sub-stream offset.
+            </summary>
+      <param name="offset">Must be within range.</param>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.SetSubLength(System.Int64)">
+      <summary>
+            Initializes the sub-stream length.
+            </summary>
+      <param name="length">Is adjusted to fit within length of the base stream.</param>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.AdjustCount(System.Int32@)">
+      <summary>
+            Adjusts the specified <paramref name="count" /> to stay within range.
+            </summary>
+      <param name="count">The parameter is in/out (ref).</param>
+      <returns>Returns true if the (adjusted) count is greater than zero.</returns>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+      <ensures inheritedFrom="M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.Read(System.Byte[],System.Int32,System.Int32)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+      <ensures inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="result &gt;= 0" vb="result &gt;= 0">result &gt;= 0</ensures>
+      <ensures inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="result &lt;= count" vb="result &lt;= count">result &lt;= count</ensures>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.ReadByte">
+      <inheritdocs />
+      <ensures inheritedFrom="M:System.IO.Stream.ReadByte" inheritedFromTypeName="Stream" csharp="result &gt;= -1" vb="result &gt;= -1">result &gt;= -1</ensures>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.Seek(System.Int64,System.IO.SeekOrigin)">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.SetLength(System.Int64)">
+      <summary>
+            Not supported.
+            </summary>
+      <param name="value">Not used.</param>
+      <requires inheritedFrom="M:System.IO.Stream.SetLength(System.Int64)" inheritedFromTypeName="Stream" csharp="value &gt;= (long)0" vb="value &gt;= ((Long )0)">value &gt;= (long)0</requires>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.Write(System.Byte[],System.Int32,System.Int32)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+    </member>
+    <member name="M:CannedBytes.IO.SubStream.WriteByte(System.Byte)">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.IO.SubStream.Length">
+      <inheritdocs />
+      <getter>
+        <ensures inheritedFrom="M:System.IO.Stream.get_Length" inheritedFromTypeName="Stream" csharp="result &gt;= (long)0" vb="result &gt;= ((Long )0)">result &gt;= (long)0</ensures>
+      </getter>
+    </member>
+    <member name="P:CannedBytes.IO.SubStream.Position">
+      <inheritdocs />
+      <getter>
+        <ensures inheritedFrom="M:System.IO.Stream.get_Position" inheritedFromTypeName="Stream" csharp="result &gt;= (long)0" vb="result &gt;= ((Long )0)">result &gt;= (long)0</ensures>
+      </getter>
+      <setter>
+        <requires inheritedFrom="M:System.IO.Stream.set_Position(System.Int64)" inheritedFromTypeName="Stream" csharp="value &gt;= (long)0" vb="value &gt;= ((Long )0)">value &gt;= (long)0</requires>
+      </setter>
+    </member>
+    <member name="T:CannedBytes.IO.WriteOnlyStream">
+      <summary>
+            Wraps an existing stream and makes it write-only.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.IO.WriteOnlyStream.#ctor(System.IO.Stream)">
+      <summary>
+            Instantiates a new seekable write-only stream.
+            </summary>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.IO.WriteOnlyStream.#ctor(System.IO.Stream,System.Boolean)">
+      <summary>
+            Instantiates a new write-only stream.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="canSeek">False to prohibit seeking.</param>
+    </member>
+    <member name="M:CannedBytes.IO.WriteOnlyStream.ValidateStreamIsWritable(System.IO.Stream)">
+      <summary>
+            Throws an exception if the <paramref name="stream" /> can not be written to.
+            </summary>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.IO.WriteOnlyStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+    </member>
+    <member name="M:CannedBytes.IO.WriteOnlyStream.EndRead(System.IAsyncResult)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.EndRead(System.IAsyncResult)" inheritedFromTypeName="Stream" csharp="asyncResult != null" vb="asyncResult &lt;&gt; Nothing">asyncResult != null</requires>
+    </member>
+    <member name="M:CannedBytes.IO.WriteOnlyStream.Read(System.Byte[],System.Int32,System.Int32)">
+      <inheritdocs />
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="offset &gt;= 0" vb="offset &gt;= 0">offset &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &gt;= 0" vb="count &gt;= 0">count &gt;= 0</requires>
+      <requires inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="count &lt;= buffer.Length - offset" vb="count &lt;= buffer.Length - offset">count &lt;= buffer.Length - offset</requires>
+      <ensures inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="result &gt;= 0" vb="result &gt;= 0">result &gt;= 0</ensures>
+      <ensures inheritedFrom="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)" inheritedFromTypeName="Stream" csharp="result &lt;= count" vb="result &lt;= count">result &lt;= count</ensures>
+    </member>
+    <member name="M:CannedBytes.IO.WriteOnlyStream.ReadByte">
+      <inheritdocs />
+      <ensures inheritedFrom="M:System.IO.Stream.ReadByte" inheritedFromTypeName="Stream" csharp="result &gt;= -1" vb="result &gt;= -1">result &gt;= -1</ensures>
+    </member>
+    <member name="P:CannedBytes.IO.WriteOnlyStream.CanRead">
+      <inheritdocs />
+    </member>
+  </members>
+</doc>
