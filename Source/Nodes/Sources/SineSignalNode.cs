@@ -75,7 +75,7 @@ namespace VVVV.Nodes
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			
+			PerfCounter.Start("MultiSine");
 			var sampleRate = this.WaveFormat.SampleRate;
 			var spreadMax = Frequencies.CombineWith(Gains);
 			Phases.Resize(spreadMax, () => default(float), f => f = 0);
@@ -90,7 +90,7 @@ namespace VVVV.Nodes
 			 		for (int i = 0; i < count; i++)
 			 		{
 			 			// Sinus Generator
-			 			buffer[i] = gain*(float)SineTable.Sin(phase);
+			 			buffer[i] = gain*(float)Math.Sin(phase);
 			 			
 			 			phase += increment;
 			 			if(phase > TwoPi)
@@ -117,9 +117,12 @@ namespace VVVV.Nodes
 				
 				Phases[slice] = phase; //write back
 			}
+			
+			PerfCounter.Stop("MultiSine");
 		}
 			
 	}
+	
 	
 	public class SineSignal : AudioSignal
 	{
@@ -137,6 +140,7 @@ namespace VVVV.Nodes
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
+			PerfCounter.Start("Sine");
 			
 			var sampleRate = this.WaveFormat.SampleRate;
 			var increment = TwoPi*Frequency/sampleRate;
@@ -151,6 +155,8 @@ namespace VVVV.Nodes
 				else if(phase < 0)
 					phase += TwoPi;
 			}
+			
+			PerfCounter.Stop("Sine");
 		}
 	}
 	
@@ -186,6 +192,7 @@ namespace VVVV.Nodes
 			}
 		}
 	}
+	
 	
 	[PluginInfo(Name = "MultiSine", Category = "Audio", Version = "Source", Help = "Creates a spread of sine waves", AutoEvaluate = true, Tags = "LFO, additive, synthesis")]
 	public class MultiSineSignalNode : AudioNodeBase

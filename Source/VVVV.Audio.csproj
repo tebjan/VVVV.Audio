@@ -8,7 +8,7 @@
     <RootNamespace>VVVV.Nodes</RootNamespace>
     <AssemblyName>VVVV.Audio</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <OutputPath>..\Patches\plugins\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>..\Patches\plugins\bin\$(Platform)\</OutputPath>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoWin32Manifest>False</NoWin32Manifest>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -35,6 +35,7 @@
     <DebugSymbols>False</DebugSymbols>
     <StartAction>Program</StartAction>
     <StartProgram>..\VVVV\vvvv.exe</StartProgram>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,6 +47,10 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -114,6 +119,7 @@
     <Compile Include="Nodes\Sources\AudioInputNode.cs" />
     <Compile Include="Nodes\Sources\FileStreamNode.cs" />
     <Compile Include="Nodes\Sources\SineSignalNode.cs" />
+    <Compile Include="Nodes\Sources\SineSignalNodeYeppp.cs" />
     <Compile Include="Nodes\VST\EditorFrame.cs" />
     <Compile Include="Nodes\VST\EditorFrame.Designer.cs">
       <DependentUpon>EditorFrame.cs</DependentUpon>
