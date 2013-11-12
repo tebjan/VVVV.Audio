@@ -60,6 +60,9 @@ namespace VVVV.Nodes
 		[Input("Read")]
 		IDiffSpread<bool> FRead;
 		
+		[Output("Read Position")]
+		ISpread<int> FReadPosition;
+		
 		private bool FFirstFrame = true;
 		public override void Evaluate(int SpreadMax)
 		{
@@ -80,6 +83,11 @@ namespace VVVV.Nodes
 				{
 					(OutBuffer[i] as BufferReaderSignal).DoRead = FRead[i];
 				}
+			}
+			
+			for(int i=0; i<SpreadMax; i++)
+			{
+				FReadPosition[i] = (OutBuffer[i] as BufferReaderSignal).ReadPosition;
 			}
 			
 			FFirstFrame = false;
