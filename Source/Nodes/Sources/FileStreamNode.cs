@@ -16,172 +16,39 @@ using VVVV.Utils.VMath;
 
 namespace VVVV.Nodes
 {
-	#region PluginInfo
-	[PluginInfo(Name = "FileStream", Category = "Audio", Help = "Plays Back sound files", Tags = "wav, mp3, aiff", Author = "beyon")]
-	#endregion PluginInfo
-	public class NAudioFileStreamNode : AudioSignal, IPluginEvaluate
+	public class FileStreamSignal : MultiChannelSignal
 	{
 		#region fields & pins
-		[Input("Play")]
-		IDiffSpread<bool> FPlay;
 		
-		[Input("Loop")]
-		IDiffSpread<bool> FLoop;
-		
-		[Input("Loop Start Time")]
-		IDiffSpread<double> FLoopStart;
-		
-		[Input("Loop End Time")]
-		IDiffSpread<double> FLoopEnd;
-		
-		[Input("Do Seek", IsBang = true)]
-		IDiffSpread<bool> FDoSeek;
-		
-		[Input("Seek Time")]
-		IDiffSpread<double> FSeekPosition;		
-		
-		[Input("Volume", DefaultValue = 0.25f)] //What's the best default? Good to have something audible but probably good to avoid max to save ears/speakers
-		IDiffSpread<float> FVolume;
-		
-		[Input("Filename", StringType = StringType.Filename, FileMask="Audio File (*.wav, *.mp3, *.aiff)|*.wav;*.mp3;*.aiff")]
-		IDiffSpread<string> FFilename;
+		public bool FLoop;
+		public bool FIsPlaying = false;
+		public bool FRunToEndBeforeLooping = true;
+		public TimeSpan FLoopStartTime;
+		public TimeSpan FLoopEndTime;
+		public TimeSpan FSeekTime;
 
-		[Output("Output")]
-		ISpread<AudioSignal> FOutput;
-		
-		[Output("Duration")]
-		ISpread<double> FDuration;
-		
-		[Output("Position")]
-		ISpread<double> FPosition;
-			
-		[Output("Can Seek")]
-		ISpread<bool> FCanSeek;
-		
-		private bool FIsPlaying = false;
-		private bool FRunToEndBeforeLooping = true;
-		private TimeSpan FLoopStartTime;
-		private TimeSpan FLoopEndTime;
-		private TimeSpan FSeekTime;
-
-		[Import()]
-		ILogger FLogger;
 		#endregion fields & pins
 		
-		AudioFileReader FAudioFile;
-		SilenceProvider FSilence;
-		//ISampleProvider FOut;
+		public AudioFileReader FAudioFile;
+		public SilenceProvider FSilence;
 
-		public NAudioFileStreamNode()
-			: base(44100)
+		public FileStreamSignal()
+			: base(2)
 		{
-			FSilence = new SilenceProvider(this.WaveFormat);
+			FSilence = new SilenceProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2));
 		}
 		
-		public void OpenFile()
+		public void OpenFile(string filename)
 		{
-			FAudioFile = new AudioFileReader(FFilename[0]);
-		}
-		
-		//called when data for any output pin is requested
-		public void Evaluate(int SpreadMax)
-		{
-			if(FFilename.IsChanged)
-			{
-				OpenFile();
-				if(FAudioFile != null)
-				{
-					FDuration[0] = FAudioFile.TotalTime.TotalSeconds;
-					FCanSeek[0] = FAudioFile.CanSeek;
-				}
-				else
-				{
-					FDuration[0] = 0;
-					FCanSeek[0] = FAudioFile.CanSeek;
-				}			
-			}
-			
-			if(FAudioFile == null)
-			{
-				FOutput[0]=null;
-				FPosition[0] = 0;
-				FDuration[0] = 0;
-	
-			}
-			else
-			{
-				if(FOutput[0] != this)
-				{
-					FOutput[0] = this;
-	
-				}				
-				if(FVolume.IsChanged)
-				{
-					FAudioFile.Volume = FVolume[0];
-				}
-				FPosition[0] = FAudioFile.CurrentTime.TotalSeconds;			
-			}
-			if(FPlay.IsChanged)
-			{
-				FIsPlaying = FPlay[0];
-				if((FAudioFile.CurrentTime >= FAudioFile.TotalTime) && FPlay[0])
-				{
-					FAudioFile.Position = 0;
-				}
-			}
-			if(FLoop.IsChanged)
-			{
-				if(FLoop[0] && FAudioFile.CurrentTime <= FLoopEndTime)
-				{
-					FRunToEndBeforeLooping = false;
-				}
-				else if (FLoop[0])
-				{
-					FRunToEndBeforeLooping = true;
-				}
-			}
-			if(FLoopStart.IsChanged)
-			{
-				FLoopStartTime = TimeSpan.FromSeconds(FLoopStart[0]);
-			}			
-			if(FLoopEnd.IsChanged)
-			{
-				FLoopEndTime = TimeSpan.FromSeconds(Math.Min(FLoopEnd[0], FAudioFile.TotalTime.TotalSeconds));
-			}
-			if( FLoop[0] && !FRunToEndBeforeLooping)
-			{
-				if(FAudioFile.CurrentTime > FLoopEndTime)
-				{
-					FAudioFile.CurrentTime = FLoopStartTime;
-				}
-			}			
-			if(FSeekPosition.IsChanged)
-			{
-				FSeekTime = TimeSpan.FromSeconds(Math.Min(FAudioFile.TotalTime.TotalSeconds, FSeekPosition[0]));
-			}
-			if(FDoSeek.IsChanged && FDoSeek[0] && FAudioFile.CanSeek)
-			{
-				if(!FIsPlaying && FPlay[0]) FIsPlaying = true;
-				if(FSeekTime > FLoopEndTime) FRunToEndBeforeLooping = true;
-				if(FSeekTime < FLoopStartTime) FRunToEndBeforeLooping = false;
-				FAudioFile.CurrentTime = FSeekTime;
-			}
-
-		}
-		
-		
-		public WaveFormat WaveFormat
-		{
-			//get{ return FAudioFile.WaveFormat; }
-			get{ return WaveFormat.CreateIeeeFloatWaveFormat(44100, 2); }
+			FAudioFile = new AudioFileReader(filename);
+			FSilence = new SilenceProvider(FAudioFile.WaveFormat);
+			SetOutputCount(FAudioFile.WaveFormat.Channels);
 		}
 		
 		float[] FFileBuffer = new float[1];
-		protected override void FillBuffer(float[] buffer, int offset, int sampleCount)
+		protected override void FillBuffer(float[][] buffer, int offset, int sampleCount)
 		{
-			//return FAudioFile.Read(buffer, offset, sampleCount);				
 			
-			//HACK: make two audio signals
 			var channels = FAudioFile.WaveFormat.Channels;
 			var samplesToRead = sampleCount*channels;
 			FFileBuffer = BufferHelpers.Ensure(FFileBuffer, samplesToRead);
@@ -192,7 +59,7 @@ namespace VVVV.Nodes
 	
 	            if (bytesread == 0)
 	            {
-	            	if(FLoop[0])
+	            	if(FLoop)
 	            	{
 	            		FAudioFile.CurrentTime = FLoopStartTime;
 	            		FRunToEndBeforeLooping = false;
@@ -206,20 +73,21 @@ namespace VVVV.Nodes
 					
 	            }
 	            
-	            //HACK: convert to mono
-	            var invChannels = 1.0f/channels;
-				for (int i = 0; i < sampleCount; i++)
+	            //copy to output buffers
+				for (int i = 0; i < channels; i++)
 				{
-					for (int j = 0; j < channels; j++)
+					for (int j = 0; j < sampleCount; j++)
 					{
-						buffer[i+offset] += FFileBuffer[i*channels + j];
+						buffer[i][j] = FFileBuffer[i + j*channels];
 					}
-					buffer[i+offset] *= invChannels;
 				}	            
 			}
-			else
+			else //silence
 			{
-				bytesread = FSilence.Read(buffer, offset, sampleCount);
+				for (int i = 0; i < channels; i++) 
+				{
+					buffer[i].ReadSilence(offset, sampleCount);
+				}
 			}
 						
 		}			
@@ -249,4 +117,130 @@ namespace VVVV.Nodes
 	        get { return format; }
 	    }
 	}	
+	
+	#region PluginInfo
+	[PluginInfo(Name = "FileStream", Category = "Audio", Help = "Plays Back sound files", Tags = "wav, mp3, aiff", Author = "beyon")]
+	#endregion PluginInfo
+	public class FileStreamNode : GenericMultiChannelAudioSourceNodeWithOutputs<FileStreamSignal>
+	{
+		#region fields & pins
+		[Input("Play")]
+		IDiffSpread<bool> FPlay;
+		
+		[Input("Loop")]
+		IDiffSpread<bool> FLoop;
+		
+		[Input("Loop Start Time")]
+		IDiffSpread<double> FLoopStart;
+		
+		[Input("Loop End Time")]
+		IDiffSpread<double> FLoopEnd;
+		
+		[Input("Do Seek", IsBang = true)]
+		IDiffSpread<bool> FDoSeek;
+		
+		[Input("Seek Time")]
+		IDiffSpread<double> FSeekPosition;		
+		
+		[Input("Volume", DefaultValue = 0.25f)] //What's the best default? Good to have something audible but probably good to avoid max to save ears/speakers
+		IDiffSpread<float> FVolume;
+		
+		[Input("Filename", StringType = StringType.Filename, FileMask="Audio File (*.wav, *.mp3, *.aiff)|*.wav;*.mp3;*.aiff")]
+		IDiffSpread<string> FFilename;
+		
+		[Output("Duration")]
+		ISpread<double> FDuration;
+		
+		[Output("Position")]
+		ISpread<double> FPosition;
+			
+		[Output("Can Seek")]
+		ISpread<bool> FCanSeek;
+		#endregion fields & pins
+
+		protected override void SetParameters(int i, FileStreamSignal instance)
+		{
+			if(FFilename.IsChanged)
+			{
+				instance.OpenFile(FFilename[i]);		
+			}
+
+			instance.FAudioFile.Volume = FVolume[i];
+			
+			if(FPlay.IsChanged)
+			{
+				instance.FIsPlaying = FPlay[i];
+				if((instance.FAudioFile.CurrentTime >= instance.FAudioFile.TotalTime) && FPlay[i])
+				{
+					instance.FAudioFile.Position = 0;
+				}
+			}
+			
+			if(FLoop.IsChanged)
+			{
+				if(FLoop[i] && instance.FAudioFile.CurrentTime <= instance.FLoopEndTime)
+				{
+					instance.FRunToEndBeforeLooping = false;
+				}
+				else if (FLoop[i])
+				{
+					instance.FRunToEndBeforeLooping = true;
+				}
+			}
+			
+			if(FLoopStart.IsChanged)
+			{
+				instance.FLoopStartTime = TimeSpan.FromSeconds(FLoopStart[i]);
+			}	
+			
+			if(FLoopEnd.IsChanged)
+			{
+				instance.FLoopEndTime = TimeSpan.FromSeconds(Math.Min(FLoopEnd[i], instance.FAudioFile.TotalTime.TotalSeconds));
+			}
+			
+			if( FLoop[i] && !instance.FRunToEndBeforeLooping)
+			{
+				if(instance.FAudioFile.CurrentTime > instance.FLoopEndTime)
+				{
+					instance.FAudioFile.CurrentTime = instance.FLoopStartTime;
+				}
+			}
+			
+			if(FSeekPosition.IsChanged)
+			{
+				instance.FSeekTime = TimeSpan.FromSeconds(Math.Min(instance.FAudioFile.TotalTime.TotalSeconds, FSeekPosition[i]));
+			}
+			
+			if(FDoSeek[i] && instance.FAudioFile.CanSeek)
+			{
+				instance.FIsPlaying = FPlay[i];
+				
+				if(instance.FSeekTime > instance.FLoopEndTime) instance.FRunToEndBeforeLooping = true;
+				if(instance.FSeekTime < instance.FLoopStartTime) instance.FRunToEndBeforeLooping = false;
+				instance.FAudioFile.CurrentTime = instance.FSeekTime;
+			}
+		}
+		
+		protected override void SetOutputs(int i, FileStreamSignal instance)
+		{
+			if(instance.FAudioFile == null)
+			{
+				FPosition[i] = 0;
+				FDuration[i] = 0;
+				FCanSeek[i] = false;
+			}
+			else
+			{
+				FPosition[i] = instance.FAudioFile.CurrentTime.TotalSeconds;
+				FDuration[i] = instance.FAudioFile.TotalTime.TotalSeconds;
+				FCanSeek[i] = instance.FAudioFile.CanSeek;
+			}
+		}
+		
+		protected override FileStreamSignal GetInstance(int i)
+		{
+			return new FileStreamSignal();
+		}
+	}
+	
 }

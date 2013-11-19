@@ -198,7 +198,7 @@ namespace VVVV.Nodes
 	}
 	
 	[PluginInfo(Name = "Sine", Category = "Audio", Version = "Source Yeppp", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
-	public class SineSignalNodeYeppp : AudioNodeBase
+	public class SineSignalNodeYeppp : GenericAudioSourceNode<SineSignalYeppp>
 	{
 		[Input("Frequency", DefaultValue = 440)]
 		IDiffSpread<float> Frequency;
@@ -212,32 +212,20 @@ namespace VVVV.Nodes
 			PerfLogger.Logger = logger;
 		}
 		
-		public override void Evaluate(int SpreadMax)
+		protected override void SetParameters(int i, SineSignalYeppp instance)
 		{
-			OutBuffer.ResizeAndDispose(SpreadMax, index => new SineSignalYeppp(Frequency[index], Gain[index]));
-			
-			if(Frequency.IsChanged)
-			{
-				for(int i=0; i<SpreadMax; i++)
-				{
-					if(OutBuffer[i] == null) OutBuffer[i] = new SineSignalYeppp(Frequency[i], Gain[i]); 
-					
-					(OutBuffer[i] as SineSignalYeppp).Frequency = Frequency[i];
-				}
-			}
-			
-			if(Gain.IsChanged)
-			{
-				for(int i=0; i<SpreadMax; i++)
-				{
-					(OutBuffer[i] as SineSignalYeppp).Gain  = Gain[i];
-				}
-			}
+			instance.Gain = Gain[i];
+			instance.Frequency = Frequency[i];
+		}
+		
+		protected override AudioSignal GetInstance(int i)
+		{
+			return new SineSignal(Frequency[i], Gain[i]);
 		}
 	}
 	
 	[PluginInfo(Name = "MultiSine", Category = "Audio", Version = "Source Yeppp", Help = "Creates a spread of sine waves", AutoEvaluate = true, Tags = "LFO, additive, synthesis")]
-	public class MultiSineSignalNodeYeppp : AudioNodeBase
+	public class MultiSineSignalNodeYeppp : GenericAudioSourceNode<MultiSineSignalYeppp>
 	{
 		[Input("Frequency", DefaultValue = 440)]
 		IDiffSpread<ISpread<float>> Frequency;
@@ -251,28 +239,15 @@ namespace VVVV.Nodes
 			PerfLogger.Logger = logger;
 		}
 		
-		public override void Evaluate(int SpreadMax)
+		protected override void SetParameters(int i, MultiSineSignalYeppp instance)
 		{
-			SpreadMax = Frequency.CombineWith(Gain);
-			OutBuffer.ResizeAndDispose(SpreadMax, index => new MultiSineSignalYeppp(Frequency[index], Gain[index]));
-			
-			if(Frequency.IsChanged)
-			{
-				for(int i=0; i<SpreadMax; i++)
-				{
-					if(OutBuffer[i] == null) OutBuffer[i] = new MultiSineSignalYeppp(Frequency[i], Gain[i]); 
-					
-					(OutBuffer[i] as MultiSineSignalYeppp).Frequencies = Frequency[i];
-				}
-			}
-			
-			if(Gain.IsChanged)
-			{
-				for(int i=0; i<SpreadMax; i++)
-				{
-					(OutBuffer[i] as MultiSineSignalYeppp).Gains = Gain[i];
-				}
-			}
+			instance.Gains = Gain[i];
+			instance.Frequencies = Frequency[i];
+		}
+		
+		protected override AudioSignal GetInstance(int i)
+		{
+			return new MultiSineSignal(Frequency[i], Gain[i]);
 		}
 	}
 }

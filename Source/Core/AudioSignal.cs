@@ -20,6 +20,15 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Audio
 {
+	public interface ICanCopyBuffer
+	{
+		bool NeedsBufferCopy
+		{
+			get;
+			set;
+		}
+	}
+	
 	public class AudioSignalBase : IDisposable
 	{
 		public AudioSignalBase()
@@ -39,7 +48,7 @@ namespace VVVV.Audio
 		}
 	}
 	
-	public class AudioSignal : AudioSignalBase, ISampleProvider
+	public class AudioSignal : AudioSignalBase, ISampleProvider, ICanCopyBuffer
 	{
 		
 		public AudioSignal(int sampleRate)
@@ -106,6 +115,33 @@ namespace VVVV.Audio
 	    	protected set;
 	    	
 	    }
+	}
+	
+	public class AudioSignalSpread : Spread<AudioSignal>, ICanCopyBuffer
+	{
+		
+		public AudioSignalSpread(int count)
+			: base(count)
+		{
+			
+		}
+		
+		bool FNeedsBufferCopy;
+		public bool NeedsBufferCopy
+		{
+			get 
+			{
+				return FNeedsBufferCopy;
+			}
+			set 
+			{
+				FNeedsBufferCopy = value;
+				foreach (var element in this) 
+				{
+					element.NeedsBufferCopy = FNeedsBufferCopy;
+				}
+			}
+		}
 	}
 }
 

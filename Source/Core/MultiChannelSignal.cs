@@ -53,7 +53,12 @@ namespace VVVV.Audio
 		public MultiChannelSignal(int outputCount)
 			: base()
 		{
-			FOutputCount = outputCount;
+			SetOutputCount(outputCount);
+		}
+		
+		protected void SetOutputCount(int newCount)
+		{
+			FOutputCount = newCount;
 			Outputs = new Spread<AudioSignal>(FOutputCount);
 			FReadBuffers = new float[FOutputCount][];
 			
@@ -63,7 +68,6 @@ namespace VVVV.Audio
 				FReadBuffers[i] = new float[512];
 				(Outputs[i] as SingleSignal).SetBuffer(FReadBuffers[i]);
 			}
-			
 		}
 		
 		public ISpread<AudioSignal> Outputs

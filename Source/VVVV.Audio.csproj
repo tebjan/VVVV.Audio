@@ -8,7 +8,7 @@
     <RootNamespace>VVVV.Nodes</RootNamespace>
     <AssemblyName>VVVV.Audio</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <OutputPath>..\Patches\plugins\bin\$(Platform)\</OutputPath>
+    <OutputPath>..\Patches\plugins\bin\</OutputPath>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoWin32Manifest>False</NoWin32Manifest>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -46,7 +46,7 @@
     <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <BaseAddress>4194304</BaseAddress>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
