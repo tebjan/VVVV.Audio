@@ -23,13 +23,13 @@ namespace VVVV.Nodes
 		public bool FLoop;
 		public bool FIsPlaying = false;
 		public bool FRunToEndBeforeLooping = true;
-		public TimeSpan FLoopStartTime;
-		public TimeSpan FLoopEndTime;
+		public TimeSpan LoopStartTime;
+		public TimeSpan LoopEndTime;
 		public TimeSpan FSeekTime;
 
 		#endregion fields & pins
 		
-		public AudioFileReader FAudioFile;
+		public AudioResampleFileReader FAudioFile;
 		public SilenceProvider FSilence;
 
 		public FileStreamSignal()
@@ -40,7 +40,7 @@ namespace VVVV.Nodes
 		
 		public void OpenFile(string filename)
 		{
-			FAudioFile = new AudioFileReader(filename);
+			FAudioFile = new AudioResampleFileReader(filename, 44100);
 			FSilence = new SilenceProvider(FAudioFile.WaveFormat);
 			SetOutputCount(FAudioFile.WaveFormat.Channels);
 		}
@@ -61,9 +61,9 @@ namespace VVVV.Nodes
 	            {
 	            	if(FLoop)
 	            	{
-	            		FAudioFile.CurrentTime = FLoopStartTime;
+	            		FAudioFile.CurrentTime = LoopStartTime;
 	            		FRunToEndBeforeLooping = false;
-		                bytesread = FAudioFile.Read(FFileBuffer, offset*channels, samplesToRead);	            		
+		                bytesread = FAudioFile.Read(FFileBuffer, offset*channels, samplesToRead);  		
 	            	}
 	            	else
 	            	{
@@ -178,7 +178,7 @@ namespace VVVV.Nodes
 			
 			if(FLoop.IsChanged)
 			{
-				if(FLoop[i] && instance.FAudioFile.CurrentTime <= instance.FLoopEndTime)
+				if(FLoop[i] && instance.FAudioFile.CurrentTime <= instance.LoopEndTime)
 				{
 					instance.FRunToEndBeforeLooping = false;
 				}
@@ -190,19 +190,19 @@ namespace VVVV.Nodes
 			
 			if(FLoopStart.IsChanged)
 			{
-				instance.FLoopStartTime = TimeSpan.FromSeconds(FLoopStart[i]);
+				instance.LoopStartTime = TimeSpan.FromSeconds(FLoopStart[i]);
 			}	
 			
 			if(FLoopEnd.IsChanged)
 			{
-				instance.FLoopEndTime = TimeSpan.FromSeconds(Math.Min(FLoopEnd[i], instance.FAudioFile.TotalTime.TotalSeconds));
+				instance.LoopEndTime = TimeSpan.FromSeconds(Math.Min(FLoopEnd[i], instance.FAudioFile.TotalTime.TotalSeconds));
 			}
 			
 			if( FLoop[i] && !instance.FRunToEndBeforeLooping)
 			{
-				if(instance.FAudioFile.CurrentTime > instance.FLoopEndTime)
+				if(instance.FAudioFile.CurrentTime > instance.LoopEndTime)
 				{
-					instance.FAudioFile.CurrentTime = instance.FLoopStartTime;
+					instance.FAudioFile.CurrentTime = instance.LoopStartTime;
 				}
 			}
 			
@@ -215,8 +215,8 @@ namespace VVVV.Nodes
 			{
 				instance.FIsPlaying = FPlay[i];
 				
-				if(instance.FSeekTime > instance.FLoopEndTime) instance.FRunToEndBeforeLooping = true;
-				if(instance.FSeekTime < instance.FLoopStartTime) instance.FRunToEndBeforeLooping = false;
+				if(instance.FSeekTime > instance.LoopEndTime) instance.FRunToEndBeforeLooping = true;
+				if(instance.FSeekTime < instance.LoopStartTime) instance.FRunToEndBeforeLooping = false;
 				instance.FAudioFile.CurrentTime = instance.FSeekTime;
 			}
 		}
