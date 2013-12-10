@@ -19,47 +19,9 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	public class SineTable
-	{
-		public double[] Table;
-		private double StepSize;
-		private int Size;
-		public SineTable(int size)
-		{
-			Size = size;
-			Table = new double[Size];
-			StepSize = (1.0f/Size) * (Math.PI * 2);
-			FillTable();
-		}
-		
-		void FillTable()
-		{
-			for (int i = 0; i < Size; i++)
-			{
-				Table[i] = Math.Sin(( (i / (double)Size) * (Math.PI * 2)));
-			}
-		}
-		
-		public double Sin(float phase)
-		{
-			var index = (int)Math.Floor(phase / StepSize) % Size;
-			
-			return Table[index];
-		}
-		
-		public double SinInterpolated(float phase)
-		{
-			var floatIndex = phase / StepSize;
-			var index = (int)Math.Floor(floatIndex) % Size;
-			var nextIndex = (index + 1) % Size;
-			
-			return VMath.Lerp(Table[index], Table[nextIndex], floatIndex % 1.0);
-		}
-	}
-	
+
 	public class MultiSineSignal : AudioSignal
 	{
-		SineTable SineTable = new SineTable(2205);
 		public MultiSineSignal(ISpread<float> frequency, ISpread<float> gain)
 			: base(44100)
 		{

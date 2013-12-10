@@ -63,7 +63,6 @@ namespace VVVV.Nodes
 	
 	public class MultiSineSignalYeppp : AudioSignal
 	{
-		SineTable SineTable = new SineTable(2205);
 		public MultiSineSignalYeppp(ISpread<float> frequency, ISpread<float> gain)
 			: base(44100)
 		{
