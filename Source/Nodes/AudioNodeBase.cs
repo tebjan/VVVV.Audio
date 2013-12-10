@@ -58,6 +58,9 @@ namespace VVVV.Nodes
 					FDiffInputs.Add(spread);
 				}
 			}
+			
+			//set out buffer slice count to 0 so the
+			OutBuffer.SliceCount = 0;
 		}
 		
 		private void CheckOutConnections()
@@ -72,6 +75,20 @@ namespace VVVV.Nodes
 		
 		//called when data for any output pin is requested
 		public abstract void Evaluate(int SpreadMax);
+		
+		/// <summary>
+		/// Should return whether new parameters need to be set on the audio signals
+		/// </summary>
+		/// <returns></returns>
+		protected virtual bool AnyInputChanged()
+		{			
+			for (int i = 0; i < FDiffInputs.Count; i++) 
+			{
+				if(FDiffInputs[i].IsChanged) return true;
+			}
+			
+			return false;
+		}
 		
 		//dispose stuff?
 		public virtual void Dispose()
@@ -126,20 +143,6 @@ namespace VVVV.Nodes
 					}
 				}
 			}
-		}
-		
-		/// <summary>
-		/// Should return whether new parameters need to be set on the audio signals
-		/// </summary>
-		/// <returns></returns>
-		protected virtual bool AnyInputChanged()
-		{			
-			for (int i = 0; i < FDiffInputs.Count; i++) 
-			{
-				if(FDiffInputs[i].IsChanged) return true;
-			}
-			
-			return false;
 		}
 		
 		/// <summary>
@@ -199,7 +202,7 @@ namespace VVVV.Nodes
 			get;
 			private set;
 		}
-	
+			
 		public override void Evaluate(int SpreadMax)
 		{
 			CalculatedSpreadMax = GetSpreadMax(SpreadMax);
@@ -219,20 +222,6 @@ namespace VVVV.Nodes
 				}
 			}
 			
-		}
-		
-		/// <summary>
-		/// Should return whether new parameters need to be set on the audio signals
-		/// </summary>
-		/// <returns></returns>
-		protected virtual bool AnyInputChanged()
-		{			
-			for (int i = 0; i < FDiffInputs.Count; i++) 
-			{
-				if(FDiffInputs[i].IsChanged) return true;
-			}
-			
-			return false;
 		}
 		
 		/// <summary>

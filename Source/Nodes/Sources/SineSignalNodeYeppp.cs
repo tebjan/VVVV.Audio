@@ -31,7 +31,7 @@ namespace VVVV.Nodes
 		{
 			if(Counter == 0 && Logger != null)
 			{
-				Logger.Log(LogType.Message, msg);
+				//Logger.Log(LogType.Message, msg);
 			}
 			
 			Counter++;
@@ -237,6 +237,11 @@ namespace VVVV.Nodes
 		public MultiSineSignalNodeYeppp([Import] ILogger logger)
 		{
 			PerfLogger.Logger = logger;
+		}
+		
+		protected override int GetSpreadMax(int originalSpreadMax)
+		{
+			return Math.Max(Frequency.SliceCount, Gain.SliceCount);
 		}
 		
 		protected override void SetParameters(int i, MultiSineSignalYeppp instance)

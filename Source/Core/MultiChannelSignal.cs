@@ -94,6 +94,7 @@ namespace VVVV.Audio
 		{
 			if(FNeedsRead)
 			{
+				ManageBuffers(count);
 				FillBuffer(FReadBuffers, offset, count);
 				FNeedsRead = false;
 			}

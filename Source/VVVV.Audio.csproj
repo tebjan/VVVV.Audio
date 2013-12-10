@@ -138,6 +138,7 @@
     <Compile Include="Utils\AudioUtils.cs" />
     <Compile Include="Utils\FFT.cs" />
     <Compile Include="Utils\NAudio\AudioResampleFileReader.cs" />
+    <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core" />

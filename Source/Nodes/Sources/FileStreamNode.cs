@@ -29,7 +29,7 @@ namespace VVVV.Nodes
 
 		#endregion fields & pins
 		
-		public AudioResampleFileReader FAudioFile;
+		public CachedAudioResampleFileReader FAudioFile;
 		public SilenceProvider FSilence;
 
 		public FileStreamSignal()
@@ -40,7 +40,12 @@ namespace VVVV.Nodes
 		
 		public void OpenFile(string filename)
 		{
-			FAudioFile = new AudioResampleFileReader(filename, 44100);
+			if (FAudioFile != null)
+			{
+				FAudioFile.Dispose();
+			}
+			
+			FAudioFile = new CachedAudioResampleFileReader(filename, 44100);
 			FSilence = new SilenceProvider(FAudioFile.WaveFormat);
 			SetOutputCount(FAudioFile.WaveFormat.Channels);
 		}
@@ -90,7 +95,13 @@ namespace VVVV.Nodes
 				}
 			}
 						
-		}			
+		}
+
+		public override void Dispose()
+		{
+			FAudioFile.Dispose();
+			base.Dispose();
+		}		
 	}
 	
 	//SilenceProvider code from vexorum, http://naudio.codeplex.com/workitem/16377

@@ -14,7 +14,7 @@ namespace VVVV.Audio
     /// ISampleProvider, making it possibly the only stage in your audio
     /// pipeline necessary for simple playback scenarios
     /// </summary>
-    public class AudioResampleFileReader : WaveStream, ISampleProvider
+    public class CachedAudioResampleFileReader : WaveStream, ISampleProvider
     {
         private string fileName;
         private WaveStream readerStream; // the waveStream which we will use for all positioning
@@ -23,12 +23,64 @@ namespace VVVV.Audio
         private readonly int sourceBytesPerSample;
         private readonly long length;
         private readonly object lockObject;
+        
 
+
+        bool FCacheFile;
+        public bool CacheFile 
+        {
+        	get 
+        	{ 
+        		return FCacheFile; 
+        	}
+        	set
+        	{
+        		if(FCacheFile != value)
+        		{
+        			FCacheFile = value;
+        			DoCacheFile();
+        		}
+        	}
+        }
+        
+        float[][] FCache;
+		void DoCacheFile()
+		{
+			if(FCacheFile)
+			{
+				FCache = new float[sampleChannel.WaveFormat.Channels][];
+				
+				for (int i = 0; i < FCache.Length; i++) 
+				{
+					FCache[i] = new float[readerStream.Length/4];
+				}
+				
+				long outputLength = 0;
+                var buffer = new float[sampleChannel.WaveFormat.AverageBytesPerSecond * 4];
+                //var stream = new BufferedSampleProvider();
+                while (true)
+                {
+                    int bytesRead = sampleChannel.Read(buffer, 0, buffer.Length);
+                    if (bytesRead == 0)
+                    {
+                        // end of source
+                        break;
+                    }
+                    outputLength += bytesRead;
+                    if (outputLength > Int32.MaxValue)
+                    {
+                        throw new InvalidOperationException("WAV File cannot be greater than 2GB. Check that sourceProvider is not an endless stream.");
+                    }
+                    
+                }
+			}
+		}
+        
         /// <summary>
         /// Initializes a new instance of AudioFileReader
         /// </summary>
         /// <param name="fileName">The file to open</param>
-        public AudioResampleFileReader(string fileName, int desiredSamplerate)
+        public CachedAudioResampleFileReader(string fileName, int desiredSamplerate)
         {
             lockObject = new object();
             this.fileName = fileName;
@@ -71,12 +123,13 @@ namespace VVVV.Audio
                 readerStream = new MediaFoundationReader(fileName);
             }
             
+            //needs sresampling?
             if(readerStream.WaveFormat.SampleRate != desiredSamplerate)
             {
             	var wf = readerStream.WaveFormat;
             	//var targetFormat = WaveFormat.CreateCustomFormat(wf.Encoding, desiredSamplerate, wf.Channels, wf.AverageBytesPerSecond, wf.BlockAlign, 16);
             	var targetFormat = new WaveFormat(desiredSamplerate, wf.BitsPerSample, wf.Channels);
-            	readerStream = new WaveFormatConversionStream(targetFormat, readerStream);
+            	readerStream = new WaveProviderToWaveStream(new MediaFoundationResampler(readerStream, targetFormat), readerStream);
             }
         }
 

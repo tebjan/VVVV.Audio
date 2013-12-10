@@ -191,6 +191,11 @@ namespace VVVV.Nodes
 		[Input("Gain", DefaultValue = 0.1)]
 		IDiffSpread<ISpread<float>> Gain;
 		
+		protected override int GetSpreadMax(int originalSpreadMax)
+		{
+			return Math.Max(Frequency.SliceCount, Gain.SliceCount);
+		}
+		
 		protected override void SetParameters(int i, MultiSineSignal instance)
 		{
 			instance.Gains = Gain[i];

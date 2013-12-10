@@ -117,24 +117,43 @@ namespace VVVV.Audio
 				//e.g. buffer writers should write first to have the latest data in the buffer storage
 				for (int i = 0; i < FSinks.Count; i++)
 				{
-					FSinks[i].Read(offset / 4, samplesNeeded);
+					try
+					{
+						FSinks[i].Read(offset / 4, samplesNeeded);
+					}
+					catch (Exception e)
+					{
+						System.Diagnostics.Debug.WriteLine(e.Message);
+						System.Diagnostics.Debug.WriteLine(e.Source);
+						System.Diagnostics.Debug.WriteLine(e.StackTrace);
+					}
 				}
-				
-				//evaluate the inputs
+					
+					//evaluate the inputs
 				var inputCount = FSources.Count;
 				for(int i=0; i<inputCount; i++)
 				{
 					if(FSources[i].Signal != null)
 					{
-						//starts the calculation of the audio graph
-						FSources[i].Signal.Read(FMixerBuffer, offset / 4, samplesNeeded);
-						var chan = FSources[i].Channel % channels;
-						
-						//add to output buffer
-						for(int j=0; j<samplesNeeded; j++)
+						try
 						{
-							wb.FloatBuffer[j*channels + chan] += FMixerBuffer[j];
-							FMixerBuffer[j] = 0;
+							//starts the calculation of the audio graph
+							FSources[i].Signal.Read(FMixerBuffer, offset / 4, samplesNeeded);
+							var chan = FSources[i].Channel % channels;
+							
+							//add to output buffer
+							for(int j=0; j<samplesNeeded; j++)
+							{
+								wb.FloatBuffer[j*channels + chan] += FMixerBuffer[j];
+								FMixerBuffer[j] = 0;
+							}
+							
+						} 
+						catch (Exception e)
+						{
+							System.Diagnostics.Debug.WriteLine(e.Message);
+							System.Diagnostics.Debug.WriteLine(e.Source);
+							System.Diagnostics.Debug.WriteLine(e.StackTrace);
 						}
 					}
 				}
