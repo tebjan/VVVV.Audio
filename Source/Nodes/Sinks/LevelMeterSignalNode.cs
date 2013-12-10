@@ -26,24 +26,25 @@ namespace VVVV.Nodes
 		public LevelMeterSignal(AudioSignal input)
 			: base(44100)
 		{
-			if (input == null)
-				throw new ArgumentNullException("Input of LevelMeterSignal construcor is null");
 			FInput = input;
 		}
 		
-		protected AudioSignal FInput;
+		public AudioSignal FInput;
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			FInput.Read(buffer, offset, count);
-			
-			var max = 0.0;
-			for (int i = offset; i < count; i++)
+			if(FInput != null)
 			{
-				max = Math.Max(max, Math.Abs(buffer[i]));
+				FInput.Read(buffer, offset, count);
+				
+				var max = 0.0;
+				for (int i = offset; i < count; i++)
+				{
+					max = Math.Max(max, Math.Abs(buffer[i]));
+				}
+				
+				FStack.Push(AudioUtils.SampleTodBs(max));
 			}
-			
-			FStack.Push(AudioUtils.SampleTodBs(max));
 		}
 	}
 	
@@ -70,6 +71,8 @@ namespace VVVV.Nodes
 				{
 					if(FInput[i] != null)
 						FBufferReaders[i] = (new LevelMeterSignal(FInput[i]));
+					else
+						FBufferReaders[i].FInput = null;
 					
 				}
 				

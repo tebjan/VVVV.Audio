@@ -77,6 +77,15 @@ namespace VVVV.Nodes
 	            	}
 					
 	            }
+	            else
+	            {
+	            	if(FLoop && FAudioFile.CurrentTime >= LoopEndTime)
+	            	{
+	            		FAudioFile.CurrentTime = LoopStartTime;
+	            		FRunToEndBeforeLooping = false;
+		                //bytesread = FAudioFile.Read(FFileBuffer, offset*channels, samplesToRead);  		
+	            	}
+	            }
 	            
 	            //copy to output buffers
 				for (int i = 0; i < channels; i++)
@@ -197,6 +206,7 @@ namespace VVVV.Nodes
 				{
 					instance.FRunToEndBeforeLooping = true;
 				}
+				instance.FLoop = FLoop[i];
 			}
 			
 			if(FLoopStart.IsChanged)

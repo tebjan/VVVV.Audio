@@ -17,12 +17,12 @@ namespace VVVV.Audio
     public class CachedAudioResampleFileReader : WaveStream, ISampleProvider
     {
         private string fileName;
-        private WaveStream readerStream; // the waveStream which we will use for all positioning
-        private readonly SampleChannel sampleChannel; // sample provider that gives us most stuff we need
-        private readonly int destBytesPerSample;
-        private readonly int sourceBytesPerSample;
-        private readonly long length;
-        private readonly object lockObject;
+        private WaveStream FReaderStream; // the waveStream which we will use for all positioning
+        private readonly SampleChannel FSampleChannel; // sample provider that gives us most stuff we need
+        private readonly int FDestBytesPerSample;
+        private readonly int FSourceBytesPerSample;
+        private readonly long FLength;
+        private readonly object FLockObject;
         
 
 
@@ -48,22 +48,22 @@ namespace VVVV.Audio
 		{
 			if(FCacheFile)
 			{
-				FCache = new float[sampleChannel.WaveFormat.Channels][];
+				FCache = new float[FSampleChannel.WaveFormat.Channels][];
 				
 				for (int i = 0; i < FCache.Length; i++) 
 				{
-					FCache[i] = new float[readerStream.Length/4];
+					FCache[i] = new float[FReaderStream.Length/4];
 				}
 				
 				long outputLength = 0;
-                var buffer = new float[sampleChannel.WaveFormat.AverageBytesPerSecond * 4];
+                var buffer = new float[FSampleChannel.WaveFormat.AverageBytesPerSecond * 4];
                 //var stream = new BufferedSampleProvider();
                 while (true)
                 {
-                    int bytesRead = sampleChannel.Read(buffer, 0, buffer.Length);
+                    int bytesRead = FSampleChannel.Read(buffer, 0, buffer.Length);
                     if (bytesRead == 0)
                     {
-                        // end of source
+                        //end of source
                         break;
                     }
                     outputLength += bytesRead;
@@ -71,7 +71,6 @@ namespace VVVV.Audio
                     {
                         throw new InvalidOperationException("WAV File cannot be greater than 2GB. Check that sourceProvider is not an endless stream.");
                     }
-                    
                 }
 			}
 		}
@@ -82,13 +81,13 @@ namespace VVVV.Audio
         /// <param name="fileName">The file to open</param>
         public CachedAudioResampleFileReader(string fileName, int desiredSamplerate)
         {
-            lockObject = new object();
+            FLockObject = new object();
             this.fileName = fileName;
             CreateReaderStream(fileName, desiredSamplerate);
-            sourceBytesPerSample = (readerStream.WaveFormat.BitsPerSample / 8) * readerStream.WaveFormat.Channels;
-            sampleChannel = new SampleChannel(readerStream, false);
-            destBytesPerSample = 4*sampleChannel.WaveFormat.Channels;
-            length = SourceToDest(readerStream.Length);
+            FSourceBytesPerSample = (FReaderStream.WaveFormat.BitsPerSample / 8) * FReaderStream.WaveFormat.Channels;
+            FSampleChannel = new SampleChannel(FReaderStream, false);
+            FDestBytesPerSample = 4*FSampleChannel.WaveFormat.Channels;
+            FLength = SourceToDest(FReaderStream.Length);
         }
 
         /// <summary>
@@ -100,36 +99,36 @@ namespace VVVV.Audio
         {
             if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
             {
-                readerStream = new WaveFileReader(fileName);
-                if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm 
-                    && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat 
-                    && readerStream.WaveFormat.Encoding != WaveFormatEncoding.Extensible)
+                FReaderStream = new WaveFileReader(fileName);
+                if (FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm 
+                    && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat 
+                    && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Extensible)
                 {
-                    readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
-                    readerStream = new BlockAlignReductionStream(readerStream);
+                    FReaderStream = WaveFormatConversionStream.CreatePcmStream(FReaderStream);
+                    FReaderStream = new BlockAlignReductionStream(FReaderStream);
                 }
             }
             else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
             {
-                readerStream = new Mp3FileReader(fileName);
+                FReaderStream = new Mp3FileReader(fileName);
             }
             else if (fileName.EndsWith(".aiff"))
             {
-                readerStream = new AiffFileReader(fileName);
+                FReaderStream = new AiffFileReader(fileName);
             }
             else
             {
                 // fall back to media foundation reader, see if that can play it
-                readerStream = new MediaFoundationReader(fileName);
+                FReaderStream = new MediaFoundationReader(fileName);
             }
             
             //needs sresampling?
-            if(readerStream.WaveFormat.SampleRate != desiredSamplerate)
+            if(FReaderStream.WaveFormat.SampleRate != desiredSamplerate)
             {
-            	var wf = readerStream.WaveFormat;
+            	var wf = FReaderStream.WaveFormat;
             	//var targetFormat = WaveFormat.CreateCustomFormat(wf.Encoding, desiredSamplerate, wf.Channels, wf.AverageBytesPerSecond, wf.BlockAlign, 16);
             	var targetFormat = new WaveFormat(desiredSamplerate, wf.BitsPerSample, wf.Channels);
-            	readerStream = new WaveProviderToWaveStream(new MediaFoundationResampler(readerStream, targetFormat), readerStream);
+            	FReaderStream = new WaveProviderToWaveStream(new MediaFoundationResampler(FReaderStream, targetFormat), FReaderStream);
             }
         }
 
@@ -138,7 +137,7 @@ namespace VVVV.Audio
         /// </summary>
         public override WaveFormat WaveFormat
         {
-            get { return sampleChannel.WaveFormat; }
+            get { return FSampleChannel.WaveFormat; }
         }
 
         /// <summary>
@@ -146,7 +145,7 @@ namespace VVVV.Audio
         /// </summary>
         public override long Length
         {
-            get { return length; }
+            get { return FLength; }
         }
 
         /// <summary>
@@ -154,8 +153,14 @@ namespace VVVV.Audio
         /// </summary>
         public override long Position
         {
-            get { return SourceToDest(readerStream.Position); }
-            set { lock (lockObject) { readerStream.Position = DestToSource(value); }  }
+            get { return SourceToDest(FReaderStream.Position); }
+            set 
+            { 
+            	//lock (FLockObject) 
+            	{ 
+            		FReaderStream.Position = DestToSource(value); 
+            	}  
+            }
         }
 
         /// <summary>
@@ -182,9 +187,9 @@ namespace VVVV.Audio
         /// <returns>Number of samples read</returns>
         public int Read(float[] buffer, int offset, int count)
         {
-            lock (lockObject)
+            //lock (FLockObject)
             {
-                return sampleChannel.Read(buffer, offset, count);
+                return FSampleChannel.Read(buffer, offset, count);
             }
         }
 
@@ -193,8 +198,8 @@ namespace VVVV.Audio
         /// </summary>
         public float Volume
         {
-            get { return sampleChannel.Volume; }
-            set { sampleChannel.Volume = value; } 
+            get { return FSampleChannel.Volume; }
+            set { FSampleChannel.Volume = value; } 
         }
 
         /// <summary>
@@ -202,7 +207,7 @@ namespace VVVV.Audio
         /// </summary>
         private long SourceToDest(long sourceBytes)
         {
-            return destBytesPerSample * (sourceBytes / sourceBytesPerSample);
+            return FDestBytesPerSample * (sourceBytes / FSourceBytesPerSample);
         }
 
         /// <summary>
@@ -210,7 +215,7 @@ namespace VVVV.Audio
         /// </summary>
         private long DestToSource(long destBytes)
         {
-            return sourceBytesPerSample * (destBytes / destBytesPerSample);
+            return FSourceBytesPerSample * (destBytes / FDestBytesPerSample);
         }
 
         /// <summary>
@@ -221,8 +226,8 @@ namespace VVVV.Audio
         {
             if (disposing)
             {
-                readerStream.Dispose();
-                readerStream = null;
+                FReaderStream.Dispose();
+                FReaderStream = null;
             }
             base.Dispose(disposing);
         }
