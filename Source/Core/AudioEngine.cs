@@ -74,6 +74,9 @@ namespace VVVV.Audio
 		//this mixes multiple sample providers from the graph to a waveprovider which is set to
 		MasterWaveProvider MasterWaveProvider;
 		
+		private int FOpenInputChannels;
+		private int FOpenOutputChannels;
+		
 		//the driver wrapper
 		public AsioOut AsioOut;
 		
@@ -176,46 +179,53 @@ namespace VVVV.Audio
 		
 		#region asio
 		
+
 		/// <summary>
-		/// Set the Driver name, this initializes the output driver
+		/// Initializes the Audio Driver if necessary
 		/// </summary>
-		public string DriverName
+		/// <param name="driverName"></param>
+		/// <param name="sampleRate"></param>
+		/// <param name="inputChannels"></param>
+		/// <param name="inputChannelOffset"></param>
+		/// <param name="outputChannels"></param>
+		/// <param name="outputChannelOffset"></param>
+		public void ChangeDriverSettings(string driverName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
 		{
-			get
+			if(AsioOut == null || AsioOut.DriverName != driverName
+			   || MasterWaveProvider.WaveFormat.SampleRate != sampleRate
+			   || AsioOut.NumberOfInputChannels != inputChannels
+			   || AsioOut.InputChannelOffset != inputChannelOffset
+			   || AsioOut.NumberOfOutputChannels != outputChannels
+			   || AsioOut.ChannelOffset != outputChannelOffset)
 			{
-				return AsioOut.DriverName;
-			}
-			
-			set
-			{
-				if(AsioOut == null || AsioOut.DriverName != value)
-				{ 
-					CreateAsio(value);
+				//dispose device if necessary
+				if (this.AsioOut != null)
+				{
+					Cleanup();
 				}
+				
+				//create new driver
+				this.AsioOut = new AsioOut(driverName);
+				
+				//set channel offset
+				AsioOut.ChannelOffset = outputChannelOffset;
+				AsioOut.InputChannelOffset = inputChannelOffset;
+				
+				//init driver
+				MasterWaveProvider.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, outputChannels);
+				this.AsioOut.InitRecordAndPlayback(MasterWaveProvider, inputChannels, sampleRate);
+				
+				//register for recording
+				FRecordBuffers = new float[AsioOut.DriverInputChannelCount][];
+				for (int i = 0; i < FRecordBuffers.Length; i++)
+				{
+					FRecordBuffers[i] = new float[512];
+				}
+				this.AsioOut.AudioAvailable += AudioEngine_AudioAvailable;
 			}
-		}
-		
-		//init driver
-		private void CreateAsio(string driverName)
-		{
-			//dispose device if necessary
-			if (this.AsioOut != null)
-			{
-				Cleanup();
-			}
-			
-			this.AsioOut = new AsioOut(driverName);
-			MasterWaveProvider.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, AsioOut.DriverOutputChannelCount);
-			this.AsioOut.InitRecordAndPlayback(MasterWaveProvider, AsioOut.DriverInputChannelCount, 44100);
-			//register for recording
-			FRecordBuffers = new float[AsioOut.DriverInputChannelCount][];
-			for (int i = 0; i < FRecordBuffers.Length; i++)
-			{
-				FRecordBuffers[i] = new float[512];
-			}
-			this.AsioOut.AudioAvailable += AudioEngine_AudioAvailable;
 		}
 
+		//audio input
 		protected float[][] FRecordBuffers;
 		protected void AudioEngine_AudioAvailable(object sender, AsioAudioAvailableEventArgs e)
 		{
@@ -248,15 +258,6 @@ namespace VVVV.Audio
 				this.AsioOut = null;
 			}
 		}
-		
-		public string[] AsioDriverNames
-		{
-			get
-			{
-				return AsioOut.GetDriverNames();
-			}
-		}
-
 
         /// <summary>
         /// Converts all the recorded audio into a buffer of 32 bit floating point samples
@@ -321,8 +322,12 @@ namespace VVVV.Audio
 		
 		#endregion asio
 		
+		
+		public void ChangeChannels(int inputChannel, int outputChannels)
+		{
+			throw new NotImplementedException();
+		}
 	}
-	
 
 	
 	public class AudioEngineSettings

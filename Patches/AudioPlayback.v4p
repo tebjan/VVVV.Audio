@@ -1,15 +1,21 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
    <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Patches\AudioPlayback.v4p" systemname="AudioPlayback" filename="C:\Dev\vvvv\VVVV.Audio\Patches\AudioPlayback.v4p">
-   <BOUNDS type="Window" left="9945" top="5235" width="15030" height="8700">
+   <BOUNDS type="Window" left="4710" top="1125" width="15030" height="8700">
    </BOUNDS>
    <NODE systemname="AudioEngine (Audio)" filename="plugins\bin\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden" id="2">
-   <BOUNDS type="Node" left="5565" top="1020" width="100" height="100">
+   <BOUNDS type="Node" left="5760" top="915" width="1050" height="270">
    </BOUNDS>
    <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
    </PIN>
    <PIN pinname="Control Panel" slicecount="1" values="0">
    </PIN>
    <PIN pinname="Play" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Desired Output Channels" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Desired Input Channels" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Sample Rate" slicecount="1" values="Hz44100">
    </PIN>
    </NODE>
    <NODE systemname="AudioOut (Audio)" filename="plugins\bin\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden" id="3">
@@ -19,17 +25,17 @@
    </PIN>
    </NODE>
    <NODE systemname="Renderer (TTY)" filename="" nodename="Renderer (TTY)" componentmode="InAWindow" id="5">
-   <BOUNDS type="Node" left="6690" top="1020" width="100" height="100">
+   <BOUNDS type="Node" left="10470" top="945" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="6690" top="1020" width="6000" height="4500">
+   <BOUNDS type="Box" left="10470" top="945" width="6000" height="4500">
    </BOUNDS>
    <BOUNDS type="Window" left="11760" top="7935" width="15525" height="6360">
    </BOUNDS>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="7" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="5550" top="150" width="480" height="480">
+   <BOUNDS type="Box" left="5760" top="180" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="5550" top="150" width="0" height="0">
+   <BOUNDS type="Node" left="5760" top="180" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
@@ -345,7 +351,7 @@
    </PIN>
    </NODE>
    <NODE systemname="Undo (VVVV)" nodename="Undo (VVVV)" componentmode="Hidden" id="-8">
-   <BOUNDS type="Node" left="1035" top="5595" width="100" height="100">
+   <BOUNDS type="Node" left="540" top="4590" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Enabled" slicecount="1" values="1">
    </PIN>
