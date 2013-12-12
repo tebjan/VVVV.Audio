@@ -6,14 +6,14 @@ namespace VVVV.Audio
 
 	public class WaveProviderToWaveStream : WaveStream
 	{
-		private readonly IWaveProvider source;
-		private readonly WaveStream referenceStream;
-		private long position;
+		private readonly IWaveProvider FSource;
+		private readonly WaveStream FReferenceStream;
+		private long FPosition;
 		
 		public WaveProviderToWaveStream(IWaveProvider source, WaveStream referenceStream)
 		{
-			this.source = source;
-			this.referenceStream = referenceStream;
+			this.FSource = source;
+			this.FReferenceStream = referenceStream;
 		}
 
 		public WaveProviderToWaveStream(IWaveProvider source)
@@ -23,7 +23,7 @@ namespace VVVV.Audio
 
 		public override WaveFormat WaveFormat
 		{
-			get { return source.WaveFormat;  }
+			get { return FSource.WaveFormat;  }
 		}
 
 		/// <summary>
@@ -31,32 +31,32 @@ namespace VVVV.Audio
 		/// </summary>
 		public override long Length
 		{
-			get { return Int32.MaxValue; }
+			get { return FReferenceStream.Length; }
 		}
 
 		public override long Position
 		{
 			get
 			{
-				if(referenceStream != null)
-					return referenceStream.Position;
-				else
+//				if(referenceStream != null)
+//					return referenceStream.Position;
+//				else
 					// we'll just return the number of bytes read so far
-					return position;
+					return FPosition;
 			}
 			set
 			{
-				if(referenceStream != null)
-					referenceStream.Position = value;
+				if(FReferenceStream != null)
+					FReferenceStream.Position = value;
 				else
-					position = value;
+					FPosition = value;
 			}
 		}
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			int read = source.Read(buffer, offset, count);
-			position += read;
+			int read = FSource.Read(buffer, offset, count);
+			FPosition += read;
 			return read;
 		}
 	}

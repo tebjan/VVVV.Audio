@@ -58,15 +58,29 @@ namespace VVVV.Audio
 		
 		protected void SetOutputCount(int newCount)
 		{
-			FOutputCount = newCount;
-			Outputs = new Spread<AudioSignal>(FOutputCount);
-			FReadBuffers = new float[FOutputCount][];
-			
-			for (int i = 0; i < FOutputCount; i++)
+			//if(FOutputCount != newCount)
 			{
-				Outputs[i] = new SingleSignal(Read);
-				FReadBuffers[i] = new float[512];
-				(Outputs[i] as SingleSignal).SetBuffer(FReadBuffers[i]);
+				FOutputCount = newCount;
+				
+				if(Outputs != null)
+				{
+					foreach (var element in Outputs)
+					{
+						element.Dispose();
+					}
+					
+					Outputs.SliceCount = 0;
+				}
+
+				Outputs = new Spread<AudioSignal>(FOutputCount);
+				FReadBuffers = new float[FOutputCount][];
+				
+				for (int i = 0; i < FOutputCount; i++)
+				{
+					Outputs[i] = new SingleSignal(Read);
+					FReadBuffers[i] = new float[512];
+					(Outputs[i] as SingleSignal).SetBuffer(FReadBuffers[i]);
+				}
 			}
 		}
 		

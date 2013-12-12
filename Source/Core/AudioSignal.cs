@@ -34,6 +34,12 @@ namespace VVVV.Audio
 		public AudioSignalBase()
 		{
 			AudioService.Engine.FinishedReading += EngineFinishedReading;
+			System.Diagnostics.Debug.WriteLine("Signal Created: " + this.GetType());
+		}
+		
+		~AudioSignalBase()
+		{
+			Dispose();
 		}
 		
 		protected bool FNeedsRead = true;

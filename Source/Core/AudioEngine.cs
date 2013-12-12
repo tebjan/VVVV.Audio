@@ -169,16 +169,19 @@ namespace VVVV.Audio
 		{
 			if (sink != null)
 				MasterWaveProvider.AddSink(sink);
+			
+			System.Diagnostics.Debug.WriteLine("Sink Added: " + sink.GetType());
 		}
 		
 		public void RemoveSink(IAudioSink sink)
 		{
 			if (sink != null)
 				MasterWaveProvider.RemoveSink(sink);
+			
+			System.Diagnostics.Debug.WriteLine("Sink Removed: " + sink.GetType());
 		}
 		
 		#region asio
-		
 
 		/// <summary>
 		/// Initializes the Audio Driver if necessary
@@ -222,6 +225,9 @@ namespace VVVV.Audio
 					FRecordBuffers[i] = new float[512];
 				}
 				this.AsioOut.AudioAvailable += AudioEngine_AudioAvailable;
+				
+				Settings.SampleRate = sampleRate;
+				Settings.BufferSize = AsioOut.BufferSize;
 			}
 		}
 
@@ -322,11 +328,6 @@ namespace VVVV.Audio
 		
 		#endregion asio
 		
-		
-		public void ChangeChannels(int inputChannel, int outputChannels)
-		{
-			throw new NotImplementedException();
-		}
 	}
 
 	

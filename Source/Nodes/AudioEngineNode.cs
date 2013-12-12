@@ -76,6 +76,9 @@ namespace VVVV.Nodes
 		[Output("Beat")]
 		ISpread<double> FBeat;
 		
+		[Output("Buffer Size")]
+		ISpread<int> FBufferSizeOut;
+		
 		[Output("Driver Input Chanels")]
 		ISpread<int> FInputChannelsOut;
 		
@@ -132,6 +135,8 @@ namespace VVVV.Nodes
 				FOutputChannelsOut[0] = FEngine.AsioOut.DriverOutputChannelCount;
 				FOpenInputChannelsOut[0] = FEngine.AsioOut.NumberOfInputChannels;
 				FOpenOutputChannelsOut[0] = FEngine.AsioOut.NumberOfOutputChannels;
+				
+				FBufferSizeOut[0] = FEngine.Settings.BufferSize;
 			}
 			
 			if(FShowPanelIn[0])

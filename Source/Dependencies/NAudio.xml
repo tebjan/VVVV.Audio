@@ -13214,6 +13214,11 @@
             When recording, fires whenever recorded audio is available
             </summary>
         </member>
+        <member name="P:NAudio.Wave.AsioOut.BufferSize">
+            <summary>
+            The actual asio driver
+            </summary>
+        </member>
         <member name="P:NAudio.Wave.AsioOut.PlaybackLatency">
             <summary>
             Gets the latency (in ms) of the playback driver

@@ -95,33 +95,40 @@ namespace VVVV.Audio
         /// and ensuring we are in PCM format
         /// </summary>
         /// <param name="fileName">File Name</param>
-        private void CreateReaderStream(string fileName, int desiredSamplerate)
+        private void CreateReaderStream(string fileName, int desiredSamplerate, bool alwaysUseMediaFoundationReader = false)
         {
-            if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
-            {
-                FReaderStream = new WaveFileReader(fileName);
-                if (FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm 
-                    && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat 
-                    && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Extensible)
-                {
-                    FReaderStream = WaveFormatConversionStream.CreatePcmStream(FReaderStream);
-                    FReaderStream = new BlockAlignReductionStream(FReaderStream);
-                }
-            }
-            else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
-            {
-                FReaderStream = new Mp3FileReader(fileName);
-            }
-            else if (fileName.EndsWith(".aiff"))
-            {
-                FReaderStream = new AiffFileReader(fileName);
-            }
-            else
-            {
-                // fall back to media foundation reader, see if that can play it
-                FReaderStream = new MediaFoundationReader(fileName);
-            }
-            
+        	if(alwaysUseMediaFoundationReader)
+        	{
+        		FReaderStream = new MediaFoundationReader(fileName);
+        	}
+        	else
+        	{
+        		if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+        		{
+        			FReaderStream = new WaveFileReader(fileName);
+        			if (FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm
+        			    && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat
+        			    && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Extensible)
+        			{
+        				FReaderStream = WaveFormatConversionStream.CreatePcmStream(FReaderStream);
+        				FReaderStream = new BlockAlignReductionStream(FReaderStream);
+        			}
+        		}
+        		else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+        		{
+        			FReaderStream = new Mp3FileReader(fileName);
+        		}
+        		else if (fileName.EndsWith(".aiff"))
+        		{
+        			FReaderStream = new AiffFileReader(fileName);
+        		}
+        		else
+        		{
+        			// fall back to media foundation reader, see if that can play it
+        			FReaderStream = new MediaFoundationReader(fileName);
+        		}
+        	}
+        	
             //needs sresampling?
             if(FReaderStream.WaveFormat.SampleRate != desiredSamplerate)
             {
