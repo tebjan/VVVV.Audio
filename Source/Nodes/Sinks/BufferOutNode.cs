@@ -35,7 +35,7 @@ namespace VVVV.Nodes
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			FSource.Read(buffer, offset, count);
-			FStack.Push((float[])buffer.Clone());
+			this.SetLatestValue((float[])buffer.Clone());
 		}
 	}
 	

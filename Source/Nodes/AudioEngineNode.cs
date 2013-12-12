@@ -52,8 +52,8 @@ namespace VVVV.Nodes
 		[Input("Driver", EnumName = "NAudioASIO")]
 		IDiffSpread<EnumEntry> FDriverIn;
 		
-		[Input("Sample Rate", DefaultEnumEntry = "Hz44100")]
-		IDiffSpread<AudioSampleRate> FSamplingRateIn;
+		[Input("Sample Rate", EnumName = "ASIODriverSampleRates", DefaultEnumEntry = "44100")]
+        IDiffSpread<EnumEntry> FSamplingRateIn;
 		
 		[Input("Desired Input Channels", DefaultValue = 2)]
 		IDiffSpread<int> FInputChannelsIn;
@@ -113,18 +113,48 @@ namespace VVVV.Nodes
 				drivers = new string[]{"No ASIO!? -> go download ASIO4All"};
 				EnumManager.UpdateEnum("NAudioASIO", drivers[0], drivers);
 			}
+
+            //also add a default entry to the sampling rate enum
+            var samplingRates = new string[] { "44100" };
+            EnumManager.UpdateEnum("ASIODriverSampleRates", samplingRates[0], samplingRates);
 			
 		}
+
+        private void UpdateSampleRateEnum()
+        {
+            var tempList = new List<string>();
+
+            foreach (var item in Enum.GetValues(typeof(AudioSampleRate)))
+            {
+                if (FEngine.AsioOut.IsSampleRateSupported((int)item))
+                {
+                    tempList.Add(((int)item).ToString());
+
+                }
+            }
+
+            var samplingRates = tempList.ToArray();
+			
+			if (samplingRates.Length > 0)
+			{
+				EnumManager.UpdateEnum("ASIODriverSampleRates", samplingRates[0], samplingRates);
+			}
+			else
+			{
+				samplingRates = new string[]{"No ASIO!? -> go download ASIO4All"};
+				EnumManager.UpdateEnum("ASIODriverSampleRates", samplingRates[0], samplingRates);
+			}
+        }
 		
 		//called when data for any output pin is requested
 		public void Evaluate(int SpreadMax)
 		{
 			if(FDriverIn.IsChanged || FSamplingRateIn.IsChanged ||
 			   FInputChannelsIn.IsChanged || FInputChannelOffsetIn.IsChanged ||
-			   FOutputChannelsIn.IsChanged || FOutputChannelOffsetIn.IsChanged)
+			   FOutputChannelsIn.IsChanged || FOutputChannelOffsetIn.IsChanged || FEngine.NeedsReset)
 			{
 				FEngine.ChangeDriverSettings(FDriverIn[0].Name, 
-				                             (int)FSamplingRateIn[0], 
+				                             int.Parse(FSamplingRateIn[0]), 
 				                             FInputChannelsIn[0], 
 				                             FInputChannelOffsetIn[0], 
 				                             FOutputChannelsIn[0], 
@@ -137,6 +167,7 @@ namespace VVVV.Nodes
 				FOpenOutputChannelsOut[0] = FEngine.AsioOut.NumberOfOutputChannels;
 				
 				FBufferSizeOut[0] = FEngine.Settings.BufferSize;
+                UpdateSampleRateEnum();
 			}
 			
 			if(FShowPanelIn[0])

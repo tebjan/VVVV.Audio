@@ -69,8 +69,7 @@ namespace VVVV.Nodes
 				FPreview[index] = FBuffer[i];
 				index++;
 			}
-			FStack.Push(FPreview);
-			
+			this.SetLatestValue(FPreview);
 		}
 	}
 	

@@ -47,7 +47,7 @@ namespace VVVV.Nodes
 			}
 			
 			FFFT.RealFFT(FFFTBuffer, true);
-			FStack.Push((double[])FFFTBuffer.Clone());
+			this.SetLatestValue(FFFTBuffer);
 		}
 	}
 	

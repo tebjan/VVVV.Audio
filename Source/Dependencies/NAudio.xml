@@ -1608,6 +1608,11 @@
             </summary>
             <value>The capabilities.</value>
         </member>
+        <member name="P:NAudio.Wave.Asio.ASIODriverExt.ResetRequestCallback">
+            <summary>
+            Set this action to receive reset request calls
+            </summary>
+        </member>
         <member name="T:NAudio.Midi.MidiOut">
             <summary>
             Represents a MIDI out device
@@ -13112,6 +13117,15 @@
             </summary>
             <param name="driverName">Name of the device.</param>
         </member>
+        <member name="M:NAudio.Wave.AsioOut.IsSampleRateSupported(System.Int32)">
+            <summary>
+            Determines whether the specified sample rate is supported.
+            </summary>
+            <param name="sampleRate">The sample rate.</param>
+            <returns>
+            	<c>true</c> if [is sample rate supported]; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="M:NAudio.Wave.AsioOut.#ctor(System.Int32)">
             <summary>
             Opens an ASIO output device
@@ -13214,9 +13228,14 @@
             When recording, fires whenever recorded audio is available
             </summary>
         </member>
+        <member name="E:NAudio.Wave.AsioOut.DriverResetRequest">
+            <summary>
+            Fires when the driver settings are changed by the user, e.g. in the control panel
+            </summary>
+        </member>
         <member name="P:NAudio.Wave.AsioOut.BufferSize">
             <summary>
-            The actual asio driver
+            The current buffer size which the asio driver will request
             </summary>
         </member>
         <member name="P:NAudio.Wave.AsioOut.PlaybackLatency">

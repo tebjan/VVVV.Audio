@@ -81,6 +81,7 @@ namespace VVVV.Audio
 			{
 				if(!FSinks.Contains(sink))
 					FSinks.Add(sink);
+                System.Diagnostics.Debug.WriteLine("Sink Count: " + FSinks.Count);
 			}
 		}
 		
@@ -130,33 +131,32 @@ namespace VVVV.Audio
 				}
 					
 					//evaluate the inputs
-				var inputCount = FSources.Count;
-				for(int i=0; i<inputCount; i++)
-				{
-					if(FSources[i].Signal != null)
-					{
-						try
-						{
-							//starts the calculation of the audio graph
-							FSources[i].Signal.Read(FMixerBuffer, offset / 4, samplesNeeded);
-							var chan = FSources[i].Channel % channels;
-							
-							//add to output buffer
-							for(int j=0; j<samplesNeeded; j++)
-							{
-								wb.FloatBuffer[j*channels + chan] += FMixerBuffer[j];
-								FMixerBuffer[j] = 0;
-							}
-							
-						} 
-						catch (Exception e)
-						{
-							System.Diagnostics.Debug.WriteLine(e.Message);
-							System.Diagnostics.Debug.WriteLine(e.Source);
-							System.Diagnostics.Debug.WriteLine(e.StackTrace);
-						}
-					}
-				}
+                var inputCount = FSources.Count;
+                for (int i = 0; i < inputCount; i++)
+                {
+                    try
+                    {
+                        if (FSources[i].Signal != null)
+                        {
+                            //starts the calculation of the audio graph
+                            FSources[i].Signal.Read(FMixerBuffer, offset / 4, samplesNeeded);
+                            var chan = FSources[i].Channel % channels;
+
+                            //add to output buffer
+                            for (int j = 0; j < samplesNeeded; j++)
+                            {
+                                wb.FloatBuffer[j * channels + chan] += FMixerBuffer[j];
+                                FMixerBuffer[j] = 0;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.Message);
+                        System.Diagnostics.Debug.WriteLine(e.Source);
+                        System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                    }
+                }
 				
 				//tell the engine that reading has finished
 				FReadingFinished(samplesNeeded);

@@ -43,7 +43,7 @@ namespace VVVV.Nodes
 					max = Math.Max(max, Math.Abs(buffer[i]));
 				}
 				
-				FStack.Push(AudioUtils.SampleTodBs(max));
+				this.SetLatestValue(max);
 			}
 		}
 	}
@@ -59,6 +59,9 @@ namespace VVVV.Nodes
 		
 		[Output("Level")]
 		ISpread<double> FLevelOut;
+
+        [Output("Level dBs")]
+        ISpread<double> FLeveldBsOut;
 		
 		Spread<LevelMeterSignal> FBufferReaders = new Spread<LevelMeterSignal>();
 		
@@ -69,14 +72,24 @@ namespace VVVV.Nodes
 				FBufferReaders.SliceCount = SpreadMax;
 				for (int i = 0; i < SpreadMax; i++)
 				{
-					if(FInput[i] != null)
-						FBufferReaders[i] = (new LevelMeterSignal(FInput[i]));
-					else
-						FBufferReaders[i].FInput = null;
+                    if (FInput[i] != null)
+                    {
+                        if (FBufferReaders[i] != null)
+                        {
+                            FBufferReaders[i].Dispose();
+                        }
+                        FBufferReaders[i] = (new LevelMeterSignal(FInput[i]));
+                    }
+                    else
+                    {
+                        if (FBufferReaders[i] != null)
+                            FBufferReaders[i].FInput = null;
+                    }
 					
 				}
 				
 				FLevelOut.SliceCount = SpreadMax;
+                FLeveldBsOut.SliceCount = SpreadMax;
 			}
 			
 			//output value
@@ -88,7 +101,9 @@ namespace VVVV.Nodes
 					var val = 0.0;
 					FBufferReaders[i].GetLatestValue(out val);
 					var smooth = FSmoothing[i];
-					FLevelOut[i] = FLevelOut[i] * smooth + val * (1-smooth);
+                    var level = FLevelOut[i] * smooth + val * (1-smooth);
+					FLevelOut[i] = level;
+                    FLeveldBsOut[i] = AudioUtils.SampleTodBs(level);
 				}
 				else
 				{

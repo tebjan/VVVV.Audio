@@ -30,30 +30,53 @@ namespace VVVV.Audio
 		void Read(int offset, int count);
 	}
 	
-	public class SinkSignal<TStack> : AudioSignal, IAudioSink, IDisposable
+	public class SinkSignal<TValue> : AudioSignal, IAudioSink, IDisposable
 	{
-		protected ConcurrentStack<TStack> FStack = new ConcurrentStack<TStack>();
-
 		public SinkSignal(int sampleRate)
 			: base(sampleRate)
 		{
 			AudioService.AddSink(this);
 		}
+
+        private volatile bool FReading;
+        private volatile bool FWriting;
+        private TValue FValueToPass;
+        private TValue FLastValue;
 		
-		private TStack FLastValue;
-		public bool GetLatestValue(out TStack value)
+        public bool GetLatestValue(out TValue value)
 		{
-			if(FStack.IsEmpty)
-			{
-				value = FLastValue;
-				return true;
-			}
-			
-			var ret = FStack.TryPeek(out value);
-			FLastValue = value;
-			FStack.Clear();
-			return ret;
+            var success = false;
+            FReading = true;
+            if (!FWriting)
+            {
+                value = FValueToPass;
+                success = true;
+            }
+            else
+            {
+                value = FLastValue;
+                System.Diagnostics.Debug.WriteLine("Could not read");
+            }
+            FReading = false;
+            return success;
 		}
+
+        protected bool SetLatestValue(TValue newValue)
+        {
+            var success = false;
+            FWriting = true;
+            if (!FReading)
+            {
+                FValueToPass = newValue;
+                success = true;
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Could not write");
+            }
+            FWriting = false;
+            return success;
+        }
 		
 		protected float[] FInternalBuffer;
 		public void Read(int offset, int count)
@@ -228,6 +251,10 @@ namespace VVVV.Audio
 				
 				Settings.SampleRate = sampleRate;
 				Settings.BufferSize = AsioOut.BufferSize;
+
+                this.AsioOut.DriverResetRequest += AsioOut_DriverResetRequest;
+
+                NeedsReset = false;
 			}
 		}
 
@@ -259,11 +286,26 @@ namespace VVVV.Audio
 		{
 			if (this.AsioOut != null)
 			{
+                this.AsioOut.DriverResetRequest -= AsioOut_DriverResetRequest;
 				this.AsioOut.AudioAvailable -= AudioEngine_AudioAvailable;
 				this.AsioOut.Dispose();
 				this.AsioOut = null;
 			}
 		}
+
+        void AsioOut_DriverResetRequest(object sender, EventArgs e)
+        {
+            NeedsReset = true;
+        }
+
+        /// <summary>
+        /// If this is true the engine driver should be reset
+        /// </summary>
+        public bool NeedsReset
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Converts all the recorded audio into a buffer of 32 bit floating point samples

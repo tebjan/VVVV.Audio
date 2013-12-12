@@ -51,6 +51,7 @@ namespace VVVV.Audio
 		public virtual void Dispose()
 		{
 			AudioService.Engine.FinishedReading -= EngineFinishedReading;
+            System.Diagnostics.Debug.WriteLine("Signal Deleted: " + this.GetType());
 		}
 	}
 	
