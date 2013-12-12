@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>VVVV.Nodes</RootNamespace>
+    <AssemblyName>VVVV.Audio</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OutputPath>..\Patches\plugins\bin\</OutputPath>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DebugType>Full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(MSBuildThisFileDirectory)..\VVVV\vvvv.exe</StartProgram>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DebugType>None</DebugType>
+    <DebugSymbols>False</DebugSymbols>
+    <StartAction>Program</StartAction>
+    <StartProgram>..\VVVV\vvvv.exe</StartProgram>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <Prefer32Bit>False</Prefer32Bit>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Jacobi.Vst.Core">
+      <HintPath>Dependencies\Jacobi.Vst.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Jacobi.Vst.Framework">
+      <HintPath>Dependencies\Jacobi.Vst.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Jacobi.Vst.Interop">
+      <HintPath>Dependencies\Jacobi.Vst.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio">
+      <HintPath>Dependencies\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition.Codeplex">
+      <HintPath>..\VVVV\lib\core\System.ComponentModel.Composition.Codeplex.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="VVVV.Core">
+      <HintPath>..\VVVV\lib\core\VVVV.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VVVV.PluginInterfaces">
+      <HintPath>..\VVVV\lib\core\VVVV.PluginInterfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VVVV.Utils">
+      <HintPath>..\VVVV\lib\core\VVVV.Utils.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VVVV.Utils3rdParty">
+      <HintPath>..\VVVV\lib\core\VVVV.Utils3rdParty.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="yeppp-clr">
+      <HintPath>Dependencies\yeppp-clr.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\AudioEffectSignal.cs" />
+    <Compile Include="Core\AudioEngine.cs" />
+    <Compile Include="Core\AudioEngineTimer.cs" />
+    <Compile Include="Core\AudioSignal.cs" />
+    <Compile Include="Core\MasterWaveProvider.cs" />
+    <Compile Include="Core\MultiChannelSignal.cs" />
+    <Compile Include="Nodes\AudioEngineNode.cs" />
+    <Compile Include="Nodes\AudioNodeBase.cs" />
+    <Compile Include="Nodes\Buffers\BufferReader.cs" />
+    <Compile Include="Nodes\Buffers\BufferWriter.cs" />
+    <Compile Include="Nodes\Buffers\CreateBufferNode.cs" />
+    <Compile Include="Nodes\Filters\MatrixMixerNode.cs" />
+    <Compile Include="Nodes\Filters\SignalOperationNodes.cs" />
+    <Compile Include="Nodes\Sinks\AudioOutNode.cs" />
+    <Compile Include="Nodes\Sinks\BufferOutNode.cs" />
+    <Compile Include="Nodes\Sinks\FFTOutNode.cs" />
+    <Compile Include="Nodes\Sinks\LevelMeterSignalNode.cs" />
+    <Compile Include="Nodes\Sources\AudioInputNode.cs" />
+    <Compile Include="Nodes\Sources\FileStreamNode.cs" />
+    <Compile Include="Nodes\Sources\SineSignalNode.cs" />
+    <Compile Include="Nodes\Sources\SineSignalNodeYeppp.cs" />
+    <Compile Include="Nodes\VST\EditorFrame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Nodes\VST\EditorFrame.Designer.cs">
+      <DependentUpon>EditorFrame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Nodes\VST\HostCommandStub.cs" />
+    <Compile Include="Nodes\VST\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Nodes\VST\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Nodes\VST\PluginForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Nodes\VST\PluginForm.Designer.cs">
+      <DependentUpon>PluginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Nodes\VST\VSTHostNode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\AudioUtils.cs" />
+    <Compile Include="Utils\FFT.cs" />
+    <Compile Include="Utils\NAudio\AudioResampleFileReader.cs" />
+    <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Nodes\VST\EditorFrame.resx">
+      <DependentUpon>EditorFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nodes\VST\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nodes\VST\PluginForm.resx">
+      <DependentUpon>PluginForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dependencies\x86\yeppp.dll">
+      <Link>yeppp.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+</Project>
