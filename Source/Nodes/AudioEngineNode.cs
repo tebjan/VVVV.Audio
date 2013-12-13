@@ -129,7 +129,6 @@ namespace VVVV.Nodes
                 if (FEngine.AsioOut.IsSampleRateSupported((int)item))
                 {
                     tempList.Add(((int)item).ToString());
-
                 }
             }
 
@@ -137,11 +136,16 @@ namespace VVVV.Nodes
 			
 			if (samplingRates.Length > 0)
 			{
-				EnumManager.UpdateEnum("ASIODriverSampleRates", samplingRates[0], samplingRates);
+				var defaultIndex = tempList.IndexOf("44100");
+				
+				if(defaultIndex < 0)
+					defaultIndex = 0;
+				
+				EnumManager.UpdateEnum("ASIODriverSampleRates", samplingRates[defaultIndex], samplingRates);
 			}
 			else
 			{
-				samplingRates = new string[]{"No ASIO!? -> go download ASIO4All"};
+				samplingRates = new string[]{"Could not obtain sampling rates from driver"};
 				EnumManager.UpdateEnum("ASIODriverSampleRates", samplingRates[0], samplingRates);
 			}
         }

@@ -29,7 +29,7 @@ namespace VVVV.Nodes
 
 		#endregion fields & pins
 		
-		public CachedAudioResampleFileReader FAudioFile;
+		public AudioFileReaderVVVV FAudioFile;
 		public SilenceProvider FSilence;
 
 		public FileStreamSignal()
@@ -45,7 +45,7 @@ namespace VVVV.Nodes
 				FAudioFile.Dispose();
 			}
 			
-			FAudioFile = new CachedAudioResampleFileReader(filename, 44100);
+			FAudioFile = new AudioFileReaderVVVV(filename, 44100);
 			FSilence = new SilenceProvider(FAudioFile.WaveFormat);
 			SetOutputCount(FAudioFile.WaveFormat.Channels);
 		}
@@ -162,30 +162,55 @@ namespace VVVV.Nodes
 		[Input("Seek Time")]
 		IDiffSpread<double> FSeekPosition;		
 		
-		[Input("Volume", DefaultValue = 0.25f)] //What's the best default? Good to have something audible but probably good to avoid max to save ears/speakers
+		[Input("Volume", DefaultValue = 1f)]
 		IDiffSpread<float> FVolume;
 		
-		[Input("Filename", StringType = StringType.Filename, FileMask="Audio File (*.wav, *.mp3, *.aiff)|*.wav;*.mp3;*.aiff")]
+		[Input("Filename", StringType = StringType.Filename, FileMask="Audio File (*.wav, *.mp3, *.aiff, *.m4a)|*.wav;*.mp3;*.aiff;*.m4a")]
 		IDiffSpread<string> FFilename;
 		
 		[Output("Duration")]
-		ISpread<double> FDuration;
+		ISpread<double> FDurationOut;
 		
 		[Output("Position")]
-		ISpread<double> FPosition;
+		ISpread<double> FPositionOut;
 			
 		[Output("Can Seek")]
-		ISpread<bool> FCanSeek;
+		ISpread<bool> FCanSeekOut;
+
+        [Output("File Format")]
+        ISpread<string> FFileFormatOut;
 		#endregion fields & pins
 
 		protected override void SetParameters(int i, FileStreamSignal instance)
 		{
 			if(FFilename.IsChanged)
 			{
-				instance.OpenFile(FFilename[i]);		
+				instance.OpenFile(FFilename[i]);
+                
+                if (instance.FAudioFile == null)
+                {
+                    FDurationOut[i] = 0;
+                    FCanSeekOut[i] = false;
+                    FFileFormatOut[i] = "";
+                }
+                else
+                {
+                	instance.FAudioFile.Volume = FVolume[i];
+                	instance.FLoop = FLoop[i];
+                	instance.LoopStartTime = TimeSpan.FromSeconds(FLoopStart[i]);
+                	instance.LoopEndTime = TimeSpan.FromSeconds(FLoopEnd[i]);
+                	
+                    FDurationOut[i] = instance.FAudioFile.TotalTime.TotalSeconds;
+                    FCanSeekOut[i] = instance.FAudioFile.CanSeek;
+                    FFileFormatOut[i] = instance.FAudioFile.OriginalFileFormat.ToString();
+                }
+		
 			}
 
-			instance.FAudioFile.Volume = FVolume[i];
+            if (FVolume.IsChanged)
+            {
+                instance.FAudioFile.Volume = FVolume[i];
+            }
 			
 			if(FPlay.IsChanged)
 			{
@@ -219,7 +244,8 @@ namespace VVVV.Nodes
 				instance.LoopEndTime = TimeSpan.FromSeconds(Math.Min(FLoopEnd[i], instance.FAudioFile.TotalTime.TotalSeconds));
 			}
 			
-			if( FLoop[i] && !instance.FRunToEndBeforeLooping)
+			//TODO: write sample based looping
+			if(FLoop[i] && !instance.FRunToEndBeforeLooping)
 			{
 				if(instance.FAudioFile.CurrentTime > instance.LoopEndTime)
 				{
@@ -227,18 +253,11 @@ namespace VVVV.Nodes
 				}
 			}
 			
-			if(FSeekPosition.IsChanged)
-			{
-				instance.FSeekTime = TimeSpan.FromSeconds(Math.Min(instance.FAudioFile.TotalTime.TotalSeconds, FSeekPosition[i]));
-			}
-			
 			if(FDoSeek[i] && instance.FAudioFile.CanSeek)
 			{
-				instance.FIsPlaying = FPlay[i];
-				
 				if(instance.FSeekTime > instance.LoopEndTime) instance.FRunToEndBeforeLooping = true;
 				if(instance.FSeekTime < instance.LoopStartTime) instance.FRunToEndBeforeLooping = false;
-				instance.FAudioFile.CurrentTime = instance.FSeekTime;
+				instance.FAudioFile.CurrentTime = TimeSpan.FromSeconds(FSeekPosition[i]);
 			}
 		}
 		
@@ -246,15 +265,15 @@ namespace VVVV.Nodes
 		{
 			if(instance.FAudioFile == null)
 			{
-				FPosition[i] = 0;
-				FDuration[i] = 0;
-				FCanSeek[i] = false;
+				FPositionOut[i] = 0;
+				FDurationOut[i] = 0;
+				FCanSeekOut[i] = false;
 			}
 			else
 			{
-				FPosition[i] = instance.FAudioFile.CurrentTime.TotalSeconds;
-				FDuration[i] = instance.FAudioFile.TotalTime.TotalSeconds;
-				FCanSeek[i] = instance.FAudioFile.CanSeek;
+				FPositionOut[i] = instance.FAudioFile.CurrentTime.TotalSeconds;
+				FDurationOut[i] = instance.FAudioFile.TotalTime.TotalSeconds;
+				FCanSeekOut[i] = instance.FAudioFile.CanSeek;
 			}
 		}
 		

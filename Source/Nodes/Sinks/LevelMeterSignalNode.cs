@@ -56,12 +56,12 @@ namespace VVVV.Nodes
 		
 		[Input("Smoothing")]
 		IDiffSpread<double> FSmoothing;
-		
-		[Output("Level")]
-		ISpread<double> FLevelOut;
 
         [Output("Level dBs")]
         ISpread<double> FLeveldBsOut;
+		
+		[Output("Level")]
+		ISpread<double> FLevelOut;
 		
 		Spread<LevelMeterSignal> FBufferReaders = new Spread<LevelMeterSignal>();
 		

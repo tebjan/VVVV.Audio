@@ -130,7 +130,6 @@ namespace VVVV.Audio
 		public AudioSignalSpread(int count)
 			: base(count)
 		{
-			
 		}
 		
 		bool FNeedsBufferCopy;
