@@ -50,37 +50,25 @@ namespace VVVV.Audio
 	{
 		protected int FOutputCount;
 		public MultiChannelSignal(int outputCount)
-			: base()
 		{
+			Outputs = new Spread<AudioSignal>();
 			SetOutputCount(outputCount);
 		}
 		
 		protected void SetOutputCount(int newCount)
 		{
-			//if(FOutputCount != newCount)
+			//recreate output signals?
+			if(FOutputCount != newCount)
 			{
 				FOutputCount = newCount;
 				
-				if(Outputs != null)
-				{
-					foreach (var element in Outputs)
-					{
-						element.Dispose();
-					}
-					
-					Outputs.SliceCount = 0;
-				}
+				Outputs.ResizeAndDispose(newCount, () => { return new SingleSignal(Read); });
 
-				Outputs = new Spread<AudioSignal>(FOutputCount);
 				FReadBuffers = new float[FOutputCount][];
-				
-				for (int i = 0; i < FOutputCount; i++)
-				{
-					Outputs[i] = new SingleSignal(Read);
-					FReadBuffers[i] = new float[512];
-					(Outputs[i] as SingleSignal).SetBuffer(FReadBuffers[i]);
-				}
 			}
+			
+			//make sure new buffers get assigned
+			FReadBuffers[0] = new float[0];
 		}
 		
 		public ISpread<AudioSignal> Outputs
@@ -92,7 +80,7 @@ namespace VVVV.Audio
 		protected float[][] FReadBuffers;
 		protected void ManageBuffers(int count)
 		{
-			if(FReadBuffers[0].Length != count)
+			if(FReadBuffers[0].Length < count)
 			{
 				FReadBuffers = new float[FOutputCount][];
 				for (int i = 0; i < FOutputCount; i++)

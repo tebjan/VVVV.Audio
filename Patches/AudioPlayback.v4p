@@ -313,7 +313,7 @@
    </BOUNDS>
    <PIN pinname="Mask" slicecount="1" values="*.wav">
    </PIN>
-   <PIN pinname="Directory" slicecount="1" values="..\..\..\..\vvvv\vvvv_45beta31.2_x86\lib\assets\sounds">
+   <PIN pinname="Directory" slicecount="1" values="|D:\Live\Sets\hannover Project|">
    </PIN>
    <PIN pinname="Filenames" visible="1">
    </PIN>
@@ -337,7 +337,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="4965" top="8820" width="2400" height="1800">
    </BOUNDS>
-   <BOUNDS type="Window" left="1275" top="12240" width="20385" height="2955">
+   <BOUNDS type="Window" left="1860" top="10470" width="20385" height="2955">
    </BOUNDS>
    <PIN pinname="Layers" visible="1" slicecount="1" values="||">
    </PIN>
@@ -475,7 +475,7 @@
    <LINK srcnodeid="68" srcpinname="Audio Out" dstnodeid="64" dstpinname="Input">
    </LINK>
    <NODE systemname="Add (Audio Spectral)" filename="plugins\bin\VVVV.Audio.dll" nodename="Add (Audio Spectral)" componentmode="Hidden" id="72">
-   <BOUNDS type="Node" left="855" top="6420" width="100" height="100">
+   <BOUNDS type="Node" left="690" top="6600" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>

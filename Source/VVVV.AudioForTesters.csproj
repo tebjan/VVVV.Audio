@@ -113,7 +113,6 @@
     <Compile Include="Nodes\Buffers\BufferReader.cs" />
     <Compile Include="Nodes\Buffers\BufferWriter.cs" />
     <Compile Include="Nodes\Buffers\CreateBufferNode.cs" />
-    <Compile Include="Nodes\Routing\AudioCons.cs" />
     <Compile Include="Nodes\Routing\MatrixMixerNode.cs" />
     <Compile Include="Nodes\Routing\SignalOperationNodes.cs" />
     <Compile Include="Nodes\Routing\SpreadOperations.cs" />

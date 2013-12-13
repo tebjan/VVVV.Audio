@@ -53,7 +53,6 @@ namespace VVVV.Nodes
 		float[] FFileBuffer = new float[1];
 		protected override void FillBuffer(float[][] buffer, int offset, int sampleCount)
 		{
-			
 			var channels = FAudioFile.WaveFormat.Channels;
 			var samplesToRead = sampleCount*channels;
 			FFileBuffer = BufferHelpers.Ensure(FFileBuffer, samplesToRead);

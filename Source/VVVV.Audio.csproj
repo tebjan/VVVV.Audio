@@ -79,6 +79,9 @@
       <HintPath>..\VVVV\lib\core\VVVV.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="VVVV.Nodes">
+      <HintPath>..\VVVV\lib\nodes\plugins\VVVV.Nodes.dll</HintPath>
+    </Reference>
     <Reference Include="VVVV.PluginInterfaces">
       <HintPath>..\VVVV\lib\core\VVVV.PluginInterfaces.dll</HintPath>
       <Private>False</Private>
@@ -102,13 +105,15 @@
     <Compile Include="Core\AudioSignal.cs" />
     <Compile Include="Core\MasterWaveProvider.cs" />
     <Compile Include="Core\MultiChannelSignal.cs" />
+    <Compile Include="Core\SinkSignal.cs" />
     <Compile Include="Nodes\AudioEngineNode.cs" />
     <Compile Include="Nodes\AudioNodeBase.cs" />
     <Compile Include="Nodes\Buffers\BufferReader.cs" />
     <Compile Include="Nodes\Buffers\BufferWriter.cs" />
     <Compile Include="Nodes\Buffers\CreateBufferNode.cs" />
-    <Compile Include="Nodes\Filters\MatrixMixerNode.cs" />
-    <Compile Include="Nodes\Filters\SignalOperationNodes.cs" />
+    <Compile Include="Nodes\Routing\MatrixMixerNode.cs" />
+    <Compile Include="Nodes\Routing\SignalOperationNodes.cs" />
+    <Compile Include="Nodes\Routing\SpreadOperations.cs" />
     <Compile Include="Nodes\Sinks\AudioOutNode.cs" />
     <Compile Include="Nodes\Sinks\BufferOutNode.cs" />
     <Compile Include="Nodes\Sinks\FFTOutNode.cs" />
@@ -144,8 +149,8 @@
     <Compile Include="Utils\FFT.cs" />
     <Compile Include="Utils\NAudio\AudioFileReaderVVVV.cs" />
     <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
+    <Compile Include="Utils\SpreadUtils.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Nodes\VST\EditorFrame.resx">
       <DependentUpon>EditorFrame.cs</DependentUpon>
@@ -168,6 +173,9 @@
       <Project>{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E}</Project>
       <Name>NAudio</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Nodes\Routing" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>
