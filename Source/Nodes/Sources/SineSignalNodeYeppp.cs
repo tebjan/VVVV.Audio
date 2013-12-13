@@ -64,7 +64,6 @@ namespace VVVV.Nodes
 	public class MultiSineSignalYeppp : AudioSignal
 	{
 		public MultiSineSignalYeppp(ISpread<float> frequency, ISpread<float> gain)
-			: base(44100)
 		{
 			Frequencies = frequency;
 			Gains = gain;
@@ -81,8 +80,7 @@ namespace VVVV.Nodes
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			PerfCounter.Start("MultiSineYeppp");
-			var sampleRate = this.WaveFormat.SampleRate;
+			//PerfCounter.Start("MultiSineYeppp");
 			var spreadMax = Frequencies.CombineWith(Gains);
 			Phases.Resize(spreadMax, () => default(float), f => f = 0);
 			
@@ -95,7 +93,7 @@ namespace VVVV.Nodes
 			//prepare phase array
 			for (int slice = 0; slice < spreadMax; slice++)
 			{
-				var increment = TwoPi*Frequencies[slice]/sampleRate;
+				var increment = TwoPi*Frequencies[slice]/SampleRate;
 				var phase = Phases[slice];
 				
 				for (int i = 0; i < count; i++)
@@ -140,7 +138,7 @@ namespace VVVV.Nodes
 			 	}
 			}
 			
-			PerfCounter.Stop("MultiSineYeppp");
+			//PerfCounter.Stop("MultiSineYeppp");
 		}
 			
 	}
@@ -148,7 +146,6 @@ namespace VVVV.Nodes
 	public class SineSignalYeppp : AudioSignal
 	{
 		public SineSignalYeppp(float frequency, float gain)
-			: base(44100)
 		{
 			Frequency = frequency;
 			Gain = gain;
@@ -163,13 +160,12 @@ namespace VVVV.Nodes
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			PerfCounter.Start("SineYeppp");
+			//PerfCounter.Start("SineYeppp");
 			//new array?
 			if(phases.Length != count) phases = new double[count];
 			if(sines.Length != count) sines = new double[count];
 			
-			var sampleRate = this.WaveFormat.SampleRate;
-			var increment = TwoPi*Frequency/sampleRate;
+			var increment = TwoPi*Frequency/SampleRate;
 			
 			//calc phases
 			for (int i = 0; i < count; i++)
@@ -192,11 +188,11 @@ namespace VVVV.Nodes
 				buffer[i] = Gain*(float)sines[i];
 			}
 			
-			PerfCounter.Stop("SineYeppp");
+			//PerfCounter.Stop("SineYeppp");
 		}
 	}
 	
-	[PluginInfo(Name = "Sine", Category = "Audio", Version = "Source Yeppp", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
+	//[PluginInfo(Name = "Sine", Category = "Audio", Version = "Source Yeppp", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
 	public class SineSignalNodeYeppp : GenericAudioSourceNode<SineSignalYeppp>
 	{
 		[Input("Frequency", DefaultValue = 440)]
@@ -219,11 +215,11 @@ namespace VVVV.Nodes
 		
 		protected override AudioSignal GetInstance(int i)
 		{
-			return new SineSignal(Frequency[i], Gain[i]);
+			return new SineSignalYeppp(Frequency[i], Gain[i]);
 		}
 	}
 	
-	[PluginInfo(Name = "MultiSine", Category = "Audio", Version = "Source Yeppp", Help = "Creates a spread of sine waves", AutoEvaluate = true, Tags = "LFO, additive, synthesis")]
+	//[PluginInfo(Name = "MultiSine", Category = "Audio", Version = "Source Yeppp", Help = "Creates a spread of sine waves", AutoEvaluate = true, Tags = "LFO, additive, synthesis")]
 	public class MultiSineSignalNodeYeppp : GenericAudioSourceNode<MultiSineSignalYeppp>
 	{
 		[Input("Frequency", DefaultValue = 440)]
@@ -251,7 +247,7 @@ namespace VVVV.Nodes
 		
 		protected override AudioSignal GetInstance(int i)
 		{
-			return new MultiSineSignal(Frequency[i], Gain[i]);
+			return new MultiSineSignalYeppp(Frequency[i], Gain[i]);
 		}
 	}
 }

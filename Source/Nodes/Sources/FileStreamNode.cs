@@ -141,7 +141,7 @@ namespace VVVV.Nodes
 	#region PluginInfo
 	[PluginInfo(Name = "FileStream", Category = "Audio", Help = "Plays Back sound files", Tags = "wav, mp3, aiff", Author = "beyon")]
 	#endregion PluginInfo
-	public class FileStreamNode : GenericMultiChannelAudioSourceNodeWithOutputs<FileStreamSignal>
+	public class FileStreamNode : GenericMultiAudioSourceNodeWithOutputs<FileStreamSignal>
 	{
 		#region fields & pins
 		[Input("Play")]
@@ -266,14 +266,10 @@ namespace VVVV.Nodes
 			if(instance.FAudioFile == null)
 			{
 				FPositionOut[i] = 0;
-				FDurationOut[i] = 0;
-				FCanSeekOut[i] = false;
 			}
 			else
 			{
 				FPositionOut[i] = instance.FAudioFile.CurrentTime.TotalSeconds;
-				FDurationOut[i] = instance.FAudioFile.TotalTime.TotalSeconds;
-				FCanSeekOut[i] = instance.FAudioFile.CanSeek;
 			}
 		}
 		

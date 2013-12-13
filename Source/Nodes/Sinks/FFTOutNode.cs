@@ -67,7 +67,7 @@ namespace VVVV.Nodes
 			if(FInput.IsChanged)
 			{
 				//delete and dispose all inputs
-				FBufferReaders.ResizeAndDispose(0, () => new FFTOutSignal(FInput[0]));
+				FBufferReaders.ResizeAndDispose(0, (i) => new FFTOutSignal(FInput[i]));
 				
 				FBufferReaders.SliceCount = SpreadMax;
 				for (int i = 0; i < SpreadMax; i++)

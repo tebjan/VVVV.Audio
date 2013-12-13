@@ -23,7 +23,6 @@ namespace VVVV.Nodes
 	public class BufferReaderSignal : AudioSignal
 	{
 		public BufferReaderSignal(string bufferKey)
-			: base(44100)
 		{
 			FBuffer = AudioService.BufferStorage[bufferKey];
 			FBufferSize = FBuffer.Length;

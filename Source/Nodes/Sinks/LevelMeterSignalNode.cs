@@ -69,23 +69,17 @@ namespace VVVV.Nodes
 		{
 			if(FInput.IsChanged)
 			{
-				FBufferReaders.SliceCount = SpreadMax;
+				FBufferReaders.Resize(SpreadMax, (i) => { return new LevelMeterSignal(FInput[i]); }, s => { if(s != null) s.Dispose(); });
 				for (int i = 0; i < SpreadMax; i++)
 				{
                     if (FInput[i] != null)
                     {
-                        if (FBufferReaders[i] != null)
-                        {
-                            FBufferReaders[i].Dispose();
-                        }
-                        FBufferReaders[i] = (new LevelMeterSignal(FInput[i]));
+                        FBufferReaders[i].FInput = FInput[i];
                     }
                     else
                     {
-                        if (FBufferReaders[i] != null)
-                            FBufferReaders[i].FInput = null;
+                        FBufferReaders[i].FInput = null;
                     }
-					
 				}
 				
 				FLevelOut.SliceCount = SpreadMax;

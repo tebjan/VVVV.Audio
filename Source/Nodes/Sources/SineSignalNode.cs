@@ -23,7 +23,6 @@ namespace VVVV.Nodes
 	public class MultiSineSignal : AudioSignal
 	{
 		public MultiSineSignal(ISpread<float> frequency, ISpread<float> gain)
-			: base(44100)
 		{
 			Frequencies = frequency;
 			Gains = gain;
@@ -38,12 +37,11 @@ namespace VVVV.Nodes
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			PerfCounter.Start("MultiSine");
-			var sampleRate = this.WaveFormat.SampleRate;
 			var spreadMax = Frequencies.CombineWith(Gains);
 			Phases.Resize(spreadMax, () => default(float), f => f = 0);
 			for (int slice = 0; slice < spreadMax; slice++) 
 			{
-			 	var increment = TwoPi*Frequencies[slice]/sampleRate;
+			 	var increment = TwoPi*Frequencies[slice]/SampleRate;
 			 	var gain = Gains[slice];
 			 	var phase = Phases[slice];
 			 	
@@ -89,7 +87,6 @@ namespace VVVV.Nodes
 	public class SineSignal : AudioSignal
 	{
 		public SineSignal(float frequency, float gain)
-			: base(44100)
 		{
 			Frequency = frequency;
 			Gain = gain;
@@ -104,8 +101,7 @@ namespace VVVV.Nodes
 		{
 			PerfCounter.Start("Sine");
 			
-			var sampleRate = this.WaveFormat.SampleRate;
-			var increment = TwoPi*Frequency/sampleRate;
+			var increment = TwoPi*Frequency/SampleRate;
 			for (int i = 0; i < count; i++)
 			{
 				// Sinus Generator

@@ -16,15 +16,20 @@ using VVVV.PluginInterfaces.V2;
 
 namespace VVVV.Audio
 {
+	/// <summary>
+	/// Interface which the audio engine will call for each buffer after its registered
+	/// </summary>
 	public interface IAudioSink
 	{
 		void Read(int offset, int count);
 	}
 	
+	/// <summary>
+	/// Base class for all sink signals which have no audio output
+	/// </summary>
 	public class SinkSignal<TValue> : AudioSignal, IAudioSink
 	{
 		public SinkSignal(int sampleRate)
-			: base(sampleRate)
 		{
 			AudioService.AddSink(this);
 		}
@@ -40,14 +45,15 @@ namespace VVVV.Audio
 			FReading = true;
 			if (!FWriting)
 			{
-				value = FValueToPass;
+				FLastValue = FValueToPass;
 				success = true;
 			}
 			else
 			{
-				value = FLastValue;
 				System.Diagnostics.Debug.WriteLine("Could not read");
 			}
+			
+			value = FLastValue;
 			FReading = false;
 			return success;
 		}
@@ -78,8 +84,8 @@ namespace VVVV.Audio
 		
 		public override void Dispose()
 		{
-			base.Dispose();
 			AudioService.RemoveSink(this);
+			base.Dispose();
 		}
 	}
 }

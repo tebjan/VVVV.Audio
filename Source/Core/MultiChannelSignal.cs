@@ -25,7 +25,6 @@ namespace VVVV.Audio
 		//the read method from the MultiChannelSignal
 		protected Action<int, int> FRequestBufferFill;
 		public SingleSignal(Action<int, int> read)
-			: base(44100)
 		{
 			FRequestBufferFill = read;
 		}

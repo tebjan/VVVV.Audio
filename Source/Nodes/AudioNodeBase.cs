@@ -96,7 +96,10 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	public abstract class GenericMultiChannelAudioSourceNode<T> : AudioNodeBase where T : MultiChannelSignal
+	/// <summary>
+	/// Audio node base class with automatic instance handling
+	/// </summary>
+	public abstract class GenericMultiAudioSourceNode<T> : AudioNodeBase where T : MultiChannelSignal
 	{
 		protected ISpread<T> FInternalSignals = new Spread<T>();
 		
@@ -131,15 +134,18 @@ namespace VVVV.Nodes
 					outCount += FInternalSignals[i].Outputs.SliceCount;
 				}
 				
-				OutBuffer.SliceCount = outCount;
-				
-				var outSlice = 0;
-				for (int i = 0; i < FInternalSignals.SliceCount; i++)
+				if(OutBuffer.SliceCount != outCount)
 				{
-					for (int j = 0; j < FInternalSignals[i].Outputs.SliceCount; j++)
+					OutBuffer.SliceCount = outCount;
+					
+					var outSlice = 0;
+					for (int i = 0; i < FInternalSignals.SliceCount; i++)
 					{
-						OutBuffer[outSlice] = FInternalSignals[i].Outputs[j];
-						outSlice++;
+						for (int j = 0; j < FInternalSignals[i].Outputs.SliceCount; j++)
+						{
+							OutBuffer[outSlice] = FInternalSignals[i].Outputs[j];
+							outSlice++;
+						}
 					}
 				}
 			}
@@ -171,7 +177,10 @@ namespace VVVV.Nodes
 		
 	}
 	
-	public abstract class GenericMultiChannelAudioSourceNodeWithOutputs<TSignal> : GenericMultiChannelAudioSourceNode<TSignal> where TSignal : MultiChannelSignal
+	/// <summary>
+	/// Audio node base class with automatic instance handling and value outputs
+	/// </summary>
+	public abstract class GenericMultiAudioSourceNodeWithOutputs<TSignal> : GenericMultiAudioSourceNode<TSignal> where TSignal : MultiChannelSignal
 	{
 		public override void Evaluate(int SpreadMax)
 		{

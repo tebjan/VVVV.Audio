@@ -45,8 +45,7 @@ namespace VVVV.Audio
 	
 	public class AudioEffectSignal : AudioSignal
 	{
-		public AudioEffectSignal(int sampleRate)
-			: base(sampleRate)
+		public AudioEffectSignal()
 		{
 		}
 		

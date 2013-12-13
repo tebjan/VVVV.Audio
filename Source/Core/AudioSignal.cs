@@ -58,14 +58,33 @@ namespace VVVV.Audio
 	public class AudioSignal : AudioSignalBase, ISampleProvider, ICanCopyBuffer
 	{
 		
-		public AudioSignal(int sampleRate)
-			: base()
+		public AudioSignal()
 	    {
-	        this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 1);
+			AudioService.Engine.Settings.SampleRateChanged += Engine_SampleRateChanged;
+			Engine_SampleRateChanged(null, null);
+		}
+
+		//set new sample rate
+		protected void Engine_SampleRateChanged(object sender, EventArgs e)
+		{
+			this.SampleRate = AudioService.Engine.Settings.SampleRate;
+			this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(this.SampleRate, 1);
+		}
+		
+	    public WaveFormat WaveFormat
+	    {
+	        get;
+	    	protected set;
+	    	
 	    }
+	    
+	    /// <summary>
+	    /// Current sample rate as set by the engine
+	    /// </summary>
+	    protected int SampleRate;
+
 
 		protected AudioSignal FSource;
-		protected object FUpstreamLock = new object();
 		protected float[] FReadBuffer = new float[1];
 		
 		public bool NeedsBufferCopy
@@ -76,6 +95,7 @@ namespace VVVV.Audio
 
 	    public int Read(float[] buffer, int offset, int count)
 	    {
+	    	//TODO: find solid way to decide whether buffer copy is needed
 	    	if(true || NeedsBufferCopy)
 	    	{
 	    		//ensure buffer size
@@ -107,21 +127,17 @@ namespace VVVV.Audio
 	    /// <param name="buffer">The buffer to fill</param>
 	    /// <param name="offset">Write offset for the buffer</param>
 	    /// <param name="count">Count of samples need</param>
-		protected virtual void FillBuffer(float[] buffer, int offset, int count)
-		{
-			lock(FUpstreamLock)
-			{
-				if(FSource != null)
-					FSource.Read(buffer, offset, count);
-			}
-		}
-	
-	    public WaveFormat WaveFormat
+	    protected virtual void FillBuffer(float[] buffer, int offset, int count)
 	    {
-	        get;
-	    	protected set;
-	    	
+	    	if(FSource != null)
+	    		FSource.Read(buffer, offset, count);
 	    }
+	    
+		public override void Dispose()
+		{
+			AudioService.Engine.Settings.SampleRateChanged -= Engine_SampleRateChanged;
+			base.Dispose();
+		}
 	}
 	
 	public class AudioSignalSpread : Spread<AudioSignal>, ICanCopyBuffer

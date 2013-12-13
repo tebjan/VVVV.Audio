@@ -26,7 +26,6 @@ namespace VVVV.Nodes
 		protected AudioEngine FEngine;
 		protected int FIndex;
 		public AudioInSignal(AudioEngine engine, int index)
-			: base(44100)
 		{
 			FEngine = engine;
 			FIndex = index;

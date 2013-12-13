@@ -186,6 +186,8 @@ namespace VVVV.Audio
 				Settings.BufferSize = AsioOut.BufferSize;
 
                 this.AsioOut.DriverResetRequest += AsioOut_DriverResetRequest;
+                
+                this.Settings.SampleRate = sampleRate;
 
                 NeedsReset = false;
 			}
@@ -318,8 +320,11 @@ namespace VVVV.Audio
 			
 			set
 			{
-				FBufferSize = value;
-				OnBufferSizeChanged();
+				if(FBufferSize != value)
+				{
+					FBufferSize = value;
+					OnBufferSizeChanged();
+				}
 			}
 		}
 		
@@ -344,8 +349,11 @@ namespace VVVV.Audio
 			
 			set
 			{
-				FSampleRate = value;
-				OnSampleRateChanged();
+				if(FSampleRate != value)
+				{
+					FSampleRate = value;
+					OnSampleRateChanged();
+				}
 			}
 		}
 		
