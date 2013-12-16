@@ -24,7 +24,6 @@ namespace VVVV.Nodes
 	public class BufferOutSignal : SinkSignal<float[]>
 	{
 		public BufferOutSignal(AudioSignal input)
-			: base(44100)
 		{
 			if (input == null)
 				throw new ArgumentNullException("Input of LevelMeterSignal construcor is null");

@@ -20,24 +20,21 @@ using VVVV.Utils.VMath;
 
 namespace VVVV.Nodes
 {
-	public class BufferWriterSignal : SinkSignal<float[]>
+	public class BufferWriterSignal : BufferAudioSignal, IAudioSink
 	{
 		public BufferWriterSignal(AudioSignal input, string bufferKey, int previewSize)
-			: base(44100)
+			: base(bufferKey)
 		{
+			AudioService.AddSink(this);
+			FSource = input;
+			PreviewSize = previewSize;
 			if (input == null)
 				throw new ArgumentNullException("Input of BufferWriterSignal construcor is null");
-			FSource = input;
-			FBuffer = AudioService.BufferStorage[bufferKey];
-			FBufferSize = FBuffer.Length;
-			PreviewSize = previewSize;
+
 		}
 		
-		protected string FBufferKey;
-		protected int FBufferSize;
 		public int WritePosition;
-		protected float[] FBuffer;
-		protected float[] FPreview = new float[1];
+		public float[] Preview = new float[1];
 		public int PreviewSize;
 		public volatile bool DoRead; 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
@@ -60,20 +57,35 @@ namespace VVVV.Nodes
 			}
 			
 			//do preview
-			if(FPreview.Length != PreviewSize)
-				FPreview = new float[PreviewSize];
-			var stepsize = (FBufferSize / PreviewSize) + 1;
-			var index = 0;
-			for (int i = stepsize/2; i < FBufferSize; i+=stepsize)
+			if(PreviewSize > 0)
 			{
-				FPreview[index] = FBuffer[i];
-				index++;
+				if(Preview.Length != PreviewSize)
+					Preview = new float[PreviewSize];
+				var stepsize = (FBufferSize / PreviewSize) + 1;
+				var index = 0;
+				for (int i = stepsize/2; i < FBufferSize; i+=stepsize)
+				{
+					Preview[index] = FBuffer[i];
+					index++;
+				}
 			}
-			this.SetLatestValue(FPreview);
+		}
+		
+		protected float[] FInternalBuffer;
+		public void Read(int offset, int count)
+		{
+			FInternalBuffer = BufferHelpers.Ensure(FInternalBuffer, count);
+			base.Read(FInternalBuffer, offset, count);
+		}
+		
+		public override void Dispose()
+		{
+			AudioService.RemoveSink(this);
+			base.Dispose();
 		}
 	}
 	
-	[PluginInfo(Name = "BufferWriter", Category = "Audio", Version = "Sink", Help = "Records audio into a buffer", Tags = "Scope, Samples")]
+	[PluginInfo(Name = "BufferWriter", Category = "Audio", Version = "Sink", Help = "Records audio into a buffer", Tags = "Scope, Samples", AutoEvaluate = true)]
 	public class BufferWriterNode : IPluginEvaluate
 	{
 		[Input("Input")]
@@ -112,20 +124,23 @@ namespace VVVV.Nodes
 		
 		public void Evaluate(int SpreadMax)
 		{
-			if(FInput.IsChanged)
+			if(FInput.IsChanged || FKeys.IsChanged)
 			{
+				
 				//delete and dispose all inputs
-				FBufferReaders.ResizeAndDispose(0, () => new BufferWriterSignal(FInput[0], FKeys[0].Name, FPreviewSizeIn[0]));
+				foreach (var element in FBufferReaders) 
+				{
+					if(element != null)
+						element.Dispose();
+				}
 				
 				FBufferReaders.SliceCount = SpreadMax;
 				for (int i = 0; i < SpreadMax; i++)
 				{
 					if(FInput[i] != null)
 					{
-						if(AudioService.BufferStorage.ContainsKey(FKeys[i].Name))
-							FBufferReaders[i] = (new BufferWriterSignal(FInput[i], FKeys[i].Name, FPreviewSizeIn[i]));
+						FBufferReaders[i] = (new BufferWriterSignal(FInput[i], FKeys[i].Name, FPreviewSizeIn[i]));
 					}
-					
 				}
 				
 				FBufferPreviewOut.SliceCount = SpreadMax;
@@ -140,8 +155,8 @@ namespace VVVV.Nodes
 					FBufferReaders[i].DoRead = FReadIn[i];
 					FBufferReaders[i].PreviewSize = FPreviewSizeIn[i];
 					var spread = FBufferPreviewOut[i];
-					float[] val = null;
-					FBufferReaders[i].GetLatestValue(out val);
+					float[] val = FBufferReaders[i].Preview;
+					//FBufferReaders[i].GetLatestValue(out val);
 					if(val != null)
 					{
 						if(spread == null)

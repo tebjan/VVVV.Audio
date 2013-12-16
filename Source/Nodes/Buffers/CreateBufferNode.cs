@@ -19,7 +19,82 @@ using VVVV.Utils.VMath;
 #endregion usings
 
 namespace VVVV.Nodes
-{
+{	
+	/// <summary>
+	/// Base class for nodes which work with buffers
+	/// </summary>
+	public abstract class BufferAudioSignal : AudioSignal
+	{
+		public BufferAudioSignal(string bufferKey)
+		{
+			FBufferKey = bufferKey;
+			AudioService.BufferStorage.BufferSet += BufferStorage_BufferSet;
+			AudioService.BufferStorage.BufferRemoved += BufferStorage_BufferRemoved;
+			
+			if(AudioService.BufferStorage.ContainsKey(FBufferKey))
+			{
+				SetBuffer(AudioService.BufferStorage[FBufferKey]);
+			}
+			else
+			{
+				SetBuffer(new float[AudioService.Engine.Settings.BufferSize]);
+			}
+		}
+
+		void BufferStorage_BufferRemoved(object sender, BufferEventArgs e)
+		{
+			if(e.BufferName == FBufferKey)
+			{
+				SetBuffer(new float[AudioService.Engine.Settings.BufferSize]);
+			}
+		}
+
+		void BufferStorage_BufferSet(object sender, BufferEventArgs e)
+		{
+			if(e.BufferName == FBufferKey)
+			{
+				SetBuffer(e.Buffer);
+			}
+		}
+		
+		protected void SetBuffer(float[] buffer)
+		{
+			FBuffer = buffer;
+			FBufferSize = FBuffer.Length;
+		}
+	
+		protected string FBufferKey;
+		public string BufferKey
+		{
+			get
+			{
+				return FBufferKey;
+			}
+			set
+			{
+				if(FBufferKey != value)
+				{
+					FBufferKey = value;
+					SetBuffer(AudioService.BufferStorage[FBufferKey]);
+				}
+			}
+		}
+		protected int FBufferSize;
+		protected float[] FBuffer;
+		
+		protected override void FillBuffer(float[] buffer, int offset, int count)
+		{
+			
+		}
+		
+		public override void Dispose()
+		{
+			AudioService.BufferStorage.BufferSet -= BufferStorage_BufferSet;
+			AudioService.BufferStorage.BufferRemoved -= BufferStorage_BufferRemoved;
+			base.Dispose();
+		}
+	}
+	
 	[PluginInfo(Name = "CreateBuffer", Category = "Audio", Help = "Creates a buffer which can be used to write and read samples", AutoEvaluate = true, Tags = "record")]
 	public class CreateBufferNode : IPluginEvaluate, IDisposable
 	{
@@ -35,7 +110,7 @@ namespace VVVV.Nodes
 		//called when data for any output pin is requested
 		public void Evaluate(int SpreadMax)
 		{
-			if(FNameIn.IsChanged ||FSizeIn.IsChanged)
+			if(FNameIn.IsChanged || FSizeIn.IsChanged)
 			{
 				var storage = AudioService.BufferStorage;
 				for (int i = 0; i < FNameIn.SliceCount; i++)
@@ -45,19 +120,28 @@ namespace VVVV.Nodes
 					{
 						if(storage.ContainsKey(key))
 						{
-							if(storage[key].Length != FSizeIn[i])
+							if(storage[key].Length != FSizeIn[i]) //resize?
 							{
-								storage[key] = new float[FSizeIn[i]];
+								storage.SetBuffer(key, new float[FSizeIn[i]]);
 							}
 						}
 						else
 						{
-							storage[key] = new float[FSizeIn[i]];
+							storage.SetBuffer(key, new float[FSizeIn[i]]);
 						}
 					}
 				}
 				
 				UpdateEnum();
+				
+				//delete buffers?
+				foreach (var key in storage.Keys) 
+				{
+					if(!FNameIn.Contains(key))
+					{
+						storage.RemoveBuffer(key);
+					}
+				}
 			}
 		}
 		

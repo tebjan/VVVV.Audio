@@ -82,7 +82,7 @@ namespace VVVV.Nodes
 		[Input("Gain")]
 		IDiffSpread<float> Gain;
 		
-		[Input("Output Count")]
+		[Input("Output Count", DefaultValue = 2)]
 		IDiffSpread<int> FOutChannels;
 		
 		[Output("Output")]

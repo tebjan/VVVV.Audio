@@ -176,7 +176,7 @@ namespace VVVV.Nodes
 		[Output("Can Seek")]
 		ISpread<bool> FCanSeekOut;
 
-        [Output("File Format")]
+        [Output("Uncompressed File Format")]
         ISpread<string> FFileFormatOut;
 		#endregion fields & pins
 

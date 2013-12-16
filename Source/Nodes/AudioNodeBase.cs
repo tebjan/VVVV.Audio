@@ -264,6 +264,8 @@ namespace VVVV.Nodes
 		{
 			base.Evaluate(SpreadMax);
 			
+			SetOutputSliceCount(CalculatedSpreadMax);
+			
 			for(int i=0; i<CalculatedSpreadMax; i++)
 			{
 				var audioSignal = OutBuffer[i];
@@ -279,6 +281,8 @@ namespace VVVV.Nodes
 		/// <param name="i">Current slice index</param>
 		/// <param name="instance">Current instance</param>
 		protected abstract void SetOutputs(int i, TSignal instance);
+		
+		protected abstract void SetOutputSliceCount(int sliceCount);
 	}
 }
 

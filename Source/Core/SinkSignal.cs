@@ -29,7 +29,7 @@ namespace VVVV.Audio
 	/// </summary>
 	public class SinkSignal<TValue> : AudioSignal, IAudioSink
 	{
-		public SinkSignal(int sampleRate)
+		public SinkSignal()
 		{
 			AudioService.AddSink(this);
 		}

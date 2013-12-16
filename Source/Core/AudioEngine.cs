@@ -405,6 +405,55 @@ namespace VVVV.Audio
 			FAudioEngine.RemoveSink(sink);
 		}
 		
-		public static Dictionary<string, float[]> BufferStorage = new Dictionary<string, float[]>();
+		public static BufferDictionary BufferStorage = new BufferDictionary();
+	}
+	
+	public class BufferEventArgs : EventArgs
+	{
+		public float[] Buffer
+		{
+			get;
+			set;
+		}
+		
+		public string BufferName
+		{
+			get;
+			set;
+		}
+	}
+	
+	public class BufferDictionary : Dictionary<string, float[]>
+	{
+		public BufferDictionary()
+		{
+			
+		}
+		
+		public void SetBuffer(string key, float[] buffer)
+		{
+			this[key] = buffer;
+			
+			var handler = BufferSet;
+			if(handler != null)
+			{
+				handler(this, new BufferEventArgs { Buffer = this[key], BufferName = key });
+			}
+		}
+		
+		public void RemoveBuffer(string key)
+		{
+			var buffer = this[key];
+			this.Remove(key);
+			
+			var handler = BufferRemoved;
+			if(handler != null)
+			{
+				handler(this, new BufferEventArgs { Buffer = buffer, BufferName = key });
+			}
+		}
+		
+		public event EventHandler<BufferEventArgs> BufferSet;
+		public event EventHandler<BufferEventArgs> BufferRemoved;
 	}
 }

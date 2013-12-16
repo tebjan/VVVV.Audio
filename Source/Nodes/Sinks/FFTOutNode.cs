@@ -25,7 +25,6 @@ namespace VVVV.Nodes
 	{
 		protected LomontFFT FFFT = new LomontFFT();
 		public FFTOutSignal(AudioSignal input)
-			: base(44100)
 		{
 			if (input == null)
 				throw new ArgumentNullException("Input of LevelMeterSignal construcor is null");

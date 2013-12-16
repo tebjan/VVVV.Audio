@@ -24,7 +24,6 @@ namespace VVVV.Nodes
 	public class LevelMeterSignal : SinkSignal<double>
 	{
 		public LevelMeterSignal(AudioSignal input)
-			: base(44100)
 		{
 			FInput = input;
 		}

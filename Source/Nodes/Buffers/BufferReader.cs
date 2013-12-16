@@ -20,25 +20,22 @@ using VVVV.Utils.VMath;
 
 namespace VVVV.Nodes
 {
-	public class BufferReaderSignal : AudioSignal
+	public class BufferReaderSignal : BufferAudioSignal
 	{
 		public BufferReaderSignal(string bufferKey)
+			: base(bufferKey)
 		{
-			FBuffer = AudioService.BufferStorage[bufferKey];
-			FBufferSize = FBuffer.Length;
 		}
 		
 		public bool DoRead;
-		protected string FBufferKey;
-		protected int FBufferSize;
 		public int ReadPosition;
-		protected float[] FBuffer;
 		public int PreviewSize;
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			if(DoRead)
 			{
+				//TODO: implement cycle correctly
 				if(ReadPosition >= FBufferSize) ReadPosition %= FBufferSize;
 				Array.Copy(FBuffer, ReadPosition, buffer, 0, Math.Min(FBufferSize - ReadPosition, count));
 				ReadPosition += count;
@@ -51,7 +48,7 @@ namespace VVVV.Nodes
 	}
 	
 	[PluginInfo(Name = "BufferReader", Category = "Audio", Version = "Source", Help = "Reads audio from a buffer", Tags = "samples, play")]
-	public class BufferReaderNode : AudioNodeBase
+	public class BufferReaderNode : GenericAudioSourceNodeWithOutputs<BufferReaderSignal>
 	{
 		[Input("Buffer ID", EnumName = "AudioBufferStorageKeys")]
 		IDiffSpread<EnumEntry> FKeys;
@@ -62,34 +59,32 @@ namespace VVVV.Nodes
 		[Output("Read Position")]
 		ISpread<int> FReadPosition;
 		
-		private bool FFirstFrame = true;
-		public override void Evaluate(int SpreadMax)
+		protected override void SetParameters(int i, BufferReaderSignal instance)
 		{
-			if(FKeys.IsChanged || FFirstFrame)
-			{
-				OutBuffer.SliceCount = SpreadMax;
-				for(int i=0; i<SpreadMax; i++)
-				{
-					if(OutBuffer[i] == null) OutBuffer[i] = new BufferReaderSignal(FKeys[i].Name); 
-					
-					(OutBuffer[i] as BufferReaderSignal).DoRead = FRead[i];
-				}
-			}
-			
 			if(FRead.IsChanged)
 			{
-				for(int i=0; i<SpreadMax; i++)
-				{
-					(OutBuffer[i] as BufferReaderSignal).DoRead = FRead[i];
-				}
+				instance.DoRead = FRead[i];
 			}
 			
-			for(int i=0; i<SpreadMax; i++)
+			if(FKeys.IsChanged)
 			{
-				FReadPosition[i] = (OutBuffer[i] as BufferReaderSignal).ReadPosition;
+				instance.BufferKey = FKeys[i];
 			}
-			
-			FFirstFrame = false;
+		}
+		
+		protected override void SetOutputs(int i, BufferReaderSignal instance)
+		{
+			FReadPosition[i] = (OutBuffer[i] as BufferReaderSignal).ReadPosition;
+		}
+		
+		protected override AudioSignal GetInstance(int i)
+		{
+			return new BufferReaderSignal(FKeys[i].Name);
+		}
+		
+		protected override void SetOutputSliceCount(int sliceCount)
+		{
+			FReadPosition.SliceCount = sliceCount;
 		}
 	}
 }
