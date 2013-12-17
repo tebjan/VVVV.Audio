@@ -35,9 +35,16 @@ namespace VVVV.Nodes
 		{
 			if(DoRead)
 			{
-				//TODO: implement cycle correctly
 				if(ReadPosition >= FBufferSize) ReadPosition %= FBufferSize;
-				Array.Copy(FBuffer, ReadPosition, buffer, 0, Math.Min(FBufferSize - ReadPosition, count));
+				
+				var copyCount = Math.Min(FBufferSize - ReadPosition, count);
+				Array.Copy(FBuffer, ReadPosition, buffer, 0, copyCount);
+				
+				if(copyCount < count) //copy rest from front
+				{
+					Array.Copy(FBuffer, 0, buffer, copyCount, count - copyCount);
+				}
+				
 				ReadPosition += count;
 			}
 			else
@@ -56,8 +63,20 @@ namespace VVVV.Nodes
 		[Input("Read")]
 		IDiffSpread<bool> FRead;
 		
+		[Input("Do Seek", IsBang = true)]
+		ISpread<bool> FDoSeekIn;
+		
+		[Input("Seek Position")]
+		IDiffSpread<int> FSeekPositionIn;
+		
 		[Output("Read Position")]
 		ISpread<int> FReadPosition;
+		
+		//always evaluate parameters
+		protected override bool AnyInputChanged()
+		{
+			return true;
+		}
 		
 		protected override void SetParameters(int i, BufferReaderSignal instance)
 		{
@@ -70,6 +89,16 @@ namespace VVVV.Nodes
 			{
 				instance.BufferKey = FKeys[i];
 			}
+			
+			if(FDoSeekIn[i])
+			{
+				instance.ReadPosition = FSeekPositionIn[i];
+			}
+		}
+		
+		protected override void SetOutputSliceCount(int sliceCount)
+		{
+			FReadPosition.SliceCount = sliceCount;
 		}
 		
 		protected override void SetOutputs(int i, BufferReaderSignal instance)
@@ -80,11 +109,6 @@ namespace VVVV.Nodes
 		protected override AudioSignal GetInstance(int i)
 		{
 			return new BufferReaderSignal(FKeys[i].Name);
-		}
-		
-		protected override void SetOutputSliceCount(int sliceCount)
-		{
-			FReadPosition.SliceCount = sliceCount;
 		}
 	}
 }
