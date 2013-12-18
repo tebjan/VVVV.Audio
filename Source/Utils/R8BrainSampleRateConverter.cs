@@ -160,7 +160,7 @@ namespace VVVV.Audio
 			var pinnedHandle = GCHandle.Alloc(input, GCHandleType.Pinned);
 			
 			//resample
-			var outSamples = R8BrainDLLWrapper.Process(FUnmanagedInstance, GCHandle.ToIntPtr(pinnedHandle), input.Length, out FOutBufferPtr);
+			var outSamples = R8BrainDLLWrapper.Process(FUnmanagedInstance, pinnedHandle.AddrOfPinnedObject(), input.Length, out FOutBufferPtr);
 			
 			//copy to output array
 			if(output.Length < outSamples)
