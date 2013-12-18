@@ -23,7 +23,7 @@ namespace VVVV.Nodes
 	/// <summary>
 	/// Base class for nodes which work with buffers
 	/// </summary>
-	public abstract class BufferAudioSignal : AudioSignal
+	public abstract class BufferAudioSignal : AudioSignalInput
 	{
 		public BufferAudioSignal(string bufferKey)
 		{

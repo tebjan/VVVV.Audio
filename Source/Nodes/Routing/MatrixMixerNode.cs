@@ -21,6 +21,8 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
+
+	
 	public class MatrixMixerSignal : MultiChannelInputSignal
 	{
 		public MatrixMixerSignal(ISpread<AudioSignal> input, int outChannels)
@@ -79,7 +81,7 @@ namespace VVVV.Nodes
 		[Input("Input")]
 		IDiffSpread<AudioSignal> FInput;
 		
-		[Input("Gain")]
+		[Input("Gain", DefaultValue = 1)]
 		IDiffSpread<float> Gain;
 		
 		[Input("Output Count", DefaultValue = 2)]

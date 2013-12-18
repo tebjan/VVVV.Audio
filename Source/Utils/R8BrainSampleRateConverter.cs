@@ -5,7 +5,7 @@
  * Time: 11:19
  * 
  * 
- * Sample rate converter designed by Aleksey Vaneev of Voxengo
+ * Sample rate converter designed by Aleksey Vaneev of Voxengo released under the MIT license.
  * 
  */
 using System;
@@ -13,22 +13,25 @@ using System.Runtime.InteropServices;
 
 namespace VVVV.Audio
 {
+	/// <summary>
+	/// Selects the resampler resolution
+	/// </summary>
 	public enum R8BrainResamplerResolution
 	{
 		/// <summary>
 		/// 16-bit precision resampler
 		/// </summary>
-		r8brr16 = 0,
+		R8Brain16 = 0,
 
 		/// <summary>
 		/// 16-bit precision resampler for impulse responses
 		/// </summary>
-		r8brr16IR = 1,
+		R8Brain16IR = 1,
 		
 		/// <summary>
 		/// 24-bit precision resampler (including 32-bit floating point).
 		/// </summary>
-		r8brr24 = 2
+		R8Brain24 = 2
 	}
 	
 	/// <summary>
@@ -37,26 +40,42 @@ namespace VVVV.Audio
 	public class R8BrainSampleRateConverter : IDisposable
 	{
 		/// <summary>
-		/// Reference to the actal unmanaged resampler
+		/// Reference to the actual unmanaged resampler
 		/// </summary>
 		IntPtr FUnmanagedInstance;
+		
+		/// <summary>
+		/// This will receive the pointer to the output buffer, reusing it as recommeded
+		/// </summary>
+		IntPtr FOutBufferPtr = new IntPtr();
 		
 		/// <summary>
 		/// Function creates a new linear-phase resampler object
 		/// </summary>
 		/// 
-		/// <param name="srcSampleRate">SrcSampleRate Source signal sample rate. Both sample rates can be 
+		/// <param name="srcSampleRate">Source signal sample rate. Both sample rates can be 
 		/// specified as a ratio, e.g. SrcSampleRate = 1.0, DstSampleRate = 2.0.</param>
 		/// 
-		/// <param name="dstSampleRate">DstSampleRate Destination signal sample rate</param>
+		/// <param name="dstSampleRate">Destination signal sample rate</param>
 		/// 
-		/// <param name="maxInputBufferLength">MaxInLen The maximal planned length of the input buffer (in samples) 
+		/// <param name="maxInputBufferLength">The maximal planned length of the input buffer (in samples) 
 		/// that will be passed to the resampler. The resampler relies on this value as
 		/// it allocates intermediate buffers. Input buffers longer than this value
 		/// should never be supplied to the resampler. Note that the resampler may use
 		/// the input buffer itself for intermediate sample data storage.</param>
 		/// 
-		/// <param name="reqTransBand"></param>
+		/// <param name="reqTransBand">Required transition band, in percent of the
+		/// spectral space of the input signal (or the output signal if
+		/// downsampling is performed) between filter's -3 dB point and the Nyquist
+		/// frequency. The range is from CDSPFIRFilter::getLPMinTransBand() to
+		/// CDSPFIRFilter::getLPMaxTransBand(), inclusive. When upsampling 88200 or
+		/// 96000 audio to a higher sample rates the ReqTransBand can be
+		/// considerably increased, up to 30. The selection of ReqTransBand depends
+		/// on the level of desire to preserve the high-frequency content. While
+		/// values 0.5 to 2 are extremely "greedy" settings, not necessary in most
+		/// cases, values 2 to 3 can be used in most cases. Values 3 to 4 are
+		/// relaxed settings, but they still offer a flat frequency response up to
+		/// 21kHz with 44.1k source or destination sample rate.</param>
 		/// 
 		/// <param name="resolution">Resampler's required resolution</param>
 		public R8BrainSampleRateConverter(double srcSampleRate,
@@ -66,6 +85,28 @@ namespace VVVV.Audio
 		                                  R8BrainResamplerResolution resolution)
 		{
 			FUnmanagedInstance = R8BrainDLLWrapper.Create(srcSampleRate, dstSampleRate, maxInputBufferLength, reqTransBand, resolution);
+			FSourcRate = srcSampleRate;
+			FDestinationRate = dstSampleRate;
+		}
+		
+		double FSourcRate;
+		
+		/// <summary>
+		/// The source rate set on creation
+		/// </summary>
+		public double SourcRate 
+		{
+			get { return FSourcRate; }
+		}
+		
+		double FDestinationRate;
+		
+		/// <summary>
+		/// The destination rate set on creation
+		/// </summary>
+		public double DestinationRate 
+		{
+			get { return FDestinationRate; }
 		}
 		
 		/// <summary>
@@ -101,8 +142,6 @@ namespace VVVV.Audio
 		/// 
 		/// <param name="input">Input buffer. This buffer may be used as output buffer by this function.</param>
 		/// 
-		/// <param name="length">The number of samples available in the input buffer</param>
-		/// 
 		/// <param name="output">This variable receives the pointer to the resampled data.
 		/// This pointer may point to the address within the "ip0" input buffer, or to
 		/// *this object's internal buffer. In real-time applications it is suggested
@@ -115,9 +154,24 @@ namespace VVVV.Audio
 		/// data from the output buffer is going to be written to a bigger output
 		/// buffer, it is suggested to check the returned number of samples so that no
 		/// overflow of the bigger output buffer happens.</returns>
-		public int Process(double[] input, int length, out double[] output)
+		public int Process(double[] input, ref double[] output)
 		{
-			return R8BrainDLLWrapper.Process(FUnmanagedInstance, input, length, out output);
+			//pin the input during process
+			var pinnedHandle = GCHandle.Alloc(input, GCHandleType.Pinned);
+			
+			//resample
+			var outSamples = R8BrainDLLWrapper.Process(FUnmanagedInstance, GCHandle.ToIntPtr(pinnedHandle), input.Length, out FOutBufferPtr);
+			
+			//copy to output array
+			if(output.Length < outSamples)
+				output = new double[outSamples];
+			
+			Marshal.Copy(FOutBufferPtr, output, 0, outSamples);
+			
+			//free pin
+			pinnedHandle.Free();
+			
+			return outSamples;
 		}
 		
 		#region Dispose pattern with unmanaged resources
@@ -181,12 +235,6 @@ namespace VVVV.Audio
 		                                 IntPtr ip0,
 		                                 int length,
 		                                 out IntPtr op0);
-		
-		[DllImport("r8bsrc.dll", EntryPoint="r8b_process", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int Process(IntPtr instance,
-		                                 double[] ip0,
-		                                 int length,
-		                                 out double[] op0);
 	}
 	
 }

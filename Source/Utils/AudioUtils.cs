@@ -27,5 +27,23 @@ namespace VVVV.Audio
 				buffer[i+offset] = 0;
 			}
 		}
+		
+		public static void ReadDouble(this float[] buffer, double[] dest, int offset, int count)
+		{
+			for (int i = 0; i < count; i++) 
+			{
+				dest[i+offset] = buffer[i+offset];
+			}
+		}
+		
+		public static void WriteDouble(this float[] buffer, double[] source, int offset, int count)
+		{
+			for (int i = 0; i < count; i++) 
+			{
+				buffer[i+offset] = (float)(source[i+offset]);
+			}
+		}
 	}
+	
+
 }

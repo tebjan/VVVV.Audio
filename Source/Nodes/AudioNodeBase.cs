@@ -96,113 +96,6 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	/// <summary>
-	/// Audio node base class with automatic instance handling
-	/// </summary>
-	public abstract class GenericMultiAudioSourceNode<T> : AudioNodeBase where T : MultiChannelSignal
-	{
-		protected ISpread<T> FInternalSignals = new Spread<T>();
-		
-		//for subclasses
-		protected int CalculatedSpreadMax
-		{
-			get;
-			private set;
-		}
-		
-		public override void Evaluate(int SpreadMax)
-		{
-			CalculatedSpreadMax = GetSpreadMax(SpreadMax);
-			FInternalSignals.ResizeAndDispose(CalculatedSpreadMax, GetInstance);
-			
-			if(AnyInputChanged())
-			{
-				for(int i=0; i<SpreadMax; i++)
-				{
-					var audioSignal = FInternalSignals[i];
-					
-					if(audioSignal == null) 
-						audioSignal = GetInstance(i);
-					
-					if(audioSignal is T)
-						SetParameters(i, audioSignal as T);
-				}
-				
-				var outCount = 0;
-				for (int i = 0; i < FInternalSignals.SliceCount; i++)
-				{
-					outCount += FInternalSignals[i].Outputs.SliceCount;
-				}
-				
-				if(OutBuffer.SliceCount != outCount)
-				{
-					OutBuffer.SliceCount = outCount;
-					
-					var outSlice = 0;
-					for (int i = 0; i < FInternalSignals.SliceCount; i++)
-					{
-						for (int j = 0; j < FInternalSignals[i].Outputs.SliceCount; j++)
-						{
-							OutBuffer[outSlice] = FInternalSignals[i].Outputs[j];
-							outSlice++;
-						}
-					}
-				}
-			}
-		}
-		
-		/// <summary>
-		/// Override this in subclass if you want to set the number of output signals manually
-		/// </summary>
-		/// <param name="originalSpreadMax"></param>
-		/// <returns></returns>
-		protected virtual int GetSpreadMax(int originalSpreadMax)
-		{
-			return originalSpreadMax;
-		}
-		
-		/// <summary>
-		/// This should return a new instance of the desired audio signal class
-		/// </summary>
-		/// <param name="i">The current slice index of the output signal</param>
-		/// <returns>New instnace of the audio signal class</returns>
-		protected abstract T GetInstance(int i);
-		
-		/// <summary>
-		/// This should set the parameters of the given audio signal class
-		/// </summary>
-		/// <param name="i">Current index of the output signal spread</param>
-		/// <param name="instance">Curretn instance</param>
-		protected abstract void SetParameters(int i, T instance);
-		
-	}
-	
-	/// <summary>
-	/// Audio node base class with automatic instance handling and value outputs
-	/// </summary>
-	public abstract class GenericMultiAudioSourceNodeWithOutputs<TSignal> : GenericMultiAudioSourceNode<TSignal> where TSignal : MultiChannelSignal
-	{
-		public override void Evaluate(int SpreadMax)
-		{
-			base.Evaluate(SpreadMax);
-			
-			for(int i=0; i<CalculatedSpreadMax; i++)
-			{
-				var audioSignal = FInternalSignals[i];
-				
-				if(audioSignal is TSignal)
-					SetOutputs(i, audioSignal as TSignal);
-			}
-		}
-		
-		/// <summary>
-		/// Set the output pins of the node
-		/// </summary>
-		/// <param name="i">Current slice index</param>
-		/// <param name="instance">Current instance</param>
-		protected abstract void SetOutputs(int i, TSignal instance);
-	}
-	
 	public abstract class GenericAudioSourceNode<TSignal> : AudioNodeBase where TSignal : AudioSignal
 	{
 		//for subclasses
@@ -258,6 +151,19 @@ namespace VVVV.Nodes
 		protected abstract void SetParameters(int i, TSignal instance);
 	}
 	
+	/// <summary>
+	/// 
+	/// </summary>
+	public abstract class GenericAudioFilterNode<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : AudioSignalInput
+	{
+		[Input("Input", Order = -10)]
+		protected IDiffSpread<AudioSignal> FInputs;
+	}
+		
+	
+	/// <summary>
+	/// Audio source node with output pins
+	/// </summary>
 	public abstract class GenericAudioSourceNodeWithOutputs<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : AudioSignal
 	{
 		public override void Evaluate(int SpreadMax)
@@ -283,6 +189,113 @@ namespace VVVV.Nodes
 		protected abstract void SetOutputs(int i, TSignal instance);
 		
 		protected abstract void SetOutputSliceCount(int sliceCount);
+	}
+	
+	/// <summary>
+	/// Audio node base class with automatic instance handling
+	/// </summary>
+	public abstract class GenericMultiAudioSourceNode<TSignal> : AudioNodeBase where TSignal : MultiChannelSignal
+	{
+		protected ISpread<TSignal> FInternalSignals = new Spread<TSignal>();
+		
+		//for subclasses
+		protected int CalculatedSpreadMax
+		{
+			get;
+			private set;
+		}
+		
+		public override void Evaluate(int SpreadMax)
+		{
+			CalculatedSpreadMax = GetSpreadMax(SpreadMax);
+			FInternalSignals.ResizeAndDispose(CalculatedSpreadMax, GetInstance);
+			
+			if(AnyInputChanged())
+			{
+				for(int i=0; i<SpreadMax; i++)
+				{
+					var audioSignal = FInternalSignals[i];
+					
+					if(audioSignal == null) 
+						audioSignal = GetInstance(i);
+					
+					if(audioSignal is TSignal)
+						SetParameters(i, audioSignal as TSignal);
+				}
+				
+				var outCount = 0;
+				for (int i = 0; i < FInternalSignals.SliceCount; i++)
+				{
+					outCount += FInternalSignals[i].Outputs.SliceCount;
+				}
+				
+				if(OutBuffer.SliceCount != outCount)
+				{
+					OutBuffer.SliceCount = outCount;
+					
+					var outSlice = 0;
+					for (int i = 0; i < FInternalSignals.SliceCount; i++)
+					{
+						for (int j = 0; j < FInternalSignals[i].Outputs.SliceCount; j++)
+						{
+							OutBuffer[outSlice] = FInternalSignals[i].Outputs[j];
+							outSlice++;
+						}
+					}
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Override this in subclass if you want to set the number of output signals manually
+		/// </summary>
+		/// <param name="originalSpreadMax"></param>
+		/// <returns></returns>
+		protected virtual int GetSpreadMax(int originalSpreadMax)
+		{
+			return originalSpreadMax;
+		}
+		
+		/// <summary>
+		/// This should return a new instance of the desired audio signal class
+		/// </summary>
+		/// <param name="i">The current slice index of the output signal</param>
+		/// <returns>New instnace of the audio signal class</returns>
+		protected abstract TSignal GetInstance(int i);
+		
+		/// <summary>
+		/// This should set the parameters of the given audio signal class
+		/// </summary>
+		/// <param name="i">Current index of the output signal spread</param>
+		/// <param name="instance">Curretn instance</param>
+		protected abstract void SetParameters(int i, TSignal instance);
+		
+	}
+	
+	/// <summary>
+	/// Audio node base class with automatic instance handling and value outputs
+	/// </summary>
+	public abstract class GenericMultiAudioSourceNodeWithOutputs<TSignal> : GenericMultiAudioSourceNode<TSignal> where TSignal : MultiChannelSignal
+	{
+		public override void Evaluate(int SpreadMax)
+		{
+			base.Evaluate(SpreadMax);
+			
+			for(int i=0; i<CalculatedSpreadMax; i++)
+			{
+				var audioSignal = FInternalSignals[i];
+				
+				if(audioSignal is TSignal)
+					SetOutputs(i, audioSignal as TSignal);
+			}
+		}
+		
+		/// <summary>
+		/// Set the output pins of the node
+		/// </summary>
+		/// <param name="i">Current slice index</param>
+		/// <param name="instance">Current instance</param>
+		protected abstract void SetOutputs(int i, TSignal instance);
 	}
 }
 

@@ -135,7 +135,7 @@ namespace VVVV.Audio
         		}
         	}
         	
-            ////needs sresampling?
+            ////needs resampling?
             //if(FReaderStream.WaveFormat.SampleRate != desiredSamplerate)
             //{
             //    var wf = FReaderStream.WaveFormat;

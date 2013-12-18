@@ -16,6 +16,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Patches\plugins\bin\VVVV.Audio.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -83,6 +84,7 @@
     </Reference>
     <Reference Include="VVVV.Nodes">
       <HintPath>..\VVVV\lib\nodes\plugins\VVVV.Nodes.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.PluginInterfaces">
       <HintPath>..\VVVV\lib\core\VVVV.PluginInterfaces.dll</HintPath>
@@ -113,6 +115,7 @@
     <Compile Include="Nodes\Buffers\BufferReader.cs" />
     <Compile Include="Nodes\Buffers\BufferWriter.cs" />
     <Compile Include="Nodes\Buffers\CreateBufferNode.cs" />
+    <Compile Include="Nodes\Filters\ResampleNode.cs" />
     <Compile Include="Nodes\Routing\MatrixMixerNode.cs" />
     <Compile Include="Nodes\Routing\SignalOperationNodes.cs" />
     <Compile Include="Nodes\Routing\SpreadOperations.cs" />
@@ -148,12 +151,14 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AudioUtils.cs" />
+    <Compile Include="Utils\CircularBuffer.cs" />
     <Compile Include="Utils\R8BrainSampleRateConverter.cs" />
     <Compile Include="Utils\FFT.cs" />
     <Compile Include="Utils\NAudio\AudioFileReaderVVVV.cs" />
     <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Nodes\Filters" />
     <Folder Include="Nodes\Routing" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +173,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dependencies\r8brain-free-src-1.5-dll\Win32\r8bsrc.dll">
+      <Link>r8bsrc.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Dependencies\x86\yeppp.dll">
       <Link>yeppp.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

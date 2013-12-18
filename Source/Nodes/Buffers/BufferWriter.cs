@@ -26,7 +26,7 @@ namespace VVVV.Nodes
 			: base(bufferKey)
 		{
 			AudioService.AddSink(this);
-			FSource = input;
+			FInput = input;
 			PreviewSize = previewSize;
 			if (input == null)
 				throw new ArgumentNullException("Input of BufferWriterSignal construcor is null");
@@ -42,7 +42,7 @@ namespace VVVV.Nodes
 			
 			if(DoRead)
 			{
-				FSource.Read(buffer, offset, count);
+				FInput.Read(buffer, offset, count);
 				if(WritePosition >= FBufferSize) WritePosition %= FBufferSize;
 				
 				var copyCount = Math.Min(FBufferSize - WritePosition, count);

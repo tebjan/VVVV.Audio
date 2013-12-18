@@ -20,6 +20,11 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Audio
 {
+	/// <summary>
+	/// Interface which provides buffer copy of the output.
+	/// This is needed when multiple signals have the output as input,
+	/// so the stream does not advance during frames.
+	/// </summary>
 	public interface ICanCopyBuffer
 	{
 		bool NeedsBufferCopy
@@ -29,6 +34,9 @@ namespace VVVV.Audio
 		}
 	}
 	
+	/// <summary>
+	/// General base class for all audio signals
+	/// </summary>
 	public class AudioSignalBase : IDisposable
 	{
 		public AudioSignalBase()
@@ -55,6 +63,9 @@ namespace VVVV.Audio
 		}
 	}
 	
+	/// <summary>
+	/// Base class for signals which just generate audio
+	/// </summary>
 	public class AudioSignal : AudioSignalBase, ISampleProvider, ICanCopyBuffer
 	{
 		
@@ -82,9 +93,6 @@ namespace VVVV.Audio
 	    /// Current sample rate as set by the engine
 	    /// </summary>
 	    protected int SampleRate;
-
-
-		protected AudioSignal FSource;
 		protected float[] FReadBuffer = new float[1];
 		
 		public bool NeedsBufferCopy
@@ -129,8 +137,7 @@ namespace VVVV.Audio
 	    /// <param name="count">Count of samples need</param>
 	    protected virtual void FillBuffer(float[] buffer, int offset, int count)
 	    {
-	    	if(FSource != null)
-	    		FSource.Read(buffer, offset, count);
+	    	buffer.ReadSilence(offset, count);
 	    }
 	    
 		public override void Dispose()
@@ -140,7 +147,33 @@ namespace VVVV.Audio
 		}
 	}
 	
-	public class AudioSignalSpread : Spread<AudioSignal>, ICanCopyBuffer
+	/// <summary>
+	/// Base class for audio signals with input
+	/// </summary>
+	public class AudioSignalInput : AudioSignal
+	{
+		/// <summary>
+		/// The input signal
+		/// </summary>
+		public AudioSignal Input
+		{
+			get
+			{
+				return FInput;
+			}
+			set
+			{
+				FInput = value;
+			}
+		}
+
+		protected AudioSignal FInput;
+	}
+	
+	/// <summary>
+	/// A generic spread of audio signals
+	/// </summary>
+	public class AudioSignalSpread<TAudioSignal> : Spread<TAudioSignal>, ICanCopyBuffer where TAudioSignal : AudioSignal
 	{
 		
 		public AudioSignalSpread(int count)
@@ -163,6 +196,17 @@ namespace VVVV.Audio
 					element.NeedsBufferCopy = FNeedsBufferCopy;
 				}
 			}
+		}
+	}
+	
+	/// <summary>
+	/// A spread of audio signals
+	/// </summary>
+	public class AudioSignalSpread : AudioSignalSpread<AudioSignal>
+	{
+		public AudioSignalSpread(int count)
+			: base(count)
+		{
 		}
 	}
 }
