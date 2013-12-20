@@ -76,7 +76,7 @@ namespace VVVV.Audio
 		}
 
 		//set new sample rate
-		protected void Engine_SampleRateChanged(object sender, EventArgs e)
+		protected virtual void Engine_SampleRateChanged(object sender, EventArgs e)
 		{
 			this.SampleRate = AudioService.Engine.Settings.SampleRate;
 			this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(this.SampleRate, 1);
@@ -163,11 +163,24 @@ namespace VVVV.Audio
 			}
 			set
 			{
-				FInput = value;
+				if(FInput != value)
+				{
+					FInput = value;
+					InputWasSet(value);
+				}
 			}
 		}
 
+		/// <summary>
+		/// Override in sub class to know when the input has changed
+		/// </summary>
+		/// <param name="newInput"></param>
+		protected virtual void InputWasSet(AudioSignal newInput)
+		{	
+		}
+		
 		protected AudioSignal FInput;
+		
 	}
 	
 	/// <summary>

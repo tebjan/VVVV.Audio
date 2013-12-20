@@ -29,7 +29,13 @@ namespace VVVV.Nodes
 			: base(4096, input)
 		{
 			FConverter = converter;
-			PullCount = FConverter.Latency + 1024;
+			
+			//calculate needed input samples per buffer
+			var ratio = FConverter.SourcRate / FConverter.DestinationRate;
+			PullCount = (int)(AudioService.Engine.Settings.BufferSize * ratio) + 1;
+			
+			//fill the buffer with the first pull
+			Pull(FConverter.Latency + PullCount);
 		}
 		
 		double[] FInBuffer = new double[1];
@@ -44,7 +50,14 @@ namespace VVVV.Nodes
 	    		FInBuffer = new double[count];
 			}
 	    	
-	    	Input.Read(FTmpBuffer, 0, count);
+	    	if(Input != null)
+	    	{
+	    		Input.Read(FTmpBuffer, 0, count);
+	    	}
+	    	else
+	    	{
+	    		FTmpBuffer.ReadSilence(0, count);
+	    	}
 	    	
 	    	FTmpBuffer.ReadDouble(FInBuffer, 0, count);
 	    	
@@ -60,20 +73,47 @@ namespace VVVV.Nodes
 	    	Write(FOutFloats, 0, samples);
 
 		}
+
 	}
 	
 	public class ResampleSignal : AudioSignalInput
 	{
 		
 		ResamplerPullBuffer FPullBuffer;
+		R8BrainSampleRateConverter FConverter;
 		
 		public ResampleSignal(double srcRate, double dstRate, AudioSignal input, double reqTransBand = 3)
 		{
-			FConverter = new R8BrainSampleRateConverter(srcRate, dstRate, 4096, reqTransBand, R8BrainResamplerResolution.R8Brain16);
-			FPullBuffer = new ResamplerPullBuffer(input, FConverter);
+			FInput = input;
+			SetupConverter(srcRate, dstRate, reqTransBand);
 		}
 		
+		public void SetupConverter(double srcRate, double dstRate, double reqTransBand = 3)
+		{
+			if(DestinationRateIsEngineRate) 
+				dstRate = WaveFormat.SampleRate;
+			
+			if(FConverter == null || FConverter.SourcRate != srcRate || FConverter.DestinationRate != dstRate)
+			{
+				FConverter = new R8BrainSampleRateConverter(srcRate, dstRate, 4096, reqTransBand, R8BrainResamplerResolution.R8Brain24);
+				FPullBuffer = new ResamplerPullBuffer(FInput, FConverter);
+			}
+		}
 		
+		public bool DestinationRateIsEngineRate { get; set; }
+		
+		protected override void Engine_SampleRateChanged(object sender, EventArgs e)
+		{
+			base.Engine_SampleRateChanged(sender, e);
+			if(DestinationRateIsEngineRate)
+			{
+				SetupConverter(FConverter.SourcRate, WaveFormat.SampleRate, FConverter.RequiredTransitionBand);
+			}
+		}
+		
+		/// <summary>
+		/// The converter input latency
+		/// </summary>
 		public int Latency
 		{
 			get
@@ -82,15 +122,13 @@ namespace VVVV.Nodes
 			}
 		}
 		
-		public void Prepare()
+		//set new input for the pull buffer
+		protected override void InputWasSet(AudioSignal newInput)
 		{
-			
+			FPullBuffer.Input = newInput;
 		}
-		
-		R8BrainSampleRateConverter FConverter;
-	
-		double[] FConverterBuffer = new double[4096];
-		
+
+		//just read from the pull buffer
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			FPullBuffer.Read(buffer, offset, count);
@@ -101,7 +139,7 @@ namespace VVVV.Nodes
 	/// Description of ResampleFilter.
 	/// </summary>
 	[PluginInfo(Name = "Resample", Category = "Audio", Version = "Filter", Help = "Resamples the input signal to any output sample rate", AutoEvaluate = true, Tags = "sample rate, converter")]
-	public class ResampleNode : GenericAudioFilterNode<ResampleSignal>
+	public class ResampleNode : GenericAudioFilterNodeWithOutputs<ResampleSignal>
 	{
 		[Input("Source Rate", DefaultValue = 44100, StepSize = 100)]
 		IDiffSpread<double> FSrcRateIn;
@@ -112,18 +150,32 @@ namespace VVVV.Nodes
 		[Input("Required Transition Band", DefaultValue = 3)]
 		IDiffSpread<double> FReqTransBandIn;
 		
-		public ResampleNode()
-		{
-		}
+		[Input("Destination Rate Is Engine Rate")]
+		IDiffSpread<bool> FDstIsEngineRateIn;
+		
+		[Output("Resampler Input Latency")]
+        ISpread<int> FLatencyOut;
 		
 		protected override void SetParameters(int i, ResampleSignal instance)
 		{
 			instance.Input = FInputs[i];
+			instance.DestinationRateIsEngineRate = FDstIsEngineRateIn[i];
+			instance.SetupConverter(FSrcRateIn[i], FDstRateIn[i], FReqTransBandIn[i]);
 		}
 		
 		protected override AudioSignal GetInstance(int i)
 		{
 			return new ResampleSignal(FSrcRateIn[i], FDstRateIn[i], FInputs[i], FReqTransBandIn[i]);
+		}
+		
+		protected override void SetOutputSliceCount(int sliceCount)
+		{
+			FLatencyOut.SliceCount = sliceCount;
+		}
+		
+		protected override void SetOutputs(int i, ResampleSignal instance)
+		{
+			FLatencyOut[i] = instance.Latency;
 		}
 	}
 }

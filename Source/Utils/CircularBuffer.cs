@@ -17,7 +17,7 @@ namespace VVVV.Audio
 	/// <summary>
 	/// A very basic circular buffer implementation
 	/// </summary>
-	public class CircularPullBuffer
+	public class CircularPullBuffer : IDisposable
 	{
 	    private readonly float[] FBuffer;
 	    private int FWritePosition;
@@ -89,7 +89,14 @@ namespace VVVV.Audio
 	    	if(FTmpBuffer.Length != count)
 	    		FTmpBuffer = new float[count];
 	    	
-	    	Input.Read(FTmpBuffer, 0, count);
+	    	if(Input != null)
+	    	{
+	    		Input.Read(FTmpBuffer, 0, count);
+	    	}
+	    	else
+	    	{
+	    		FTmpBuffer.ReadSilence(0, count);
+	    	}
 	    	
 	    	Write(FTmpBuffer, 0, count);
 	    }
@@ -103,8 +110,8 @@ namespace VVVV.Audio
 	    /// <returns>Number of bytes actually read</returns>
 	    public int Read(float[] data, int offset, int count)
 	    {
-
-	    	if (count > FFloatCount)
+			//pull in enough samples
+	    	while (count > FFloatCount)
 	    	{
 	    		//count = FFloatCount;
 	    		Pull(PullCount);
@@ -174,5 +181,11 @@ namespace VVVV.Audio
 	            FReadPosition %= MaxLength;
 	        }
 	    }
+	    
+	    		
+		public void Dispose()
+		{
+			Input = null;
+		}
 	}
 }

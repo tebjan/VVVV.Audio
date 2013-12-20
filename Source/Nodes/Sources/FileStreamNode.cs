@@ -175,10 +175,17 @@ namespace VVVV.Nodes
 			
 		[Output("Can Seek")]
 		ISpread<bool> FCanSeekOut;
+		
+		[Output("Sample Rate")]
+        ISpread<int> FSampleRateOut;
 
-        [Output("Uncompressed File Format")]
+		[Output("Channels")]
+        ISpread<int> FChannelsOut;
+		
+        [Output("Uncompressed Format")]
         ISpread<string> FFileFormatOut;
 		#endregion fields & pins
+		
 
 		protected override void SetParameters(int i, FileStreamSignal instance)
 		{
@@ -201,6 +208,8 @@ namespace VVVV.Nodes
                 	
                     FDurationOut[i] = instance.FAudioFile.TotalTime.TotalSeconds;
                     FCanSeekOut[i] = instance.FAudioFile.CanSeek;
+                    FChannelsOut[i] = instance.FAudioFile.OriginalFileFormat.Channels;
+                    FSampleRateOut[i] = instance.FAudioFile.OriginalFileFormat.SampleRate;
                     FFileFormatOut[i] = instance.FAudioFile.OriginalFileFormat.ToString();
                 }
 		

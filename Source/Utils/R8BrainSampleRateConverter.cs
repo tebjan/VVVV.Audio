@@ -29,7 +29,7 @@ namespace VVVV.Audio
 		R8Brain16IR = 1,
 		
 		/// <summary>
-		/// 24-bit precision resampler (including 32-bit floating point).
+		/// 24-bit precision resampler (including 32-bit floating point)
 		/// </summary>
 		R8Brain24 = 2
 	}
@@ -87,10 +87,10 @@ namespace VVVV.Audio
 			FUnmanagedInstance = R8BrainDLLWrapper.Create(srcSampleRate, dstSampleRate, maxInputBufferLength, reqTransBand, resolution);
 			FSourcRate = srcSampleRate;
 			FDestinationRate = dstSampleRate;
+			FRequiredTransitionBand = reqTransBand;
 		}
 		
 		double FSourcRate;
-		
 		/// <summary>
 		/// The source rate set on creation
 		/// </summary>
@@ -100,13 +100,24 @@ namespace VVVV.Audio
 		}
 		
 		double FDestinationRate;
-		
 		/// <summary>
 		/// The destination rate set on creation
 		/// </summary>
 		public double DestinationRate 
 		{
 			get { return FDestinationRate; }
+		}
+		
+		double FRequiredTransitionBand;
+		/// <summary>
+		/// Required transition band, in percent of the
+		/// spectral space of the input signal (or the output signal if
+		/// downsampling is performed) between filter's -3 dB point and the Nyquist
+		/// frequency.
+		/// </summary>
+		public double RequiredTransitionBand 
+		{
+			get { return FRequiredTransitionBand; }
 		}
 		
 		/// <summary>
