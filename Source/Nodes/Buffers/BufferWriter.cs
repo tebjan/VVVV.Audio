@@ -145,7 +145,6 @@ namespace VVVV.Nodes
 				
 				FBufferPreviewOut.SliceCount = SpreadMax;
 			}
-			
 
 			//output value
 			for (int i = 0; i < SpreadMax; i++)
