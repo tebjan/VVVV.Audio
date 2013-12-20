@@ -28,8 +28,6 @@ namespace VVVV.Nodes
 			FInput = input;
 		}
 		
-		public AudioSignal FInput;
-		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			if(FInput != null)
@@ -47,12 +45,9 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "Meter", Category = "Audio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Meter, dB")]
-	public class LevelMeterSignalNode : IPluginEvaluate
-	{
-		[Input("Input", DefaultValue = 0.1)]
-		IDiffSpread<AudioSignal> FInput;
-		
+	[PluginInfo(Name = "Meter", Category = "Audio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Meter, dB, Level")]
+	public class LevelMeterSignalNode : GenericAudioSinkNodeWithOutputs<LevelMeterSignal, double>
+	{		
 		[Input("Smoothing")]
 		IDiffSpread<double> FSmoothing;
 
@@ -61,50 +56,41 @@ namespace VVVV.Nodes
 		
 		[Output("Level")]
 		ISpread<double> FLevelOut;
-		
-		Spread<LevelMeterSignal> FBufferReaders = new Spread<LevelMeterSignal>();
-		
-		public void Evaluate(int SpreadMax)
-		{
-			if(FInput.IsChanged)
-			{
-				FBufferReaders.Resize(SpreadMax, (i) => { return new LevelMeterSignal(FInput[i]); }, s => { if(s != null) s.Dispose(); });
-				for (int i = 0; i < SpreadMax; i++)
-				{
-                    if (FInput[i] != null)
-                    {
-                        FBufferReaders[i].FInput = FInput[i];
-                    }
-                    else
-                    {
-                        FBufferReaders[i].FInput = null;
-                    }
-				}
-				
-				FLevelOut.SliceCount = SpreadMax;
-                FLeveldBsOut.SliceCount = SpreadMax;
-			}
-			
-			//output value
-			for (int i = 0; i < SpreadMax; i++)
-			{
-				
-				if(FBufferReaders[i] != null)
-				{
-					var val = 0.0;
-					FBufferReaders[i].GetLatestValue(out val);
-					var smooth = FSmoothing[i];
-                    var level = FLevelOut[i] * smooth + val * (1-smooth);
-					FLevelOut[i] = level;
-                    FLeveldBsOut[i] = AudioUtils.SampleTodBs(level);
-				}
-				else
-				{
-					FLevelOut[i] = 0;
-				}
-			}
-		}
-	}
+
+        protected override void SetOutputs(int i, LevelMeterSignal instance)
+        {
+            if (instance != null)
+            {
+                var val = 0.0;
+                instance.GetLatestValue(out val);
+                var smooth = FSmoothing[i];
+                var level = FLevelOut[i] * smooth + val * (1 - smooth);
+                FLevelOut[i] = level;
+                FLeveldBsOut[i] = AudioUtils.SampleTodBs(level);
+            }
+            else
+            {
+                FLeveldBsOut[i] = 0;
+                FLevelOut[i] = 0;
+            }
+        }
+
+        protected override void SetOutputSliceCount(int sliceCount)
+        {
+            FLevelOut.SliceCount = sliceCount;
+            FLeveldBsOut.SliceCount = sliceCount;
+        }
+
+        protected override LevelMeterSignal GetInstance(int i)
+        {
+            return new LevelMeterSignal(FInputs[i]);
+        }
+
+        protected override void SetParameters(int i, LevelMeterSignal instance)
+        {
+            instance.Input = FInputs[i];
+        }
+    }
 }
 
 

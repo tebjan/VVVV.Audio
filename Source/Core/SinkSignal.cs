@@ -27,7 +27,7 @@ namespace VVVV.Audio
 	/// <summary>
 	/// Base class for all sink signals which have no audio output
 	/// </summary>
-	public class SinkSignal<TValue> : AudioSignal, IAudioSink
+	public class SinkSignal<TValue> : AudioSignalInput, IAudioSink
 	{
 		public SinkSignal()
 		{

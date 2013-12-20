@@ -46,7 +46,7 @@ namespace VVVV.Audio
 	/// <summary>
 	/// Processes multiple audio signals
 	/// </summary>
-	public class MultiChannelSignal : AudioSignalBase
+	public class MultiChannelSignal : AudioSignal
 	{
 		protected int FOutputCount;
 		public MultiChannelSignal(int outputCount)

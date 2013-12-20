@@ -32,7 +32,7 @@ namespace VVVV.Nodes
 			
 			//calculate needed input samples per buffer
 			var ratio = FConverter.SourcRate / FConverter.DestinationRate;
-			PullCount = (int)(AudioService.Engine.Settings.BufferSize * ratio) + 1;
+			PullCount = (int)(AudioService.Engine.Settings.BufferSize * ratio * 2) ;
 			
 			//fill the buffer with the first pull
 			Pull(FConverter.Latency + PullCount);
@@ -162,8 +162,8 @@ namespace VVVV.Nodes
 			instance.DestinationRateIsEngineRate = FDstIsEngineRateIn[i];
 			instance.SetupConverter(FSrcRateIn[i], FDstRateIn[i], FReqTransBandIn[i]);
 		}
-		
-		protected override AudioSignal GetInstance(int i)
+
+        protected override ResampleSignal GetInstance(int i)
 		{
 			return new ResampleSignal(FSrcRateIn[i], FDstRateIn[i], FInputs[i], FReqTransBandIn[i]);
 		}

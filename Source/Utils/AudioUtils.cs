@@ -20,12 +20,13 @@ namespace VVVV.Audio
 			return  Math.Max(20.0 * Math.Log10(Math.Abs(sample)), mindB);
 		}
 		
-		public static void ReadSilence(this float[] buffer, int offset, int count)
+		public static int ReadSilence(this float[] buffer, int offset, int count)
 		{
 			for (int i = 0; i < count; i++) 
 			{
 				buffer[i+offset] = 0;
 			}
+            return count;
 		}
 		
 		public static void ReadDouble(this float[] buffer, double[] dest, int offset, int count)

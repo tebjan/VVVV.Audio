@@ -45,11 +45,6 @@ namespace VVVV.Audio
 			System.Diagnostics.Debug.WriteLine("Signal Created: " + this.GetType());
 		}
 		
-		~AudioSignalBase()
-		{
-			Dispose();
-		}
-		
 		protected bool FNeedsRead = true;
 		protected void EngineFinishedReading(object sender, EventArgs e)
 		{
@@ -180,6 +175,18 @@ namespace VVVV.Audio
 		}
 		
 		protected AudioSignal FInput;
+
+        protected int ReadInput(float[] buffer, int offset, int count)
+        {
+            if (FInput != null)
+            {
+                return FInput.Read(buffer, offset, count);
+            }
+            else
+            {
+                return buffer.ReadSilence(offset, count);
+            }
+        }
 		
 	}
 	

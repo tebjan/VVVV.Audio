@@ -103,10 +103,10 @@ namespace VVVV.Nodes
 		
 		protected override void SetOutputs(int i, BufferReaderSignal instance)
 		{
-			FReadPosition[i] = (OutBuffer[i] as BufferReaderSignal).ReadPosition;
+			FReadPosition[i] = (FOutputSignals[i] as BufferReaderSignal).ReadPosition;
 		}
-		
-		protected override AudioSignal GetInstance(int i)
+
+        protected override BufferReaderSignal GetInstance(int i)
 		{
 			return new BufferReaderSignal(FKeys[i].Name);
 		}

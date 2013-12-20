@@ -25,73 +25,68 @@ namespace VVVV.Nodes
 	{
 		public BufferOutSignal(AudioSignal input)
 		{
-			if (input == null)
-				throw new ArgumentNullException("Input of LevelMeterSignal construcor is null");
-			FSource = input;
+			FInput = input;
 		}
 		
-		protected AudioSignal FSource;
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			FSource.Read(buffer, offset, count);
-			this.SetLatestValue((float[])buffer.Clone());
+            if (FInput != null)
+            {
+                FInput.Read(buffer, offset, count);
+                this.SetLatestValue((float[])buffer.Clone());
+            }
+            else
+            {
+                this.SetLatestValue(new float[1]);
+            }
 		}
 	}
 	
-	[PluginInfo(Name = "GetBuffer", Category = "Audio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Scope, Samples")]
-	public class BufferOutNode : IPluginEvaluate
+	[PluginInfo(Name = "GetBuffer", Category = "Audio", Version = "Sink", Help = "Returns a complete buffer", Tags = "Scope, Samples")]
+    public class BufferOutNode : GenericAudioSinkNodeWithOutputs<BufferOutSignal, float[]>
 	{
-		[Input("Input")]
-		IDiffSpread<AudioSignal> FInput;
 		
 		[Output("Buffer")]
-		ISpread<ISpread<float>> FLevelOut;
-		
-		Spread<BufferOutSignal> FBufferReaders = new Spread<BufferOutSignal>();
-		
-		public void Evaluate(int SpreadMax)
-		{
-			if(FInput.IsChanged)
-			{
-				//delete and dispose all inputs
-				FBufferReaders.ResizeAndDispose(0, () => new BufferOutSignal(FInput[0]));
-				
-				FBufferReaders.SliceCount = SpreadMax;
-				for (int i = 0; i < SpreadMax; i++)
-				{
-					if(FInput[i] != null)
-						FBufferReaders[i] = (new BufferOutSignal(FInput[i]));
-					
-				}
-				
-				FLevelOut.SliceCount = SpreadMax;
-			}
-			
-			//output value
-			for (int i = 0; i < SpreadMax; i++)
-			{
-				if(FBufferReaders[i] != null)
-				{
-					var spread = FLevelOut[i];
-					float[] val = null;
-					FBufferReaders[i].GetLatestValue(out val);
-					if(val != null)
-					{
-						if(spread == null)
-						{
-							spread = new Spread<float>(val.Length);
-						}
-						spread.SliceCount = val.Length;
-						spread.AssignFrom(val);
-					}
-				}
-				else
-				{
-					FLevelOut[i].SliceCount = 0;
-				}
-			}
-		}
-	}
+		ISpread<ISpread<float>> FBufferOut;
+
+        protected override void SetOutputs(int i, BufferOutSignal instance)
+        {
+            if (instance != null)
+            {
+                var spread = FBufferOut[i];
+                float[] buffer = null;
+                instance.GetLatestValue(out buffer);
+                if (buffer != null)
+                {
+                    if (spread == null)
+                    {
+                        spread = new Spread<float>(buffer.Length);
+                    }
+                    spread.SliceCount = buffer.Length;
+                    spread.AssignFrom(buffer);
+                }
+            }
+            else
+            {
+                FBufferOut[i].SliceCount = 0;
+            }
+        }
+
+        protected override void SetOutputSliceCount(int sliceCount)
+        {
+            FBufferOut.SliceCount = sliceCount;
+        }
+
+        protected override BufferOutSignal GetInstance(int i)
+        {
+            return new BufferOutSignal(FInputs[i]);
+        }
+
+        protected override void SetParameters(int i, BufferOutSignal instance)
+        {
+            instance.Input = FInputs[i];
+        }
+    }
 }
 
 

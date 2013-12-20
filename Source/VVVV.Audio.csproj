@@ -120,6 +120,7 @@
     <Compile Include="Nodes\Sinks\BufferOutNode.cs" />
     <Compile Include="Nodes\Sinks\FFTOutNode.cs" />
     <Compile Include="Nodes\Sinks\LevelMeterSignalNode.cs" />
+    <Compile Include="Nodes\Sinks\WaveRecorderNode.cs" />
     <Compile Include="Nodes\Sources\AudioInputNode.cs" />
     <Compile Include="Nodes\Sources\FileStreamNode.cs" />
     <Compile Include="Nodes\Sources\SineSignalNode.cs" />
@@ -175,6 +176,7 @@
       <Link>yeppp.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Nodes\NodeBases.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NAudio\NAudio\NAudio.csproj">

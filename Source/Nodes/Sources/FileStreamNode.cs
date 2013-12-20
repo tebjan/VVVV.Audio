@@ -280,8 +280,8 @@ namespace VVVV.Nodes
 				FPositionOut[i] = instance.FAudioFile.CurrentTime.TotalSeconds;
 			}
 		}
-		
-		protected override FileStreamSignal GetInstance(int i)
+
+        protected override FileStreamSignal GetInstance(int i)
 		{
 			return new FileStreamSignal();
 		}

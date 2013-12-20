@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="VVVV.Nodes.CommonAudioNodeBase" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEABCAAAABAAAAAAgAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VVVV.Nodes.GenericAudioSourceNode&lt;TSignal&gt;" Collapsed="true">
+    <Position X="11.75" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Nodes.GenericAudioSinkNodeWithOutputs&lt;TSignal, TValue&gt;" Collapsed="true">
+    <Position X="1.75" Y="4.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAQAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Nodes.GenericAudioFilterNode&lt;TSignal&gt;" Collapsed="true">
+    <Position X="16" Y="4.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Nodes.GenericAudioSourceNodeWithOutputs&lt;TSignal&gt;" Collapsed="true">
+    <Position X="11.5" Y="4.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAQAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Nodes.GenericMultiAudioSourceNode&lt;TSignal&gt;" Collapsed="true">
+    <Position X="6.25" Y="5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAgAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Nodes.GenericMultiAudioSourceNodeWithOutputs&lt;TSignal&gt;" Collapsed="true">
+    <Position X="5.75" Y="6.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Nodes.AudioNodeBase&lt;TSignal&gt;" Collapsed="true">
+    <Position X="9.75" Y="2" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAQQAAAAgAABAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Nodes.GenericAudioFilterNodeWithOutputs&lt;TSignal&gt;" Collapsed="true">
+    <Position X="11" Y="6.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Nodes.GenericAudioSinkNode&lt;TSignal, TValue&gt;" Collapsed="true">
+    <Position X="3" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAgAgAAAAAAAAA=</HashCode>
+      <FileName>Nodes\AudioNodeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

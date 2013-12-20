@@ -212,8 +212,8 @@ namespace VVVV.Nodes
 			instance.Gain = Gain[i];
 			instance.Frequency = Frequency[i];
 		}
-		
-		protected override AudioSignal GetInstance(int i)
+
+        protected override SineSignalYeppp GetInstance(int i)
 		{
 			return new SineSignalYeppp(Frequency[i], Gain[i]);
 		}
@@ -244,8 +244,8 @@ namespace VVVV.Nodes
 			instance.Gains = Gain[i];
 			instance.Frequencies = Frequency[i];
 		}
-		
-		protected override AudioSignal GetInstance(int i)
+
+        protected override MultiSineSignalYeppp GetInstance(int i)
 		{
 			return new MultiSineSignalYeppp(Frequency[i], Gain[i]);
 		}
