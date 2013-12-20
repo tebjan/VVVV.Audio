@@ -1,0 +1,1321 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>CannedBytes.Midi.Message</name>
+  </assembly>
+  <members>
+    <member name="T:CannedBytes.Midi.Message.MidiMessageContract">
+      <summary>
+            Contract specification for the <see cref="T:CannedBytes.Midi.Message.IMidiMessage" /> interface.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.IMidiMessage">
+      <summary>
+            A basic interface to a midi message.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.IMidiMessage.GetData">
+      <summary>
+            Retrieves the message as a byte array.
+            </summary>
+      <returns>Never returns null. Do not modify the returned array.</returns>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.IMidiMessage.ByteLength">
+      <summary>
+            The length of the message in bytes.
+            </summary>
+      <getter>
+        <ensures csharp="result &gt;= 0" vb="result &gt;= 0">result &gt;= 0</ensures>
+      </getter>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageContract.CannedBytes#Midi#Message#IMidiMessage#GetData">
+      <summary>
+            Contract specification.
+            </summary>
+      <returns>Returns a non-null value.</returns>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiMessageContract.CannedBytes#Midi#Message#IMidiMessage#ByteLength">
+      <summary>
+            Contract ensures return value is greater than zero.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiMessageReceiverContract">
+      <summary>
+            Contract specification for the <see cref="T:CannedBytes.Midi.Message.IMidiMessageReceiver" /> interface.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.IMidiMessageReceiver">
+      <summary>
+            An interface that can be used in a 'chain of responsibilities'.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.IMidiMessageReceiver.ShortMessage(CannedBytes.Midi.Message.MidiShortMessage,System.Int64)">
+      <summary>
+            Receives a short midi message.
+            </summary>
+      <param name="message">The midi message. Must not be null.</param>
+      <param name="timestamp">A timestamp.</param>
+      <requires csharp="message != null" vb="message &lt;&gt; Nothing">message != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.IMidiMessageReceiver.LongMessage(CannedBytes.Midi.Message.MidiLongMessage,System.Int64)">
+      <summary>
+            Receives a long midi message.
+            </summary>
+      <param name="message">The midi message. Must not be null.</param>
+      <param name="timestamp">A timestamp.</param>
+      <requires csharp="message != null" vb="message &lt;&gt; Nothing">message != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageReceiverContract.CannedBytes#Midi#Message#IMidiMessageReceiver#ShortMessage(CannedBytes.Midi.Message.MidiShortMessage,System.Int64)">
+      <summary>
+            Contract specification.
+            </summary>
+      <param name="message">Must not be null.</param>
+      <param name="timestamp">No contract.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageReceiverContract.CannedBytes#Midi#Message#IMidiMessageReceiver#LongMessage(CannedBytes.Midi.Message.MidiLongMessage,System.Int64)">
+      <summary>
+            Contract specification.
+            </summary>
+      <param name="message">Must not be null.</param>
+      <param name="timestamp">No contract.</param>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiMessageSenderContract">
+      <summary>
+            Contract specification for the <see cref="T:CannedBytes.Midi.Message.IMidiMessageSender" /> interface.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.IMidiMessageSender">
+      <summary>
+            An interface that can be used in a 'chain of responsibilities'.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.IMidiMessageSender.Send(CannedBytes.Midi.Message.MidiShortMessage)">
+      <summary>
+            Sends a short midi message.
+            </summary>
+      <param name="message">The midi message. Must not be null.</param>
+      <requires csharp="message != null" vb="message &lt;&gt; Nothing">message != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.IMidiMessageSender.Send(CannedBytes.Midi.Message.MidiLongMessage)">
+      <summary>
+            Sends a long midi message.
+            </summary>
+      <param name="message">The midi message. Must not be null.</param>
+      <requires csharp="message != null" vb="message &lt;&gt; Nothing">message != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageSenderContract.CannedBytes#Midi#Message#IMidiMessageSender#Send(CannedBytes.Midi.Message.MidiShortMessage)">
+      <summary>
+            Contract specification.
+            </summary>
+      <param name="message">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageSenderContract.CannedBytes#Midi#Message#IMidiMessageSender#Send(CannedBytes.Midi.Message.MidiLongMessage)">
+      <summary>
+            Contract specification.
+            </summary>
+      <param name="message">Must not be null.</param>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiChannelCommand">
+      <summary>
+            Specifies constants defining channel message types.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiChannelCommand.Invalid">
+      <summary>
+            An invalid channel command.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiChannelCommand.NoteOff">
+      <summary>
+            Represents the note-off command type.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiChannelCommand.NoteOn">
+      <summary>
+            Represents the note-on command type.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiChannelCommand.PolyPressure">
+      <summary>
+            Represents the poly pressure (after touch) command type.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiChannelCommand.ControlChange">
+      <summary>
+            Represents the controller command type.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiChannelCommand.ProgramChange">
+      <summary>
+            Represents the program change command type.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiChannelCommand.ChannelPressure">
+      <summary>
+            Represents the channel pressure (after touch) command
+            type.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiChannelCommand.PitchWheel">
+      <summary>
+            Represents the pitch wheel command type.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiChannelMessage">
+      <summary>
+            Represents a (short) midi channel message.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiShortMessage">
+      <summary>
+            Represents a short midi message (max 3 bytes).
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiMessage">
+      <summary>
+            The base class for all midi messages.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessage.GetData">
+      <summary>
+            Derived classes return the message data.
+            </summary>
+      <returns>Never returns null.</returns>
+      <ensures inheritedFrom="M:CannedBytes.Midi.Message.IMidiMessage.GetData" inheritedFromTypeName="IMidiMessage" csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiMessage.ByteLength">
+      <summary>
+            Gets the length of the midi message in bytes.
+            </summary>
+      <getter>
+        <ensures inheritedFrom="M:CannedBytes.Midi.Message.IMidiMessage.get_ByteLength" inheritedFromTypeName="IMidiMessage" csharp="result &gt;= 0" vb="result &gt;= 0">result &gt;= 0</ensures>
+      </getter>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiShortMessage.GetData">
+      <summary>
+            Retrieves the short message data as a buffer.
+            </summary>
+      <returns>Never returns null.</returns>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiShortMessage.Data">
+      <summary>
+            Gets the full data of the short midi message.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiShortMessage.Status">
+      <summary>
+            Gets the status part of the short message.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiShortMessage.Parameter1">
+      <summary>
+            Gets the first (optional) parameter of the short message.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiShortMessage.Parameter2">
+      <summary>
+            Gets the second (optional) parameter of the short message.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiChannelMessage.#ctor(System.Int32)">
+      <summary>
+            Constructs a new instance for the specified <paramref name="data" />.
+            </summary>
+      <param name="data">Lower/least significant (max) 3 bytes are filled.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiChannelMessage.Command">
+      <summary>
+            Gets the channel command in the message.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiChannelMessage.MidiChannel">
+      <summary>
+            Gets the midi channel the message is sent/received on.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiControllerMessage">
+      <summary>
+            Represents a midi continuous controller (CC) message.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiControllerMessage.#ctor(System.Int32)">
+      <summary>
+            Constructs a new instance for the specified <paramref name="data" />.
+            </summary>
+      <param name="data">Lower/least significant (max) 3 bytes are filled.</param>
+      <ensures csharp="this.Command == (CannedBytes.Midi.Message.MidiChannelCommand)176" vb="Me.Command = ((CannedBytes.Midi.Message.MidiChannelCommand)176)">this.Command == (CannedBytes.Midi.Message.MidiChannelCommand)176</ensures>
+      <ensures csharp="IsDefined(typeof(CannedBytes.Midi.Message.MidiControllerType), (object)this.Parameter1)" vb="IsDefined(typeof(CannedBytes.Midi.Message.MidiControllerType), ((Object)Me.Parameter1))">System.Enum.IsDefined(typeof(CannedBytes.Midi.Message.MidiControllerType), (object)this.Parameter1)</ensures>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiControllerMessage.IsKnownControllerType(System.Byte)">
+      <summary>
+            Indicates if the specified <paramref name="controllerType" /> value is valid.
+            </summary>
+      <param name="controllerType">Usually taken from the first parameter of a midi controller message.</param>
+      <returns>Returns true if it is a valid midi controller type value.</returns>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiControllerMessage.ControllerType">
+      <summary>
+            Gets the type of controller of the message.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiControllerMessage.Value">
+      <summary>
+            Gets the second parameter (usually the value of the controller) of the midi message.
+            </summary>
+      <getter>
+        <ensures csharp="result == this.Parameter2" vb="result = Me.Parameter2">result == this.Parameter2</ensures>
+      </getter>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiControllerType">
+      <summary>
+            Specifies constants defining controller types.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.Unknown">
+      <summary>
+            Controller type is not defined by the MIDI specs.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.BankSelect">
+      <summary>
+            The Bank Select coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.ModulationWheel">
+      <summary>
+            The Modulation Wheel coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.BreathControl">
+      <summary>
+            The Breath Control coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.FootPedal">
+      <summary>
+            The Foot Pedal coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.PortamentoTime">
+      <summary>
+            The Portamento Time coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.DataEntrySlider">
+      <summary>
+            The Data Entry Slider coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.Volume">
+      <summary>
+            The Volume coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.Balance">
+      <summary>
+            The Balance coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.Pan">
+      <summary>
+            The Pan position coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.Expression">
+      <summary>
+            The Expression coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.EffectControl1">
+      <summary>
+            The Effect Control 1 coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.EffectControl2">
+      <summary>
+            The Effect Control 2 coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.GeneralPurposeSlider1">
+      <summary>
+            The General Purpose Slider 1.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.GeneralPurposeSlider2">
+      <summary>
+            The General Purpose Slider 2.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.GeneralPurposeSlider3">
+      <summary>
+            The General Purpose Slider 3.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.GeneralPurposeSlider4">
+      <summary>
+            The General Purpose Slider 4.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.BankSelectFine">
+      <summary>
+            The Bank Select fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.ModulationWheelFine">
+      <summary>
+            The Modulation Wheel fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.BreathControlFine">
+      <summary>
+            The Breath Control fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.FootPedalFine">
+      <summary>
+            The Foot Pedal fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.PortamentoTimeFine">
+      <summary>
+            The Portamento Time fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.DataEntrySliderFine">
+      <summary>
+            The Data Entry Slider fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.VolumeFine">
+      <summary>
+            The Volume fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.BalanceFine">
+      <summary>
+            The Balance fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.PanFine">
+      <summary>
+            The Pan position fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.ExpressionFine">
+      <summary>
+            The Expression fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.EffectControl1Fine">
+      <summary>
+            The Effect Control 1 fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.EffectControl2Fine">
+      <summary>
+            The Effect Control 2 fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.HoldPedal">
+      <summary>
+            The Hold Pedal.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.Portamento">
+      <summary>
+            The Portamento.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SustenutoPedal">
+      <summary>
+            The Sustenuto Pedal.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoftPedal">
+      <summary>
+            The Soft Pedal.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.LegatoPedal">
+      <summary>
+            The Legato Pedal.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.HoldPedal2">
+      <summary>
+            The Hold Pedal 2.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundVariation">
+      <summary>
+            The Sound Variation.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundTimbre">
+      <summary>
+            The Sound Timbre.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundReleaseTime">
+      <summary>
+            The Sound Release Time.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundAttackTime">
+      <summary>
+            The Sound Attack Time.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundBrightness">
+      <summary>
+            The Sound Brightness.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundControl6">
+      <summary>
+            The Sound Control 6.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundControl7">
+      <summary>
+            The Sound Control 7.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundControl8">
+      <summary>
+            The Sound Control 8.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundControl9">
+      <summary>
+            The Sound Control 9.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.SoundControl10">
+      <summary>
+            The Sound Control 10.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.GeneralPurposeButton1">
+      <summary>
+            The General Purpose Button 1.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.GeneralPurposeButton2">
+      <summary>
+            The General Purpose Button 2.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.GeneralPurposeButton3">
+      <summary>
+            The General Purpose Button 3.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.GeneralPurposeButton4">
+      <summary>
+            The General Purpose Button 4.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.EffectsLevel">
+      <summary>
+            The Effects Level.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.TremeloLevel">
+      <summary>
+            The Tremolo Level.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.ChorusLevel">
+      <summary>
+            The Chorus Level.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.CelesteLevel">
+      <summary>
+            The Celeste Level.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.PhaserLevel">
+      <summary>
+            The Phaser Level.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.DataButtonIncrement">
+      <summary>
+            The Data Button Increment.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.DataButtonDecrement">
+      <summary>
+            The Data Button Decrement.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.NonregisteredParameterFine">
+      <summary>
+            The Nonregistered Parameter Fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.NonregisteredParameterCoarse">
+      <summary>
+            The Nonregistered Parameter Coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.RegisteredParameterFine">
+      <summary>
+            The Registered Parameter Fine.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.RegisteredParameterCoarse">
+      <summary>
+            The Registered Parameter Coarse.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.AllSoundOff">
+      <summary>
+            The All Sound Off.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.AllControllersOff">
+      <summary>
+            The All Controllers Off.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.LocalKeyboard">
+      <summary>
+            The Local Keyboard.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.AllNotesOff">
+      <summary>
+            The All Notes Off.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.OmniModeOff">
+      <summary>
+            The Omni Mode Off.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.OmniModeOn">
+      <summary>
+            The Omni Mode On.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.MonoOperation">
+      <summary>
+            The Mono Operation.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiControllerType.PolyOperation">
+      <summary>
+            The Poly Operation.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiLongMessage">
+      <summary>
+            A base class for midi messages that span more than a few (3) bytes.
+            </summary>
+      <remarks>
+        <seealso cref="T:MidiSysExMessage" />
+        <seealso cref="T:MidiMetaMessage" />
+      </remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiLongMessage.GetData">
+      <summary>
+            Implementation of the IMidiMessage.GetData method.
+            </summary>
+      <returns>Returns the <see cref="P:Data" /> property.</returns>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiLongMessage.data">
+      <summary>
+            Maintains the data of the long message.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiLongMessage.SetData(System.Byte[])">
+      <summary>
+            Returns the long midi message data as a byte buffer.
+            </summary>
+      <param name="value">The data to be set. Must not be null.</param>
+      <requires csharp="value != null" vb="value &lt;&gt; Nothing">value != null</requires>
+      <ensures csharp="this.ByteLength == value.Length" vb="Me.ByteLength = value.Length">this.ByteLength == value.Length</ensures>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiMessageFactory">
+      <summary>
+            A factory class for creating midi message objects.
+            </summary>
+      <remarks>Short midi messages are pooled.
+            This means that no more than once instance will ever be created
+            (by this factory) for the exact same midi message.</remarks>
+      <invariant>this.msgPool != null</invariant>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMessageFactory.msgPool">
+      <summary>
+            Maintains the pooled short midi messages.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.InvariantContract">
+      <summary>
+            The object's invariant contract.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.CreateShortMessage(System.Byte)">
+      <summary>
+            Creates a new short midi message object.
+            </summary>
+      <param name="message">A midi message of single byte.</param>
+      <returns>Never returns null.</returns>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.CreateShortMessage(System.Int32)">
+      <summary>
+            Creates a new short midi message object.
+            </summary>
+      <param name="message">A full short midi message with the lower 3 bytes filled.</param>
+      <returns>Never returns null.</returns>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.CreateChannelMessage(CannedBytes.Midi.Message.MidiChannelCommand,System.Byte,System.Byte,System.Byte)">
+      <summary>
+            Creates a new channel (short) midi message object.
+            </summary>
+      <param name="command">The channel command.</param>
+      <param name="channel">The (zero-based) channel number.</param>
+      <param name="parameter1">The (optional) first parameter of the midi message.</param>
+      <param name="parameter2">The (optional) second parameter of the midi message.</param>
+      <returns>Never returns null.</returns>
+      <requires csharp="channel &gt;= 0 &amp;&amp; !(channel &gt; 15)" vb="channel &gt;= 0 AndAlso Not channel &gt; 15">channel &gt;= 0 &amp;&amp; !(channel &gt; 15)</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.CreateControllerMessage(System.Byte,CannedBytes.Midi.Message.MidiControllerType,System.Byte)">
+      <summary>
+            Creates a new midi controller message object.
+            </summary>
+      <param name="channel">The (zero-based) midi channel number.</param>
+      <param name="controller">The type of continuous controller.</param>
+      <param name="value">The (optional) parameter (usually value) of the controller.</param>
+      <returns>Returns a new instance.</returns>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.CreateSysExMessage(System.Byte[],System.Boolean)">
+      <summary>
+            Creates a new System Exclusive midi message object.
+            </summary>
+      <param name="longData">The full data for the sysex (including the begin and end markers). Must not be null or empty.</param>
+      <param name="isContinuation">An indication if this message is a continuation of a previous sysex message.</param>
+      <returns>Never returns null.</returns>
+      <remarks>The SysEx message objects are NOT pooled.</remarks>
+      <requires csharp="longData != null" vb="longData &lt;&gt; Nothing">longData != null</requires>
+      <requires csharp="longData.Length &gt; 0" vb="longData.Length &gt; 0">longData.Length &gt; 0</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.CreateMetaMessage(CannedBytes.Midi.Message.MidiMetaType,System.Byte[])">
+      <summary>
+            Creates a new Meta midi message object.
+            </summary>
+      <param name="metaType">The type of meta message.</param>
+      <param name="longData">The data of the meta message. Must not be null or empty.</param>
+      <returns>Never returns null.</returns>
+      <remarks>The Meta message objects are NOT pooled.
+            For some <paramref name="metaType" /> value a <see cref="T:CannedBytes.Midi.Message.MidiMetaTextMessage" />
+            instance is returned.</remarks>
+      <requires csharp="metaType != (CannedBytes.Midi.Message.MidiMetaType)-1" vb="metaType &lt;&gt; ((CannedBytes.Midi.Message.MidiMetaType)-1)">metaType != (CannedBytes.Midi.Message.MidiMetaType)-1</requires>
+      <requires csharp="longData != null" vb="longData &lt;&gt; Nothing">longData != null</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.Lookup(System.Int32)">
+      <summary>
+            Attempts to retrieve a short midi message from the pool.
+            </summary>
+      <param name="data">The short midi message data.</param>
+      <returns>Returns null when no instance could be found.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.Add(CannedBytes.Midi.Message.MidiShortMessage)">
+      <summary>
+            Add the <paramref name="message" /> to the pool.
+            </summary>
+      <param name="message">Must not be null.</param>
+      <requires csharp="message != null" vb="message &lt;&gt; Nothing">message != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMessageFactory.CopyBuffer(System.Byte[])">
+      <summary>
+            Handles copying a <paramref name="data" /> buffer.
+            </summary>
+      <param name="data">Can be null.</param>
+      <returns>Returns the new buffer with the same contents.
+            Returns null if <paramref name="data" /> was null.</returns>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiMessageFactory.CopyData">
+      <summary>
+            Gets or sets an indication if to copy the long message data or reference it.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiMessageCollection">
+      <summary>
+            Manages a collection of <see cref="T:CannedBytes.Midi.Message.IMidiMessage" /> instances.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiMetaMessage">
+      <summary>
+            Represents a midi meta message.
+            </summary>
+      <remarks>Note that meta messages only occur in midi files.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMetaMessage.#ctor(CannedBytes.Midi.Message.MidiMetaType,System.Byte[])">
+      <summary>
+            Constructs a new instance.
+            </summary>
+      <param name="type">The type of meta message.</param>
+      <param name="data">The data for the meta message.</param>
+      <requires csharp="data != null" vb="data &lt;&gt; Nothing">data != null</requires>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiMetaMessage.MetaType">
+      <summary>
+            Gets a value indicating the type of meta message.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiMetaTextMessage">
+      <summary>
+            Represents a midi meta message with data that is text (string).
+            </summary>
+      <remarks>Note that meta messages only occur in midi files.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiMetaTextMessage.#ctor(CannedBytes.Midi.Message.MidiMetaType,System.Byte[])">
+      <summary>
+            Constructs a new instance.
+            </summary>
+      <param name="type">The type of meta message.</param>
+      <param name="data">The data for the meta message.</param>
+      <requires csharp="data != null" vb="data &lt;&gt; Nothing">data != null</requires>
+      <requires csharp="data.Length &gt; 0" vb="data.Length &gt; 0">data.Length &gt; 0</requires>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiMetaTextMessage.Text">
+      <summary>
+            Gets the <see cref="P:Data" /> (UTF7) encoded as a string.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiMetaType">
+      <summary>
+            An enumeration of the different types of meta messages.
+            </summary>
+      <remarks>
+            See also http://home.roadrunner.com/~jgglatt/tech/midifile.htm
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.Unknown">
+      <summary>
+            Meta event was not initialized or recognized.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.SequenceNumber">
+      <summary>
+            Optional event identifying the sequence by number.
+            </summary>
+      <remarks>
+            FF 00 02 ss ss
+            or...
+            FF 00 00
+            This optional event must occur at the beginning of a MTrk (i.e., before any non-zero
+            delta-times and before any midi events). It specifies the sequence number.
+            The two data bytes ss ss, are that number which corresponds to the MIDI Cue message.
+            In a format 2 MIDI file, this number identifies each "pattern" (i.e., Mtrk) so that
+            a "song" sequence can use the MIDI Cue message to refer to patterns.
+            If the ss ss numbers are omitted (i.e., the second form shown above), then the MTrk's
+            location in the file is used. (i.e., The first MTrk chunk is sequence number 0.
+            The second MTrk is sequence number 1. Etc).
+            In format 0 or 1, which contain only one "pattern" (even though format 1 contains
+            several MTrks), this event is placed in only the first MTrk. So, a group of
+            format 0 or 1 files with different sequence numbers can comprise a "song collection".
+            There can be only one of these events per MTrk chunk in a Format 2.
+            There can be only one of these events in a Format 0 or 1, and it must be in the first MTrk.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.Text">
+      <summary>
+            General purpose text.
+            </summary>
+      <remarks>
+            FF 01 len text
+            Any amount of text (amount of bytes = len) for any purpose. It's best to put this
+            event at the beginning of an MTrk. Although this text could be used for any purpose,
+            there are other text-based Meta-Events for such things as orchestration, lyrics,
+            track name, etc. This event is primarily used to add "comments" to a MIDI file which
+            a program would be expected to ignore when loading that file.
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.Copyright">
+      <summary>
+            Copyright statement.
+            </summary>
+      <remarks>
+            FF 02 len text
+            A copyright message. It's best to put this event at the beginning of an MTrk.
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.TrackName">
+      <summary>
+            The name of the track.
+            </summary>
+      <remarks>
+            FF 03 len text
+            The name of the sequence or track. It's best to put this event at the beginning of an MTrk.
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.Instrument">
+      <summary>
+            Name of the instrument being used to play the track.
+            </summary>
+      <remarks>
+            FF 04 len text
+            The name of the instrument (i.e., MIDI module) being used to play the track. This may be
+            different than the Sequence/Track Name. For example, maybe the name of your sequence
+            (i.e., Mtrk) is "Butterfly", but since the track is played upon a Roland S-770, you may
+            also include an Instrument Name of "Roland S-770".
+            It's best to put one (or more) of this event at the beginning of an MTrk to provide
+            the user with identification of what instrument(s) is playing the track. Usually,
+            the instruments (i.e., patches, tones, banks, etc) are setup on the audio devices via
+            MIDI Program Change and MIDI Bank Select Controller events within the MTrk. So, this
+            event exists merely to provide the user with visual feedback of what instruments are used
+            for a track.
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.Lyric">
+      <summary>
+            A song lyric which occurs on a given beat.
+            </summary>
+      <remarks>
+            FF 05 len text
+            A song lyric which occurs on a given beat. A single Lyric MetaEvent should contain only one syllable.
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.Marker">
+      <summary>
+            The text for a marker which occurs on a given beat.
+            </summary>
+      <remarks>
+            FF 06 len text
+            The text for a marker which occurs on a given beat. Marker events might be used to denote
+            a loop start and loop end (i.e., where the sequence loops back to a previous event).
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.CuePoint">
+      <summary>
+            The text for a cue point which occurs on a given beat.
+            </summary>
+      <remarks>
+            FF 07 len text
+            The text for a cue point which occurs on a given beat. A Cue Point might be used to denote
+            where a WAVE (i.e., sampled sound) file starts playing, for example, where the text would be
+            the WAVE's filename.
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.PatchName">
+      <summary>
+            The name of the program (or patch) used to play the MTrk.
+            </summary>
+      <remarks>
+            FF 08 len text
+            The name of the program (i.e., patch) used to play the MTrk. This may be different than the
+            Sequence/Track Name. For example, maybe the name of your sequence (i.e., Mtrk) is "Butterfly",
+            but since the track is played upon an electric piano patch, you may also include a Program
+            Name of "ELECTRIC PIANO".
+            Usually, the instruments (i.e., patches, tones, banks, etc) are setup on the audio devices via
+            MIDI Program Change and MIDI Bank Select Controller events within the MTrk. So, this event
+            exists merely to provide the user with visual feedback of what particular patch is used for
+            a track. But it can also give a hint to intelligent software if patch remapping needs to be
+            done. For example, if the MIDI file was created on a non-General MIDI instrument, then the
+            MIDI Program Change event will likely contain the wrong value when played on a General MIDI
+            instrument. Intelligent software can use the Program Name event to look up the correct value
+            for the MIDI Program Change event.
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.DeviceName">
+      <summary>
+            The name of the MIDI device (port) where the track is routed.
+            </summary>
+      <remarks>
+            FF 09 len text
+            The name of the MIDI device (port) where the track is routed. This replaces the "MIDI Port"
+            Meta-Event which some sequencers formally used to route MIDI tracks to various MIDI ports
+            (in order to support more than 16 MIDI channels).
+            For example, assume that you have a MIDI interface that has 4 MIDI output ports. They are
+            listed as "MIDI Out 1", "MIDI Out 2", "MIDI Out 3", and "MIDI Out 4". If you wished a
+            particular MTrk to use "MIDI Out 1" then you would put a Port Name Meta-event at the beginning
+            of the MTrk, with "MIDI Out 1" as the text.
+            All MIDI events that occur in the MTrk, after a given Port Name event, will be routed to that port.
+            In a format 0 MIDI file, it would be permissible to have numerous Port Name events intermixed
+            with MIDI events, so that the one MTrk could address numerous ports. But that would likely
+            make the MIDI file much larger than it need be. The Port Name event is useful primarily in
+            format 1 MIDI files, where each MTrk gets routed to one particular port.
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.EndOfTrack">
+      <summary>
+            A definitive marking of the end of a track.
+            </summary>
+      <remarks>
+            FF 2F 00
+            This event is not optional. It must be the last event in every MTrk. It's used as a
+            definitive marking of the end of an MTrk. Only 1 per MTrk.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.Tempo">
+      <summary>
+            Indicates a tempo change.
+            </summary>
+      <remarks>
+            FF 51 03 tt tt tt
+            The 3 data bytes of tt tt tt are the tempo in microseconds per
+            quarter note. In other words, the microsecond tempo value tells you how long each one of
+            your sequencer's "quarter notes" should be. For example, if you have the 3 bytes of
+            07 A1 20, then each quarter note should be 0x07A120 (or 500,000) microseconds long.
+            So, the MIDI file format expresses tempo as "the amount of time (i.e., microseconds) per
+            quarter note".
+            NOTE: If there are no tempo events in a MIDI file, then the tempo is assumed to be 120 BPM
+            In a format 0 file, the tempo changes are scattered throughout the one MTrk. In format 1,
+            the very first MTrk should consist of only the tempo (and time signature) events so that it
+            could be read by some device capable of generating a "tempo map". It is best not to place
+            MIDI events in this MTrk. In format 2, each MTrk should begin with at least one initial
+            tempo (and time signature) event.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.SmpteOffset">
+      <summary>
+            Designates the SMPTE start time of the track.
+            </summary>
+      <remarks>
+            FF 54 05 hr mn se fr ff
+            Designates the SMPTE start time (hours, minutes, seconds, frames, sub-frames) of the MTrk.
+            It should be at the start of the MTrk. The hour should not be encoded with the SMPTE format
+            as it is in MIDI Time Code. In a format 1 file, the SMPTE OFFSET must be stored with the
+            tempo map (i.e., the first MTrk), and has no meaning in any other MTrk. The ff field contains
+            fractional frames in 100ths of a frame, even in SMPTE based MTrks which specify a different
+            frame subdivision for delta-times (i.e., different from the sub-frame setting in the MThd).
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.TimeSignature">
+      <summary>
+            The Time signature of the song.
+            </summary>
+      <remarks>
+            FF 58 04 nn dd cc bb
+            Time signature is expressed as 4 numbers. nn and dd represent the "numerator" and "denominator"
+            of the signature as notated on sheet music. The denominator is a negative power of 2:
+            2 = quarter note, 3 = eighth, etc.
+            The cc expresses the number of MIDI clocks in a metronome click.
+            The bb parameter expresses the number of notated 32nd notes in a MIDI quarter note (24 MIDI
+            clocks). This event allows a program to relate what MIDI thinks of as a quarter, to something
+            entirely different.
+            For example, 6/8 time with a metronome click every 3 eighth notes and 24 clocks per quarter
+            note would be the following event:
+            FF 58 04 06 03 18 08
+            NOTE: If there are no time signature events in a MIDI file, then the time signature is assumed
+            to be 4/4.
+            In a format 0 file, the time signatures changes are scattered throughout the one MTrk. In
+            format 1, the very first MTrk should consist of only the time signature (and tempo) events so
+            that it could be read by some device capable of generating a "tempo map". It is best not to
+            place MIDI events in this MTrk. In format 2, each MTrk should begin with at least one initial
+            time signature (and tempo) event.
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.KeySignature">
+      <summary>
+            Key signature.
+            </summary>
+      <remarks>
+            FF 59 02 sf mi
+            sf = -7 for 7 flats, -1 for 1 flat, etc, 0 for key of c, 1 for 1 sharp, etc.
+            mi = 0 for major, 1 for minor
+            </remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiMetaType.Custom">
+      <summary>
+            This can be used by a program to store proprietary data.
+            </summary>
+      <remarks>
+            FF 7F len data
+            This can be used by a program to store proprietary data. The first byte(s) should be a
+            unique ID of some sort so that a program can identity whether the event belongs to it,
+            or to some other program. A 4 character (i.e., ascii) ID is recommended for such.
+            Note that len could be a series of bytes since it is expressed as a variable length quantity.
+            </remarks>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiNoteName">
+      <summary>
+            A class that helps in generating a name for a note number.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiNoteName.NoteCount">
+      <summary>12 notes in one octave.</summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiNoteName.NoteNames">
+      <summary>
+            Contains all the names of all the notes (in one octave).
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiNoteName.#ctor">
+      <summary>
+            Constructs an empty instance.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiNoteName.#ctor(System.Int32)">
+      <summary>
+            Constructs a new instance for the specified <paramref name="noteNumber" />.
+            </summary>
+      <param name="noteNumber">A note number as it is used in the NoteOn and NoteOff midi messages.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiNoteName.#ctor(System.String)">
+      <summary>
+            Constructs a new instance for the specified <paramref name="noteName" />.
+            </summary>
+      <param name="noteName">Must not be null or empty.</param>
+      <requires csharp="noteName != null" vb="noteName &lt;&gt; Nothing">noteName != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiNoteName.ParseFullNoteName(System.String)">
+      <summary>
+            Parses the note name into its components.
+            </summary>
+      <param name="newFullNoteName">Must not be null.</param>
+      <requires csharp="newFullNoteName != null" vb="newFullNoteName &lt;&gt; Nothing">newFullNoteName != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiNoteName.CompileNoteName(System.Int32)">
+      <summary>
+            Compiles a note name based on the specified <paramref name="newNoteNumber" />.
+            </summary>
+      <param name="newNoteNumber">A note number as used in the midi NoteOn and NoteOff messages.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiNoteName.CompileFullNoteName">
+      <summary>
+            Combines the note name and octave information.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiNoteName.FindNoteName(System.String,System.String@)">
+      <summary>
+            Finds the note name in the specified <paramref name="value" />.
+            </summary>
+      <param name="value">A full note name that is compared to the possible known names.</param>
+      <param name="result">The resulting note name - without octave information.</param>
+      <returns>Returns an index of the note name found.</returns>
+      <requires csharp="value != null" vb="value &lt;&gt; Nothing">value != null</requires>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiNoteName.noteNumber">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Message.MidiNoteName.NoteNumber" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiNoteName.fullNoteName">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Message.MidiNoteName.FullNoteName" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiNoteName.noteName">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Message.MidiNoteName.NoteName" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiNoteName.octave">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Message.MidiNoteName.Octave" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiNoteName.octaveOffset">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Message.MidiNoteName.OctaveOffset" /> property.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiNoteName.NoteNumber">
+      <summary>
+            The note number as it is used in the midi NoteOn and NoteOff messages.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiNoteName.FullNoteName">
+      <summary>
+            Gets or sets the full note name including octave information.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiNoteName.NoteName">
+      <summary>
+            Gets or sets the bare note name.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiNoteName.Octave">
+      <summary>
+            Gets or sets the octave.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiNoteName.OctaveOffset">
+      <summary>
+            Gets or sets the octave offset.
+            </summary>
+      <remarks>Usually a negative number or zero. Default value is 0 (zero).
+            An octave offset of -2 is also common.</remarks>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiSysCommonMessage">
+      <summary>
+            Represents Common System (short) midi message.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiSysCommonMessage.#ctor(System.Int32)">
+      <summary>
+            Constructs a new instance on the specified message <paramref name="data" />.
+            </summary>
+      <param name="data">Only the least significant byte is set.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiSysCommonMessage.CommonType">
+      <summary>
+            The type of system common message.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiSysCommonType">
+      <summary>
+            The different types of system common mid messages.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysCommonType.Invalid">
+      <summary>
+            Not a midi system common type.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysCommonType.MtcQuarterFrame">
+      <summary>
+            Some master device that controls sequence playback sends this
+            timing message to keep a slave device in sync with the master.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysCommonType.SongPositionPointer">
+      <summary>
+            Some master device that controls sequence playback sends this message to
+            force a slave device to cue the playback to a certain point in the song/sequence.
+            In other words, this message sets the device's "Song Position". This message
+            doesn't actually start the playback. It just sets up the device to be
+            "ready to play" at a particular point in the song.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysCommonType.SongSelect">
+      <summary>
+            Some master device that controls sequence playback sends this message to
+            force a slave device to set a certain song for playback (ie, sequencing).
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysCommonType.TuneRequest">
+      <summary>
+            The device receiving this should perform a tuning calibration.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiSysExMessage">
+      <summary>
+            Represents a System Exclusive midi message.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiSysExMessage.#ctor(System.Byte[],System.Boolean)">
+      <summary>
+            Constructs a new instance on the specified <paramref name="data" />.
+            </summary>
+      <param name="data">Must not be null or empty.</param>
+      <param name="isContinuation">An indication if this message is a continuation on a previous message.</param>
+      <remarks>The sysex markers are removed from the message <paramref name="data" />.</remarks>
+      <requires csharp="data != null" vb="data &lt;&gt; Nothing">data != null</requires>
+      <requires csharp="data.Length &gt; 0" vb="data.Length &gt; 0">data.Length &gt; 0</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiSysExMessage.StripMarkers(System.Byte[])">
+      <summary>
+            Removes the sysex markers from the beginning and/or end of the message <paramref name="data" />.
+            </summary>
+      <param name="data">Must not be null.</param>
+      <returns>Returns the data without the sysex markers.</returns>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiSysExMessage.IsContinuation">
+      <summary>
+            Gets an indication if this message is a continuation on a previous message.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiSysRealTimeMessage">
+      <summary>
+            Represents a midi real-time (short) message.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Message.MidiSysRealTimeMessage.#ctor(System.Int32)">
+      <summary>
+            Constructs a new instance on the specified message <paramref name="data" />.
+            </summary>
+      <param name="data">Only the least significant byte is set.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Message.MidiSysRealTimeMessage.RealTimeType">
+      <summary>
+            The type of real-time midi message.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Message.MidiSysRealTimeType">
+      <summary>
+            The types of real-time midi messages.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysRealTimeType.Invalid">
+      <summary>
+            Not a system real-time message.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysRealTimeType.MidiClock">
+      <summary>
+            Some master device that controls sequence playback sends this timing
+            message to keep a slave device in sync with the master. A MIDI Clock
+            message is sent at regular intervals (based upon the master's Tempo)
+            in order to accomplish this.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysRealTimeType.MidiTick">
+      <summary>
+            Some master device that controls sequence playback sends this timing
+            message to keep a slave device in sync with the master. A MIDI Tick
+            message is sent at regular intervals of one message every 10 milliseconds.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysRealTimeType.MidiStart">
+      <summary>
+            Some master device that controls sequence playback sends this message to
+            make a slave device start playback of some song/sequence from the beginning.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysRealTimeType.MidiContinue">
+      <summary>
+            Some master device that controls sequence playback sends this message
+            to make a slave device resume playback from its current "Song Position".
+            The current Song Position is the point when the song/sequence was
+            previously stopped, or previously cued with a Song Position Pointer message.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysRealTimeType.MidiStop">
+      <summary>
+            Some master device that controls sequence playback sends this
+            message to make a slave device stop playback of a song/sequence.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysRealTimeType.ActiveSense">
+      <summary>
+            A device sends out an Active Sense message (at least once) every
+            300 milliseconds if there has been no other activity on the MIDI buss,
+            to let other devices know that there is still a good MIDI connection between the devices.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Message.MidiSysRealTimeType.Reset">
+      <summary>
+            The device receiving this should reset itself to a default state,
+            usually the same state as when the device was turned on. Often,
+            this means to turn off all playing notes, turn the local keyboard on,
+            clear running status, set Song Position to 0, stop any timed playback
+            (of a sequence), and perform any other standard setup unique to the device.
+            Also, a device may choose to kick itself into Omni On, Poly mode if it
+            has no facilities for allowing the musician to store a default mode.
+            </summary>
+    </member>
+  </members>
+</doc>

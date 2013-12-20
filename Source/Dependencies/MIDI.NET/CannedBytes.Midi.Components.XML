@@ -1,0 +1,942 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>CannedBytes.Midi.Components</name>
+  </assembly>
+  <members>
+    <member name="T:CannedBytes.Midi.Components.InitializeByMidiPortContract">
+      <summary>
+            A template class for specifying contracts for the interface.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.IInitializeByMidiPort">
+      <summary>
+            The IInitializeByMidiPort interface is implemented by midi
+            chain components that need a reference to a midi port to
+            initialize their internal state.
+            </summary>
+      <remarks>
+            Depending on the type of chain the component is in the <see cref="T:CannedBytes.Midi.IMidiPort" />
+            interface will reference to one of the midi port implementations.
+            </remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.IInitializeByMidiPort.Initialize(CannedBytes.Midi.IMidiPort)">
+      <summary>
+            Called after construction to initialize the instance.
+            </summary>
+      <param name="port">Must not be null.</param>
+      <requires csharp="port != null" vb="port &lt;&gt; Nothing">port != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.IInitializeByMidiPort.Uninitialize(CannedBytes.Midi.IMidiPort)">
+      <summary>
+            Called before disposing the instance.
+            </summary>
+      <param name="port">Must not be null.</param>
+      <requires csharp="port != null" vb="port &lt;&gt; Nothing">port != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.InitializeByMidiPortContract.CannedBytes#Midi#Components#IInitializeByMidiPort#Initialize(CannedBytes.Midi.IMidiPort)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="port">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.InitializeByMidiPortContract.CannedBytes#Midi#Components#IInitializeByMidiPort#Uninitialize(CannedBytes.Midi.IMidiPort)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="port">Must not be null.</param>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiDiagnosticReceiver">
+      <summary>
+            This class logs performance data in a receiver chain.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiDataReceiverChain">
+      <summary>
+            The MidiReceiverChain class provides a chaining implementation for receiver chain components.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataReceiverChain.NextReceiverShortData(System.Int32,System.Int64)">
+      <summary>
+            Call to relay the short midi message data to the next receiver component in the chain.
+            </summary>
+      <param name="data">The short midi message data.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+      <remarks>The method will fail graciously if the <see cref="P:CannedBytes.Midi.Components.MidiDataReceiverChain.Successor" /> property is not set.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataReceiverChain.NextReceiverLongData(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <summary>
+            Call to relay the long midi message data to the next receiver component in the chain.
+            </summary>
+      <param name="buffer">The long midi message data.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+      <remarks>The method will fail graciously if the <see cref="P:CannedBytes.Midi.Components.MidiDataReceiverChain.Successor" /> property is not set.</remarks>
+      <requires csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiDataReceiverChain.Successor">
+      <summary>
+            Gets or sets the next receiver component this instance will call.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ShortData(System.Int32,System.Int64)">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDiagnosticReceiver.LongData(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <inheritdocs />
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiDiagnosticReceiver.shortPerformanceData">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ShortPerformanceData" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiDiagnosticReceiver.longPerformanceData">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.MidiDiagnosticReceiver.LongPerformanceData" /> property.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDiagnosticReceiver.Reset">
+      <summary>
+            Resets the <see cref="P:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ShortPerformanceData" /> and the <see cref="P:CannedBytes.Midi.Components.MidiDiagnosticReceiver.LongPerformanceData" /> members.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDiagnosticReceiver.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Called to dispose the object instance.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ToString">
+      <summary>
+            Returns a string containing info on the the <see cref="P:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ShortPerformanceData" />
+            and the <see cref="P:CannedBytes.Midi.Components.MidiDiagnosticReceiver.LongPerformanceData" /> logged data.
+            </summary>
+      <returns>Returns a textual representation of the performance data.</returns>
+      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object" csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ShortPerformanceData">
+      <summary>
+            Gets or sets the performance data for short Midi messages.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiDiagnosticReceiver.LongPerformanceData">
+      <summary>
+            Gets or sets the performance data for long Midi messages.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ScopedStopWatch">
+      <summary>
+            Helper class to measure time.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ScopedStopWatch.perfData">
+      <summary>Performance data to record the time in.</summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ScopedStopWatch.stopWatch">
+      <summary>Stopwatch for measuring time.</summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ScopedStopWatch.#ctor(CannedBytes.Midi.Components.PerformanceData)">
+      <summary>
+            Starts the time.
+            </summary>
+      <param name="perfData">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDiagnosticReceiver.ScopedStopWatch.Dispose">
+      <summary>
+            Stops the time.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiDataErrorReceiverChain">
+      <summary>
+            The MidiErrorReceiverChain class implements an abstract base class for error
+            receiver chain components.
+            </summary>
+      <remarks>Derived classes should implement the <see cref="T:CannedBytes.Midi.IMidiDataErrorReceiver" />
+            interface and use the <see cref="M:NextReceieverShortError" /> and
+            <see cref="M:CannedBytes.Midi.Components.MidiDataErrorReceiverChain.NextReceiverLongError(CannedBytes.Midi.MidiBufferStream,System.Int64)" /> methods from inside the implemented interface
+            methods to call the next component in the chain.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataErrorReceiverChain.NextReceiverShortError(System.Int32,System.Int64)">
+      <summary>
+            Calls the <see cref="M:IMidiErrorReceiver.ShortError" /> on the
+            <see cref="P:NextReceiver" /> instance (if not null).
+            </summary>
+      <param name="data">The short midi message.</param>
+      <param name="timestamp">The time at which the message was received.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataErrorReceiverChain.NextReceiverLongError(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <summary>
+            Calls the <see cref="M:IMidiErrorReceiver.LongError" /> on the
+            <see cref="P:NextReceiver" /> instance (if not null).
+            </summary>
+      <param name="buffer">The long midi message.</param>
+      <param name="timestamp">The time at which the message was received.</param>
+      <requires csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiDataErrorReceiverChain.Successor">
+      <summary>
+            Gets or sets the next error receiver component in the chain.
+            </summary>
+      <remarks>If this value is null (Nothing in VB) it marks the end of the chain.</remarks>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiInPortChainManager">
+      <summary>
+            The MidiInPortChainManager manages a chain of <see cref="T:CannedBytes.Midi.IMidiDataReceiver" /> components
+            that starts with a <see cref="T:CannedBytes.Midi.MidiInPort" />.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiReceiverChainManager`2">
+      <summary>
+            The MidiReceiverChainManager class manages midi receiver chain components.
+            </summary>
+      <typeparam name="TReceiver">The interface type that is common to all chain components.</typeparam>
+      <typeparam name="TPort">The midi port type.</typeparam>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChainManager`2.#ctor(`1)">
+      <summary>
+            For derived classes only.
+            </summary>
+      <param name="port">The midi port and root of the chain. Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChainManager`2.#ctor(CannedBytes.IChainOf{`0})">
+      <summary>
+            Constructs a new instance using the <paramref name="rootChain" /> as root chain component.
+            </summary>
+      <param name="rootChain">A reference to a chain component. Must not be null.</param>
+      <requires csharp="rootChain != null" vb="rootChain &lt;&gt; Nothing">rootChain != null</requires>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiReceiverChainManager`2.root">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.MidiReceiverChainManager`2.RootChain" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiReceiverChainManager`2.receiver">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.MidiReceiverChainManager`2.Receiver" /> property.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChainManager`2.Add(`0)">
+      <summary>
+            Adds the specified <paramref name="receiverComponent" /> to the end of the chain.
+            </summary>
+      <param name="receiverComponent">The chain component. Must not be null.</param>
+      <remarks>If the specified <paramref name="receiverComponent" /> does not implement
+            the <see cref="T:CannedBytes.IChainOf`1" /> interface no more components can be added.</remarks>
+      <exception cref="T:System.InvalidOperationException">Thrown when the <see cref="P:CannedBytes.Midi.Components.MidiReceiverChainManager`2.EndOfChain" />
+            property return true.</exception>
+      <requires csharp="(object)receiverComponent != null" vb="((Object)receiverComponent) &lt;&gt; Nothing">(object)receiverComponent != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChainManager`2.Initialize">
+      <summary>
+            Initializes all chain components that implement the <see cref="T:IInitializeByMidiPort" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChainManager`2.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Disposes all components in the chain.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChainManager`2.RootChain">
+      <summary>
+            Gets the Root chain component.
+            </summary>
+      <remarks>Derived classes can also set this property.</remarks>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChainManager`2.CurrentChain">
+      <summary>
+            Gets the last <see cref="T:CannedBytes.IChainOf`1" /> implementation
+            of the most recently added chain component.
+            </summary>
+      <remarks>If this property is null, it indicates the end of the chain, for
+            no new chain components can be hooked up onto the last added chain component.</remarks>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChainManager`2.Receiver">
+      <summary>
+            Gets the last added chain component.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChainManager`2.EndOfChain">
+      <summary>
+            Gets a value indicating the end of the chain (true).
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChainManager`2.MidiPort">
+      <summary>
+            Gets the Midi Port that was passed to constructor.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChainManager`2.Receivers">
+      <summary>
+            Gets an enumerable object for enumerating all the receivers T.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiInPortChainManager.#ctor(CannedBytes.Midi.MidiInPort)">
+      <summary>
+            Constructs a new instance for the specified Midi In <paramref name="port" />.
+            </summary>
+      <param name="port">The Midi In Port that represents the source of the chain. Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiInPortChainManager.Initialize(System.Int32,System.Int32)">
+      <summary>
+            Initializes the <see cref="T:CannedBytes.Midi.MidiInBufferManager" /> and all the components in the
+            chain that implement the <see cref="T:IInitializeByMidiPort" /> interface.
+            </summary>
+      <param name="numberOfBuffers">The number of buffer to use for receiving SysEx messages.
+            Pass zero to use default.</param>
+      <param name="bufferSize">The size of each buffer in the pool. Pass zero to use default.</param>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiOutPortChainManager">
+      <summary>
+            The MidiOutPortChainManager manages a chain of <see cref="T:CannedBytes.Midi.IMidiDataSender" /> components
+            that starts with a <see cref="T:CannedBytes.Midi.MidiOutPort" />.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiSenderChainManager`2">
+      <summary>
+            The MidiSenderChainManager class manages building a chain of sender components.
+            </summary>
+      <typeparam name="TSender">The common interface to all sender components.</typeparam>
+      <typeparam name="TPort">The midi port type.</typeparam>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiSenderChainManager`2.#ctor(`0)">
+      <summary>
+            Constructs the manager with the specified <paramref name="sender" />.
+            </summary>
+      <param name="sender">A sender component / midi port. Must not be null.</param>
+      <requires csharp="(object)sender != null" vb="((Object)sender) &lt;&gt; Nothing">(object)sender != null</requires>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiSenderChainManager`2.sender">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.MidiSenderChainManager`2.Sender" /> property.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiSenderChainManager`2.Add(`0)">
+      <summary>
+            Adds the <paramref name="senderComponent" /> component to the chain.
+            </summary>
+      <param name="senderComponent">A sender chain component.</param>
+      <remarks>The method throws an exception when the <paramref name="senderComponent" />
+            does not implement the <see cref="T:CannedBytes.IChainOf`1" /> interface.</remarks>
+      <requires csharp="(object)senderComponent != null" vb="((Object)senderComponent) &lt;&gt; Nothing">(object)senderComponent != null</requires>
+      <requires csharp="(object)senderComponent is CannedBytes.IChainOf&lt;TSender&gt;" vb="((Object)senderComponent) Is CannedBytes.IChainOf(Of TSender)">(object)senderComponent is CannedBytes.IChainOf&lt;TSender&gt;</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiSenderChainManager`2.Initialize">
+      <summary>
+            Initializes the sender chain components that implement the <see cref="T:CannedBytes.Midi.Components.IInitializeByMidiPort" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiSenderChainManager`2.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Disposes all components in the chain.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiSenderChainManager`2.CurrentChain">
+      <summary>
+            Gets the current chain component.
+            </summary>
+      <remarks>Can return null if the component does not implement the
+            <see cref="T:CannedBytes.IChainOf`1" /> interface.</remarks>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiSenderChainManager`2.Sender">
+      <summary>
+            Gets the current (last) sender component.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiSenderChainManager`2.MidiPort">
+      <summary>
+            The Midi Port that was passed to constructor.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiSenderChainManager`2.Senders">
+      <summary>
+            Gets an enumerable object that enumerate the Senders T.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiOutPortChainManager.#ctor(CannedBytes.Midi.MidiOutPort)">
+      <summary>
+            Constructs a new instance for the specified Midi Out <paramref name="port" />.
+            </summary>
+      <param name="port">The Midi Out Port that represents the end of the chain. Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiOutPortChainManager.Initialize(System.Int32,System.Int32)">
+      <summary>
+            Initializes the <see cref="T:CannedBytes.Midi.MidiOutBufferManager" /> and all the components in the
+            chain that implement the <see cref="T:IInitializeByMidiPort" /> interface.
+            </summary>
+      <param name="bufferCount">The number of buffers to create.</param>
+      <param name="bufferSize">The size in bytes of each buffer.</param>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiQueue">
+      <summary>
+            The MidiQueue class queues midi messages, both long and short.
+            </summary>
+      <invariant>this.queue != null</invariant>
+      <invariant>this.signal != null</invariant>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiQueue.queue">
+      <summary>
+            The internal queue containing the port events.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiQueue.signal">
+      <summary>
+            An event to signal the extra thread to release its loop.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.InvariantContract">
+      <summary>
+            The object's invariant contract.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.PushShortData(System.Int32,System.Int64)">
+      <summary>
+            Pushes a short midi message into the queue.
+            </summary>
+      <param name="data">A short midi message.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.PushShortError(System.Int32,System.Int64)">
+      <summary>
+            Pushes a short midi message into the queue, marked as error.
+            </summary>
+      <param name="data">A short midi message.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.PushMoreData(System.Int32,System.Int64)">
+      <summary>
+            Pushes a short midi message into the queue, marked as more-data.
+            </summary>
+      <param name="data">A short midi message.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.PushLongData(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <summary>
+            Pushes a long midi message into the queue.
+            </summary>
+      <param name="buffer">A long midi message. Must not be null.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.PushLongError(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <summary>
+            Pushes a long midi message into the queue, marked as error.
+            </summary>
+      <param name="buffer">A long midi message. Must not be null.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.Push(CannedBytes.Midi.MidiPortEvent)">
+      <summary>
+            Pushes a new record onto the queue.
+            </summary>
+      <param name="record">A midi record.</param>
+      <remarks>This method synchronizes access to the internal queue.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.Pop">
+      <summary>
+            De-queue's the next port events.
+            </summary>
+      <returns>Returns null when no event was in the queue.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.Clear">
+      <summary>
+            Clears all records from the queue.
+            </summary>
+      <remarks>This method synchronizes access to the internal queue.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.SignalWait">
+      <summary>
+            Sets the signal.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.Wait(System.Int32)">
+      <summary>
+            Waits for the signal to be set.
+            </summary>
+      <param name="millisecondsTimeout">A timeout period in milliseconds.</param>
+      <returns>Returns true is the signal was set within the specified
+            <paramref name="millisecondsTimeout" /> period.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiQueue.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Disposes of the internal disposables.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiQueue.Count">
+      <summary>
+            Returns the number of messages in the queue.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiReceiverAsync">
+      <summary>
+            The MidiReceiverAsync class implements an asynchronous receiver chain component.
+            </summary>
+      <remarks>This class puts received midi messages in a <see cref="T:CannedBytes.Midi.Components.MidiQueue" />.
+            A separate <see cref="T:System.Threading.Thread" /> reads the queue and calls the next receiver component in the chain.</remarks>
+      <invariant>this.queue != null</invariant>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiReceiverChain">
+      <summary>
+            An abstract base class that implements all receiver interfaces for a chain component.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChain.MidiPort_StatusChanged(System.Object,System.EventArgs)">
+      <summary>
+            Event handler when the port status changes.
+            </summary>
+      <param name="sender">The midi port.</param>
+      <param name="e">Not used.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChain.OnNewPortStatus(CannedBytes.Midi.MidiPortStatus)">
+      <summary>
+            Handles the new port status.
+            </summary>
+      <param name="newStatus">The new port status value.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChain.Initialize(CannedBytes.Midi.IMidiPort)">
+      <summary>
+            Initializes the receiver component with the Midi Port.
+            </summary>
+      <param name="port">A Midi In Port. Must not be null.</param>
+      <requires inheritedFrom="M:CannedBytes.Midi.Components.IInitializeByMidiPort.Initialize(CannedBytes.Midi.IMidiPort)" inheritedFromTypeName="IInitializeByMidiPort" csharp="port != null" vb="port &lt;&gt; Nothing">port != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChain.Uninitialize(CannedBytes.Midi.IMidiPort)">
+      <summary>
+            Removes any references the receiver component has to/from the Midi Port.
+            </summary>
+      <param name="port">A Midi In Port. Must not be null.</param>
+      <requires inheritedFrom="M:CannedBytes.Midi.Components.IInitializeByMidiPort.Uninitialize(CannedBytes.Midi.IMidiPort)" inheritedFromTypeName="IInitializeByMidiPort" csharp="port != null" vb="port &lt;&gt; Nothing">port != null</requires>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiReceiverChain.receiver">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.MidiReceiverChain.NextReceiver" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiReceiverChain.errorReceiver">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.MidiReceiverChain.NextErrorReceiver" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiReceiverChain.portEventReceiver">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.MidiReceiverChain.NextPortEventReceiver" /> property.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChain.ShortData(System.Int32,System.Int64)">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChain.LongData(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChain.ShortError(System.Int32,System.Int64)">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChain.LongError(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverChain.PortEvent(CannedBytes.Midi.MidiPortEvent)">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChain.PortStatus">
+      <summary>
+            The status of the midi port.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChain.CannedBytes#IChainOf{CannedBytes#Midi#IMidiDataReceiver}#Successor">
+      <summary>
+            Gets or sets the next receiver component.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChain.NextReceiver">
+      <summary>
+            Gets or sets the next receiver component in the chain.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChain.CannedBytes#IChainOf{CannedBytes#Midi#IMidiDataErrorReceiver}#Successor">
+      <summary>
+            The next error receiver component.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChain.NextErrorReceiver">
+      <summary>
+            Gets the next error receiver component in the chain.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChain.CannedBytes#IChainOf{CannedBytes#Midi#IMidiPortEventReceiver}#Successor">
+      <summary>
+            The next port event receiver component.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverChain.NextPortEventReceiver">
+      <summary>
+            Gets the next port event receiver in the chain.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiReceiverAsync.queue">
+      <summary>
+            The event queue.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.InvariantContract">
+      <summary>
+            The object's invariant state.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.ShortData(System.Int32,System.Int64)">
+      <summary>
+            Puts the short midi message in the queue.
+            </summary>
+      <param name="data">The short midi message data.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.LongData(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <summary>
+            Puts the long midi message in the queue.
+            </summary>
+      <param name="buffer">The long midi message data.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.ShortError(System.Int32,System.Int64)">
+      <summary>
+            Puts a short midi error in the queue.
+            </summary>
+      <param name="data">Error data.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.LongError(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <summary>
+            Puts a long midi error in the queue.
+            </summary>
+      <param name="buffer">Error buffer. Must not be null.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.PortEvent(CannedBytes.Midi.MidiPortEvent)">
+      <summary>
+            Puts a Port Event on the queue.
+            </summary>
+      <param name="midiEvent">The Port Event. Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.OnNewPortStatus(CannedBytes.Midi.MidiPortStatus)">
+      <summary>
+            Manages starting and stopping the extra (thread-pool) thread used to read the queue.
+            </summary>
+      <param name="newStatus">The new port status to be set.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.AsyncReadLoop(System.Object)">
+      <summary>
+            The thread procedure.
+            </summary>
+      <param name="state">Not used.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.DispatchRecord(CannedBytes.Midi.MidiPortEvent)">
+      <summary>
+            Dispatches the <paramref name="record" /> to the appropriate receiver component.
+            </summary>
+      <param name="record">Must not be null.</param>
+      <requires csharp="record != null" vb="record &lt;&gt; Nothing">record != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiReceiverAsync.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Disposes of the internal queue.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiReceiverAsync.IsEmpty">
+      <summary>
+            Indicates if there are midi messages in the internal queue.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiDataReceiverFilterOnStatus">
+      <summary>
+            The MidiReceiverFilterOnStatus class filters incoming short midi messages based
+            on their status byte.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataReceiverFilterOnStatus.PassFilter(System.Int32)">
+      <summary>
+            Indicates if the <paramref name="data" /> passes the status filter.
+            </summary>
+      <param name="data">The midi message data.</param>
+      <returns>Returns true if the data passes the filter.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataReceiverFilterOnStatus.ShortData(System.Int32,System.Int64)">
+      <summary>
+            Passes the short midi message to the next receiver component if it passes the filter.
+            </summary>
+      <param name="data">The short midi message data.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataReceiverFilterOnStatus.LongData(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <summary>
+            Passes the long midi message to the next receiver component. No filtering is applied.
+            </summary>
+      <param name="buffer">The long midi message data.</param>
+      <param name="timestamp">A time indication of the midi message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataReceiverFilterOnStatus.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Called when disposing the object instance.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiDataReceiverFilterOnStatus.Status">
+      <summary>
+            Gets or sets the status value to filter on.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiDataRunningStatusSender">
+      <summary>
+            The MidiRunningStatusSender implements a "running status" algorithm used for
+            sending short midi messages.
+            </summary>
+      <remarks>Typically this sender chain component is positioned right before the
+            Midi Out Port because it can alter the output of short midi messages. Other
+            chain components might not be able to handle the different format.</remarks>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiDataSenderChain">
+      <summary>
+            The MidiSenderChain class provides a chaining implementation for sender chain components.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataSenderChain.NextSenderShortData(System.Int32)">
+      <summary>
+            Call to relay the short midi message data to the next sender component in the chain.
+            </summary>
+      <param name="data">The short midi message data.</param>
+      <remarks>The method will fail graciously if the <see cref="P:CannedBytes.Midi.Components.MidiDataSenderChain.Successor" /> property is not set.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataSenderChain.NextSenderLongData(CannedBytes.Midi.MidiBufferStream)">
+      <summary>
+            Call to relay the long midi message data to the next sender component in the chain.
+            </summary>
+      <param name="buffer">The long midi message data.</param>
+      <remarks>The method will fail graciously if the <see cref="P:CannedBytes.Midi.Components.MidiDataSenderChain.Successor" /> property is not set.</remarks>
+      <requires csharp="buffer != null" vb="buffer &lt;&gt; Nothing">buffer != null</requires>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiDataSenderChain.Successor">
+      <summary>
+            Gets or sets the next sender component this instance will call.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataRunningStatusSender.#ctor">
+      <summary>
+            Default ctor.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.MidiDataRunningStatusSender.enableRunningStatus">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.MidiDataRunningStatusSender.EnableRunningStatus" /> property.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataRunningStatusSender.ShortData(System.Int32)">
+      <summary>
+            This will send the short midi message to the next sender chain component.
+            </summary>
+      <param name="data">The sort midi message.</param>
+      <remarks>If the status of this midi message is the same as the previous,
+            the status is removed from the <paramref name="data" />.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataRunningStatusSender.LongData(CannedBytes.Midi.MidiBufferStream)">
+      <summary>
+            Sends the long midi message to the next sender chain component.
+            </summary>
+      <param name="buffer">The long midi message.</param>
+      <remarks>Long midi messages will reset the running status.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataRunningStatusSender.Initialize(CannedBytes.Midi.IMidiPort)">
+      <summary>
+            Initializes the sender component with the Midi Out Port.
+            </summary>
+      <param name="port">The Midi Out Port.</param>
+      <requires inheritedFrom="M:CannedBytes.Midi.Components.IInitializeByMidiPort.Initialize(CannedBytes.Midi.IMidiPort)" inheritedFromTypeName="IInitializeByMidiPort" csharp="port != null" vb="port &lt;&gt; Nothing">port != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataRunningStatusSender.Uninitialize(CannedBytes.Midi.IMidiPort)">
+      <summary>
+            Removes any reference to/from the <paramref name="port" />.
+            </summary>
+      <param name="port">The Midi Out Port.</param>
+      <requires inheritedFrom="M:CannedBytes.Midi.Components.IInitializeByMidiPort.Uninitialize(CannedBytes.Midi.IMidiPort)" inheritedFromTypeName="IInitializeByMidiPort" csharp="port != null" vb="port &lt;&gt; Nothing">port != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataRunningStatusSender.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Called to dispose the object instance.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiDataRunningStatusSender.MidiPort_StatusChanged(System.Object,System.EventArgs)">
+      <summary>
+            Event handler for the port status changed event.
+            </summary>
+      <param name="sender">The originating midi port.</param>
+      <param name="e">Not used.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiDataRunningStatusSender.RunningStatus">
+      <summary>
+            Gets the current running status.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.MidiDataRunningStatusSender.EnableRunningStatus">
+      <summary>
+            Gets or sets a value that enables or disables the running status.
+            </summary>
+      <remarks>Setting this property will reset the running status value.</remarks>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.MidiOutStreamPortChainManager">
+      <summary>
+            The MidiStreamOutPortChainManager manages a chain of <see cref="T:CannedBytes.Midi.IMidiDataSender" /> components
+            that starts with a <see cref="T:CannedBytes.Midi.MidiOutStreamPort" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiOutStreamPortChainManager.#ctor(CannedBytes.Midi.MidiOutStreamPort)">
+      <summary>
+            Constructs a new instance for the specified Midi Out <paramref name="port" />.
+            </summary>
+      <param name="port">The Midi Stream Out Port that represents the end
+            of the chain. Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.MidiOutStreamPortChainManager.Initialize(System.Int32,System.Int32)">
+      <summary>
+            Initializes the <see cref="T:CannedBytes.Midi.MidiOutBufferManager" /> and all the components in the
+            chain that implement the <see cref="T:IInitializeByMidiPort" /> interface.
+            </summary>
+      <param name="bufferCount">The number of buffers to create.</param>
+      <param name="bufferSize">The size in bytes of each buffer.</param>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.PerformanceData">
+      <summary>
+            Maintains call timings.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.PerformanceData.fastestCall">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.PerformanceData.FastestCall" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.PerformanceData.slowestCall">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.PerformanceData.SlowestCall" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.PerformanceData.averageCall">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.PerformanceData.AverageCall" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.PerformanceData.totalsCall">
+      <summary>Total time of all calls.</summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.PerformanceData.numberOfCalls">
+      <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.Components.PerformanceData.NumberOfCalls" /> property.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.PerformanceData.Frequency">
+      <summary>The can be used to convert the call times to seconds.</summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.PerformanceData.Reset">
+      <summary>
+            Resets all members for a new logging run.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.PerformanceData.AddCall(System.Int64)">
+      <summary>
+            Adds the specified <paramref name="ticks" /> for a call.
+            </summary>
+      <param name="ticks">The number of ticks of the call duration.</param>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.PerformanceData.FastestCall">
+      <summary>Time of the fastest call.</summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.PerformanceData.SlowestCall">
+      <summary>Time of the slowest call.</summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.PerformanceData.AverageCall">
+      <summary>Average time of the calls.</summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.PerformanceData.NumberOfCalls">
+      <summary>Total number of calls.</summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.Properties.Resources">
+      <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.Properties.Resources.ResourceManager">
+      <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.Properties.Resources.Culture">
+      <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.Components.Properties.Resources.MidiReceiverChainManager_EndOfChain">
+      <summary>
+              Looks up a localized string similar to End of Chain! Last Receiver added did not implement IMidiReceiverChain..
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.Components.TimerBasedTimestampReceiver">
+      <summary>
+            A midi receiver class that timestamps messages with ticks from a <see cref="T:CannedBytes.Media.TickTimer" />.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.Components.TimerBasedTimestampReceiver.timer">
+      <summary>The tick timer.</summary>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.TimerBasedTimestampReceiver.GetCurrentTimestamp">
+      <summary>
+            Retrieves a new tick value.
+            </summary>
+      <returns>Returns the new value.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.TimerBasedTimestampReceiver.OnNewPortStatus(CannedBytes.Midi.MidiPortStatus)">
+      <summary>
+            Manages turning the timer on and off based on the port status.
+            </summary>
+      <param name="newStatus">The new port status to be set.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.TimerBasedTimestampReceiver.ShortData(System.Int32,System.Int64)">
+      <summary>
+            Receives a short midi data message.
+            </summary>
+      <param name="data">The short midi message data.</param>
+      <param name="timestamp">Not used. A new timestamp is generated.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.TimerBasedTimestampReceiver.LongData(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <summary>
+            Receives a long midi data message.
+            </summary>
+      <param name="buffer">The buffer containing the long message data.</param>
+      <param name="timestamp">Not used. A new timestamp is generated.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.TimerBasedTimestampReceiver.ShortError(System.Int32,System.Int64)">
+      <summary>
+            Receives a short midi error message.
+            </summary>
+      <param name="data">The short error message data.</param>
+      <param name="timestamp">Not used. A new timestamp is generated.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.TimerBasedTimestampReceiver.LongError(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+      <summary>
+            Receives a long midi error message.
+            </summary>
+      <param name="buffer">The buffer containing the long midi message error.</param>
+      <param name="timestamp">Not used. A new timestamp is generated.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.TimerBasedTimestampReceiver.PortEvent(CannedBytes.Midi.MidiPortEvent)">
+      <summary>
+            Receives a port event.
+            </summary>
+      <param name="midiEvent">The port event. Must not be null.</param>
+      <remarks>A new event is created with a new timestamp and send to the component's successors.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.Components.TimerBasedTimestampReceiver.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Disposes the object instance and its internal timer.
+            </summary>
+      <param name="disposeKind">The type of resources to dispose.</param>
+    </member>
+  </members>
+</doc>

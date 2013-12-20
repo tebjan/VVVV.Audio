@@ -1,0 +1,2010 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>CannedBytes.Media.IO</name>
+  </assembly>
+  <members>
+    <member name="T:CannedBytes.Media.IO.ChunkFileException">
+      <summary>
+            The root of all chunk file specific exceptions.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileException.#ctor">
+      <summary>
+            Instantiates a new instance.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileException.#ctor(System.String)">
+      <summary>
+            Instantiates a new instance.
+            </summary>
+      <param name="message">A exception text message. Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileException.#ctor(System.String,System.Exception)">
+      <summary>
+            Instantiates a new instance.
+            </summary>
+      <param name="message">A exception text message. Must not be null.</param>
+      <param name="inner">A reference to a caught exception that lead to creating this instance. Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary>
+            Serialization ctor.
+            </summary>
+      <param name="info">Serialization info.</param>
+      <param name="context">Serialization context.</param>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ChunkFileInfo">
+      <summary>
+            Represents a chunk file information.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileInfo.#ctor(System.String)">
+      <summary>
+            Constructs a new instance for the specified <paramref name="filePath" />.
+            </summary>
+      <param name="filePath">Must not be null or empty and the file must exist.</param>
+      <requires csharp="!IsNullOrEmpty(filePath)" vb="Not IsNullOrEmpty(filePath)">!string.IsNullOrEmpty(filePath)</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileInfo.OpenRead(System.String)">
+      <summary>
+            Opens a file for reading.
+            </summary>
+      <param name="filePath">Must not be null or empty and the file must exist.</param>
+      <returns>Never returns null.</returns>
+      <requires csharp="!IsNullOrEmpty(filePath)" vb="Not IsNullOrEmpty(filePath)">!string.IsNullOrEmpty(filePath)</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+      <ensures csharp="result.BaseStream != null" vb="result.BaseStream &lt;&gt; Nothing">result.BaseStream != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileInfo.OpenWrite(System.String)">
+      <summary>
+            Opens a file for writing.
+            </summary>
+      <param name="filePath">Must not be null or empty.</param>
+      <returns>Never returns null.</returns>
+      <remarks>Not implemented yet.</remarks>
+      <requires csharp="!IsNullOrEmpty(filePath)" vb="Not IsNullOrEmpty(filePath)">!string.IsNullOrEmpty(filePath)</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+      <ensures csharp="result.BaseStream != null" vb="result.BaseStream &lt;&gt; Nothing">result.BaseStream != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileInfo.Dispose(CannedBytes.DisposeObjectKind)">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkFileInfo.FileExtension">
+      <summary>
+            Gets the extension of the file that is being processed.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkFileInfo.FilePath">
+      <summary>
+            Gets the complete file path.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkFileInfo.BaseStream">
+      <summary>
+            Gets the opened file stream.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ChunkTypes.ListChunk">
+      <summary>
+            A chunk class that represent the 'LIST' chunk in a RIFF file.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkTypes.ListChunk.ItemType">
+      <summary>
+            An identification of the type of items in the list.
+            </summary>
+      <remarks>CLR Types marked with this code are used for serialization.</remarks>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkTypes.ListChunk.InnerChunks">
+      <summary>
+            All child chunks can be accessed here.
+            </summary>
+      <remarks>This member is filled by the <see cref="T:CannedBytes.Media.IO.ChunkTypes.ListChunkHandler" />.</remarks>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ChunkTypes.ListChunkHandler">
+      <summary>
+            Called by the <see cref="T:CannedBytes.Media.IO.FileChunkReader" /> when a 'LIST' chunk is encountered.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.DefaultFileChunkHandler">
+      <summary>
+            This chunk handler matches any chunk and handles it in a generic way.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FileChunkHandler">
+      <summary>
+            An abstract base implementation for a chunk handler class.
+            </summary>
+      <remarks>All chunk handler implementation classes must have a <see cref="T:CannedBytes.Media.IO.SchemaAttributes.FileChunkHandlerAttribute" />.</remarks>
+    </member>
+    <member name="T:CannedBytes.Media.IO.IFileChunkHandler">
+      <summary>
+            Stateless object that knows how to process a specific type of file chunk.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.IFileChunkHandler.CanRead(CannedBytes.Media.IO.FileChunk)">
+      <summary>
+            Called to ensure the handler is ok with reading the chunk.
+            </summary>
+      <param name="chunk">File chunk information. Must not be null.</param>
+      <returns>Returns true when the handler can read the chunk.</returns>
+      <requires csharp="chunk != null" vb="chunk &lt;&gt; Nothing">chunk != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.IFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)">
+      <summary>
+            Called to read in the complete file chunk, including any of its children.
+            </summary>
+      <param name="context">The context the handler can use to retrieve services. Must not be null.</param>
+      <returns>Returns the runtime chunk type for this file chunk.</returns>
+      <requires csharp="context != null" vb="context &lt;&gt; Nothing">context != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.IFileChunkHandler.CanWrite(System.Object)">
+      <summary>
+            Called to ensure the handler is able to write out the <paramref name="instance" />.
+            </summary>
+      <param name="instance">The runtime object containing the chunk data.</param>
+      <returns>Returns true when the handler can write the chunk.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.IFileChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)">
+      <summary>
+            Called to write the <paramref name="instance" /> to the chunk file.
+            </summary>
+      <param name="context">Must not be null.</param>
+      <param name="instance">The runtime chunk type that contains the data.</param>
+      <requires csharp="context != null" vb="context &lt;&gt; Nothing">context != null</requires>
+      <requires csharp="instance != null" vb="instance &lt;&gt; Nothing">instance != null</requires>
+    </member>
+    <member name="P:CannedBytes.Media.IO.IFileChunkHandler.ChunkId">
+      <summary>
+            The Id of the type of chunk this handler can manage.
+            </summary>
+      <getter>
+        <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+      </getter>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandler.#ctor">
+      <summary>
+            Retrieves the <see cref="T:CannedBytes.Media.IO.SchemaAttributes.FileChunkHandlerAttribute" /> and initializes the <see cref="P:ChunkId" /> property.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandler.CanRead(CannedBytes.Media.IO.FileChunk)">
+      <summary>
+            Returns an indication if the <paramref name="chunk" /> can be read by the handler.
+            </summary>
+      <param name="chunk">File chunk info. Must not be null.</param>
+      <returns>Returns true if the chunk can be read by this handler.</returns>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.IFileChunkHandler.CanRead(CannedBytes.Media.IO.FileChunk)" inheritedFromTypeName="IFileChunkHandler" csharp="chunk != null" vb="chunk &lt;&gt; Nothing">chunk != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.IFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)" inheritedFromTypeName="IFileChunkHandler" csharp="context != null" vb="context &lt;&gt; Nothing">context != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandler.CanWrite(System.Object)">
+      <summary>
+            Returns an indication if the <paramref name="instance" /> can be written by the handler.
+            </summary>
+      <param name="instance">The runtime object containing the chunk data.</param>
+      <returns>Returns true if the chunk can be written by this handler.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.IFileChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)" inheritedFromTypeName="IFileChunkHandler" csharp="context != null" vb="context &lt;&gt; Nothing">context != null</requires>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.IFileChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)" inheritedFromTypeName="IFileChunkHandler" csharp="instance != null" vb="instance &lt;&gt; Nothing">instance != null</requires>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkHandler.ChunkId">
+      <summary>
+            The chunk id this handler can manage. Can contain wildcards.
+            </summary>
+      <getter>
+        <ensures inheritedFrom="M:CannedBytes.Media.IO.IFileChunkHandler.get_ChunkId" inheritedFromTypeName="IFileChunkHandler" csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+      </getter>
+    </member>
+    <member name="M:CannedBytes.Media.IO.DefaultFileChunkHandler.CanRead(CannedBytes.Media.IO.FileChunk)">
+      <summary>
+            Indicates if the specified <paramref name="chunk" /> can be read by the handler.
+            </summary>
+      <param name="chunk">Must not be null.</param>
+      <returns>Returns true if the <paramref name="chunk" /> can be read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)">
+      <summary>
+            Reads the current chunk and creates a runtime type for it, which is then returned.
+            </summary>
+      <param name="context">The context of the chunk file being read. Must not be null.</param>
+      <returns>Returns null if there was no runtime type found for the current chunk.</returns>
+      <requires csharp="context.ChunkStack != null" vb="context.ChunkStack &lt;&gt; Nothing">context.ChunkStack != null</requires>
+      <requires csharp="context.ChunkStack.CurrentChunk != null" vb="context.ChunkStack.CurrentChunk &lt;&gt; Nothing">context.ChunkStack.CurrentChunk != null</requires>
+      <requires csharp="context.ChunkFile != null" vb="context.ChunkFile &lt;&gt; Nothing">context.ChunkFile != null</requires>
+      <requires csharp="context.ChunkFile.BaseStream != null" vb="context.ChunkFile.BaseStream &lt;&gt; Nothing">context.ChunkFile.BaseStream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)">
+      <inheritdocs />
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkTypes.ListChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)">
+      <summary>
+            Reads the chunk file until the complete LIST of chunks are read.
+            </summary>
+      <param name="context">The context of the file being read. Must not be null.</param>
+      <returns>Returns the runtime object instance or null when no type was found.</returns>
+      <requires csharp="context.CompositionContainer != null" vb="context.CompositionContainer &lt;&gt; Nothing">context.CompositionContainer != null</requires>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)" inheritedFromTypeName="DefaultFileChunkHandler" csharp="context.ChunkStack != null" vb="context.ChunkStack &lt;&gt; Nothing">context.ChunkStack != null</requires>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)" inheritedFromTypeName="DefaultFileChunkHandler" csharp="context.ChunkStack.CurrentChunk != null" vb="context.ChunkStack.CurrentChunk &lt;&gt; Nothing">context.ChunkStack.CurrentChunk != null</requires>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)" inheritedFromTypeName="DefaultFileChunkHandler" csharp="context.ChunkFile != null" vb="context.ChunkFile &lt;&gt; Nothing">context.ChunkFile != null</requires>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)" inheritedFromTypeName="DefaultFileChunkHandler" csharp="context.ChunkFile.BaseStream != null" vb="context.ChunkFile.BaseStream &lt;&gt; Nothing">context.ChunkFile.BaseStream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkTypes.ListChunkHandler.LookupItemType(CannedBytes.Media.IO.ChunkFileContext,CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Helper to find the runtime Type for a chunk.
+            </summary>
+      <param name="context">Must not be null.</param>
+      <param name="chunkId">Must not be null.</param>
+      <returns>Returns null when not found.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkTypes.ListChunkHandler.CanWrite(System.Object)">
+      <summary>
+            Indicates if the specified chunk <paramref name="instance" /> can be written.
+            </summary>
+      <param name="instance">The chunk object to write to the stream. Must be of type <see cref="T:CannedBytes.Media.IO.ChunkTypes.ListChunk" />.</param>
+      <returns>Returns true if there is a good chance <see cref="M:CannedBytes.Media.IO.ChunkTypes.ListChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)" />
+            will successfully write the chunk <paramref name="instance" />.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkTypes.ListChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)">
+      <summary>
+            Writes the <paramref name="instance" /> to the file stream.
+            </summary>
+      <param name="context">Must not be null.</param>
+      <param name="instance">The chunk object to write to the stream. Must be of type <see cref="T:CannedBytes.Media.IO.ChunkTypes.ListChunk" /> and not null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkTypes.ListChunkHandler.GetCollectionItemChunkId(System.Object)">
+      <summary>
+            Returns the chunk id of the item data type for the collection <paramref name="instance" />.
+            </summary>
+      <param name="instance">Must not be null.</param>
+      <returns>Can return null.</returns>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ChunkTypes.RiffChunk">
+      <summary>
+            A chunk class that represent the 'RIFF' chunk in a RIFF file.
+            </summary>
+      <remarks>The RIFF chunk is the root of the file.</remarks>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkTypes.RiffChunk.FileType">
+      <summary>
+            An identification of the type of file.
+            </summary>
+      <remarks>CLR Types marked with this code are used for serialization.</remarks>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkTypes.RiffChunk.InnerChunk">
+      <summary>
+            All child chunks can be accessed here.
+            </summary>
+      <remarks>This member is filled by the <see cref="T:CannedBytes.Media.IO.ChunkTypes.RiffChunkHandler" />.</remarks>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ChunkTypes.RiffChunkHandler">
+      <summary>
+            Handles serialization of a RIFF chunk.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkTypes.RiffChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)" inheritedFromTypeName="DefaultFileChunkHandler" csharp="context.ChunkStack != null" vb="context.ChunkStack &lt;&gt; Nothing">context.ChunkStack != null</requires>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)" inheritedFromTypeName="DefaultFileChunkHandler" csharp="context.ChunkStack.CurrentChunk != null" vb="context.ChunkStack.CurrentChunk &lt;&gt; Nothing">context.ChunkStack.CurrentChunk != null</requires>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)" inheritedFromTypeName="DefaultFileChunkHandler" csharp="context.ChunkFile != null" vb="context.ChunkFile &lt;&gt; Nothing">context.ChunkFile != null</requires>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.DefaultFileChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)" inheritedFromTypeName="DefaultFileChunkHandler" csharp="context.ChunkFile.BaseStream != null" vb="context.ChunkFile.BaseStream &lt;&gt; Nothing">context.ChunkFile.BaseStream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkTypes.RiffChunkHandler.CanWrite(System.Object)">
+      <summary>
+            Indicates if the specified chunk <paramref name="instance" /> can be written.
+            </summary>
+      <param name="instance">The chunk object to write to the stream. Must be of type <see cref="T:CannedBytes.Media.IO.ChunkTypes.RiffChunk" />.</param>
+      <returns>Returns true if there is a good chance <see cref="M:CannedBytes.Media.IO.ChunkTypes.RiffChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)" />
+            will successfully write the chunk <paramref name="instance" />.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkTypes.RiffChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)">
+      <summary>
+            Writes the <paramref name="instance" /> to the file stream.
+            </summary>
+      <param name="context">Must not be null.</param>
+      <param name="instance">The chunk object to write to the stream. Must be of type <see cref="T:CannedBytes.Media.IO.ChunkTypes.RiffChunk" /> and not null.</param>
+    </member>
+    <member name="T:CannedBytes.Media.IO.CompositionContainerExtensions">
+      <summary>
+            Extension method helpers for the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.CompositionContainerExtensions.CreateFileChunkReader(System.ComponentModel.Composition.Hosting.CompositionContainer)">
+      <summary>
+            Creates a new <see cref="T:CannedBytes.Media.IO.FileChunkReader" /> instance.
+            </summary>
+      <param name="container">Must not be null.</param>
+      <returns>Never returns null.</returns>
+      <requires csharp="container != null" vb="container &lt;&gt; Nothing">container != null</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.CompositionContainerExtensions.GetService``1(System.ComponentModel.Composition.Hosting.ExportProvider)">
+      <summary>
+            Returns an instance for the specified <typeparamref name="T" />.
+            </summary>
+      <typeparam name="T">The service type, usually an interface.</typeparam>
+      <param name="container">Must not be null.</param>
+      <returns>Never returns null.</returns>
+      <exception cref="T:CannedBytes.Media.IO.ChunkFileException">Thrown when no instance was found.</exception>
+      <requires csharp="container != null" vb="container &lt;&gt; Nothing">container != null</requires>
+      <ensures csharp="(object)result != null" vb="((Object)result) &lt;&gt; Nothing">(object)result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.CompositionContainerExtensions.AddInstance``1(System.ComponentModel.Composition.Hosting.CompositionContainer,``0)">
+      <summary>
+            Helper to add an instance to the container.
+            </summary>
+      <typeparam name="T">The type under which the <paramref name="instance" /> is registered.</typeparam>
+      <param name="container">Must not be null.</param>
+      <param name="instance">Must not be null.</param>
+      <requires csharp="container != null" vb="container &lt;&gt; Nothing">container != null</requires>
+      <requires csharp="(object)instance != null" vb="((Object)instance) &lt;&gt; Nothing">(object)instance != null</requires>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FileChunk">
+      <summary>
+            The FileChunk class represents a single chunk in a (R)IIF file.
+            </summary>
+      <remarks>This info is independent of any runtime chunk types that might be registered.
+            This allows for reconstructions of the chunk file even when some chunks weren't recognized by the application.</remarks>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunk.subChunks">
+      <summary>
+            Backing field for <see cref="P:Subchunks" />.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunk.FilePosition">
+      <summary>
+            The position in the main file stream where this chunk starts.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunk.ParentPosition">
+      <summary>
+            The position in the parent chunk stream where this chunk starts.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunk.ChunkId">
+      <summary>
+            The four character code identifying the file chunk.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunk.DataLength">
+      <summary>
+            The length in bytes of the file chunk data.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunk.DataStream">
+      <summary>
+            A (sub) stream for the current chunk (only).
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunk.RuntimeInstance">
+      <summary>
+            A reference to the runtime type that holds the chunk data.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunk.HasSubChunks">
+      <summary>
+            Gets an indication if this chunk has any children.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunk.SubChunks">
+      <summary>
+            Child chunks. Filled after they're parsed when reading.
+            </summary>
+      <getter>
+        <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+      </getter>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FileChunkCollection">
+      <summary>
+            Manages a collection of <see cref="T:CannedBytes.Media.IO.FileChunk" />s.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FileChunkHandlerManager">
+      <summary>
+            Manages the available <see cref="T:CannedBytes.Media.IO.IFileChunkHandler" /> implementations.
+            </summary>
+      <remarks>Uses composition to retrieve the chunk handler implementations.
+            Each chunk handler must be marked with the <see cref="T:CannedBytes.Media.IO.SchemaAttributes.FileChunkHandlerAttribute" />.</remarks>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkHandlerManager.DefaultHandlerChunkId">
+      <summary>
+            The open wildcard for the default handler.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkHandlerManager.chunkHandlers">
+      <summary>
+            The list of chunk handlers.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandlerManager.GetChunkHandler(CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Retrieves a handler for the specified <paramref name="chunkId" />.
+            </summary>
+      <param name="chunkId">Must not be null.</param>
+      <returns>Never returns null.</returns>
+      <remarks>If no specific chunk handler could be found, the default handler is returned.</remarks>
+      <requires csharp="chunkId != null" vb="chunkId &lt;&gt; Nothing">chunkId != null</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandlerManager.GetChunkHandler(System.String)">
+      <summary>
+            Retrieves a handler for the specified <paramref name="chunkId" />.
+            </summary>
+      <param name="chunkId">Must not be null or empty.</param>
+      <returns>Never returns null.</returns>
+      <remarks>If no specific chunk handler could be found, the default handler is returned.</remarks>
+      <requires csharp="!IsNullOrEmpty(new CannedBytes.Media.IO.FileChunkHandlerManager.&lt;&gt;c__DisplayClass9(){
+    chunkId = chunkId, 
+}.chunkId)" vb="Not IsNullOrEmpty((() =&gt; {
+    CannedBytes.Media.IO.FileChunkHandlerManager.&lt;&gt;c__DisplayClass9 local_1_prime = New CannedBytes.Media.IO.FileChunkHandlerManager.&lt;&gt;c__DisplayClass9();
+    local_1_prime.chunkId = chunkId
+    return local_1_prime; })().chunkId)">!string.IsNullOrEmpty(new CannedBytes.Media.IO.FileChunkHandlerManager.&lt;&gt;c__DisplayClass9(){
+    chunkId = chunkId, 
+}.chunkId)</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FileChunkHeader">
+      <summary>
+            Basic file chunk information
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkHeader.ChunkId">
+      <summary>
+            The four character code identifying the file chunk.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkHeader.DataLength">
+      <summary>
+            The length in bytes of the file chunk data.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkHeader.DataStream">
+      <summary>
+            A (sub) stream for the current chunk (only).
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FileChunkReader">
+      <summary>
+            Implements the reading of file chunks, the creation of runtime objects and the serialization process.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkReader.context">
+      <summary>
+            Private reference to the file context.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkReader.streamNavigator">
+      <summary>
+            Optional reference to the stream navigator.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkReader.chunkTypeFactory">
+      <summary>
+            Private reference to the chunk type factory.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkReader.handlerMgr">
+      <summary>
+            Private reference to the chunk handler manager.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkReader.stringReader">
+      <summary>
+            Private reference to the string reader.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkReader.numberReader">
+      <summary>
+            Private reference to the number reader.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.#ctor(CannedBytes.Media.IO.ChunkFileContext)">
+      <summary>
+            Constructs a new instance on the specified file <paramref name="context" />.
+            </summary>
+      <param name="context">Must not be null.</param>
+      <requires csharp="context != null" vb="context &lt;&gt; Nothing">context != null</requires>
+      <requires csharp="context.CompositionContainer != null" vb="context.CompositionContainer &lt;&gt; Nothing">context.CompositionContainer != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadNextChunk">
+      <summary>
+            Reads the next chunk from the file.
+            </summary>
+      <returns>Returns null when there was no runtime chunk type found to represent the chunk read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadNextChunk(System.IO.Stream)">
+      <summary>
+            Reads the next chunk from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns null when there was no runtime chunk type found to represent the chunk read.</returns>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.SkipCurrentChunk">
+      <summary>
+            Skips reading any remaining data for the current chunk.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.SkipChunk(CannedBytes.Media.IO.FileChunk)">
+      <summary>
+            Skips reading any remaining data for the <paramref name="chunk" />.
+            </summary>
+      <param name="chunk">Must not be null.</param>
+      <remarks>The underlying file stream is aligned using the <see cref="T:CannedBytes.Media.IO.Services.IStreamNavigator" /> implementation if available.</remarks>
+      <requires csharp="chunk != null" vb="chunk &lt;&gt; Nothing">chunk != null</requires>
+      <requires csharp="chunk.DataStream != null" vb="chunk.DataStream &lt;&gt; Nothing">chunk.DataStream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.EndStream(System.IO.Stream)">
+      <summary>
+            Reads all bytes until the <paramref name="stream" /> is ended.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <remarks>If the <paramref name="stream" /> is not seekable
+            the bytes are read which requires a buffer allocation.</remarks>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadChunkHeader(System.IO.Stream)">
+      <summary>
+            Reads the first (header) fields of a chunk from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns null when the stream position does not allow to read the header.</returns>
+      <remarks>The following properties are set on the returned <see cref="T:CannedBytes.Media.IO.FileChunk" />.
+            <see cref="P:FileChunk.ChunkId" />, <see cref="P:FileChunk.DataLength" />,
+            <see cref="P:FileChunk.ParentPosition" />, <see cref="P:FileChunk.FilePosition" />
+            and <see cref="P:FileChunk.DataStream" />.</remarks>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadRuntimeChunkType(System.IO.Stream,CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Creates and fill the data members of the runtime object for the specified <paramref name="chunkId" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="chunkId">Must not be null.</param>
+      <returns>Returns null when no runtime chunk type could be found for the <paramref name="chunkId" />.</returns>
+      <remarks>Note that chunks (types) are never mixed content. They are either containing other chunks
+            or the contain data. This method is for reading data.
+            Use the <see cref="M:ReadRuntimteContainerChunkType" /> to read sub chunks.</remarks>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <requires csharp="chunkId != null" vb="chunkId &lt;&gt; Nothing">chunkId != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadRuntimeContainerChunkType(System.IO.Stream,CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Creates and fill the data members of the runtime object for the specified <paramref name="chunkId" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="chunkId">Must not be null.</param>
+      <returns>Returns null when no runtime chunk type could be found for the <paramref name="chunkId" />.</returns>
+      <remarks>Note that chunks (types) are never mixed content. They are either containing other chunks
+            or the contain data. This method is for reading sub chunks.
+            Use the <see cref="M:ReadRuntimteChunkType" /> to read data.</remarks>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <requires csharp="chunkId != null" vb="chunkId &lt;&gt; Nothing">chunkId != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ValidateStreamPosition(System.Int64)">
+      <summary>
+            Returns an indication if <paramref name="byteCount" /> can be read from the file stream.
+            </summary>
+      <param name="byteCount">Must be greater or equal than zero.</param>
+      <returns>Returns true when there is enough room in the file stream.</returns>
+      <requires csharp="byteCount &gt;= (long)0" vb="byteCount &gt;= ((Long )0)">byteCount &gt;= (long)0</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.GetRemainingCurrentChunkSubStream">
+      <summary>
+            Creates a new <see cref="T:System.IO.Stream" /> instance for the remaining chunk.
+            </summary>
+      <returns>Never returns null.</returns>
+      <remarks>Based on the <see cref="P:ChunkFileContext.CopyStreams" /> property
+            the original file <see cref="T:Stream" /> is used or an in-memory copy.</remarks>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.GetRemainingCurrentChunkBuffer">
+      <summary>
+            Creates a buffer with the remaining chunk info.
+            </summary>
+      <returns>Never returns null.</returns>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadByte">
+      <summary>
+            Reads a single byte.
+            </summary>
+      <returns>Returns the byte read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadChar">
+      <summary>
+            Reads a single character.
+            </summary>
+      <returns>Returns the character read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadInt16">
+      <summary>
+            Reads a single short.
+            </summary>
+      <returns>Returns the short read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadInt32">
+      <summary>
+            Reads a single integer.
+            </summary>
+      <returns>Returns the integer read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadInt64">
+      <summary>
+            Reads a single long.
+            </summary>
+      <returns>Returns the long read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadString">
+      <summary>
+            Reads a single string.
+            </summary>
+      <returns>Returns the string read. Never returns null.</returns>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadFourCharacterCode">
+      <summary>
+            Reads a four character code.
+            </summary>
+      <returns>Returns the code read. Never returns null.</returns>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadUInt16">
+      <summary>
+            Reads a single unsigned short.
+            </summary>
+      <returns>Returns the value read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadUInt32">
+      <summary>
+            Reads a single unsigned integer.
+            </summary>
+      <returns>Returns the value read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkReader.ReadUInt64">
+      <summary>
+            Reads a single unsigned long.
+            </summary>
+      <returns>Returns the value read.</returns>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkReader.CurrentStream">
+      <summary>
+            Gets the stream for the current file chunk.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkReader.CurrentStreamCanRead">
+      <summary>
+            Gets an indication if bytes can be read from the <see cref="P:CurrentStream" />.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FileChunkStack">
+      <summary>
+            Manages a stack of <see cref="T:CannedBytes.Media.IO.FileChunk" /> instances.
+            </summary>
+      <remarks>Parent-child relation between chunks is also maintained.</remarks>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkStack.chunkStack">
+      <summary>Maintains the internal stack.</summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkStack.Clear">
+      <summary>
+            Removes all chunks.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkStack.PushChunk(CannedBytes.Media.IO.FileChunk)">
+      <summary>
+            Pushes a new chunk up the stack.
+            </summary>
+      <param name="chunk">Must not be null.</param>
+      <remarks>The <paramref name="chunk" /> is added as a child to the current top chunk.</remarks>
+      <requires csharp="chunk != null" vb="chunk &lt;&gt; Nothing">chunk != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkStack.PopChunk">
+      <summary>
+            Removes the top chunk from the stack.
+            </summary>
+      <returns>Returns null if only the root chunk remains or the stack is empty.</returns>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkStack.RootChunk">
+      <summary>
+            Root chunk of the file.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkStack.CurrentChunk">
+      <summary>
+            Current chunk being processed.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ChunkFileContext">
+      <summary>
+            Represents the context for the (R)IFF file that is being parsed.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileContext.#ctor">
+      <summary>
+            Constructs a new instance.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.ChunkFileContext.compositionContainer">
+      <summary>
+            Backing field for <see cref="P:CompositionContainer" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ChunkFileContext.Dispose(CannedBytes.DisposeObjectKind)">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkFileContext.ChunkFile">
+      <summary>
+            Gets or sets the file (stream) object of the file currently being processed.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkFileContext.ChunkStack">
+      <summary>
+            Gets the stack of FileChunks used during file parsing.
+            </summary>
+      <remarks>Populated while reading, optionally used for writing.</remarks>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkFileContext.HeaderStack">
+      <summary>
+            Gets the stack of streams used for writing.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkFileContext.CopyStreams">
+      <summary>
+            Gets or sets an indication whether to copy data from/to the file streams or reuse the existing (sub)stream.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ChunkFileContext.CompositionContainer">
+      <summary>
+            A container used for satisfying (external) object references.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FileChunkWriter">
+      <summary>
+            Implements the writing of chunks.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkWriter.context">
+      <summary>
+            Private reference to the file context.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkWriter.streamNavigator">
+      <summary>
+            Optional reference to the stream navigator.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkWriter.handlerMgr">
+      <summary>
+            Private reference to the chunk handler manager.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkWriter.stringWriter">
+      <summary>
+            Private reference to the string writer.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FileChunkWriter.numberWriter">
+      <summary>
+            Private reference to the number writer.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.#ctor(CannedBytes.Media.IO.ChunkFileContext)">
+      <summary>
+            Constructs a new writer instance.
+            </summary>
+      <param name="context">Must not be null. Can be reused from a read operation.</param>
+      <requires csharp="context != null" vb="context &lt;&gt; Nothing">context != null</requires>
+      <requires csharp="context.CompositionContainer != null" vb="context.CompositionContainer &lt;&gt; Nothing">context.CompositionContainer != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.PopHeader">
+      <summary>
+            Pops a header from the header stack.
+            </summary>
+      <returns>Returns the header popped of the stack.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.PushNewHeader(CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Pushes a new initialized header onto the stack.
+            </summary>
+      <param name="chunkId">Must not be null.</param>
+      <returns>Returns the header object. Never returns null.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteNextChunk(System.Object)">
+      <summary>
+            Writes the <paramref name="chunk" /> to the file.
+            </summary>
+      <param name="chunk">Must not be null.</param>
+      <returns>Returns the header information for the chunk that has just been written.</returns>
+      <requires csharp="chunk != null" vb="chunk &lt;&gt; Nothing">chunk != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteChunkHeader(CannedBytes.Media.IO.FileChunkHeader)">
+      <summary>
+            Writes the chunk identified by the <paramref name="header" /> to the <see cref="P:CurrentStream" />.
+            </summary>
+      <param name="header">Must not be null and must NOT be on the <see cref="P:ChunkFileContext.HeaderStack" />.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteRuntimeChunkType(System.Object)">
+      <summary>
+            Writes the content of the chunk <paramref name="instance" /> to the <see cref="P:CurrentStream" />.
+            </summary>
+      <param name="instance">Must not be null.</param>
+      <remarks>The <paramref name="instance" /> either has data fields or sub-chunks. Mixed content is not supported.</remarks>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteByte(System.Byte)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteChar(System.Char)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteInt16(System.Int16)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteInt32(System.Int32)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteInt64(System.Int64)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteString(System.String)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteFourCharacterCode(CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteUInt16(System.UInt16)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteUInt32(System.UInt32)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteUInt64(System.UInt64)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteBuffer(System.Byte[])">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkWriter.WriteStream(System.IO.Stream)">
+      <summary>
+            Writes the <paramref name="value" /> to the <see cref="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkWriter.CurrentStream">
+      <summary>
+            Gets the (file) stream for writing.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FourCharacterCode">
+      <summary>
+            Represents a four character code.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.FourCharacterCode.fourCC">
+      <summary>
+            Backing field for the 4cc.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FourCharacterCode.#ctor">
+      <summary>
+            Block default constructor.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FourCharacterCode.#ctor(System.Byte[])">
+      <summary>
+            Constructs a new instance.
+            </summary>
+      <param name="fourCC">A byte buffer of (at least) 4 characters.</param>
+      <requires csharp="fourCC != null" vb="fourCC &lt;&gt; Nothing">fourCC != null</requires>
+      <requires csharp="fourCC.Length &gt;= 4" vb="fourCC.Length &gt;= 4">fourCC.Length &gt;= 4</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FourCharacterCode.#ctor(System.String)">
+      <summary>
+            Constructs a new instance.
+            </summary>
+      <param name="fourCC">A string of exactly 4 characters long.</param>
+      <requires csharp="fourCC != null" vb="fourCC &lt;&gt; Nothing">fourCC != null</requires>
+      <requires csharp="fourCC.Length == 4" vb="fourCC.Length = 4">fourCC.Length == 4</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FourCharacterCode.ReadFrom(System.IO.Stream)">
+      <summary>
+            Reads a four character code from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Never return null.</returns>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <requires csharp="stream.CanRead" vb="stream.CanRead">stream.CanRead</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FourCharacterCode.WriteTo(System.IO.Stream)">
+      <summary>
+            Writes the four character code to the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <requires csharp="stream.CanWrite" vb="stream.CanWrite">stream.CanWrite</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FourCharacterCode.ToString">
+      <summary>
+            Returns the four character code as a string.
+            </summary>
+      <returns>Never returns null.</returns>
+      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object" csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="T:CannedBytes.Media.IO.FileChunkHandlerContract">
+      <summary>
+            Declaring contracts for the <see cref="T:CannedBytes.Media.IO.IFileChunkHandler" /> interface.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandlerContract.CannedBytes#Media#IO#IFileChunkHandler#CanRead(CannedBytes.Media.IO.FileChunk)">
+      <summary>
+            Contract specification.
+            </summary>
+      <param name="chunk">Must not be null.</param>
+      <returns>No Contract.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandlerContract.CannedBytes#Media#IO#IFileChunkHandler#Read(CannedBytes.Media.IO.ChunkFileContext)">
+      <summary>
+            Contract specification.
+            </summary>
+      <param name="context">Must not be null.</param>
+      <returns>No contract.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandlerContract.CannedBytes#Media#IO#IFileChunkHandler#CanWrite(System.Object)">
+      <summary>
+            Contract specification.
+            </summary>
+      <param name="instance">No contract.</param>
+      <returns>No contract.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.FileChunkHandlerContract.CannedBytes#Media#IO#IFileChunkHandler#Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)">
+      <summary>
+            Contract specification.
+            </summary>
+      <param name="context">Must not be null.</param>
+      <param name="instance">Must not be null.</param>
+    </member>
+    <member name="P:CannedBytes.Media.IO.FileChunkHandlerContract.CannedBytes#Media#IO#IFileChunkHandler#ChunkId">
+      <summary>
+            Ensures the returned value is not null.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ObjectMemberData">
+      <summary>
+            Maintains information about a member of the runtime object.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberData.ChunkMatches(System.String)">
+      <summary>
+            Indicates if there is a match for this member with the <paramref name="chunkId" />.
+            </summary>
+      <param name="chunkId">Can be null or empty.</param>
+      <returns>Returns true if there is a match.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberData.SetValue(System.Object,System.Object,System.Boolean)">
+      <summary>
+            Sets a value for the member. Handler adding to a collection.
+            </summary>
+      <param name="instance">The runtime object. Must not be null.</param>
+      <param name="value">The value to set.</param>
+      <param name="isCollection">An indication if the <paramref name="value" /> is a collection.</param>
+      <requires csharp="instance != null" vb="instance &lt;&gt; Nothing">instance != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberData.SetMemberValue(System.Object,System.Object)">
+      <summary>
+            Sets the <paramref name="value" /> to either the field or the property.
+            </summary>
+      <param name="instance">Must not be null.</param>
+      <param name="value">The value to set.</param>
+      <remarks>Set <see cref="F:ValueAssigned" /> to true.</remarks>
+      <requires csharp="instance != null" vb="instance &lt;&gt; Nothing">instance != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberData.GetValue(System.Object)">
+      <summary>
+            Gets the value for the property or field.
+            </summary>
+      <param name="instance">Must not be null.</param>
+      <returns>Can return null.</returns>
+      <requires csharp="instance != null" vb="instance &lt;&gt; Nothing">instance != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberData.GetMemberName">
+      <summary>
+            Retrieves the name of the member.
+            </summary>
+      <returns>Never returns null.</returns>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberData.GetMemberInfo">
+      <summary>
+            Gets the <see cref="T:System.Reflection.MemberInfo" /> of this member.
+            </summary>
+      <returns>Can return null.</returns>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberData.FieldInfo">
+      <summary>
+            Is set when the member is a public field.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberData.PropertyInfo">
+      <summary>
+            Is set when the member is public property.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberData.DataType">
+      <summary>
+            The data type of the member.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberData.ChunkIds">
+      <summary>
+            Any chunk id's that apply to the member.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberData.ChunkIdsAreChunkTypes">
+      <summary>
+            If true the contents of <see cref="P:CannedBytes.Media.IO.ObjectMemberData.ChunkIds" /> came from <see cref="T:ChunkTypeAttribute" />s.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberData.IsCollection">
+      <summary>
+            Indicates if the member is a collection (or list).
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberData.ValueAssigned">
+      <summary>
+            Is set when the writer has set a value for the member.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberData.CanSetValue">
+      <summary>
+            Can always write to a collection, but not overwrite a single value.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ObjectMemberList">
+      <summary>
+            Manages a collection of <see cref="T:CannedBytes.Media.IO.ObjectMemberData" /> instances.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberList.#ctor(System.Type)">
+      <summary>
+            Constructs and populates the instance.
+            </summary>
+      <param name="type">The type of the object to get its members from.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberList.BuildMemberList(System.Type)">
+      <summary>
+            Retrieves a list of member info from the specified <paramref name="type" />.
+            </summary>
+      <param name="type">Must not be null.</param>
+      <returns>Never returns null.</returns>
+      <requires csharp="type != (System.Type)null" vb="type &lt;&gt; ((System.Type)Nothing) ">type != (System.Type)null</requires>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ObjectMemberReader">
+      <summary>
+            Provides access to an object's members for reading.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.ObjectMemberReader.members">
+      <summary>The list with object members.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.ObjectMemberReader.enumerator">
+      <summary>An enumerator for multi-call iteration.</summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberReader.#ctor(System.Object)">
+      <summary>
+            Constructs a new instance.
+            </summary>
+      <param name="instance">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberReader.GetNextChunkObject(System.Object@)">
+      <summary>
+            Iterates through the object's member values.
+            </summary>
+      <param name="chunkObject">The value of the 'current' member.</param>
+      <returns>Returns false if there are no more members.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberReader.WriteFields(CannedBytes.Media.IO.FileChunkWriter)">
+      <summary>
+            Writes all the object's members as data fields to the stream.
+            </summary>
+      <param name="writer">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberReader.WritePropertyValue(CannedBytes.Media.IO.ObjectMemberData,CannedBytes.Media.IO.FileChunkWriter)">
+      <summary>
+            Writes the value of the <paramref name="member" /> to the stream.
+            </summary>
+      <param name="member">Must not be null.</param>
+      <param name="writer">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberReader.WriteObjectValue(CannedBytes.Media.IO.FileChunkWriter,System.Object,System.Type)">
+      <summary>
+            Writes an object value to the stream.
+            </summary>
+      <param name="writer">Must not be null.</param>
+      <param name="value">Must not be null.</param>
+      <param name="valueType">Must not be null.</param>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberReader.Instance">
+      <summary>
+            Gets the instance that was passed in the constructor.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberReader.ObjectType">
+      <summary>
+            Gets the type of the object.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberReader.IsChunkContainer">
+      <summary>
+            Gets a value indicating if the object contains sub-chunks.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberReader.CurrentMemberIsCollection">
+      <summary>
+            Gets a value indicating if the current member is a collection.
+            </summary>
+      <remarks>Only valid after a call to <see cref="M:CannedBytes.Media.IO.ObjectMemberReader.GetNextChunkObject(System.Object@)" />.</remarks>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberReader.CurrentMemberIsListChunk">
+      <summary>
+            Gets a value indicating if the current member should be represented by a LIST chunk.
+            </summary>
+      <remarks>Only valid after a call to <see cref="M:CannedBytes.Media.IO.ObjectMemberReader.GetNextChunkObject(System.Object@)" />.</remarks>
+    </member>
+    <member name="T:CannedBytes.Media.IO.ObjectMemberWriter">
+      <summary>
+            Manages writing to a runtime chunk object.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.ObjectMemberWriter.members">
+      <summary>
+            Backing field for a list of writable public fields or properties.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberWriter.#ctor(System.Object)">
+      <summary>
+            Constructs a new instance on the specified runtime object.
+            </summary>
+      <param name="instance">Must not be null.</param>
+      <requires csharp="instance != null" vb="instance &lt;&gt; Nothing">instance != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberWriter.ReadFields(CannedBytes.Media.IO.FileChunkReader)">
+      <summary>
+            Uses the <paramref name="reader" /> to populate the fields and properties of the runtime object.
+            </summary>
+      <param name="reader">Must not be null.</param>
+      <requires csharp="reader != null" vb="reader &lt;&gt; Nothing">reader != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberWriter.WriteChunkObject(System.Object)">
+      <summary>
+            Writes the <paramref name="value" /> to one of the fields or properties of the runtime object.
+            </summary>
+      <param name="value">Must not be null.</param>
+      <returns>Returns true when the value was written.</returns>
+      <remarks>Once a property is set it will not be overwritten by subsequent calls to this method.</remarks>
+      <requires csharp="value != null" vb="value &lt;&gt; Nothing">value != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberWriter.ReadValueForType(System.Type,CannedBytes.Media.IO.FileChunkReader)">
+      <summary>
+            Uses the <paramref name="reader" /> to read data for the specified <paramref name="type" />.
+            </summary>
+      <param name="type">Must not be null.</param>
+      <param name="reader">Must not be null.</param>
+      <returns>Returns the value read or null if type is unsupported.</returns>
+      <requires csharp="type != (System.Type)null" vb="type &lt;&gt; ((System.Type)Nothing) ">type != (System.Type)null</requires>
+      <requires csharp="reader != null" vb="reader &lt;&gt; Nothing">reader != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.ObjectMemberWriter.ReadValueForCustomType(System.Type,CannedBytes.Media.IO.FileChunkReader)">
+      <summary>
+            Uses the <paramref name="reader" /> to read a custom <paramref name="type" /> (class).
+            </summary>
+      <param name="type">Must not be null.</param>
+      <param name="reader">Must not be null.</param>
+      <returns>Returns null if the custom type is not supported.</returns>
+      <requires csharp="type != (System.Type)null" vb="type &lt;&gt; ((System.Type)Nothing) ">type != (System.Type)null</requires>
+      <requires csharp="reader != null" vb="reader &lt;&gt; Nothing">reader != null</requires>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberWriter.Instance">
+      <summary>
+            Gets the current runtime object the writer is acting on.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.ObjectMemberWriter.ObjectType">
+      <summary>
+            Gets the type of the runtime object.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.SchemaAttributes.AttributeExtensions">
+      <summary>
+            Extension methods for the schema attributes.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.SchemaAttributes.AttributeExtensions.IsChunk(System.Type)">
+      <summary>
+            Indicates if the <paramref name="type" /> (this) is a chunk type.
+            </summary>
+      <param name="type">Must not be null.</param>
+      <returns>Returns true when the <see cref="T:CannedBytes.Media.IO.SchemaAttributes.ChunkAttribute" /> is applied to the <paramref name="type" />.</returns>
+      <requires csharp="type != (System.Type)null" vb="type &lt;&gt; ((System.Type)Nothing) ">type != (System.Type)null</requires>
+    </member>
+    <member name="T:CannedBytes.Media.IO.SchemaAttributes.ChunkAttribute">
+      <summary>
+            Code attribute placed on a class.
+            to indicate it is a representation of a chunk.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.SchemaAttributes.ChunkAttribute.#ctor(System.String)">
+      <summary>
+            Instantiates a new instance.
+            </summary>
+      <param name="chunkTypeId">The identification of the chunk in four characters.</param>
+      <requires csharp="!IsNullOrEmpty(chunkTypeId)" vb="Not IsNullOrEmpty(chunkTypeId)">!string.IsNullOrEmpty(chunkTypeId)</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.SchemaAttributes.ChunkAttribute.GetChunkId(System.Type)">
+      <summary>
+            Returns the identification of a chunk declared in a ChunkAttribute on the specified <paramref name="type" />.
+            </summary>
+      <param name="type">Must not be null.</param>
+      <returns>Returns null if not found.</returns>
+      <requires csharp="type != (System.Type)null" vb="type &lt;&gt; ((System.Type)Nothing) ">type != (System.Type)null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.SchemaAttributes.ChunkAttribute.GetChunkId(System.Object)">
+      <summary>
+            Returns the identification of a chunk declared in a ChunkAttribute on the specified <paramref name="instance" />.
+            </summary>
+      <param name="instance">Must not be null.</param>
+      <returns>Returns null if not found.</returns>
+      <requires csharp="instance != null" vb="instance &lt;&gt; Nothing">instance != null</requires>
+    </member>
+    <member name="P:CannedBytes.Media.IO.SchemaAttributes.ChunkAttribute.ChunkTypeId">
+      <summary>
+            The identification of the chunk in four characters.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.SchemaAttributes.ChunkTypeAttribute">
+      <summary>
+            Placed on a field or property that represents a collection, it indicates what types (chunks)
+            can be used as items.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.SchemaAttributes.ChunkTypeAttribute.#ctor(System.String)">
+      <summary>
+            Constructs a new instance.
+            </summary>
+      <param name="chunkTypeId">The chunk id of the chunk type.</param>
+      <requires csharp="!IsNullOrEmpty(chunkTypeId)" vb="Not IsNullOrEmpty(chunkTypeId)">!string.IsNullOrEmpty(chunkTypeId)</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.SchemaAttributes.ChunkTypeAttribute.HasChunkTypes(System.Reflection.MemberInfo)">
+      <summary>
+            Indicates if any chunk type attributes are declared on the <paramref name="member" />.
+            </summary>
+      <param name="member">Must not be null.</param>
+      <returns>Returns true if any chunk types are found.</returns>
+      <requires csharp="member != (System.Reflection.MemberInfo)null" vb="member &lt;&gt; ((System.Reflection.MemberInfo)Nothing) ">member != (System.Reflection.MemberInfo)null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.SchemaAttributes.ChunkTypeAttribute.GetChunkTypes(System.Reflection.MemberInfo)">
+      <summary>
+            Returns the chunk types for the <paramref name="member" />.
+            </summary>
+      <param name="member">Must not be null.</param>
+      <returns>Never returns null.</returns>
+      <requires csharp="member != (System.Reflection.MemberInfo)null" vb="member &lt;&gt; ((System.Reflection.MemberInfo)Nothing) ">member != (System.Reflection.MemberInfo)null</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="P:CannedBytes.Media.IO.SchemaAttributes.ChunkTypeAttribute.ChunkTypeId">
+      <summary>
+            Gets the chunk id.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.SchemaAttributes.FileChunkHandlerAttribute">
+      <summary>
+            A code attribute that indicates to the framework that the class is a chunk handler.
+            </summary>
+      <remarks>This is a MEF custom export attribute.</remarks>
+    </member>
+    <member name="T:CannedBytes.Media.IO.SchemaAttributes.IFileChunkHandlerMetaInfo">
+      <summary>
+            Interface used by importer to access meta data.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.IO.SchemaAttributes.IFileChunkHandlerMetaInfo.ChunkId">
+      <summary>
+            Gets the chunk id for the chunk handler. Can contain wildcards.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.SchemaAttributes.FileChunkHandlerAttribute.#ctor(System.String)">
+      <summary>
+            Constructs a new instance for the specified <paramref name="chunkId" />.
+            </summary>
+      <param name="chunkId">Must be 4 characters long. Must not be null or empty.</param>
+      <requires csharp="!IsNullOrEmpty(chunkId)" vb="Not IsNullOrEmpty(chunkId)">!string.IsNullOrEmpty(chunkId)</requires>
+      <requires csharp="chunkId.Length == 4" vb="chunkId.Length = 4">chunkId.Length == 4</requires>
+    </member>
+    <member name="P:CannedBytes.Media.IO.SchemaAttributes.FileChunkHandlerAttribute.ChunkId">
+      <summary>
+            Gets the chunk id (four character code).
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.SchemaAttributes.IgnoreAttribute">
+      <summary>
+            Code attribute to indicate that the data member is not part of the file
+            chunk stream and should be ignored in de (de)serialization process.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.BigEndianNumberReader">
+      <summary>
+            An implementation of the <see cref="T:CannedBytes.Media.IO.Services.INumberReader" /> for big-endian encoding.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.INumberReader">
+      <summary>
+            A general interface for reading numbers from a <see cref="T:System.IO.Stream" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberReader.ReadInt16(System.IO.Stream)">
+      <summary>
+            Reads a 16 bit integer from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the number value read.</returns>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberReader.ReadInt32(System.IO.Stream)">
+      <summary>
+            Reads a 32 bit integer from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the number value read.</returns>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberReader.ReadInt64(System.IO.Stream)">
+      <summary>
+            Reads a 64 bit integer from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the number value read.</returns>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberReader.ReadUInt16AsInt32(System.IO.Stream)">
+      <summary>
+            Reads a 16 bit integer from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the number value read as 32 bits.</returns>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberReader.ReadUInt32AsInt64(System.IO.Stream)">
+      <summary>
+            Reads a 32 bit integer from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the number value read as 64 bits.</returns>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberReader.ReadInt16(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadInt16(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberReader.ReadInt32(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadInt32(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberReader.ReadInt64(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadInt64(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberReader.ReadUInt16AsInt32(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadUInt16AsInt32(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberReader.ReadUInt32AsInt64(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadUInt32AsInt64(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberReader.ReadUInt16(System.IO.Stream)">
+      <summary>
+            Reads an unsigned integer value from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the value read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberReader.ReadUInt32(System.IO.Stream)">
+      <summary>
+            Reads an unsigned integer from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the value read.</returns>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.BigEndianNumberWriter">
+      <summary>
+            Implements the <see cref="T:CannedBytes.Media.IO.Services.INumberWriter" /> interface for a big-endian encoding.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.INumberWriter">
+      <summary>
+            General interface for writing numbers to a <see cref="T:System.IO.Stream" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt16(System.Int16,System.IO.Stream)">
+      <summary>
+            Writes the <paramref name="value" /> to the <paramref name="stream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+      <param name="stream">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt16(System.Int32,System.IO.Stream)">
+      <summary>
+            Writes the <paramref name="value" /> to the <paramref name="stream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+      <param name="stream">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt32(System.Int32,System.IO.Stream)">
+      <summary>
+            Writes the <paramref name="value" /> to the <paramref name="stream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+      <param name="stream">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt32(System.Int64,System.IO.Stream)">
+      <summary>
+            Writes the <paramref name="value" /> to the <paramref name="stream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+      <param name="stream">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt64(System.Int64,System.IO.Stream)">
+      <summary>
+            Writes the <paramref name="value" /> to the <paramref name="stream" />.
+            </summary>
+      <param name="value">The value to be written.</param>
+      <param name="stream">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberWriter.WriteInt16(System.Int16,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt16(System.Int16,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberWriter.WriteInt16(System.Int32,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt16(System.Int32,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberWriter.WriteInt32(System.Int32,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt32(System.Int32,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberWriter.WriteInt32(System.Int64,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt32(System.Int64,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberWriter.WriteInt64(System.Int64,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt64(System.Int64,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberWriter.WriteUInt16(System.UInt16,System.IO.Stream)">
+      <summary>
+            Writes an unsigned integer to the <paramref name="stream" />.
+            </summary>
+      <param name="value">The value.</param>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.BigEndianNumberWriter.WriteUInt32(System.UInt32,System.IO.Stream)">
+      <summary>
+            Writes an unsigned integer to the <paramref name="stream" />.
+            </summary>
+      <param name="value">The value.</param>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.ChunkTypeFactory">
+      <summary>
+            Implementation of the <see cref="T:CannedBytes.Media.IO.Services.IChunkTypeFactory" /> interface.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.IChunkTypeFactory">
+      <summary>
+            Implemented by a factory that knows how to create runtime types for chunk identifiers.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.IChunkTypeFactory.CreateChunkObject(CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Creates a new instance for the specified <paramref name="chunkTypeId" />.
+            </summary>
+      <param name="chunkTypeId">Must not be null.</param>
+      <returns>Returns null when not found.</returns>
+      <requires csharp="chunkTypeId != null" vb="chunkTypeId &lt;&gt; Nothing">chunkTypeId != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.IChunkTypeFactory.LookupChunkObjectType(CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Looks up the <see cref="T:System.Type" /> for the specified <paramref name="chunkTypeId" />.
+            </summary>
+      <param name="chunkTypeId">Must not be null.</param>
+      <returns>Returns null when not found.</returns>
+      <requires csharp="chunkTypeId != null" vb="chunkTypeId &lt;&gt; Nothing">chunkTypeId != null</requires>
+    </member>
+    <member name="F:CannedBytes.Media.IO.Services.ChunkTypeFactory.chunkMap">
+      <summary>
+            The Type lookup table.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.ChunkTypeFactory.#ctor">
+      <summary>
+            Constructs a new instance.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.ChunkTypeFactory.AddChunksFrom(System.Reflection.Assembly,System.Boolean)">
+      <summary>
+            Scans the <paramref name="assembly" /> for types that have the
+            <see cref="T:CannedBytes.Media.IO.SchemaAttributes.ChunkAttribute" /> applied and adds them to the factory.
+            </summary>
+      <param name="assembly">Must not be null.</param>
+      <param name="replace">If true the Type found in the <paramref name="assembly" /> will replace
+            an already registered type.</param>
+      <requires csharp="assembly != (System.Reflection.Assembly)null" vb="assembly &lt;&gt; ((System.Reflection.Assembly)Nothing) ">assembly != (System.Reflection.Assembly)null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.ChunkTypeFactory.CreateChunkObject(CannedBytes.Media.IO.FourCharacterCode)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IChunkTypeFactory.CreateChunkObject(CannedBytes.Media.IO.FourCharacterCode)" inheritedFromTypeName="IChunkTypeFactory" csharp="chunkTypeId != null" vb="chunkTypeId &lt;&gt; Nothing">chunkTypeId != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.ChunkTypeFactory.LookupChunkObjectType(CannedBytes.Media.IO.FourCharacterCode)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IChunkTypeFactory.LookupChunkObjectType(CannedBytes.Media.IO.FourCharacterCode)" inheritedFromTypeName="IChunkTypeFactory" csharp="chunkTypeId != null" vb="chunkTypeId &lt;&gt; Nothing">chunkTypeId != null</requires>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.ChunkTypeFactoryContract">
+      <summary>
+            Contract for <see cref="T:CannedBytes.Media.IO.Services.IChunkTypeFactory" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.ChunkTypeFactoryContract.CannedBytes#Media#IO#Services#IChunkTypeFactory#CreateChunkObject(CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="chunkTypeId">Must not be null.</param>
+      <returns>Can return null.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.ChunkTypeFactoryContract.CannedBytes#Media#IO#Services#IChunkTypeFactory#LookupChunkObjectType(CannedBytes.Media.IO.FourCharacterCode)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="chunkTypeId">Must not be null.</param>
+      <returns>Can return null.</returns>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.NumberReaderContract">
+      <summary>
+            Code contracts for <see cref="T:CannedBytes.Media.IO.Services.INumberReader" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberReaderContract.CannedBytes#Media#IO#Services#INumberReader#ReadInt16(System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>No contract.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberReaderContract.CannedBytes#Media#IO#Services#INumberReader#ReadInt32(System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>No contract.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberReaderContract.CannedBytes#Media#IO#Services#INumberReader#ReadInt64(System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>No contract.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberReaderContract.CannedBytes#Media#IO#Services#INumberReader#ReadUInt16AsInt32(System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>No contract.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberReaderContract.CannedBytes#Media#IO#Services#INumberReader#ReadUInt32AsInt64(System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>No contract.</returns>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.NumberWriterContract">
+      <summary>
+            Contract class for <see cref="T:CannedBytes.Media.IO.Services.INumberWriter" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberWriterContract.CannedBytes#Media#IO#Services#INumberWriter#WriteInt16(System.Int16,System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="value">No contract.</param>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberWriterContract.CannedBytes#Media#IO#Services#INumberWriter#WriteInt16(System.Int32,System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="value">No contract.</param>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberWriterContract.CannedBytes#Media#IO#Services#INumberWriter#WriteInt32(System.Int32,System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="value">No contract.</param>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberWriterContract.CannedBytes#Media#IO#Services#INumberWriter#WriteInt32(System.Int64,System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="value">No contract.</param>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NumberWriterContract.CannedBytes#Media#IO#Services#INumberWriter#WriteInt64(System.Int64,System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="value">No contract.</param>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.StreamNavigatorContract">
+      <summary>
+            Contract for <see cref="T:CannedBytes.Media.IO.Services.IStreamNavigator" />.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.IStreamNavigator">
+      <summary>
+            A general interface for navigating <see cref="T:System.IO.Stream" />s.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.IStreamNavigator.SetCurrentMarker(System.IO.Stream)">
+      <summary>
+            Stores (and returns) the current <paramref name="stream" /> position.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the current <paramref name="stream" /> position.</returns>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <ensures csharp="result &gt;= (long)0" vb="result &gt;= ((Long )0)">result &gt;= (long)0</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.IStreamNavigator.SeekToCurrentMarker(System.IO.Stream)">
+      <summary>
+            Positions the <paramref name="stream" /> on the current marker set by <see cref="M:SetCurrentMarker" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns true if positioning the <paramref name="stream" /> was successful.</returns>
+      <remarks>If the <see cref="M:SetCurrentMarker" /> method was not called, the <paramref name="stream" /> is rewound.
+            The current marker is NOT cleared.</remarks>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.IStreamNavigator.AlignPosition(System.IO.Stream)">
+      <summary>
+            Aligns the position of the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the number of bytes that were skipped in order to align the stream.</returns>
+      <remarks>The alignment value must be set through the implementation class.</remarks>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <ensures csharp="result &gt;= 0" vb="result &gt;= 0">result &gt;= 0</ensures>
+    </member>
+    <member name="P:CannedBytes.Media.IO.Services.IStreamNavigator.ByteAlignment">
+      <summary>
+            Gets or sets the alignment in bytes.
+            </summary>
+      <getter>
+        <ensures csharp="result &gt;= 0" vb="result &gt;= 0">result &gt;= 0</ensures>
+      </getter>
+      <setter>
+        <requires csharp="value &gt;= 0" vb="value &gt;= 0">value &gt;= 0</requires>
+      </setter>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.StreamNavigatorContract.CannedBytes#Media#IO#Services#IStreamNavigator#SetCurrentMarker(System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns greater or equal to zero.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.StreamNavigatorContract.CannedBytes#Media#IO#Services#IStreamNavigator#SeekToCurrentMarker(System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>No contract.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.StreamNavigatorContract.CannedBytes#Media#IO#Services#IStreamNavigator#AlignPosition(System.IO.Stream)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns greater or equal to zero.</returns>
+    </member>
+    <member name="P:CannedBytes.Media.IO.Services.StreamNavigatorContract.CannedBytes#Media#IO#Services#IStreamNavigator#ByteAlignment">
+      <summary>
+            Value must be greater or equal to  zero.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.StringReaderContract">
+      <summary>
+            Code contracts for <see cref="T:CannedBytes.Media.IO.Services.IStringReader" />.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.IStringReader">
+      <summary>
+            Generic string reader interface.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.IStringReader.ReadString(System.IO.Stream)">
+      <summary>
+            Reads a string from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Never returns null.</returns>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <ensures csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.StringReaderContract.CannedBytes#Media#IO#Services#IStringReader#ReadString(System.IO.Stream)">
+      <summary>
+            Contracts.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Never returns null.</returns>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.StringWriterContract">
+      <summary>
+            Contracts class for <see cref="T:CannedBytes.Media.IO.Services.IStringWriter" />.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.IStringWriter">
+      <summary>
+            A general interface for writing strings to a <see cref="T:System.IO.Stream" />.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.IStringWriter.WriteString(System.IO.Stream,System.String)">
+      <summary>
+            Writes a string <paramref name="value" /> to a <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="value">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <requires csharp="value != null" vb="value &lt;&gt; Nothing">value != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.StringWriterContract.CannedBytes#Media#IO#Services#IStringWriter#WriteString(System.IO.Stream,System.String)">
+      <summary>
+            Contract.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="value">Must not be null.</param>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.NullTerminatedStringReader">
+      <summary>
+            Implements a <see cref="T:CannedBytes.Media.IO.Services.IStringReader" /> for a null terminated string.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.NullTerminatedStringReader.ReadString(System.IO.Stream)">
+      <summary>
+            Reads the string from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the string that is read.</returns>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IStringReader.ReadString(System.IO.Stream)" inheritedFromTypeName="IStringReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <ensures inheritedFrom="M:CannedBytes.Media.IO.Services.IStringReader.ReadString(System.IO.Stream)" inheritedFromTypeName="IStringReader" csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.SizePrefixedStringReader">
+      <summary>
+            Implements the <see cref="T:CannedBytes.Media.IO.Services.IStringReader" /> interface for a size-prefixed string.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.SizePrefixedStringReader.ReadString(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IStringReader.ReadString(System.IO.Stream)" inheritedFromTypeName="IStringReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <ensures inheritedFrom="M:CannedBytes.Media.IO.Services.IStringReader.ReadString(System.IO.Stream)" inheritedFromTypeName="IStringReader" csharp="result != null" vb="result &lt;&gt; Nothing">result != null</ensures>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.LittleEndianNumberReader">
+      <summary>
+            Implements the <see cref="T:CannedBytes.Media.IO.Services.INumberReader" /> interface for little-endian encoding.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberReader.ReadInt16(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadInt16(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberReader.ReadInt32(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadInt32(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberReader.ReadInt64(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadInt64(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberReader.ReadUInt16AsInt32(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadUInt16AsInt32(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberReader.ReadUInt32AsInt64(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberReader.ReadUInt32AsInt64(System.IO.Stream)" inheritedFromTypeName="INumberReader" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberReader.ReadUInt16(System.IO.Stream)">
+      <summary>
+            Reads an unsigned integer from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the value read.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberReader.ReadUInt32(System.IO.Stream)">
+      <summary>
+            Reads an unsigned integer from the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <returns>Returns the value read.</returns>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.LittleEndianNumberWriter">
+      <summary>
+            Implements a number writer for little endian encoding.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberWriter.WriteInt16(System.Int16,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt16(System.Int16,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberWriter.WriteInt16(System.Int32,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt16(System.Int32,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberWriter.WriteInt32(System.Int32,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt32(System.Int32,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberWriter.WriteInt32(System.Int64,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt32(System.Int64,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberWriter.WriteInt64(System.Int64,System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.INumberWriter.WriteInt64(System.Int64,System.IO.Stream)" inheritedFromTypeName="INumberWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberWriter.WriteUInt16(System.UInt16,System.IO.Stream)">
+      <summary>
+            Writes an unsigned integer to the <paramref name="stream" />.
+            </summary>
+      <param name="value">The value.</param>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.LittleEndianNumberWriter.WriteUInt32(System.UInt32,System.IO.Stream)">
+      <summary>
+            Writes an unsigned integer to the <paramref name="stream" />.
+            </summary>
+      <param name="value">The value.</param>
+      <param name="stream">Must not be null.</param>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.SizePrefixedStringWriter">
+      <summary>
+            A string writer implementation that prefixes the length of the string before the string is written.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.SizePrefixedStringWriter.WriteString(System.IO.Stream,System.String)">
+      <summary>
+            Not implemented.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <param name="value">Must not be null.</param>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IStringWriter.WriteString(System.IO.Stream,System.String)" inheritedFromTypeName="IStringWriter" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IStringWriter.WriteString(System.IO.Stream,System.String)" inheritedFromTypeName="IStringWriter" csharp="value != null" vb="value &lt;&gt; Nothing">value != null</requires>
+    </member>
+    <member name="T:CannedBytes.Media.IO.Services.StreamNavigator">
+      <summary>
+            Implements the <see cref="T:CannedBytes.Media.IO.Services.IStreamNavigator" /> interface.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.Services.StreamNavigator.DefaultByteAlignment">
+      <summary>
+            The default alignment is 2 bytes.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.Services.StreamNavigator.currentMarker">
+      <summary>Backing field for the current stream position marker.</summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.StreamNavigator.#ctor">
+      <summary>
+            Constructs a new instance.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.StreamNavigator.SetCurrentMarker(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IStreamNavigator.SetCurrentMarker(System.IO.Stream)" inheritedFromTypeName="IStreamNavigator" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <ensures inheritedFrom="M:CannedBytes.Media.IO.Services.IStreamNavigator.SetCurrentMarker(System.IO.Stream)" inheritedFromTypeName="IStreamNavigator" csharp="result &gt;= (long)0" vb="result &gt;= ((Long )0)">result &gt;= (long)0</ensures>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.StreamNavigator.SeekToCurrentMarker(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IStreamNavigator.SeekToCurrentMarker(System.IO.Stream)" inheritedFromTypeName="IStreamNavigator" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Media.IO.Services.StreamNavigator.AlignPosition(System.IO.Stream)">
+      <inheritdocs />
+      <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IStreamNavigator.AlignPosition(System.IO.Stream)" inheritedFromTypeName="IStreamNavigator" csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <ensures inheritedFrom="M:CannedBytes.Media.IO.Services.IStreamNavigator.AlignPosition(System.IO.Stream)" inheritedFromTypeName="IStreamNavigator" csharp="result &gt;= 0" vb="result &gt;= 0">result &gt;= 0</ensures>
+    </member>
+    <member name="P:CannedBytes.Media.IO.Services.StreamNavigator.ByteAlignment">
+      <inheritdocs />
+      <getter>
+        <ensures inheritedFrom="M:CannedBytes.Media.IO.Services.IStreamNavigator.get_ByteAlignment" inheritedFromTypeName="IStreamNavigator" csharp="result &gt;= 0" vb="result &gt;= 0">result &gt;= 0</ensures>
+      </getter>
+      <setter>
+        <requires inheritedFrom="M:CannedBytes.Media.IO.Services.IStreamNavigator.set_ByteAlignment(System.Int32)" inheritedFromTypeName="IStreamNavigator" csharp="value &gt;= 0" vb="value &gt;= 0">value &gt;= 0</requires>
+      </setter>
+    </member>
+    <member name="T:CannedBytes.Media.IO.WildcardString">
+      <summary>
+            Implements the logic for detecting and matching wildcards ('*' and '#').
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.WildcardString.AlphaWildcard">
+      <summary>Alphanumeric wildcard '*'.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.WildcardString.AlphaWildcardChar">
+      <summary>Alphanumeric wildcard '*'.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.WildcardString.NumberWildcard">
+      <summary>Numeric wildcard '#'.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.IO.WildcardString.NumberWildcardChar">
+      <summary>Numeric wildcard '#'.</summary>
+    </member>
+    <member name="M:CannedBytes.Media.IO.WildcardString.HasWildcard(System.String)">
+      <summary>
+            Indicates if <paramref name="thisValue" /> contains any of the wildcard characters.
+            </summary>
+      <param name="thisValue">Can be null.</param>
+      <returns>Returns true if there are wildcard characters in <paramref name="thisValue" />.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.IO.WildcardString.MatchesWith(System.String,System.String)">
+      <summary>
+            Indicates if there is a wildcard match between <paramref name="thisValue" /> and <paramref name="thatValue" />.
+            </summary>
+      <param name="thisValue">Can be null.</param>
+      <param name="thatValue">Can be null.</param>
+      <returns>Returns true if there is a wildcard match.</returns>
+    </member>
+  </members>
+</doc>

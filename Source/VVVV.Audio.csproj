@@ -16,6 +16,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Patches\plugins\bin\VVVV.Audio.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -40,7 +41,6 @@
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <BaseAddress>4194304</BaseAddress>
-    <Prefer32Bit>False</Prefer32Bit>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
@@ -57,13 +57,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Jacobi.Vst.Core">
-      <HintPath>Dependencies\Jacobi.Vst.Core.dll</HintPath>
+      <HintPath>Dependencies\VST.NET\Jacobi.Vst.Core.dll</HintPath>
     </Reference>
     <Reference Include="Jacobi.Vst.Framework">
-      <HintPath>Dependencies\Jacobi.Vst.Framework.dll</HintPath>
+      <HintPath>Dependencies\VST.NET\Jacobi.Vst.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Jacobi.Vst.Interop">
-      <HintPath>Dependencies\Jacobi.Vst.Interop.dll</HintPath>
+      <HintPath>Dependencies\VST.NET\Jacobi.Vst.Interop.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
@@ -81,6 +81,7 @@
     </Reference>
     <Reference Include="VVVV.Nodes">
       <HintPath>..\VVVV\lib\nodes\plugins\VVVV.Nodes.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.PluginInterfaces">
       <HintPath>..\VVVV\lib\core\VVVV.PluginInterfaces.dll</HintPath>
@@ -95,7 +96,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="yeppp-clr">
-      <HintPath>Dependencies\yeppp-clr.dll</HintPath>
+      <HintPath>Dependencies\Yeppp\yeppp-clr.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +112,7 @@
     <Compile Include="Nodes\Buffers\BufferReader.cs" />
     <Compile Include="Nodes\Buffers\BufferWriter.cs" />
     <Compile Include="Nodes\Buffers\CreateBufferNode.cs" />
+    <Compile Include="Nodes\Filters\ResampleNode.cs" />
     <Compile Include="Nodes\Routing\MatrixMixerNode.cs" />
     <Compile Include="Nodes\Routing\SignalOperationNodes.cs" />
     <Compile Include="Nodes\Routing\SpreadOperations.cs" />
@@ -146,11 +148,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AudioUtils.cs" />
+    <Compile Include="Utils\CircularBuffer.cs" />
+    <Compile Include="Utils\R8BrainSampleRateConverter.cs" />
     <Compile Include="Utils\FFT.cs" />
     <Compile Include="Utils\NAudio\AudioFileReaderVVVV.cs" />
     <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
-    <Compile Include="Utils\SpreadUtils.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Nodes\VST\EditorFrame.resx">
       <DependentUpon>EditorFrame.cs</DependentUpon>
@@ -163,7 +167,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dependencies\x86\yeppp.dll">
+    <None Include="Dependencies\r8brain-free-src-1.5-dll\Win32\r8bsrc.dll">
+      <Link>r8bsrc.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Dependencies\Yeppp\x86\yeppp.dll">
       <Link>yeppp.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -173,9 +181,6 @@
       <Project>{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E}</Project>
       <Name>NAudio</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Nodes\Routing" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>
