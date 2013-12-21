@@ -1,0 +1,271 @@
+<!DOCTYPE VVVV  SYSTEM "http://vvvv.meso.net/versions/vvvv33beta8.1.dtd" >
+   <PATCH nodename="D:\vvvv\vvvv_33beta8.1\help\modules\tonfilms\MidiNotePlayed (Devices) help.v4p">
+   <BOUNDS type="Window" left="3090" top="1665" width="4515" height="6240">
+   </BOUNDS>
+   <NODE id="1" componentmode="Hidden" nodename=":MODULES:\tonfilms\MidiNotePlayed (Devices).v4p" hiddenwhenlocked="0" managers="">
+   <BOUNDS type="Node" left="1080" top="3420" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1080" top="3420" width="4800" height="3600">
+   </BOUNDS>
+   <PIN pinname="VelocityOut" visible="1" pintype="Output">
+   </PIN>
+   <PIN pinname="NoteOut" visible="1" pintype="Output">
+   </PIN>
+   <PIN pinname="Enabled" slicecount="1" pintype="Input" visible="1">
+   </PIN>
+   <BOUNDS type="Window" left="6420" top="6720" width="9000" height="6000">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" pintype="Configuration" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="MidiChannel (0..15)" pintype="Input" visible="1" slicecount="1">
+   </PIN>
+   <PIN pinname="MidiInPort" pintype="Input" visible="1" slicecount="1">
+   </PIN>
+   </NODE>
+   <NODE id="8" nodename="IOBox (Value Advanced)" componentmode="InABox" hiddenwhenlocked="0" managers="">
+   <PIN pinname="Y Input Value" visible="1" pintype="Input" slicecount="1">
+   </PIN>
+   <BOUNDS type="Node" left="345" top="4125" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="345" top="4125" width="780" height="2175">
+   </BOUNDS>
+   <PIN pinname="Rows" slicecount="1" pintype="Configuration" values="10.00000">
+   </PIN>
+   <BOUNDS type="Window" left="4290" top="4335" width="215" height="160">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" pintype="Configuration" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="SliceCount Mode" pintype="Configuration" slicecount="1" values="Input">
+   </PIN>
+   <PIN pinname="Columns" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Pages" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Show SliceIndex" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Font" pintype="Configuration" slicecount="1" values="|Lucida Sans Unicode|">
+   </PIN>
+   <PIN pinname="Size" pintype="Configuration" slicecount="1" values="7.00000">
+   </PIN>
+   <PIN pinname="Show Grid" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Show Value" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Show Slider" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Show Connections" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Show Background" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Sticky Slider" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Allow MouseOffset" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Minimum" pintype="Configuration" slicecount="1" values="-1000.00000">
+   </PIN>
+   <PIN pinname="Maximum" pintype="Configuration" slicecount="1" values="1000.00000">
+   </PIN>
+   <PIN pinname="Slider Alignment" pintype="Configuration" slicecount="1" values="Grid">
+   </PIN>
+   <PIN pinname="Slider Constraints" pintype="Configuration" slicecount="1" values="scX">
+   </PIN>
+   <PIN pinname="Slider Behavior" pintype="Configuration" slicecount="1" values="Endless">
+   </PIN>
+   <PIN pinname="SliceOffset" pintype="Input" visible="0" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="X Input Value" pintype="Input" visible="0" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="X Output Value" pintype="Output" visible="0">
+   </PIN>
+   <PIN pinname="Y Output Value" pintype="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="1" srcpinname="NoteOut" dstnodeid="8" dstpinname="Y Input Value">
+   </LINK>
+   <NODE id="9" nodename="IOBox (Value Advanced)" componentmode="InABox" hiddenwhenlocked="0" managers="">
+   <PIN pinname="Y Input Value" visible="1" pintype="Input" slicecount="1">
+   </PIN>
+   <BOUNDS type="Node" left="1695" top="4110" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1695" top="4110" width="780" height="2175">
+   </BOUNDS>
+   <PIN pinname="Rows" slicecount="1" pintype="Configuration" values="10.00000">
+   </PIN>
+   <BOUNDS type="Window" left="4590" top="4635" width="215" height="160">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" pintype="Configuration" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="SliceCount Mode" pintype="Configuration" slicecount="1" values="Input">
+   </PIN>
+   <PIN pinname="Columns" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Pages" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Show SliceIndex" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Font" pintype="Configuration" slicecount="1" values="|Lucida Sans Unicode|">
+   </PIN>
+   <PIN pinname="Size" pintype="Configuration" slicecount="1" values="7.00000">
+   </PIN>
+   <PIN pinname="Show Grid" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Show Value" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Show Slider" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Show Connections" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Show Background" pintype="Configuration" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Sticky Slider" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Allow MouseOffset" pintype="Configuration" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Minimum" pintype="Configuration" slicecount="1" values="-1000.00000">
+   </PIN>
+   <PIN pinname="Maximum" pintype="Configuration" slicecount="1" values="1000.00000">
+   </PIN>
+   <PIN pinname="Slider Alignment" pintype="Configuration" slicecount="1" values="Grid">
+   </PIN>
+   <PIN pinname="Slider Constraints" pintype="Configuration" slicecount="1" values="scX">
+   </PIN>
+   <PIN pinname="Slider Behavior" pintype="Configuration" slicecount="1" values="Endless">
+   </PIN>
+   <PIN pinname="SliceOffset" pintype="Input" visible="0" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="X Input Value" pintype="Input" visible="0" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="X Output Value" pintype="Output" visible="0">
+   </PIN>
+   <PIN pinname="Y Output Value" pintype="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="1" srcpinname="VelocityOut" dstnodeid="9" dstpinname="Y Input Value">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="13">
+   <BOUNDS type="Node" left="345" top="2925" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Window" left="3885" top="3660" width="215" height="160">
+   </BOUNDS>
+   <BOUNDS type="Box" left="345" top="2925" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="1" values="0.00000">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="13" srcpinname="Y Output Value" dstnodeid="1" dstpinname="MidiChannel (0..15)">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="14">
+   <BOUNDS type="Node" left="345" top="990" width="3720" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="345" top="990" width="2295" height="450">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="215" height="160">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="MidiNotePlayed">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Size" slicecount="1" values="13.00000">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="15">
+   <BOUNDS type="Node" left="345" top="1470" width="3735" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="345" top="1470" width="3630" height="705">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="215" height="160">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|outputs the currently played midi notes and velocity as spread|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0.00000">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="16">
+   <BOUNDS type="Node" left="345" top="2565" width="690" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="345" top="2565" width="690" height="270">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="215" height="160">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="channel">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0.00000">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="17">
+   <BOUNDS type="Node" left="1350" top="2835" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Window" left="4680" top="4170" width="215" height="160">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1350" top="2835" width="450" height="450">
+   </BOUNDS>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="Slider Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Show Value" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0.00000">
+   </PIN>
+   <PIN pinname="Show Slider" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1.00000">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="1" values="1.00000">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="1" dstpinname="Enabled">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="18">
+   <BOUNDS type="Node" left="2430" top="2940" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Window" left="6930" top="5055" width="215" height="160">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2430" top="2940" width="1755" height="285">
+   </BOUNDS>
+   <PIN pinname="Output Enum" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="18" srcpinname="Output Enum" dstnodeid="1" dstpinname="MidiInPort">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="19">
+   <BOUNDS type="Node" left="2430" top="2550" width="825" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2430" top="2550" width="825" height="270">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="215" height="160">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|midi port|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0.00000">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="20">
+   <BOUNDS type="Node" left="1350" top="2430" width="690" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1350" top="2430" width="690" height="270">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="215" height="160">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="enabled">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0.00000">
+   </PIN>
+   </NODE>
+   </PATCH>

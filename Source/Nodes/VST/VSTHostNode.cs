@@ -77,7 +77,7 @@ namespace VVVV.Nodes
 			}
 		}
 		
-		protected override void FillBuffer(float[][] buffer, int offset, int count)
+		protected override void FillBuffers(float[][] buffer, int offset, int count)
 		{
 			ManageBuffers(count);
 			

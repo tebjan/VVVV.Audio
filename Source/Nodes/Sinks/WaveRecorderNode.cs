@@ -100,7 +100,7 @@ namespace VVVV.Nodes
         [Input("Write")]
         IDiffSpread<bool> FWriteIn;
 
-        [Input("Filename", DefaultString = "MyNextBigHit", StringType = StringType.Filename, FileMask = ".wav")]
+        [Input("Filename", DefaultString = "MyNextBigHit.wav", StringType = StringType.Filename, FileMask = ".wav")]
         IDiffSpread<string> FNameIn;
 
         [Output("Samples Written")]

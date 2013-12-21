@@ -27,13 +27,11 @@ namespace VVVV.Audio
 	    /// <summary>
 	    /// Create a new circular buffer
 	    /// </summary>
-	    /// <param name="size">Max buffer size in bytes</param>
-	    /// <param name="input">The input provider to pull from</param></param>
-	    public CircularPullBuffer(int size, ISampleProvider input)
+	    /// <param name="size">Max buffer size in samples</param>
+	    public CircularPullBuffer(int size)
 	    {
 	    	FBuffer = new float[size];
 	    	PullCount = 1024;
-	    	Input = input;
 	    }
 	    
 	    public ISampleProvider Input

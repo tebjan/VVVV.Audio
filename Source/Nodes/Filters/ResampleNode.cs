@@ -25,8 +25,8 @@ namespace VVVV.Nodes
 	{
 		R8BrainSampleRateConverter FConverter;
 		
-		public ResamplerPullBuffer(ISampleProvider input, R8BrainSampleRateConverter converter)
-			: base(4096, input)
+		public ResamplerPullBuffer(R8BrainSampleRateConverter converter)
+			: base(4096)
 		{
 			FConverter = converter;
 			
@@ -41,6 +41,30 @@ namespace VVVV.Nodes
 		double[] FInBuffer = new double[1];
 		double[] FOutBuffer = new double[1];
 		float[] FOutFloats = new float[1];
+
+        private AudioSignal FInput;
+
+        public new AudioSignal Input
+        {
+            get 
+            { 
+                return FInput; 
+            }
+            set 
+            {
+                if (FInput != value)
+                {
+                    if(FInput != null)
+                        FInput.ReleaseOwnership(this);
+                    
+                    FInput = value;
+
+                    if(FInput != null)
+                        FInput.TakeOwnership(this);
+                }
+            }
+        }
+
 		
 		public override void Pull(int count)
 		{
@@ -52,6 +76,7 @@ namespace VVVV.Nodes
 	    	
 	    	if(Input != null)
 	    	{
+                Input.Reset(this);
 	    		Input.Read(FTmpBuffer, 0, count);
 	    	}
 	    	else
@@ -71,7 +96,6 @@ namespace VVVV.Nodes
 	    	FOutFloats.WriteDouble(FOutBuffer, 0, samples);
 	    	
 	    	Write(FOutFloats, 0, samples);
-
 		}
 
 	}
@@ -96,7 +120,8 @@ namespace VVVV.Nodes
 			if(FConverter == null || FConverter.SourcRate != srcRate || FConverter.DestinationRate != dstRate)
 			{
 				FConverter = new R8BrainSampleRateConverter(srcRate, dstRate, 4096, reqTransBand, R8BrainResamplerResolution.R8Brain24);
-				FPullBuffer = new ResamplerPullBuffer(FInput, FConverter);
+				FPullBuffer = new ResamplerPullBuffer(FConverter);
+                FPullBuffer.Input = FInput;
 			}
 		}
 		

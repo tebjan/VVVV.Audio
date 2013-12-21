@@ -84,7 +84,7 @@ namespace VVVV.Nodes
         public override void Evaluate(int SpreadMax)
         {
             CalculatedSpreadMax = GetSpreadMax(SpreadMax);
-            GetSignalSpread().ResizeAndDispose(CalculatedSpreadMax, GetInstance);
+            GetSignalSpread().Resize(CalculatedSpreadMax, GetInstance, x => { if(x != null) x.Dispose(); } );
 
             if (AnyInputChanged())
             {
@@ -336,6 +336,8 @@ namespace VVVV.Nodes
 		{
 			base.Evaluate(SpreadMax);
 			
+			SetOutputSliceCount(CalculatedSpreadMax);
+			
 			for(int i=0; i<CalculatedSpreadMax; i++)
 			{
 				var audioSignal = FInternalSignals[i];
@@ -351,6 +353,12 @@ namespace VVVV.Nodes
 		/// <param name="i">Current slice index</param>
 		/// <param name="instance">Current instance</param>
 		protected abstract void SetOutputs(int i, TSignal instance);
+		
+		/// <summary>
+		/// In this method the slicecount of the output pins should be set
+		/// </summary>
+		/// <param name="sliceCount"></param>
+		protected abstract void SetOutputSliceCount(int sliceCount);
 	}
 	
 	

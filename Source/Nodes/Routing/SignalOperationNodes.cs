@@ -147,7 +147,10 @@ namespace VVVV.Nodes
 		{
 			if(Inputs.IsChanged)
 			{
-				OutBuffer.Resize(Inputs.SliceCount, () => { return new TOperator(); }, s => { if(s != null) s.Dispose(); });
+				var count = Inputs.SliceCount;
+				if(Inputs[0].SliceCount == 0) count = 0;
+					
+				OutBuffer.Resize(count, () => { return new TOperator(); }, s => { if(s != null) s.Dispose(); });
 				for(int outSlice=0; outSlice<OutBuffer.SliceCount; outSlice++)
 				{
 					if(OutBuffer[outSlice] == null) OutBuffer[outSlice] = new TOperator();

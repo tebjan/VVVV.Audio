@@ -44,6 +44,39 @@ namespace VVVV.Audio
 				buffer[i+offset] = (float)(source[i+offset]);
 			}
 		}
+		
+		/// <summary>
+        /// Applies a Hamming Window
+        /// </summary>
+        /// <param name="n">Index into frame</param>
+        /// <param name="frameSize">Frame size (e.g. 1024)</param>
+        /// <returns>Multiplier for Hamming window</returns>
+        public static double HammingWindow(int n, int frameSize)
+        {
+            return 0.54 - 0.46 * Math.Cos((2 * Math.PI * n) / (frameSize - 1));
+        }
+
+        /// <summary>
+        /// Applies a Hann Window
+        /// </summary>
+        /// <param name="n">Index into frame</param>
+        /// <param name="frameSize">Frame size (e.g. 1024)</param>
+        /// <returns>Multiplier for Hann window</returns>
+        public static double HannWindow(int n, int frameSize)
+        {
+            return 0.5 * (1 - Math.Cos((2 * Math.PI * n) / (frameSize - 1)));
+        }
+
+        /// <summary>
+        /// Applies a Blackman-Harris Window
+        /// </summary>
+        /// <param name="n">Index into frame</param>
+        /// <param name="frameSize">Frame size (e.g. 1024)</param>
+        /// <returns>Multiplier for Blackmann-Harris window</returns>
+        public static double BlackmannHarrisWindow(int n, int frameSize)
+        {
+            return 0.35875 - (0.48829 * Math.Cos((2 * Math.PI * n) / (frameSize - 1))) + (0.14128 * Math.Cos((4 * Math.PI * n) / (frameSize - 1))) - (0.01168 * Math.Cos((6 * Math.PI * n) / (frameSize - 1)));
+        }
 	}
 	
 

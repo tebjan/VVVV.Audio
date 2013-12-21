@@ -51,7 +51,7 @@ namespace VVVV.Nodes
 		}
 		
 		float[] FFileBuffer = new float[1];
-		protected override void FillBuffer(float[][] buffer, int offset, int sampleCount)
+		protected override void FillBuffers(float[][] buffer, int offset, int sampleCount)
 		{
 			var channels = FAudioFile.WaveFormat.Channels;
 			var samplesToRead = sampleCount*channels;
@@ -206,6 +206,8 @@ namespace VVVV.Nodes
                 	instance.LoopStartTime = TimeSpan.FromSeconds(FLoopStart[i]);
                 	instance.LoopEndTime = TimeSpan.FromSeconds(FLoopEnd[i]);
                 	
+                	SetOutputSliceCount(CalculatedSpreadMax);
+                	
                     FDurationOut[i] = instance.FAudioFile.TotalTime.TotalSeconds;
                     FCanSeekOut[i] = instance.FAudioFile.CanSeek;
                     FChannelsOut[i] = instance.FAudioFile.OriginalFileFormat.Channels;
@@ -267,6 +269,16 @@ namespace VVVV.Nodes
 				if(instance.FSeekTime < instance.LoopStartTime) instance.FRunToEndBeforeLooping = false;
 				instance.FAudioFile.CurrentTime = TimeSpan.FromSeconds(FSeekPosition[i]);
 			}
+		}
+		
+		protected override void SetOutputSliceCount(int sliceCount)
+		{
+			FPositionOut.SliceCount = sliceCount;
+			FDurationOut.SliceCount = sliceCount;
+			FChannelsOut.SliceCount = sliceCount;
+			FSampleRateOut.SliceCount = sliceCount;
+			FCanSeekOut.SliceCount = sliceCount;
+			FFileFormatOut.SliceCount = sliceCount;
 		}
 		
 		protected override void SetOutputs(int i, FileStreamSignal instance)

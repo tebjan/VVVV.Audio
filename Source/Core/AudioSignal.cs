@@ -39,18 +39,52 @@ namespace VVVV.Audio
 	/// </summary>
 	public class AudioSignalBase : IDisposable
 	{
+        //this object is allowed to call Reset, usually the engine itself
+        private object FSyncOwner = null;
+
 		public AudioSignalBase()
 		{
 			AudioService.Engine.FinishedReading += EngineFinishedReading;
+            FSyncOwner = AudioService.Engine;
 			System.Diagnostics.Debug.WriteLine("Signal Created: " + this.GetType());
 		}
+
+        /// <summary>
+        /// If a class wants to call buffers not synced to the engine,
+        /// it can register itself with this method
+        /// </summary>
+        /// <param name="newOwner"></param>
+        public void TakeOwnership(object newOwner)
+        {
+            FSyncOwner = newOwner;
+        }
+
+        /// <summary>
+        /// Sets the sync owner back to the engine
+        /// </summary>
+        /// <param name="currentOwner">The owner which wants to be released</param>
+        public void ReleaseOwnership(object currentOwner)
+        {
+            if (FSyncOwner == currentOwner)
+                FSyncOwner = AudioService.Engine;
+        }
 		
 		protected bool FNeedsRead = true;
 		protected void EngineFinishedReading(object sender, EventArgs e)
 		{
-			FNeedsRead = true;
+            Reset(sender);
 		}
-		
+
+        /// <summary>
+        /// Tells the signal that this frame is over and it should calculate a new buffer
+        /// </summary>
+        /// <param name="owner"></param>
+        public void Reset(object owner)
+        {
+            if(owner == FSyncOwner)
+                FNeedsRead = true;
+        }
+
 		public virtual void Dispose()
 		{
 			AudioService.Engine.FinishedReading -= EngineFinishedReading;
@@ -101,10 +135,11 @@ namespace VVVV.Audio
 	    	//TODO: find solid way to decide whether buffer copy is needed
 	    	if(true || NeedsBufferCopy)
 	    	{
-	    		//ensure buffer size
-	    		FReadBuffer = BufferHelpers.Ensure(FReadBuffer, count);
-	    		if(FReadBuffer.Length > count)
-	    			FReadBuffer = new float[count];
+                //ensure internal buffer size and shrink size if too large
+                if (FReadBuffer.Length < count || FReadBuffer.Length > (count * 2))
+                {
+                    FReadBuffer = new float[count];
+                }
 	    		
 	    		//first call per frame
 	    		if(FNeedsRead)

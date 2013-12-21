@@ -38,7 +38,7 @@ namespace VVVV.Nodes
 		}
 		
 		float[] FTempBuffer = new float[1];
-		protected override void FillBuffer(float[][] buffer, int offset, int count)
+		protected override void FillBuffers(float[][] buffer, int offset, int count)
 		{
 			if(FInput != null && FInput.SliceCount != 0)
 			{

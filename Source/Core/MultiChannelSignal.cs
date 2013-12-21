@@ -67,7 +67,7 @@ namespace VVVV.Audio
 				FReadBuffers = new float[FOutputCount][];
 			}
 			
-			//make sure new buffers get assigned
+			//make sure new buffers get assigned by the manage buffers method
 			FReadBuffers[0] = new float[0];
 		}
 		
@@ -96,7 +96,7 @@ namespace VVVV.Audio
 			if(FNeedsRead)
 			{
 				ManageBuffers(count);
-				FillBuffer(FReadBuffers, offset, count);
+				FillBuffers(FReadBuffers, offset, count);
 				FNeedsRead = false;
 			}
 			
@@ -106,10 +106,10 @@ namespace VVVV.Audio
 		/// <summary>
 		/// Does the actual work
 		/// </summary>
-		/// <param name="buffer"></param>
+		/// <param name="buffers"></param>
 		/// <param name="offset"></param>
 		/// <param name="count"></param>
-		protected virtual void FillBuffer(float[][] buffer, int offset, int count)
+		protected virtual void FillBuffers(float[][] buffers, int offset, int count)
 		{
 			
 		}
