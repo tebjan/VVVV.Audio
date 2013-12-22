@@ -28,7 +28,7 @@ namespace VVVV.Nodes
 {
 	public class VSTSignal : MultiChannelInputSignal
 	{
-		protected VstPluginContext PluginContext;
+		public VstPluginContext PluginContext;
 		protected int inputCount, outputCount;
 		
 		public VSTSignal(VstPluginContext ctx, ISpread<AudioSignal> input)
@@ -131,7 +131,7 @@ namespace VVVV.Nodes
 	}
 	
 	[PluginInfo(Name = "VSTHost", Category = "Audio", Version = "Source", Help = "Loads a VST plugin", AutoEvaluate = true, Tags = "plugin, effect")]
-	public class VSTHostNode : UserControl, IPluginEvaluate
+	public class VSTHostNode : UserControl, IPluginEvaluate, IDisposable
 	{
 		[Input("Input")]
 		IDiffSpread<AudioSignal> Input;
@@ -139,13 +139,14 @@ namespace VVVV.Nodes
 		[Output("Output")]
 		ISpread<AudioSignal> OutBuffer;
 		
-		VstPluginContext PluginContext;
 		VSTSignal VstSignal;
 		
 		IHDEHost FHost;
 		
 		[Import]
 		IPluginHost FPlugHost;
+		
+		VstPluginContext PluginContext;
 		
 		[ImportingConstructor]
 		public VSTHostNode([Import] IHDEHost host)
@@ -192,13 +193,13 @@ namespace VVVV.Nodes
 			if(Input.IsChanged)
 			{
 				VstSignal = new VSTSignal(PluginContext, Input);
-				OutBuffer.SliceCount = PluginContext.PluginInfo.AudioOutputCount;
+				OutBuffer.SliceCount = VstSignal.PluginContext.PluginInfo.AudioOutputCount;
 				OutBuffer.AssignFrom(VstSignal.Outputs);
 			}
 			
 			//let plugin editor draw itself
 			if(FFrameDivider == 0)
-				PluginContext.PluginCommandStub.EditorIdle();
+				VstSignal.PluginContext.PluginCommandStub.EditorIdle();
 			
 			FFrameDivider++;
 			FFrameDivider %= 4;

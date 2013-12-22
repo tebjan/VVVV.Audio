@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Jacobi.Vst.Core;
 using Jacobi.Vst.Core.Host;
 using Jacobi.Vst.Interop.Host;
 
@@ -46,6 +46,7 @@ namespace VVVV.Audio.VST
         public Jacobi.Vst.Core.VstCanDoResult CanDo(string cando)
         {
             RaisePluginCalled("CanDo(" + cando + ")");
+            if(cando == "shellCategory") return VstCanDoResult.Yes;
             return Jacobi.Vst.Core.VstCanDoResult.Unknown;
         }
 
@@ -190,7 +191,7 @@ namespace VVVV.Audio.VST
         public int GetCurrentPluginID()
         {
             RaisePluginCalled("GetCurrentPluginID()");
-            return PluginContext.PluginInfo.PluginID;
+            return 0;
         }
 
         /// <inheritdoc />

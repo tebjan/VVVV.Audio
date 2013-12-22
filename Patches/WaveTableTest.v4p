@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
    <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Patches\WaveTableTest.v4p" filename="C:\Dev\vvvv\VVVV.Audio\Patches\WaveTableTest.v4p" systemname="WaveTableTest">
-   <BOUNDS height="14340" left="9675" top="600" type="Window" width="14670">
+   <BOUNDS height="14340" left="2940" top="495" type="Window" width="14670">
    </BOUNDS>
    <NODE componentmode="InAWindow" id="2" nodename="Renderer (TTY)" systemname="Renderer (TTY)">
    <BOUNDS height="100" left="10830" top="9240" type="Node" width="100">
@@ -453,7 +453,7 @@
    </BOUNDS>
    <PIN pinname="Current Note" visible="1">
    </PIN>
-   <BOUNDS height="14340" left="9675" top="600" type="Window" width="14670">
+   <BOUNDS height="14340" left="2940" top="495" type="Window" width="14670">
    </BOUNDS>
    <PIN pinname="4th" visible="1">
    </PIN>
@@ -469,7 +469,7 @@
    </PIN>
    <PIN pinname="Normalize" slicecount="1" values="1">
    </PIN>
-   <BOUNDS height="14340" left="9675" top="600" type="Window" width="14670">
+   <BOUNDS height="14340" left="2940" top="495" type="Window" width="14670">
    </BOUNDS>
    <PIN pinname="N" slicecount="1" values="0.11">
    </PIN>
@@ -480,18 +480,6 @@
    </NODE>
    <LINK dstnodeid="42" dstpinname="Y Input Value" srcnodeid="185" srcpinname="Current Note">
    </LINK>
-   <NODE componentmode="Hidden" filename="NoteToFreq.v4p" id="187" nodename="NoteToFreq.v4p" systemname="NoteToFreq">
-   <BOUNDS height="100" left="4398" top="6420" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="6075" left="11835" top="4095" type="Window" width="5535">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Base Freq" slicecount="1" values="440">
-   </PIN>
-   </NODE>
    <NODE componentmode="Hidden" filename="WindowFunc.v4p" id="188" nodename="WindowFunc.v4p" systemname="WindowFunc">
    <BOUNDS height="100" left="2019" top="6021" type="Node" width="100">
    </BOUNDS>
@@ -521,7 +509,7 @@
    </BOUNDS>
    <BOUNDS height="510" left="1275" top="2490" type="Box" width="465">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="2">
+   <PIN pinname="Y Input Value" slicecount="1" values="3">
    </PIN>
    <PIN encoded="0" pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -613,7 +601,7 @@
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
-   <BOUNDS type="Window" left="9675" top="600" width="14670" height="14340">
+   <BOUNDS type="Window" left="2940" top="495" width="14670" height="14340">
    </BOUNDS>
    <PIN pinname="Input - Y" slicecount="1" visible="1" values="0.62">
    </PIN>
@@ -625,7 +613,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="3615" top="7350" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="220">
+   <PIN pinname="Y Input Value" visible="1">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -662,8 +650,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="|Delay Time|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="187" srcpinname="Output" dstnodeid="221" dstpinname="Y Input Value">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="224" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="315" top="3120" width="480" height="480">
    </BOUNDS>
@@ -1049,13 +1035,11 @@
    </PIN>
    <PIN pinname="Enabled" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="MidiInPort" slicecount="1" values="|Virus TI MIDI|">
+   <PIN pinname="MidiInPort" slicecount="1" values="|01. Internal MIDI|">
    </PIN>
    <PIN pinname="MidiChannel (0..15)" slicecount="1" values="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="252" srcpinname="NoteOut" dstnodeid="187" dstpinname="Input">
-   </LINK>
    <NODE componentmode="Hidden" id="253" nodename="ADSR (Animation)" systemname="ADSR (Animation)">
    <BOUNDS height="100" left="2565" top="7500" type="Node" width="100">
    </BOUNDS>
@@ -1123,5 +1107,25 @@
    <LINK srcnodeid="254" srcpinname="Audio Out" dstnodeid="258" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="258" srcpinname="Output" dstnodeid="246" dstpinname="Input">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="259" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="7200" top="8535" width="2460" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="7200" top="8535" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" values="|Maya44 USBAudio ASIO driver|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="259" srcpinname="Output Enum" dstnodeid="245" dstpinname="Driver">
+   </LINK>
+   <NODE componentmode="Hidden" filename="NoteToFreq.v4p" id="260" nodename="NoteToFreq.v4p" systemname="NoteToFreq">
+   <BOUNDS height="100" left="4098" top="6435" type="Node" width="100">
+   </BOUNDS>
+   <BOUNDS height="6075" left="11835" top="4095" type="Window" width="5535">
+   </BOUNDS>
+   <PIN pinname="Input" slicecount="1" values="64">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="260" srcpinname="Output" dstnodeid="221" dstpinname="Y Input Value">
    </LINK>
    </PATCH>
