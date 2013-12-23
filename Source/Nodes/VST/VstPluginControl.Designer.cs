@@ -166,6 +166,7 @@ namespace VVVV.Nodes.Nodes.VST
             this.CountLabel.Size = new System.Drawing.Size(19, 20);
             this.CountLabel.TabIndex = 3;
             this.CountLabel.Text = "0";
+            this.CountLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // VstPluginControl
             // 

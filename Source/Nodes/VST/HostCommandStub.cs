@@ -34,12 +34,15 @@ namespace VVVV.Audio.VST
 
         #region IVstHostCommands20 Members
 
+        bool FEditing;
+
         /// <inheritdoc />
         public bool BeginEdit(int index)
         {
             RaisePluginCalled("BeginEdit(" + index + ")");
+            FEditing = true;
 
-            return false;
+            return true;
         }
 
         /// <inheritdoc />
@@ -56,12 +59,16 @@ namespace VVVV.Audio.VST
             RaisePluginCalled("CloseFileSelector(" + fileSelect.Command + ")");
             return false;
         }
-
+        public Action RaiseSave;
         /// <inheritdoc />
         public bool EndEdit(int index)
         {
             RaisePluginCalled("EndEdit(" + index + ")");
-            return false;
+            FEditing = false;
+
+            if (RaiseSave != null) RaiseSave();
+
+            return true;
         }
 
         /// <inheritdoc />
@@ -124,7 +131,7 @@ namespace VVVV.Audio.VST
         public float GetSampleRate()
         {
             RaisePluginCalled("GetSampleRate()");
-            return 44.8f;
+            return AudioService.Engine.Settings.SampleRate;
         }
 
         /// <inheritdoc />
@@ -139,7 +146,7 @@ namespace VVVV.Audio.VST
         public string GetVendorString()
         {
             RaisePluginCalled("GetVendorString()");
-            return "Jacobi Software";
+            return "vvvv";
         }
 
         /// <inheritdoc />
@@ -212,6 +219,12 @@ namespace VVVV.Audio.VST
         public void SetParameterAutomated(int index, float value)
         {
             RaisePluginCalled("SetParameterAutomated(" + index + ", " + value + ")");
+            if (!FEditing)
+            {
+                if (RaiseSave != null)
+                    RaiseSave();
+            }
+
         }
 
         #endregion

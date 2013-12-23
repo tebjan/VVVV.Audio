@@ -63,7 +63,6 @@ namespace VVVV.Nodes.Nodes.VST
         {
             ProgramComboBox.Items.Clear();
             ProgramComboBox.Items.AddRange(FSelectedSignal.ProgramNames);
-            ProgramComboBox.SelectedIndex = FSelectedSignal.PluginContext.PluginCommandStub.GetProgram();
         }
         
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -114,6 +113,7 @@ namespace VVVV.Nodes.Nodes.VST
             PluginPanel.Controls.Clear();
         }
 
+        //select program
         private void ProgramComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             FSelectedSignal.PluginContext.PluginCommandStub.SetProgram(ProgramComboBox.SelectedIndex);

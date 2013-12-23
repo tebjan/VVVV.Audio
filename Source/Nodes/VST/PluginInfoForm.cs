@@ -18,7 +18,6 @@ namespace VVVV.Audio.VST
         public void DataToForm()
         {
             FillPropertyList();
-            FillProgram();
             FillParameterList();
         }
 
@@ -83,12 +82,6 @@ namespace VVVV.Audio.VST
             PluginPropertyListVw.Items.Add(lvItem);
         }
 
-        private void FillProgram()
-        {
-            ProgramIndexNud.Value = PluginContext.PluginCommandStub.GetProgram();
-            ProgramNameTxt.Text = PluginContext.PluginCommandStub.GetProgramName();
-        }
-
         public void FillParameterList()
         {
             PluginParameterListVw.Items.Clear();
@@ -111,18 +104,6 @@ namespace VVVV.Audio.VST
             lvItem.SubItems.Add(shortLabel);
 
             PluginParameterListVw.Items.Add(lvItem);
-        }
-
-        private void ProgramIndexNud_ValueChanged(object sender, EventArgs e)
-        {
-            if (ProgramIndexNud.Value < PluginContext.PluginInfo.ProgramCount &&
-                ProgramIndexNud.Value >= 0)
-            {
-                PluginContext.PluginCommandStub.SetProgram((int)ProgramIndexNud.Value);
-
-                FillProgram();
-                FillParameterList();
-            }
         }
 
         private void GenerateNoiseBtn_Click(object sender, EventArgs e)

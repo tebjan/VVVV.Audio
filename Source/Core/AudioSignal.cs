@@ -101,6 +101,7 @@ namespace VVVV.Audio
 		public AudioSignal()
 	    {
 			AudioService.Engine.Settings.SampleRateChanged += Engine_SampleRateChanged;
+            AudioService.Engine.Settings.BufferSizeChanged += Engine_BufferSizeChanged;
 			Engine_SampleRateChanged(null, null);
 		}
 
@@ -110,6 +111,11 @@ namespace VVVV.Audio
 			this.SampleRate = AudioService.Engine.Settings.SampleRate;
 			this.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(this.SampleRate, 1);
 		}
+
+        protected virtual void Engine_BufferSizeChanged(object sender, EventArgs e)
+        {
+            this.BufferSize = AudioService.Engine.Settings.BufferSize;
+        }
 		
 	    public WaveFormat WaveFormat
 	    {
@@ -122,6 +128,7 @@ namespace VVVV.Audio
 	    /// Current sample rate as set by the engine
 	    /// </summary>
 	    protected int SampleRate;
+        protected int BufferSize;
 		protected float[] FReadBuffer = new float[1];
 		
 		public bool NeedsBufferCopy
@@ -173,9 +180,11 @@ namespace VVVV.Audio
 		public override void Dispose()
 		{
 			AudioService.Engine.Settings.SampleRateChanged -= Engine_SampleRateChanged;
+            AudioService.Engine.Settings.BufferSizeChanged -= Engine_BufferSizeChanged;
 			base.Dispose();
 		}
-	}
+
+    }
 	
 	/// <summary>
 	/// Base class for audio signals with input

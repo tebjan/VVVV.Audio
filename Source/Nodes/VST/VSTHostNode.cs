@@ -35,11 +35,29 @@ namespace VVVV.Nodes
 	[PluginInfo(Name = "VSTHost", Category = "Audio", Version = "Source", Help = "Loads a VST plugin", AutoEvaluate = true, Tags = "plugin, effect")]
     public class VSTHostNode : UserControl, IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification
 	{
+        [Config("Safe Data")]
+        ISpread<string> FSafeConfig;
+
 		[Input("Input", BinSize = 2)]
 		IDiffSpread<ISpread<AudioSignal>> FInputSignals;
+
+        [Input("Do Send Midi", IsBang = true)]
+        ISpread<bool> FSendMidiIn;
+
+        [Input("Midi Message")]
+        IDiffSpread<int> FMsgIn;
+
+        [Input("Midi Data 1")]
+        IDiffSpread<int> FData1In;
+
+        [Input("Midi Data 2")]
+        IDiffSpread<int> FData2In;
 		
 		[Input("Filename", StringType = StringType.Filename, FileMask="VST Plugin (*.dll, *.vst3)|*.dll;*.vst3")]
 		IDiffSpread<string> FFilename;
+
+        [Input("Auto Save", DefaultValue = 1)]
+        ISpread<bool> FAutosafeIn;
 		
 		[Output("Audio Out", Order = -10)]
 		protected Pin<AudioSignal> FOutputSignals;
@@ -186,14 +204,16 @@ namespace VVVV.Nodes
             for(int i=0; i < CalculatedSpreadMax; i++)
             {
             	var audioSignal = FInternalSignals[i];
-            	
-            	SetOutputs(i, audioSignal);
-
-                if (audioSignal.PluginContext != null)
+                if (audioSignal != null)
                 {
-                    //let plugin editor draw itself
-                    if (FFrameDivider == 0)
-                        audioSignal.PluginContext.PluginCommandStub.EditorIdle();
+                    SetOutputs(i, audioSignal);
+
+                    if (audioSignal.PluginContext != null)
+                    {
+                        //let plugin editor draw itself
+                        if (FFrameDivider == 0)
+                            audioSignal.PluginContext.PluginCommandStub.EditorIdle();
+                    }
                 }
             }
 
@@ -225,7 +245,10 @@ namespace VVVV.Nodes
         /// <returns>New instnace of the audio signal class</returns>
         protected VSTSignal GetInstance(int i)
         {
-        	return new VSTSignal(FFilename[i], this);
+            
+        	var vst = new VSTSignal(FFilename[i], this);
+            vst.LoadFromSafeString(FSafeConfig[i]);
+            return vst;
         }
         
         protected void DisposeInstance(VSTSignal instance)
@@ -245,6 +268,11 @@ namespace VVVV.Nodes
         {
         	instance.Input = FInputSignals[i];
             instance.Filename = FFilename[i];
+
+            if (FSendMidiIn[i])
+            {
+                instance.SetMidiEvent((byte)FMsgIn[i], (byte)FData1In[i], (byte)FData2In[i]);
+            }
         }
 		
 		/// <summary>
@@ -254,7 +282,12 @@ namespace VVVV.Nodes
 		/// <param name="instance">Current instance</param>
 		protected void SetOutputs(int i, VSTSignal instance)
 		{
-			
+            if (FAutosafeIn[i] && instance.NeedsSave)
+            {
+                FSafeConfig[i] = instance.GetSaveString();
+                instance.NeedsSave = false;
+            }
+
 		}
 		
 		/// <summary>
@@ -263,7 +296,7 @@ namespace VVVV.Nodes
 		/// <param name="sliceCount"></param>
 		protected void SetOutputSliceCount(int sliceCount)
 		{
-			
+            if (sliceCount != FSafeConfig.SliceCount) FSafeConfig.SliceCount = sliceCount;
 		}
 
 		#endregion

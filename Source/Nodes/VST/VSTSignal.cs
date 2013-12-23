@@ -91,6 +91,8 @@ namespace VVVV.Audio.VST
                     return;
                 }
 
+                FCanEvents = PluginContext.PluginCommandStub.CanDo("receiveVstMidiEvent") == VstCanDoResult.Yes; 
+
                 InfoForm = new PluginInfoForm();
                 InfoForm.PluginContext = PluginContext;
                 InfoForm.DataToForm();
@@ -112,10 +114,69 @@ namespace VVVV.Audio.VST
                 ctx.PluginCommandStub.SetProgram(i);
                 ProgramNames[i] = ctx.PluginCommandStub.GetProgramName();
             }
-
+            
             ctx.Dispose();
         }
-		
+
+        private void SetNeedsSafe()
+        {
+            NeedsSave = true;
+        }
+
+        public string GetSaveString()
+        {
+            byte[] chunk = null;
+            if(PluginContext.PluginInfo.Flags.HasFlag(VstPluginFlags.ProgramChunks))
+            {
+                chunk = PluginContext.PluginCommandStub.GetChunk(true);
+            }
+            else //serialize the floats
+            {
+                var count = PluginContext.PluginInfo.ParameterCount;
+
+                chunk = new byte[count * 4];
+
+                for (int i = 0; i < count; i++)
+                {
+                    var floatBytes = BitConverter.GetBytes(PluginContext.PluginCommandStub.GetParameter(i));
+
+                    for (int j = 0; j < 4; j++)
+                    {
+                        chunk[i * 4 + j] = floatBytes[j];
+                    }
+                }
+            }
+
+            if (chunk != null)
+                return Convert.ToBase64String(chunk);
+            else
+                return "";
+
+        }
+
+        public void LoadFromSafeString(string safeString)
+        {
+            if (string.IsNullOrWhiteSpace(safeString)) return;
+
+            if (PluginContext.PluginInfo.Flags.HasFlag(VstPluginFlags.ProgramChunks))
+            {
+                PluginContext.PluginCommandStub.BeginSetProgram();
+                PluginContext.PluginCommandStub.SetChunk(Convert.FromBase64String(safeString), true);
+                PluginContext.PluginCommandStub.EndSetProgram();
+            }
+            else
+            {
+                var count = PluginContext.PluginInfo.ParameterCount;
+
+                var data = Convert.FromBase64String(safeString);
+
+                for (int i = 0; i < count; i++)
+                {
+                    PluginContext.PluginCommandStub.SetParameter(i, BitConverter.ToSingle(data, i*4));
+                }
+            }
+        }
+
 		private void HostCmdStub_PluginCalled(object sender, PluginCalledEventArgs e)
 		{
 			HostCommandStub hostCmdStub = (HostCommandStub)sender;
@@ -131,12 +192,14 @@ namespace VVVV.Audio.VST
 			}
 		}
 		
+        //load from file
 		private VstPluginContext OpenPlugin(string pluginPath)
 		{
 			try
 			{
 				HostCommandStub hostCmdStub = new HostCommandStub();
 				hostCmdStub.PluginCalled += new EventHandler<PluginCalledEventArgs>(HostCmdStub_PluginCalled);
+                hostCmdStub.RaiseSave = SetNeedsSafe;
 				
 				VstPluginContext ctx = VstPluginContext.Create(pluginPath, hostCmdStub);
 				
@@ -156,11 +219,41 @@ namespace VVVV.Audio.VST
 			
 			return null;
 		}
+
+        protected override void Engine_SampleRateChanged(object sender, EventArgs e)
+        {
+            base.Engine_SampleRateChanged(sender, e);
+            if(PluginContext != null)
+                PluginContext.PluginCommandStub.SetSampleRate(WaveFormat.SampleRate);
+        }
+
+        protected override void Engine_BufferSizeChanged(object sender, EventArgs e)
+        {
+            base.Engine_BufferSizeChanged(sender, e);
+            if (PluginContext != null)
+                PluginContext.PluginCommandStub.SetBlockSize(BufferSize);
+        }
+
+        //midi events
+        public VstEventCollection MidiEvents = new VstEventCollection();
+        private bool FCanEvents;
+        private bool FHasEvents;
+        public void SetMidiEvent(byte msg, byte data1, byte data2)
+        {
+            if (FCanEvents)
+            {
+                VstEvent evt = new VstMidiEvent(0, 0, 0, new byte[] { msg, data1, data2 }, 0, 0);
+                MidiEvents.Add(evt);
+                FHasEvents = true;
+            }
+        }
 		
+        //unmanaged buffers
 		VstAudioBufferManager FInputMgr = new VstAudioBufferManager(2, 1);
         VstAudioBufferManager FOutputMgr = new VstAudioBufferManager(2, 1);
 		VstAudioBuffer[] FInputBuffers;
 		VstAudioBuffer[] FOutputBuffers;
+        
 		protected void ManageBuffers(int count)
 		{
 			if(FInputMgr.BufferSize != count)
@@ -204,8 +297,13 @@ namespace VVVV.Audio.VST
                     }
                 }
 
-                //PluginContext.PluginCommandStub.SetBlockSize(count);
-
+                //add events?
+                if (FHasEvents)
+                {
+                    PluginContext.PluginCommandStub.ProcessEvents(MidiEvents.ToArray());
+                    MidiEvents.Clear();
+                    FHasEvents = false;
+                }
                 //process the shit
                 PluginContext.PluginCommandStub.ProcessReplacing(FInputBuffers, FOutputBuffers);
 
@@ -239,8 +337,10 @@ namespace VVVV.Audio.VST
 			
 			base.Dispose();
 		}
-		
-	}
+
+
+        public bool NeedsSave { get; set; }
+    }
 }
 
 
