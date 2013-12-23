@@ -39,10 +39,11 @@ namespace VVVV.Nodes.Nodes.VST
             this.FMainTableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.InfoButton = new System.Windows.Forms.Button();
-            this.ProgramComboBox = new System.Windows.Forms.ComboBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.EditButton = new System.Windows.Forms.Button();
             this.PluginPanel = new System.Windows.Forms.Panel();
+            this.ProgramComboBox = new System.Windows.Forms.ComboBox();
+            this.CountLabel = new System.Windows.Forms.Label();
             this.FMainTableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -67,17 +68,19 @@ namespace VVVV.Nodes.Nodes.VST
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 6;
+            this.tableLayoutPanel1.ColumnCount = 7;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Controls.Add(this.InfoButton, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.ProgramComboBox, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.numericUpDown1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.EditButton, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.InfoButton, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ProgramComboBox, 4, 0);
+            this.tableLayoutPanel1.Controls.Add(this.numericUpDown1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.EditButton, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.CountLabel, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -91,7 +94,7 @@ namespace VVVV.Nodes.Nodes.VST
             // 
             this.InfoButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.InfoButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.InfoButton.Location = new System.Drawing.Point(100, 3);
+            this.InfoButton.Location = new System.Drawing.Point(125, 3);
             this.InfoButton.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.InfoButton.Name = "InfoButton";
             this.InfoButton.Size = new System.Drawing.Size(57, 21);
@@ -100,23 +103,12 @@ namespace VVVV.Nodes.Nodes.VST
             this.InfoButton.UseVisualStyleBackColor = true;
             this.InfoButton.Click += new System.EventHandler(this.InfoButton_Click);
             // 
-            // ProgramComboBox
-            // 
-            this.ProgramComboBox.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ProgramComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ProgramComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ProgramComboBox.FormattingEnabled = true;
-            this.ProgramComboBox.Location = new System.Drawing.Point(163, 3);
-            this.ProgramComboBox.Name = "ProgramComboBox";
-            this.ProgramComboBox.Size = new System.Drawing.Size(186, 21);
-            this.ProgramComboBox.TabIndex = 1;
-            // 
             // numericUpDown1
             // 
             this.numericUpDown1.BackColor = System.Drawing.SystemColors.Control;
             this.numericUpDown1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.numericUpDown1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDown1.Location = new System.Drawing.Point(3, 4);
+            this.numericUpDown1.Location = new System.Drawing.Point(28, 4);
             this.numericUpDown1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             10000,
@@ -132,7 +124,7 @@ namespace VVVV.Nodes.Nodes.VST
             // 
             this.EditButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EditButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.EditButton.Location = new System.Drawing.Point(40, 3);
+            this.EditButton.Location = new System.Drawing.Point(65, 3);
             this.EditButton.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.EditButton.Name = "EditButton";
             this.EditButton.Size = new System.Drawing.Size(57, 21);
@@ -150,6 +142,31 @@ namespace VVVV.Nodes.Nodes.VST
             this.PluginPanel.Size = new System.Drawing.Size(737, 411);
             this.PluginPanel.TabIndex = 1;
             // 
+            // ProgramComboBox
+            // 
+            this.ProgramComboBox.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.ProgramComboBox.DisplayMember = "Text";
+            this.ProgramComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ProgramComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ProgramComboBox.FormattingEnabled = true;
+            this.ProgramComboBox.Location = new System.Drawing.Point(188, 3);
+            this.ProgramComboBox.Name = "ProgramComboBox";
+            this.ProgramComboBox.Size = new System.Drawing.Size(177, 21);
+            this.ProgramComboBox.TabIndex = 1;
+            this.ProgramComboBox.Text = "Program";
+            this.ProgramComboBox.SelectedIndexChanged += new System.EventHandler(this.ProgramComboBox_SelectedIndexChanged);
+            // 
+            // CountLabel
+            // 
+            this.CountLabel.AutoSize = true;
+            this.CountLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CountLabel.Location = new System.Drawing.Point(3, 7);
+            this.CountLabel.Margin = new System.Windows.Forms.Padding(3, 7, 3, 0);
+            this.CountLabel.Name = "CountLabel";
+            this.CountLabel.Size = new System.Drawing.Size(19, 20);
+            this.CountLabel.TabIndex = 3;
+            this.CountLabel.Text = "0";
+            // 
             // VstPluginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -160,6 +177,7 @@ namespace VVVV.Nodes.Nodes.VST
             this.Size = new System.Drawing.Size(737, 438);
             this.FMainTableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
@@ -169,7 +187,8 @@ namespace VVVV.Nodes.Nodes.VST
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button InfoButton;
         private System.Windows.Forms.Button EditButton;
-        private System.Windows.Forms.ComboBox ProgramComboBox;
         private System.Windows.Forms.Panel PluginPanel;
+        private System.Windows.Forms.ComboBox ProgramComboBox;
+        private System.Windows.Forms.Label CountLabel;
 	}
 }

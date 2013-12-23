@@ -11,6 +11,7 @@ using NAudio.Wave.Asio;
 using NAudio.Wave.SampleProviders;
 using VVVV.Core.Logging;
 using VVVV.PluginInterfaces.V2;
+using Jacobi.Vst.Core;
 
 #endregion usings
 
@@ -56,6 +57,31 @@ namespace VVVV.Audio
 			get;
 			private set;
 		}
+
+        public VstTimeInfo TimeInfo = new VstTimeInfo();
+
+        void SetupVSTTime()
+        {
+            TimeInfo.SamplePosition = Timer.BufferStart;
+            TimeInfo.SampleRate = Settings.SampleRate;
+            TimeInfo.NanoSeconds = Timer.Time * 1000000000;
+            TimeInfo.PpqPosition = Timer.Beat;
+            TimeInfo.CycleStartPosition = 0;
+            TimeInfo.BarStartPosition = Timer.Beat - (Timer.Beat % 4);
+            TimeInfo.Tempo = Timer.BPM;
+            TimeInfo.TimeSignatureNumerator = Timer.TimeSignatureNumerator;
+            TimeInfo.TimeSignatureDenominator = Timer.TimeSignatureDenominator;
+            
+
+            TimeInfo.Flags = VstTimeInfoFlags.NanoSecondsValid |
+                VstTimeInfoFlags.TempoValid | 
+                VstTimeInfoFlags.PpqPositionValid | 
+                VstTimeInfoFlags.CyclePositionValid | 
+                VstTimeInfoFlags.BarStartPositionValid | 
+                VstTimeInfoFlags.TimeSignatureValid | 
+                VstTimeInfoFlags.TransportPlaying;
+
+        }
 		
 		/// <summary>
 		/// the buffers from the audio input
@@ -102,6 +128,7 @@ namespace VVVV.Audio
 			//lock(FTimerLock) //needed?
 			{
 				Timer.Progress(calledSamples);
+                SetupVSTTime();
 			}
 		}
 		

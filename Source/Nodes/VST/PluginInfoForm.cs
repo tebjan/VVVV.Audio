@@ -89,7 +89,7 @@ namespace VVVV.Audio.VST
             ProgramNameTxt.Text = PluginContext.PluginCommandStub.GetProgramName();
         }
 
-        private void FillParameterList()
+        public void FillParameterList()
         {
             PluginParameterListVw.Items.Clear();
 
@@ -111,18 +111,6 @@ namespace VVVV.Audio.VST
             lvItem.SubItems.Add(shortLabel);
 
             PluginParameterListVw.Items.Add(lvItem);
-        }
-
-        private void PluginForm_Load(object sender, EventArgs e)
-        {
-            if (PluginContext == null)
-            {
-                //Close();
-            }
-            else
-            {
-                DataToForm();
-            }
         }
 
         private void ProgramIndexNud_ValueChanged(object sender, EventArgs e)

@@ -40,27 +40,70 @@ namespace VVVV.Nodes.Nodes.VST
             protected set;
         }
 
+        //the current signal we look at
         VSTSignal FSelectedSignal;
+        public VSTSignal SelectedSignal
+        {
+            get
+            {
+                return FSelectedSignal;
+            }
+            set
+            {
+                if (FSelectedSignal != value)
+                {
+                    FSelectedSignal = value;
+                    LoadPrograms();
+                    SetEditor();
+                }
+            }
+        }
+
+        private void LoadPrograms()
+        {
+            ProgramComboBox.Items.Clear();
+            ProgramComboBox.Items.AddRange(FSelectedSignal.ProgramNames);
+            ProgramComboBox.SelectedIndex = FSelectedSignal.PluginContext.PluginCommandStub.GetProgram();
+        }
         
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            FSelectedSignal = Node.GetPluginContext((int)((NumericUpDown)sender).Value);
+            SelectedSignal = Node.GetPluginContext((int)((NumericUpDown)sender).Value);
+            LoadPrograms();
+            SetEditor();
         }
 
+        //open editor
         private void EditButton_Click(object sender, EventArgs e)
         {
             SetEditor();
         }
 
+        //open info
+        private void InfoButton_Click(object sender, EventArgs e)
+        {
+            SetInfo();
+        }
+
         private VstPluginContext OpenContext;
         void SetEditor()
         {
-            PluginPanel.Controls.Clear();
-            OpenContext = FSelectedSignal.PluginContext;
-            OpenContext.PluginCommandStub.EditorOpen(PluginPanel.Handle);
+            if (OpenContext != FSelectedSignal.PluginContext)
+            {
+                ClearCurrentView();
+                OpenContext = FSelectedSignal.PluginContext;
+                OpenContext.PluginCommandStub.EditorOpen(PluginPanel.Handle);
+            }
         }
 
         void SetInfo()
+        {
+            ClearCurrentView();
+            PluginPanel.Controls.Add(FSelectedSignal.InfoForm);
+        }
+
+        //clear all displayed info or editor
+        void ClearCurrentView()
         {
             if (OpenContext != null)
             {
@@ -69,13 +112,23 @@ namespace VVVV.Nodes.Nodes.VST
             }
 
             PluginPanel.Controls.Clear();
-            PluginPanel.Controls.Add(FSelectedSignal.InfoForm);
         }
 
-        private void InfoButton_Click(object sender, EventArgs e)
+        private void ProgramComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetInfo();
+            FSelectedSignal.PluginContext.PluginCommandStub.SetProgram(ProgramComboBox.SelectedIndex);
+            FSelectedSignal.InfoForm.FillParameterList();
         }
 
-	}
+        //set the count to display
+        int FLastCount = 0;
+        internal void SetSliceCount(int count)
+        {
+            if (FLastCount != count)
+            {
+                CountLabel.Text = count.ToString();
+                FLastCount = count;
+            }
+        }
+    }
 }

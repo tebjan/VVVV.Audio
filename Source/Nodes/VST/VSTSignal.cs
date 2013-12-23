@@ -58,6 +58,7 @@ namespace VVVV.Audio.VST
         }
 
 
+        public string[] ProgramNames = new string[0];
 
         protected void Load(string filename)
         {
@@ -94,7 +95,25 @@ namespace VVVV.Audio.VST
                 InfoForm.PluginContext = PluginContext;
                 InfoForm.DataToForm();
                 InfoForm.Dock = DockStyle.Fill;
+
+                GetProgramNames();
             }
+        }
+
+        //HACK: very evil hack
+        private void GetProgramNames()
+        {
+            var ctx = OpenPlugin(FFilename);
+
+            ProgramNames = new string[ctx.PluginInfo.ProgramCount];
+
+            for (int i = 0; i < ctx.PluginInfo.ProgramCount; i++)
+            {
+                ctx.PluginCommandStub.SetProgram(i);
+                ProgramNames[i] = ctx.PluginCommandStub.GetProgramName();
+            }
+
+            ctx.Dispose();
         }
 		
 		private void HostCmdStub_PluginCalled(object sender, PluginCalledEventArgs e)
@@ -138,8 +157,8 @@ namespace VVVV.Audio.VST
 			return null;
 		}
 		
-		VstAudioBufferManager FInputMgr;
-		VstAudioBufferManager FOutputMgr;
+		VstAudioBufferManager FInputMgr = new VstAudioBufferManager(2, 1);
+        VstAudioBufferManager FOutputMgr = new VstAudioBufferManager(2, 1);
 		VstAudioBuffer[] FInputBuffers;
 		VstAudioBuffer[] FOutputBuffers;
 		protected void ManageBuffers(int count)
@@ -159,44 +178,46 @@ namespace VVVV.Audio.VST
 		
 		protected override void FillBuffers(float[][] buffer, int offset, int count)
 		{
-			ManageBuffers(count);
-			
-			if(FInput != null)
-			{
-				FInputMgr.ClearAllBuffers();
-				for (int b = 0; b < FInputCount; b++)
-				{
-					var inSig = FInput[b];
-					if(inSig != null)
-					{
-						var vstBuffer = FInputBuffers[b%FInputCount];
-						
-						//read input, use buffer[0] as temp buffer
-						inSig.Read(buffer[0], offset, count);
-						
-						//copy to vst buffer
-						for (int i = 0; i < count; i++)
-						{
-							vstBuffer[i] += buffer[0][i];
-						}
-					}
-				}
-			}
-	
-			//PluginContext.PluginCommandStub.SetBlockSize(count);
-	
-			//process the shit
-			PluginContext.PluginCommandStub.ProcessReplacing(FInputBuffers, FOutputBuffers);
-			
-	
-			for (int i = 0; i < FOutputBuffers.Length; i++)
-			{
-				for (int j = 0; j < count; j++)
-				{
-					buffer[i][j] = FOutputBuffers[i][j];
-				}
-			}
-	
+            if (PluginContext != null)
+            {
+                ManageBuffers(count);
+
+                if (FInput != null)
+                {
+                    FInputMgr.ClearAllBuffers();
+                    for (int b = 0; b < FInputCount; b++)
+                    {
+                        var inSig = FInput[b];
+                        if (inSig != null)
+                        {
+                            var vstBuffer = FInputBuffers[b % FInputCount];
+
+                            //read input, use buffer[0] as temp buffer
+                            inSig.Read(buffer[0], offset, count);
+
+                            //copy to vst buffer
+                            for (int i = 0; i < count; i++)
+                            {
+                                vstBuffer[i] += buffer[0][i];
+                            }
+                        }
+                    }
+                }
+
+                //PluginContext.PluginCommandStub.SetBlockSize(count);
+
+                //process the shit
+                PluginContext.PluginCommandStub.ProcessReplacing(FInputBuffers, FOutputBuffers);
+
+
+                for (int i = 0; i < FOutputBuffers.Length; i++)
+                {
+                    for (int j = 0; j < count; j++)
+                    {
+                        buffer[i][j] = FOutputBuffers[i][j];
+                    }
+                }
+            }
 		}
 		
 		public override void Dispose()

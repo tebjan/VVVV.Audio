@@ -74,6 +74,9 @@ namespace VVVV.Audio
 				FBPMToTime = 60.0/FBPM;
 			}
 		}
+
+        public int TimeSignatureDenominator = 4;
+        public int TimeSignatureNumerator = 4;
 			
 	}
 }

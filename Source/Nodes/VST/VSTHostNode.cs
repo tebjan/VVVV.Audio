@@ -196,9 +196,14 @@ namespace VVVV.Nodes
                         audioSignal.PluginContext.PluginCommandStub.EditorIdle();
                 }
             }
-            
-            
-			
+
+            if (FPluginControl.SelectedSignal == null)
+            {
+                FPluginControl.SelectedSignal = FInternalSignals[0];
+            }
+
+            FPluginControl.SetSliceCount(FInternalSignals.SliceCount);
+
 			FFrameDivider++;
 			FFrameDivider %= 4;
         }

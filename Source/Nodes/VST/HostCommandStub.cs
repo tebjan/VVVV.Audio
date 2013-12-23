@@ -109,8 +109,8 @@ namespace VVVV.Audio.VST
         /// <inheritdoc />
         public Jacobi.Vst.Core.VstProcessLevels GetProcessLevel()
         {
-            RaisePluginCalled("GetProcessLevel()");
-            return Jacobi.Vst.Core.VstProcessLevels.Unknown;
+            //RaisePluginCalled("GetProcessLevel()");
+            return Jacobi.Vst.Core.VstProcessLevels.Realtime;
         }
 
         /// <inheritdoc />
@@ -130,8 +130,9 @@ namespace VVVV.Audio.VST
         /// <inheritdoc />
         public Jacobi.Vst.Core.VstTimeInfo GetTimeInfo(Jacobi.Vst.Core.VstTimeInfoFlags filterFlags)
         {
-            RaisePluginCalled("GetTimeInfo(" + filterFlags + ")");
-            return null;
+            //RaisePluginCalled("GetTimeInfo(" + filterFlags + ")");
+
+            return AudioService.Engine.TimeInfo;
         }
 
         /// <inheritdoc />
