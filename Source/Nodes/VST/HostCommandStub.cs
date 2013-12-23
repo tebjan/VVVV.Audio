@@ -46,7 +46,7 @@ namespace VVVV.Audio.VST
         public Jacobi.Vst.Core.VstCanDoResult CanDo(string cando)
         {
             RaisePluginCalled("CanDo(" + cando + ")");
-            if(cando == "shellCategory") return VstCanDoResult.Yes;
+            if(cando == "shellCategory") return VstCanDoResult.No;
             return Jacobi.Vst.Core.VstCanDoResult.Unknown;
         }
 

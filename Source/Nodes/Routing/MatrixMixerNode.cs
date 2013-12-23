@@ -26,8 +26,9 @@ namespace VVVV.Nodes
 	public class MatrixMixerSignal : MultiChannelInputSignal
 	{
 		public MatrixMixerSignal(ISpread<AudioSignal> input, int outChannels)
-			: base(input, outChannels)
 		{
+			Input = input;
+			SetOutputCount(outChannels);
 			GainMatrix = new Spread<float>(outChannels);
 		}
 		

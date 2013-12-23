@@ -49,10 +49,10 @@ namespace VVVV.Audio
 	public class MultiChannelSignal : AudioSignal
 	{
 		protected int FOutputCount;
-		public MultiChannelSignal(int outputCount)
+		public MultiChannelSignal()
 		{
 			Outputs = new Spread<AudioSignal>();
-			SetOutputCount(outputCount);
+			SetOutputCount(2);
 		}
 		
 		protected void SetOutputCount(int newCount)
@@ -117,13 +117,34 @@ namespace VVVV.Audio
 	
 	public class MultiChannelInputSignal : MultiChannelSignal
 	{
-		protected ISpread<AudioSignal> FInput;
-		
-		public MultiChannelInputSignal(ISpread<AudioSignal> inputs, int outputCount)
-			: base(outputCount)
+				/// <summary>
+		/// The input signal
+		/// </summary>
+		public ISpread<AudioSignal> Input
 		{
-			FInput = inputs;
+			get
+			{
+				return FInput;
+			}
+			set
+			{
+				if(FInput != value)
+				{
+					FInput = value;
+					InputWasSet(value);
+				}
+			}
 		}
+
+		/// <summary>
+		/// Override in sub class to know when the input has changed
+		/// </summary>
+		/// <param name="newInput"></param>
+		protected virtual void InputWasSet(ISpread<AudioSignal> newInput)
+		{	
+		}
+		
+		protected ISpread<AudioSignal> FInput;
 	}
 }
 

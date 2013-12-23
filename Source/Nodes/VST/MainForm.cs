@@ -132,7 +132,7 @@ namespace VVVV.Audio.VST
 
         private void ViewPluginBtn_Click(object sender, EventArgs e)
         {
-            PluginForm dlg = new PluginForm();
+            PluginInfoForm dlg = new PluginInfoForm();
             dlg.PluginContext = SelectedPluginContext;
 
             //dlg.ShowDialog(this);

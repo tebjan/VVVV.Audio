@@ -33,7 +33,6 @@ namespace VVVV.Nodes
 		public SilenceProvider FSilence;
 
 		public FileStreamSignal()
-			: base(2)
 		{
 			FSilence = new SilenceProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2));
 		}

@@ -1,17 +1,17 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.dtd" >
    <PATCH nodename="C:\Dev\vvvv\VVVV.Audio\Patches\VSTTest.v4p" systemname="VSTTest" filename="C:\Dev\vvvv\VVVV.Audio\Patches\VSTTest.v4p">
-   <BOUNDS type="Window" left="11640" top="6345" width="9000" height="6000">
+   <BOUNDS type="Window" left="13395" top="4620" width="9000" height="6000">
    </BOUNDS>
    <NODE systemname="AudioEngine (Audio)" filename="plugins\bin\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden" id="0">
-   <BOUNDS type="Node" left="4155" top="2130" width="100" height="100">
+   <BOUNDS type="Node" left="6240" top="1935" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="1" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="4140" top="480" width="480" height="480">
+   <BOUNDS type="Box" left="6225" top="285" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="4140" top="480" width="0" height="0">
+   <BOUNDS type="Node" left="6225" top="285" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
@@ -31,9 +31,9 @@
    <LINK srcnodeid="1" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Play">
    </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="2" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Box" left="5205" top="1020" width="1590" height="240">
+   <BOUNDS type="Box" left="7290" top="825" width="1590" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="5205" top="1020" width="0" height="0">
+   <BOUNDS type="Node" left="7290" top="825" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="1" values="|ASIO4ALL v2|">
    </PIN>
@@ -41,5 +41,31 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="2" srcpinname="Output Enum" dstnodeid="0" dstpinname="Driver">
+   </LINK>
+   <NODE systemname="VSTHost (Audio Source)" filename="plugins\bin\VVVV.Audio.dll" nodename="VSTHost (Audio Source)" componentmode="InAWindow" id="3">
+   <BOUNDS type="Node" left="1050" top="2790" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Filename" slicecount="1" values="|..\..\..\..\Program Files (x86)\VST\Free\fishfilets\BLOCKFISH.dll|">
+   </PIN>
+   <BOUNDS type="Window" left="3945" top="3900" width="8985" height="7140">
+   </BOUNDS>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="4" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="1935" top="1470" width="2805" height="510">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1935" top="1470" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="|..\..\..\..\Program Files (x86)\VST\Free\fishfilets\BLOCKFISH.dll|">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="|VST Plugin (*.dll, *.vst3)||*.dll;*.vst3|">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="Filename">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Output String" dstnodeid="3" dstpinname="Filename">
    </LINK>
    </PATCH>

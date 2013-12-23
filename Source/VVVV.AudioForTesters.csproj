@@ -129,12 +129,6 @@
     <Compile Include="Nodes\Sources\WaveTableNode.cs" />
     <Compile Include="Nodes\Sources\SineSignalNode.cs" />
     <Compile Include="Nodes\Sources\SineSignalNodeYeppp.cs" />
-    <Compile Include="Nodes\VST\EditorFrame.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Nodes\VST\EditorFrame.Designer.cs">
-      <DependentUpon>EditorFrame.cs</DependentUpon>
-    </Compile>
     <Compile Include="Nodes\VST\HostCommandStub.cs" />
     <Compile Include="Nodes\VST\MainForm.cs">
       <SubType>Form</SubType>
@@ -142,15 +136,22 @@
     <Compile Include="Nodes\VST\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Nodes\VST\PluginForm.cs">
+    <Compile Include="Nodes\VST\PluginInfoForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Nodes\VST\PluginForm.Designer.cs">
-      <DependentUpon>PluginForm.cs</DependentUpon>
+    <Compile Include="Nodes\VST\PluginInfoForm.Designer.cs">
+      <DependentUpon>PluginInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Nodes\VST\VSTHostNode.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Nodes\VST\VstPluginControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Nodes\VST\VstPluginControl.Designer.cs">
+      <DependentUpon>VstPluginControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Nodes\VST\VSTSignal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AudioUtils.cs" />
     <Compile Include="Utils\CircularBuffer.cs" />
@@ -159,19 +160,19 @@
     <Compile Include="Utils\NAudio\AudioFileReaderVVVV.cs" />
     <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Nodes\Filters" />
-    <Folder Include="Nodes\Routing" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Nodes\VST\EditorFrame.resx">
-      <DependentUpon>EditorFrame.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Nodes\VST\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Nodes\VST\PluginForm.resx">
-      <DependentUpon>PluginForm.cs</DependentUpon>
+    <EmbeddedResource Include="Nodes\VST\PluginInfoForm.resx">
+      <DependentUpon>PluginInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nodes\VST\VSTHostNode.resx">
+      <DependentUpon>VSTHostNode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nodes\VST\VstPluginControl.resx">
+      <DependentUpon>VstPluginControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

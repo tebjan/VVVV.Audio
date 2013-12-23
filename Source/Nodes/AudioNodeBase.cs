@@ -288,11 +288,11 @@ namespace VVVV.Nodes
 		public override void Evaluate(int SpreadMax)
 		{
 			CalculatedSpreadMax = GetSpreadMax(SpreadMax);
-			FInternalSignals.ResizeAndDispose(CalculatedSpreadMax, GetInstance);
+			FInternalSignals.Resize(CalculatedSpreadMax, GetInstance, x => { if(x != null) x.Dispose(); } );
 			
 			if(AnyInputChanged())
 			{
-				for(int i=0; i<SpreadMax; i++)
+				for(int i=0; i<CalculatedSpreadMax; i++)
 				{
 					var audioSignal = FInternalSignals[i];
 					
