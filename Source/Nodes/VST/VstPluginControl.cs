@@ -52,10 +52,14 @@ namespace VVVV.Nodes.Nodes.VST
             {
                 if (FSelectedSignal != value)
                 {
-                    if(FSelectedSignal != null)
+                    if (FSelectedSignal != null)
+                    {
                         FSelectedSignal.LastParamChangeInfo = null;
+                        FSelectedSignal.PluginChanged = null;
+                    }
                     FSelectedSignal = value;
                     FSelectedSignal.LastParamChangeInfo = DisplayLastParam;
+                    FSelectedSignal.PluginChanged = () => SetEditor(true);
                     LoadPrograms();
                     SetEditor();
                 }
@@ -93,14 +97,31 @@ namespace VVVV.Nodes.Nodes.VST
         }
 
         private VstPluginContext OpenContext;
-        void SetEditor()
+        void SetEditor(bool reset = false)
         {
-            if (OpenContext != FSelectedSignal.PluginContext)
+            if (reset || OpenContext != FSelectedSignal.PluginContext)
             {
                 ClearCurrentView();
                 OpenContext = FSelectedSignal.PluginContext;
-                OpenContext.PluginCommandStub.EditorOpen(PluginPanel.Handle);
+                if (HasEditor(OpenContext))
+                {
+                    OpenContext.PluginCommandStub.EditorOpen(PluginPanel.Handle);
+                }
+                else
+                {
+                    //TODO: create basic gui
+                }
             }
+        }
+
+        private bool HasEditor(VstPluginContext ctx)
+        {
+            if (ctx.PluginInfo.Flags.HasFlag(VstPluginFlags.HasEditor))
+                return true;
+
+            var rect = new Rectangle();
+            ctx.PluginCommandStub.EditorGetRect(out rect);
+            return rect.Width > 0;
         }
 
         void SetInfo()

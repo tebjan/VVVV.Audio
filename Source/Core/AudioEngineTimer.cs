@@ -49,6 +49,7 @@ namespace VVVV.Audio
 			}
 		}
 		
+        //the beat 1ppq
 		double FBeat = 0;
 		public double Beat
 		{

@@ -64,7 +64,16 @@ namespace VVVV.Nodes
         ISpread<bool> FAutosafeIn;
 		
 		[Output("Audio Out", Order = -10)]
-		protected Pin<AudioSignal> FOutputSignals;
+		Pin<AudioSignal> FOutputSignals;
+
+        [Output("Latency")]
+        ISpread<int> FLatencyOut;
+
+        [Output("Input Channels")]
+        ISpread<int> FInChannelsOut;
+
+        [Output("Output Channels")]
+        ISpread<int> FOutChannelsOut;
 		
 		IHDEHost FHDEHost;
 
@@ -271,6 +280,13 @@ namespace VVVV.Nodes
             
         	var vst = new VSTSignal(FFilename[i], this);
             vst.LoadFromSafeString(FSafeConfig[i]);
+
+            SetOutputSliceCount(CalculatedSpreadMax);
+
+            FLatencyOut[i] = vst.PluginContext.PluginInfo.InitialDelay;
+            FInChannelsOut[i] = vst.PluginContext.PluginInfo.AudioInputCount;
+            FOutChannelsOut[i] = vst.PluginContext.PluginInfo.AudioOutputCount;
+
             return vst;
         }
         
@@ -334,6 +350,9 @@ namespace VVVV.Nodes
 		protected void SetOutputSliceCount(int sliceCount)
 		{
             if (sliceCount != FSafeConfig.SliceCount) FSafeConfig.SliceCount = sliceCount;
+            FLatencyOut.SliceCount = sliceCount;
+            FInChannelsOut.SliceCount = sliceCount;
+            FOutChannelsOut.SliceCount = sliceCount;
 		}
 
 		#endregion

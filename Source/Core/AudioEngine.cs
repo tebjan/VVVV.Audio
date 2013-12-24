@@ -67,7 +67,8 @@ namespace VVVV.Audio
             TimeInfo.NanoSeconds = Timer.Time * 1000000000;
             TimeInfo.PpqPosition = Timer.Beat;
             TimeInfo.CycleStartPosition = 0;
-            TimeInfo.BarStartPosition = Timer.Beat - (Timer.Beat % 4);
+            TimeInfo.CycleEndPosition = 8;
+            TimeInfo.BarStartPosition = Math.Floor(Timer.Beat / 4) * 4;
             TimeInfo.Tempo = Timer.BPM;
             TimeInfo.TimeSignatureNumerator = Timer.TimeSignatureNumerator;
             TimeInfo.TimeSignatureDenominator = Timer.TimeSignatureDenominator;

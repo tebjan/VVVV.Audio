@@ -112,7 +112,7 @@ namespace VVVV.Audio
 			//empty buffer
 			wb.Clear();
 			
-			lock(FSources)
+			//lock(FSources)
 			{
 				//evaluate the sinks,
 				//e.g. buffer writers should write first to have the latest data in the buffer storage

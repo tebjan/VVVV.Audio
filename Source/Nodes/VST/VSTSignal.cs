@@ -100,7 +100,18 @@ namespace VVVV.Audio.VST
 
                 GetPluginInfo();
                 GetProgramNames();
+
+                if (PluginChanged != null)
+                    PluginChanged();
+
             }
+        }
+
+
+        public Action PluginChanged
+        {
+            get;
+            set;
         }
         
 		void GetPluginInfo()
@@ -144,7 +155,11 @@ namespace VVVV.Audio.VST
             }
         }
 
-        public Action<string> LastParamChangeInfo;
+        public Action<string> LastParamChangeInfo
+        {
+            get;
+            set;
+        }
 
         public int ParamIndex
         {
