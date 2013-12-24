@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Linq;
 
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Framework;
@@ -38,6 +39,9 @@ namespace VVVV.Nodes
         [Config("Safe Data")]
         ISpread<string> FSafeConfig;
 
+        [Config("Exposed Pins")]
+        IDiffSpread<string> ParameterNamesConfig;
+
 		[Input("Input", BinSize = 2)]
 		IDiffSpread<ISpread<AudioSignal>> FInputSignals;
 
@@ -62,10 +66,12 @@ namespace VVVV.Nodes
 		[Output("Audio Out", Order = -10)]
 		protected Pin<AudioSignal> FOutputSignals;
 		
-		IHDEHost FHost;
-		
-		[Import]
-		IPluginHost FPlugHost;
+		IHDEHost FHDEHost;
+
+		IPluginHost FHost;
+
+        [Import]
+        IIOFactory FIOFactory;
 		
 		protected List<IDiffSpread> FDiffInputs = new List<IDiffSpread>();
 		
@@ -75,9 +81,10 @@ namespace VVVV.Nodes
         VstPluginControl FPluginControl;
 		
 		[ImportingConstructor]
-		public VSTHostNode([Import] IHDEHost host)
+        public VSTHostNode([Import] IHDEHost host, [Import] IPluginHost plugHost)
 		{
-			FHost = host;
+			FHDEHost = host;
+            FHost = plugHost;
 			
             //add plugin control
 			FPluginControl = new VstPluginControl(this);
@@ -98,16 +105,16 @@ namespace VVVV.Nodes
 				}
 				
 				//when window mode changes
-				FHost.BeforeComponentModeChange += delegate(object sender, ComponentModeEventArgs args)
+				FHDEHost.BeforeComponentModeChange += delegate(object sender, ComponentModeEventArgs args)
 				{
-					var me = (FPlugHost as INode);
+					var me = (FHost as INode);
 					if(me == args.Window.Node.InternalCOMInterf)
 						PluginCommandStub.EditorClose();
 				};
 				
-				FHost.AfterComponentModeChange += delegate(object sender, ComponentModeEventArgs args)
+				FHDEHost.AfterComponentModeChange += delegate(object sender, ComponentModeEventArgs args)
 				{
-					var me = (FPlugHost as INode);
+					var me = (FHost as INode);
 					if(me == args.Window.Node.InternalCOMInterf)
 						PluginCommandStub.EditorOpen(this.Handle);
 				};
@@ -118,6 +125,7 @@ namespace VVVV.Nodes
 		public virtual void OnImportsSatisfied()
 		{
 			FEngine = AudioService.Engine;
+            ParameterNamesConfig.SliceCount = 0;
 			
 			BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
@@ -135,6 +143,8 @@ namespace VVVV.Nodes
 					FDiffInputs.Add(spread);
 				}
 			}
+
+            ParameterNamesConfig.Changed += ParameterNamesConfig_Changed;
 		}
 		
 		/// <summary>
@@ -142,14 +152,23 @@ namespace VVVV.Nodes
 		/// </summary>
 		/// <returns></returns>
 		protected virtual bool AnyInputChanged()
-		{			
+		{
+            FChangedParamPins.Clear();
+            foreach (var paramPin in FParamPins.Values)
+            {
+                if (paramPin.Pin.PinIsChanged)
+                    FChangedParamPins.Add(paramPin);
+            }
+	
 			for (int i = 0; i < FDiffInputs.Count; i++) 
 			{
-				if(FDiffInputs[i].IsChanged) return true;
+				if (FDiffInputs[i].IsChanged) 
+                    return true;
 			}
-			
-			return false;
+
+			return FChangedParamPins.Count > 0;
 		}
+        private List<ParamPin> FChangedParamPins = new List<ParamPin>();
 		
 		//for other methods
         protected int CalculatedSpreadMax
@@ -158,8 +177,12 @@ namespace VVVV.Nodes
             private set;
         }
 
+        //all current vst signals
         protected ISpread<VSTSignal> FInternalSignals = new Spread<VSTSignal>();
+
+        //throttle counter for the gui updates
         int FFrameDivider = 0;
+
         public void Evaluate(int SpreadMax)
         {
         	CalculatedSpreadMax = GetSpreadMax(SpreadMax);
@@ -269,6 +292,20 @@ namespace VVVV.Nodes
         	instance.Input = FInputSignals[i];
             instance.Filename = FFilename[i];
 
+            foreach (var item in FChangedParamPins)
+	        {
+                if (instance.PluginContext.PluginCommandStub.GetParameterName(item.ParamIndex) == item.ParamName)
+                {
+                    double val;
+                    item.Pin.GetValue(i, out val);
+                    if (val <= 0)
+                    {
+                        Debug.WriteLine("0 val");
+                    }
+                    instance.PluginContext.PluginCommandStub.SetParameter(item.ParamIndex, (float)val);
+                }
+	        }
+
             if (FSendMidiIn[i])
             {
                 instance.SetMidiEvent((byte)FMsgIn[i], (byte)FData1In[i], (byte)FData2In[i]);
@@ -327,6 +364,99 @@ namespace VVVV.Nodes
         {
             return FInternalSignals[index];
         }
+
+        #region pin handling
+
+        private class ParamPin
+        {
+            public IValueIn Pin
+            {
+                get;
+                set;
+            }
+
+            public int ParamIndex
+            {
+                get;
+                set;
+            }
+
+            public string ParamName
+            {
+                get;
+                set;
+            }
+
+            public string PluginName
+            {
+                get;
+                set;
+            }
+
+
+            public static ParamPin Parse(string paramString)
+            {
+                var afterIndexNumber = paramString.IndexOf('|');
+                var beforePluginName = paramString.LastIndexOf('|');
+                var nameLength = beforePluginName - afterIndexNumber - 1;
+
+                var paramIndex = int.Parse(paramString.Substring(0, afterIndexNumber));
+                var paramName = paramString.Substring(afterIndexNumber + 1, nameLength);
+                var pluginName = paramString.Substring(beforePluginName + 1);
+
+                return new ParamPin { ParamIndex = paramIndex, ParamName = paramName, PluginName = pluginName };
+            }
+        }
+
+        public void ExposePin(string paramName)
+        {
+            if(!ParameterNamesConfig.Contains(paramName))
+                ParameterNamesConfig.Add(paramName);
+        }
+
+        public void RemovePin(string paramName)
+        {
+            ParameterNamesConfig.Remove(paramName);
+        }
+
+        private Dictionary<string, ParamPin> FParamPins = new Dictionary<string, ParamPin>();
+        void ParameterNamesConfig_Changed(IDiffSpread<string> spread)
+        {
+            //temp pin dictionary
+            var prevPins = new Dictionary<string, ParamPin>(FParamPins);
+
+            //create pin?
+            foreach (var pinString in spread)
+            {
+                if(string.IsNullOrWhiteSpace(pinString))
+                    continue;
+
+                if (!prevPins.ContainsKey(pinString))
+                {
+                    var paramPin = ParamPin.Parse(pinString);
+
+                    var oa = new InputAttribute(paramPin.ParamName);
+                    //FLogger.Log(LogType.Debug, col.DataType.ToString());
+
+                    paramPin.Pin = FHost.CreateValueInput(oa, typeof(float));
+
+                    FParamPins[pinString] = paramPin;
+                }
+                else
+                {
+                    prevPins.Remove(pinString);
+                }
+            }
+
+            //any pin which is left over can be removed
+            foreach (var pin in prevPins)
+            {
+                FHost.DeletePin(pin.Value.Pin);
+                FParamPins.Remove(pin.Key);
+            }
+        }
+
+        #endregion pin handling
     }
 }
 

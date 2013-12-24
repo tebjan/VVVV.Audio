@@ -59,14 +59,14 @@ namespace VVVV.Audio.VST
             RaisePluginCalled("CloseFileSelector(" + fileSelect.Command + ")");
             return false;
         }
-        public Action RaiseSave;
+        public Action<int> RaiseSave;
         /// <inheritdoc />
         public bool EndEdit(int index)
         {
             RaisePluginCalled("EndEdit(" + index + ")");
             FEditing = false;
 
-            if (RaiseSave != null) RaiseSave();
+            if (RaiseSave != null) RaiseSave(index);
 
             return true;
         }
@@ -222,7 +222,7 @@ namespace VVVV.Audio.VST
             if (!FEditing)
             {
                 if (RaiseSave != null)
-                    RaiseSave();
+                    RaiseSave(index);
             }
 
         }

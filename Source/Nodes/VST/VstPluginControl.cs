@@ -52,11 +52,19 @@ namespace VVVV.Nodes.Nodes.VST
             {
                 if (FSelectedSignal != value)
                 {
+                    if(FSelectedSignal != null)
+                        FSelectedSignal.LastParamChangeInfo = null;
                     FSelectedSignal = value;
+                    FSelectedSignal.LastParamChangeInfo = DisplayLastParam;
                     LoadPrograms();
                     SetEditor();
                 }
             }
+        }
+
+        private void DisplayLastParam(string value)
+        {
+            LastParamLabel.Text = value;
         }
 
         private void LoadPrograms()
@@ -129,6 +137,25 @@ namespace VVVV.Nodes.Nodes.VST
                 CountLabel.Text = count.ToString();
                 FLastCount = count;
             }
+        }
+
+        private string GetParamPinName()
+        {
+            var ctx = FSelectedSignal.PluginContext;
+            var paramIndex = FSelectedSignal.ParamIndex;
+            var paramName = ctx.PluginCommandStub.GetParameterName(paramIndex);
+            var pluginName = ctx.PluginCommandStub.GetEffectName();
+            return paramIndex.ToString() + "|" + paramName + "|" + pluginName;
+        }
+
+        private void ExposeButton_Click(object sender, EventArgs e)
+        {
+            Node.ExposePin(GetParamPinName());
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            Node.RemovePin(GetParamPinName());
         }
     }
 }

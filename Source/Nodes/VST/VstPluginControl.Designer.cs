@@ -39,11 +39,14 @@ namespace VVVV.Nodes.Nodes.VST
             this.FMainTableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.InfoButton = new System.Windows.Forms.Button();
+            this.ProgramComboBox = new System.Windows.Forms.ComboBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.EditButton = new System.Windows.Forms.Button();
-            this.PluginPanel = new System.Windows.Forms.Panel();
-            this.ProgramComboBox = new System.Windows.Forms.ComboBox();
             this.CountLabel = new System.Windows.Forms.Label();
+            this.PluginPanel = new System.Windows.Forms.Panel();
+            this.ExposeButton = new System.Windows.Forms.Button();
+            this.DeleteButton = new System.Windows.Forms.Button();
+            this.LastParamLabel = new System.Windows.Forms.Label();
             this.FMainTableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -68,19 +71,25 @@ namespace VVVV.Nodes.Nodes.VST
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 7;
+            this.tableLayoutPanel1.ColumnCount = 10;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 252F));
             this.tableLayoutPanel1.Controls.Add(this.InfoButton, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.ProgramComboBox, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.numericUpDown1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.EditButton, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.CountLabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ExposeButton, 7, 0);
+            this.tableLayoutPanel1.Controls.Add(this.DeleteButton, 8, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LastParamLabel, 9, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -94,14 +103,27 @@ namespace VVVV.Nodes.Nodes.VST
             // 
             this.InfoButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.InfoButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.InfoButton.Location = new System.Drawing.Point(125, 3);
-            this.InfoButton.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.InfoButton.Location = new System.Drawing.Point(128, 3);
             this.InfoButton.Name = "InfoButton";
-            this.InfoButton.Size = new System.Drawing.Size(57, 21);
+            this.InfoButton.Size = new System.Drawing.Size(54, 21);
             this.InfoButton.TabIndex = 2;
             this.InfoButton.Text = "Info";
             this.InfoButton.UseVisualStyleBackColor = true;
             this.InfoButton.Click += new System.EventHandler(this.InfoButton_Click);
+            // 
+            // ProgramComboBox
+            // 
+            this.ProgramComboBox.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.ProgramComboBox.DisplayMember = "Text";
+            this.ProgramComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ProgramComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ProgramComboBox.FormattingEnabled = true;
+            this.ProgramComboBox.Location = new System.Drawing.Point(188, 3);
+            this.ProgramComboBox.Name = "ProgramComboBox";
+            this.ProgramComboBox.Size = new System.Drawing.Size(154, 21);
+            this.ProgramComboBox.TabIndex = 1;
+            this.ProgramComboBox.Text = "Program";
+            this.ProgramComboBox.SelectedIndexChanged += new System.EventHandler(this.ProgramComboBox_SelectedIndexChanged);
             // 
             // numericUpDown1
             // 
@@ -124,37 +146,13 @@ namespace VVVV.Nodes.Nodes.VST
             // 
             this.EditButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EditButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.EditButton.Location = new System.Drawing.Point(65, 3);
-            this.EditButton.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.EditButton.Location = new System.Drawing.Point(68, 3);
             this.EditButton.Name = "EditButton";
-            this.EditButton.Size = new System.Drawing.Size(57, 21);
+            this.EditButton.Size = new System.Drawing.Size(54, 21);
             this.EditButton.TabIndex = 1;
             this.EditButton.Text = "Edit";
             this.EditButton.UseVisualStyleBackColor = true;
             this.EditButton.Click += new System.EventHandler(this.EditButton_Click);
-            // 
-            // PluginPanel
-            // 
-            this.PluginPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PluginPanel.Location = new System.Drawing.Point(0, 27);
-            this.PluginPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.PluginPanel.Name = "PluginPanel";
-            this.PluginPanel.Size = new System.Drawing.Size(737, 411);
-            this.PluginPanel.TabIndex = 1;
-            // 
-            // ProgramComboBox
-            // 
-            this.ProgramComboBox.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ProgramComboBox.DisplayMember = "Text";
-            this.ProgramComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ProgramComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ProgramComboBox.FormattingEnabled = true;
-            this.ProgramComboBox.Location = new System.Drawing.Point(188, 3);
-            this.ProgramComboBox.Name = "ProgramComboBox";
-            this.ProgramComboBox.Size = new System.Drawing.Size(177, 21);
-            this.ProgramComboBox.TabIndex = 1;
-            this.ProgramComboBox.Text = "Program";
-            this.ProgramComboBox.SelectedIndexChanged += new System.EventHandler(this.ProgramComboBox_SelectedIndexChanged);
             // 
             // CountLabel
             // 
@@ -167,6 +165,50 @@ namespace VVVV.Nodes.Nodes.VST
             this.CountLabel.TabIndex = 3;
             this.CountLabel.Text = "0";
             this.CountLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // PluginPanel
+            // 
+            this.PluginPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PluginPanel.Location = new System.Drawing.Point(0, 27);
+            this.PluginPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.PluginPanel.Name = "PluginPanel";
+            this.PluginPanel.Size = new System.Drawing.Size(737, 411);
+            this.PluginPanel.TabIndex = 1;
+            // 
+            // ExposeButton
+            // 
+            this.ExposeButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ExposeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ExposeButton.Location = new System.Drawing.Point(368, 3);
+            this.ExposeButton.Name = "ExposeButton";
+            this.ExposeButton.Size = new System.Drawing.Size(54, 21);
+            this.ExposeButton.TabIndex = 4;
+            this.ExposeButton.Text = "Expose";
+            this.ExposeButton.UseVisualStyleBackColor = true;
+            this.ExposeButton.Click += new System.EventHandler(this.ExposeButton_Click);
+            // 
+            // DeleteButton
+            // 
+            this.DeleteButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DeleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DeleteButton.Location = new System.Drawing.Point(428, 3);
+            this.DeleteButton.Name = "DeleteButton";
+            this.DeleteButton.Size = new System.Drawing.Size(54, 21);
+            this.DeleteButton.TabIndex = 5;
+            this.DeleteButton.Text = "Delete";
+            this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            // 
+            // LastParamLabel
+            // 
+            this.LastParamLabel.AutoSize = true;
+            this.LastParamLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LastParamLabel.Location = new System.Drawing.Point(488, 7);
+            this.LastParamLabel.Margin = new System.Windows.Forms.Padding(3, 7, 3, 0);
+            this.LastParamLabel.Name = "LastParamLabel";
+            this.LastParamLabel.Size = new System.Drawing.Size(246, 20);
+            this.LastParamLabel.TabIndex = 6;
+            this.LastParamLabel.Text = "LastParam";
             // 
             // VstPluginControl
             // 
@@ -191,5 +233,8 @@ namespace VVVV.Nodes.Nodes.VST
         private System.Windows.Forms.Panel PluginPanel;
         private System.Windows.Forms.ComboBox ProgramComboBox;
         private System.Windows.Forms.Label CountLabel;
+        private System.Windows.Forms.Button ExposeButton;
+        private System.Windows.Forms.Button DeleteButton;
+        private System.Windows.Forms.Label LastParamLabel;
 	}
 }

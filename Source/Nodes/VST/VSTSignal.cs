@@ -98,9 +98,21 @@ namespace VVVV.Audio.VST
                 InfoForm.DataToForm();
                 InfoForm.Dock = DockStyle.Fill;
 
+                GetPluginInfo();
                 GetProgramNames();
             }
         }
+        
+		void GetPluginInfo()
+		{
+//			PluginContext.PluginInfo.PluginID;
+//			
+//			 ListViewItem lvItem = new ListViewItem(PluginContext.PluginCommandStub.GetEffectName());
+//                lvItem.SubItems.Add(PluginContext.PluginCommandStub.GetProductString());
+//                lvItem.SubItems.Add(PluginContext.PluginCommandStub.GetVendorString());
+//                lvItem.SubItems.Add(PluginContext.PluginCommandStub.GetVendorVersion().ToString());
+//                lvItem.SubItems.Add(PluginContext.Find<string>("PluginPath"));
+		}
 
         //HACK: very evil hack
         private void GetProgramNames()
@@ -118,11 +130,29 @@ namespace VVVV.Audio.VST
             ctx.Dispose();
         }
 
-        private void SetNeedsSafe()
+        private void SetNeedsSafe(int index)
         {
             NeedsSave = true;
+            ParamIndex = index;
+            if (LastParamChangeInfo != null)
+            {
+                string name = PluginContext.PluginCommandStub.GetParameterName(index);
+                string label = PluginContext.PluginCommandStub.GetParameterLabel(index);
+                string display = PluginContext.PluginCommandStub.GetParameterDisplay(index);
+
+                LastParamChangeInfo(name + " " + label + " " + display);
+            }
         }
 
+        public Action<string> LastParamChangeInfo;
+
+        public int ParamIndex
+        {
+            get;
+            protected set;
+        }
+
+        #region Save plugin state
         public string GetSaveString()
         {
             byte[] chunk = null;
@@ -176,8 +206,9 @@ namespace VVVV.Audio.VST
                 }
             }
         }
+        #endregion
 
-		private void HostCmdStub_PluginCalled(object sender, PluginCalledEventArgs e)
+        private void HostCmdStub_PluginCalled(object sender, PluginCalledEventArgs e)
 		{
 			HostCommandStub hostCmdStub = (HostCommandStub)sender;
 			
@@ -220,18 +251,27 @@ namespace VVVV.Audio.VST
 			return null;
 		}
 
+        //format changes
         protected override void Engine_SampleRateChanged(object sender, EventArgs e)
         {
             base.Engine_SampleRateChanged(sender, e);
-            if(PluginContext != null)
+            if (PluginContext != null)
+            {
+                PluginContext.PluginCommandStub.StopProcess();
                 PluginContext.PluginCommandStub.SetSampleRate(WaveFormat.SampleRate);
+                PluginContext.PluginCommandStub.StartProcess();
+            }
         }
 
         protected override void Engine_BufferSizeChanged(object sender, EventArgs e)
         {
             base.Engine_BufferSizeChanged(sender, e);
             if (PluginContext != null)
+            {
+                PluginContext.PluginCommandStub.StopProcess();
                 PluginContext.PluginCommandStub.SetBlockSize(BufferSize);
+                PluginContext.PluginCommandStub.StartProcess();
+            }
         }
 
         //midi events
@@ -269,6 +309,7 @@ namespace VVVV.Audio.VST
 			}
 		}
 		
+        //process
 		protected override void FillBuffers(float[][] buffer, int offset, int count)
 		{
             if (PluginContext != null)
@@ -320,7 +361,7 @@ namespace VVVV.Audio.VST
 		
 		public override void Dispose()
 		{
-			//close and dipose vst
+			//close and dispose vst
             if (PluginContext != null && PluginContext.PluginCommandStub != null)
 			{
 				PluginContext.PluginCommandStub.StopProcess();
