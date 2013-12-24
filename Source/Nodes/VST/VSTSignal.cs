@@ -51,6 +51,7 @@ namespace VVVV.Audio.VST
             {
                 if (value != FFilename)
                 {
+                    FDoProcess = false;
                     FFilename = value;
                     Load(FFilename);
                 }
@@ -104,10 +105,11 @@ namespace VVVV.Audio.VST
                 if (PluginChanged != null)
                     PluginChanged();
 
+                FDoProcess = true;
             }
         }
 
-
+        //gets called when the plugin was changed
         public Action PluginChanged
         {
             get;
@@ -192,8 +194,10 @@ namespace VVVV.Audio.VST
                 }
             }
 
+            
+
             if (chunk != null)
-                return Convert.ToBase64String(chunk);
+                return Convert.ToBase64String(chunk);// + "|" + PluginContext.PluginInfo.PluginID.ToString();
             else
                 return "";
 
@@ -201,6 +205,8 @@ namespace VVVV.Audio.VST
 
         public void LoadFromSafeString(string safeString)
         {
+            //safeString.LastIndexOf('|');
+
             if (string.IsNullOrWhiteSpace(safeString)) return;
 
             if (PluginContext.PluginInfo.Flags.HasFlag(VstPluginFlags.ProgramChunks))
@@ -211,13 +217,17 @@ namespace VVVV.Audio.VST
             }
             else
             {
+
                 var count = PluginContext.PluginInfo.ParameterCount;
 
                 var data = Convert.FromBase64String(safeString);
 
-                for (int i = 0; i < count; i++)
+                if(count == data.Length/4)
                 {
-                    PluginContext.PluginCommandStub.SetParameter(i, BitConverter.ToSingle(data, i*4));
+                    for (int i = 0; i < count; i++)
+                    {
+                        PluginContext.PluginCommandStub.SetParameter(i, BitConverter.ToSingle(data, i*4));
+                    }
                 }
             }
         }
@@ -325,9 +335,10 @@ namespace VVVV.Audio.VST
 		}
 		
         //process
+        bool FDoProcess;
 		protected override void FillBuffers(float[][] buffer, int offset, int count)
 		{
-            if (PluginContext != null)
+            if (PluginContext != null && FDoProcess)
             {
                 ManageBuffers(count);
 
@@ -376,6 +387,8 @@ namespace VVVV.Audio.VST
 		
 		public override void Dispose()
 		{
+            FDoProcess = false;
+
 			//close and dispose vst
             if (PluginContext != null && PluginContext.PluginCommandStub != null)
 			{

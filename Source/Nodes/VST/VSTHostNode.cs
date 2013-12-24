@@ -267,7 +267,7 @@ namespace VVVV.Nodes
         /// <returns></returns>
         protected virtual int GetSpreadMax(int originalSpreadMax)
         {
-            return FInputSignals.SliceCount;
+            return FInputSignals.CombineWith(FFilename);
         }
 
         /// <summary>
