@@ -283,9 +283,12 @@ namespace VVVV.Nodes
 
             SetOutputSliceCount(CalculatedSpreadMax);
 
-            FLatencyOut[i] = vst.PluginContext.PluginInfo.InitialDelay;
-            FInChannelsOut[i] = vst.PluginContext.PluginInfo.AudioInputCount;
-            FOutChannelsOut[i] = vst.PluginContext.PluginInfo.AudioOutputCount;
+            if (vst.PluginContext != null)
+            {
+                FLatencyOut[i] = vst.PluginContext.PluginInfo.InitialDelay;
+                FInChannelsOut[i] = vst.PluginContext.PluginInfo.AudioInputCount;
+                FOutChannelsOut[i] = vst.PluginContext.PluginInfo.AudioOutputCount;
+            }
 
             return vst;
         }

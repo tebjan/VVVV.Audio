@@ -77,13 +77,13 @@ namespace VVVV.Nodes
 	}
 	
 	[PluginInfo(Name = "MatrixMixer", Category = "Audio", Version = "Filter", Help = "Mixes the input signals to any output", AutoEvaluate = true, Tags = "mix, map, multichannel")]
-	public class MatrixMixerNode : IPluginEvaluate
+    public class MatrixMixerNode : IPluginEvaluate, IPartImportsSatisfiedNotification
 	{
 		[Input("Input")]
 		IDiffSpread<AudioSignal> FInput;
-		
-		[Input("Gain", DefaultValue = 1)]
-		IDiffSpread<float> Gain;
+
+        [Input("Gain")]
+        IDiffSpread<float> Gain;
 		
 		[Input("Output Count", DefaultValue = 2)]
 		IDiffSpread<int> FOutChannels;
@@ -109,7 +109,13 @@ namespace VVVV.Nodes
 				FMixer.GainMatrix.AssignFrom(Gain);
 			}
 		}
-	}
+
+        public void OnImportsSatisfied()
+        {
+            Gain.SliceCount = 4;
+            Gain.AssignFrom(new float[] { 1, 0, 0, 1 });
+        }
+    }
 }
 
 
