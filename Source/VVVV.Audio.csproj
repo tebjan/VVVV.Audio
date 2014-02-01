@@ -8,7 +8,7 @@
     <RootNamespace>VVVV.Nodes</RootNamespace>
     <AssemblyName>VVVV.Audio</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <OutputPath>..\Patches\plugins\bin\</OutputPath>
+    <OutputPath>..\nodes\plugins\</OutputPath>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoWin32Manifest>False</NoWin32Manifest>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -16,7 +16,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Patches\plugins\bin\VVVV.Audio.xml</DocumentationFile>
+    <DocumentationFile>..\nodes\plugins\VVVV.Audio.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -55,6 +55,12 @@
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Jacobi.Vst.Core">
       <HintPath>Dependencies\VST.NET\Jacobi.Vst.Core.dll</HintPath>
@@ -65,34 +71,33 @@
     <Reference Include="Jacobi.Vst.Interop">
       <HintPath>Dependencies\VST.NET\Jacobi.Vst.Interop.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>Dependencies\NAudio\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition.Codeplex">
-      <HintPath>..\VVVV\lib\core\System.ComponentModel.Composition.Codeplex.dll</HintPath>
+      <HintPath>..\..\..\lib\core\System.ComponentModel.Composition.Codeplex.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="VVVV.Core">
-      <HintPath>..\VVVV\lib\core\VVVV.Core.dll</HintPath>
+      <HintPath>..\..\..\lib\core\VVVV.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Nodes">
-      <HintPath>..\VVVV\lib\nodes\plugins\VVVV.Nodes.dll</HintPath>
+      <HintPath>..\..\..\lib\nodes\plugins\VVVV.Nodes.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.PluginInterfaces">
-      <HintPath>..\VVVV\lib\core\VVVV.PluginInterfaces.dll</HintPath>
+      <HintPath>..\..\..\lib\core\VVVV.PluginInterfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Utils">
-      <HintPath>..\VVVV\lib\core\VVVV.Utils.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="VVVV.Utils3rdParty">
-      <HintPath>..\VVVV\lib\core\VVVV.Utils3rdParty.dll</HintPath>
+      <HintPath>..\..\..\lib\core\VVVV.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="yeppp-clr">
@@ -123,30 +128,26 @@
     <Compile Include="Nodes\Sinks\WaveRecorderNode.cs" />
     <Compile Include="Nodes\Sources\AudioInputNode.cs" />
     <Compile Include="Nodes\Sources\FileStreamNode.cs" />
+    <Compile Include="Nodes\Sources\WaveTableNode.cs" />
     <Compile Include="Nodes\Sources\SineSignalNode.cs" />
     <Compile Include="Nodes\Sources\SineSignalNodeYeppp.cs" />
-    <Compile Include="Nodes\VST\EditorFrame.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Nodes\VST\EditorFrame.Designer.cs">
-      <DependentUpon>EditorFrame.cs</DependentUpon>
-    </Compile>
     <Compile Include="Nodes\VST\HostCommandStub.cs" />
-    <Compile Include="Nodes\VST\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Nodes\VST\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Nodes\VST\PluginForm.cs">
+    <Compile Include="Nodes\VST\PluginInfoForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Nodes\VST\PluginForm.Designer.cs">
-      <DependentUpon>PluginForm.cs</DependentUpon>
+    <Compile Include="Nodes\VST\PluginInfoForm.Designer.cs">
+      <DependentUpon>PluginInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Nodes\VST\VSTHostNode.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Nodes\VST\VstPluginControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Nodes\VST\VstPluginControl.Designer.cs">
+      <DependentUpon>VstPluginControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Nodes\VST\VSTSignal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AudioUtils.cs" />
     <Compile Include="Utils\CircularBuffer.cs" />
@@ -157,14 +158,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Nodes\VST\EditorFrame.resx">
-      <DependentUpon>EditorFrame.cs</DependentUpon>
+    <EmbeddedResource Include="Nodes\VST\PluginInfoForm.resx">
+      <DependentUpon>PluginInfoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Nodes\VST\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Nodes\VST\VSTHostNode.resx">
+      <DependentUpon>VSTHostNode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Nodes\VST\PluginForm.resx">
-      <DependentUpon>PluginForm.cs</DependentUpon>
+    <EmbeddedResource Include="Nodes\VST\VstPluginControl.resx">
+      <DependentUpon>VstPluginControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -176,13 +177,6 @@
       <Link>yeppp.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Nodes\NodeBases.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\NAudio\NAudio\NAudio.csproj">
-      <Project>{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E}</Project>
-      <Name>NAudio</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>
