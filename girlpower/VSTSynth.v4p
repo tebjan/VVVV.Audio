@@ -1,0 +1,333 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.2.dtd" >
+   <PATCH nodename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VSTSynth.v4p" systemname="VSTSynth" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VSTSynth.v4p">
+   <BOUNDS type="Window" left="1440" top="450" width="9015" height="10530">
+   </BOUNDS>
+   <NODE systemname="AudioEngine (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden" id="0">
+   <BOUNDS type="Node" left="4320" top="1350" width="1590" height="270">
+   </BOUNDS>
+   <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
+   </PIN>
+   <PIN pinname="BPM" slicecount="1" values="100">
+   </PIN>
+   <PIN pinname="Sample Rate" slicecount="1" values="44100">
+   </PIN>
+   <PIN pinname="Control Panel" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Beat" visible="1">
+   </PIN>
+   <PIN pinname="Time" visible="1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="1" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="4335" top="240" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4335" top="240" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Play">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="1" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Play">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="2" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="4845" top="900" width="2610" height="270">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4845" top="900" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" values="|ASIO4ALL v2|">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Driver">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="2" srcpinname="Output Enum" dstnodeid="0" dstpinname="Driver">
+   </LINK>
+   <NODE systemname="AudioOut (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden" id="7">
+   <BOUNDS type="Node" left="285" top="8460" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Meter (Audio Sink)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="Meter (Audio Sink)" componentmode="Hidden" id="52">
+   <BOUNDS type="Node" left="1440" top="7785" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Smoothing" slicecount="1" values="0.28">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="53" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="1425" top="8385" width="675" height="1110">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1425" top="8385" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Level dBs|">
+   </PIN>
+   <PIN pinname="Show Slider" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Show Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-90">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Sticky Slider" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Columns" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="52" srcpinname="Level dBs" dstnodeid="53" dstpinname="Y Input Value">
+   </LINK>
+   <NODE systemname="Recorder (Audio Sink)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="Recorder (Audio Sink)" componentmode="Hidden" id="60">
+   <BOUNDS type="Node" left="2595" top="7830" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="VSTHost (Audio Source)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="VSTHost (Audio Source)" componentmode="Hidden" id="65">
+   <BOUNDS type="Node" left="300" top="5340" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Filename" slicecount="1" visible="1" values="vst\Altair4b\Altair-4.dll">
+   </PIN>
+   <BOUNDS type="Window" left="10275" top="495" width="12510" height="11025">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Safe Data" slicecount="1" values="zgANAD0AAABx9lcK2I1efBcOugUPHq9vJBbbYlNhZhBIx4on4cocHZqTA16WYOMQFHpcdtywaxkEIi5OUT13aKqHWn6+XGU5OjMAKyFzv2pndf9+t5ARF2djwAxJbYYAtz3YOjrHkjNGFb0EmXjKK275jWFL1vojIotBTHyQ0GGM1KVO88wpU5T/iC+yuTcpYBalOqDsJBzV1mVWCbZud/f6hgT0lERx5hE0XhKgyUeDewAArApDbc/GKX+YnIgtZxiWJov/rHtx3LhKaItzOWDYW2Xw8jQRffd6C7wbcDed7/EDQeynDPPGTGOu3/1LIyoUY85xr3gnC7MiAQAAAP/+/wpTAHcAZQBlAHQAIABTAGkAbgBlAAAAAAABAAAAAAAAAFIAAAL//v8ABgAAAAEAAAAAAAAAQAAAAv/+/wAGAAAAAQAAAACWybtVAAAC//7/AAAAAAABAAAAAQAAAG8AAAL//v8ABgAAAAEAAAAOIxBBZgAAAv/+/wAAAAAAAQAAAAgAAABIAAAC//7/AAYAAAABAAAA/n6/QGgAAAL//v8ABgAAAAEAAACAu/i8SwAAAv/+/wAAAAAAAQAAAAAAAABQAAAC//7/AAAAAAABAAAACgAAAE0AAAL//v8ABgAAAAEAAACmfz9AHwAAAv/+/wAGAAAAAQAAAKF7hz8dAAAC//7/AAYAAAABAAAA07YnQBoAAAL//v8ABgAAAAEAAADM2eo+CgAAAv/+/wAGAAAAAQAAALlEkz8IAAAC//7/AAYAAAABAAAAAACAPxwAAAL//v8ABgAAAAEAAAAgEAhBbQAAAv/+/wAAAAAAAQAAAAEAAABnAAAC//7/AAYAAAABAAAAobkdQBUAAAL//v8ABgAAAAEAAACniMpAWgAAAv/+/wAAAAAAAQAAAAIAAAAbAAAC//7/AAYAAAABAAAAiUKhP2sAAAL//v8AAAAAAAEAAAACAAAAbgAAAv/+/wAAAAAAAQAAAAUAAABpAAAC//7/AAYAAAABAAAAAye4QFMAAAL//v8AAAAAAAEAAAAEAAAASgAAAv/+/wAGAAAAAQAAAAAAAAADAAAC//7/AAAAAAABAAAAAAAAABMAAAL//v8ABgAAAAEAAAAAAABBBwAAAv/+/wAAAAAAAQAAAAYAAABXAAAC//7/AAAAAAABAAAAAAAAAEYAAAL//v8AAAAAAAEAAAAGAAAAVAAAAv/+/wAGAAAAAQAAAASQyj////////7/AAYAAAABAAAAnopAv////////v8AAQAAAAEAAAD//v8CNgA0AP///////v8ABgAAAAEAAACEPe0////////+/wAGAAAAAQAAAH57wj////////7/AAYAAAABAAAAAAAAgP///////v8ABgAAAAEAAAA9PRxG///////+/wAGAAAAAQAAAEFzokBMAAAC//7/AAYAAAABAAAA91mZQEkAAAL//v8ABgAAAAEAAADN5hZBHgAAAv/+/wAAAAAAAQAAAAEAAABsAAAC//7/AAYAAAABAAAAzeYWQVYAAAL//v8ABgAAAAEAAAC0N/NAIAAAAv/+/wAGAAAAAQAAAGu/7D8UAAAC//7/AAYAAAABAAAALZPJPlEAAAL//v8AAAAAAAEAAAABAAAAGAAAAv/+/wAAAAAAAQAAAAQAAABbAAAC//7/AAYAAAABAAAAvQ28QBkAAAL//v8ABgAAAAEAAAAvFxFA///////+/wAGAAAAAQAAAK69csD///////7/AAYAAAABAAAAlILqv////////v8ABgAAAAEAAACy47Q////////+/wAGAAAAAQAAAHu7XT9qAAAC//7/AAYAAAABAAAAVisLwP///////v8ABgAAAAEAAAASwtY6///////+/wAGAAAAAQAAAMi+Qz////////7/AAYAAAABAAAAkxtTwP///////v8AAQAAAAEAAAD//v8CNwA2AP///////v8ABgAAAAEAAADDVMBARwAAAv/+/wA=">
+   </PIN>
+   <PIN pinname="Midi Message" visible="1">
+   </PIN>
+   <PIN pinname="Midi Data 1" visible="1">
+   </PIN>
+   <PIN pinname="Midi Data 2" visible="1">
+   </PIN>
+   <PIN pinname="Do Send Midi" visible="1">
+   </PIN>
+   <PIN pinname="Auto Save" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Exposed Pins" slicecount="4" values=",,|29||Res 2 Osc B Mod Amount||Altair 4 Pro|,|36||Rev Mix||Altair 4 Pro|">
+   </PIN>
+   <PIN pinname="effect control1" visible="1">
+   </PIN>
+   <PIN pinname="ONOFF">
+   </PIN>
+   </NODE>
+   <NODE systemname="MidiShort (Devices)" nodename="MidiShort (Devices)" componentmode="Hidden" id="63">
+   <BOUNDS type="Node" left="780" top="3300" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Midi Input Port" slicecount="1" values="|01. Internal MIDI|">
+   </PIN>
+   <PIN pinname="Message" visible="1">
+   </PIN>
+   <PIN pinname="Data 1" visible="1">
+   </PIN>
+   <PIN pinname="Data 2" visible="1">
+   </PIN>
+   <PIN pinname="On Data" visible="1">
+   </PIN>
+   <PIN pinname="Enabled" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Buffer Length" slicecount="1" values="5">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="63" srcpinname="Message" dstnodeid="65" dstpinname="Midi Message">
+   </LINK>
+   <LINK srcnodeid="63" srcpinname="Data 1" dstnodeid="65" dstpinname="Midi Data 1">
+   </LINK>
+   <LINK srcnodeid="63" srcpinname="Data 2" dstnodeid="65" dstpinname="Midi Data 2">
+   </LINK>
+   <LINK srcnodeid="63" srcpinname="On Data" dstnodeid="65" dstpinname="Do Send Midi">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="66" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="3285" top="6780" width="2190" height="780">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3285" top="6780" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="2" values="MyNextBigHitL.wav,MyNextBigHitR.wav">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="MyNextBigHit.wav">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values=".wav">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="Filename">
+   </PIN>
+   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="66" srcpinname="Output String" dstnodeid="60" dstpinname="Filename">
+   </LINK>
+   <NODE systemname="MidiFilePlayer" filename="%VVVV%\packs\AudioAlpha\girlpower\subpatches\MidiFilePlayer.v4p" nodename="%VVVV%\packs\AudioAlpha\girlpower\subpatches\MidiFilePlayer.v4p" componentmode="Hidden" id="68">
+   <BOUNDS type="Node" left="5595" top="2745" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Beat Input" visible="1">
+   </PIN>
+   <PIN pinname="Restart" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Read" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="File Name" slicecount="1" values="..\assets\001128817247.mid">
+   </PIN>
+   <PIN pinname="Midi Output Port" slicecount="1" values="|LoopBe Internal MIDI|">
+   </PIN>
+   <PIN pinname="Transpose" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="All Notes Off" slicecount="1" values="0">
+   </PIN>
+   <BOUNDS type="Window" left="8340" top="0" width="16620" height="16200">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Beat" dstnodeid="68" dstpinname="Beat Input">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="69" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="1620" top="2490" width="1845" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1620" top="2490" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" values="|LoopBe Internal MIDI|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="69" srcpinname="Output Enum" dstnodeid="63" dstpinname="Midi Input Port">
+   </LINK>
+   <LINK srcnodeid="65" srcpinname="Audio Out" dstnodeid="7" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="65" srcpinname="Audio Out" dstnodeid="60" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="65" srcpinname="Audio Out" dstnodeid="52" dstpinname="Input">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="70" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="6615" top="1950" width="1740" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="6615" top="1950" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" values="|LoopBe Internal MIDI|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="70" srcpinname="Output Enum" dstnodeid="68" dstpinname="Midi Output Port">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="71" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="3435" top="4275" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3435" top="4275" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.03">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Res 2 Osc B Mod Amount|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="71" srcpinname="Y Output Value" dstnodeid="65" dstpinname="Res 2 Osc B Mod Amount">
+   </LINK>
+   <NODE systemname="Mod (Value)" nodename="Mod (Value)" componentmode="Hidden" id="73">
+   <BOUNDS type="Node" left="4560" top="3300" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="74">
+   <BOUNDS type="Node" left="4575" top="2925" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" slicecount="1" values="0.0625">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Beat" dstnodeid="74" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="74" srcpinname="Output" dstnodeid="73" dstpinname="Input 1">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="75" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="4545" top="4545" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4545" top="4545" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.5">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Rev Mix|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="75" srcpinname="Y Output Value" dstnodeid="65" dstpinname="Rev Mix">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="76" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="1950" top="5340" width="2160" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1950" top="5340" width="2160" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt;- right click to open editor|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="77" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="2085" top="3540" width="2025" height="270">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2085" top="3540" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="vst\Altair4b\Altair-4.dll">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="|VST Plugin (*.dll, *.vst3)||*.dll;*.vst3|">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="Filename">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="77" srcpinname="Output String" dstnodeid="65" dstpinname="Filename">
+   </LINK>
+   <NODE systemname="WaveShaper (Value)" nodename="WaveShaper (Value)" componentmode="Hidden" id="78">
+   <BOUNDS type="Node" left="4545" top="3720" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Shape" slicecount="1" values="Sine">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="73" srcpinname="Output" dstnodeid="78" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="78" srcpinname="Output" dstnodeid="71" dstpinname="Y Input Value">
+   </LINK>
+   <LINK srcnodeid="78" srcpinname="Output" dstnodeid="75" dstpinname="Y Input Value">
+   </LINK>
+   </PATCH>
