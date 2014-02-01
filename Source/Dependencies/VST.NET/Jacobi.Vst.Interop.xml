@@ -265,7 +265,7 @@ Define for 64 Bit Platform.
             <summary>
 Initializes the PluginContext instance with the plugin pointed to by the <paramref name="pluginPath" />.
 </summary>
-            <param name="pluginPath">An absolute path the the plugin dll (that contains the exported 
+            <param name="pluginPath">An absolute path to the plugin dll (that contains the exported 
 'VSTPluginMain' function). Must not be null or empty.</param>
         </member>
         <member name="M:Jacobi.Vst.Interop.Host.VstUnmanagedPluginContext.#ctor(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
@@ -288,6 +288,14 @@ Constructs a new uninitialized instance using the <paramref name="hostCmdStub" /
         <member name="P:Jacobi.Vst.Interop.Host.VstUnmanagedPluginContext.LoadingPlugin">
             <summary>Gets or sets the plugin context of the plugin that is currently loading.</summary>
             <remarks>Only set during loading of plugin (Create)</remarks>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstUnmanagedPluginContext.ShellCreate(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Creates a context for s sub-plugin from an *unmanaged* shell plugin (this).
+</summary>
+            <param name="hostCmdStub">A reference to a host supplied implementation of the host command stub. Must not be null.</param>
+            <remarks>The <paramref name="hostCmdStub" />'s GetCurrentPluginID() method MUST return one of the unique plugin IDs that were 
+retrieved by calling the <see cref="M:Jacobi.Vst.Core.IVstPluginCommands23.GetNextPlugin(System.String@)" /> method.</remarks>
         </member>
         <member name="M:Jacobi.Vst.Interop.Host.VstUnmanagedPluginContext.AcceptPluginInfoData(System.Boolean)">
             <summary>
@@ -361,6 +369,9 @@ Implements a PluginContext for a Managed Plugin, bypassing the double interop th
 and its <see cref="P:Jacobi.Vst.Core.Host.IVstHostCommandStub.PluginContext" /> property is set. 
 Must not be null.</param>
         </member>
+        <member name="F:Jacobi.Vst.Interop.Host.VstPluginContext.PluginPathContextVar">
+            <summary>The key name that stores the path of the plugin dll in the context.</summary>
+        </member>
         <member name="E:Jacobi.Vst.Interop.Host.VstPluginContext.PropertyChanged">
             <summary>
 Raised when a property is changed on the plugin context.
@@ -426,6 +437,14 @@ When the <paramref name="value" /> implements <see cref="T:System.IDisposable" /
 when this instance of the plugin context is disposed.
 </remarks>
         </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstPluginContext.ShellCreate(Jacobi.Vst.Core.Host.IVstHostCommandStub)">
+            <summary>
+Creates a context for s sub-plugin from an *unmanaged* shell plugin (this).
+</summary>
+            <param name="hostCmdStub">A reference to a host supplied implementation of the host command stub. Must not be null.</param>
+            <remarks>The <paramref name="hostCmdStub" />'s GetCurrentPluginID() method MUST return one of the unique plugin IDs that were 
+retrieved by calling the <see cref="M:Jacobi.Vst.Core.IVstPluginCommands23.GetNextPlugin(System.String@)" /> method.</remarks>
+        </member>
         <member name="M:Jacobi.Vst.Interop.Host.VstPluginContext.Create(System.String,Jacobi.Vst.Core.Host.IVstHostCommandStub)">
             <summary>
 Creates a context using the specified <paramref name="pluginPath" /> and <paramref name="hostCmdStub" />.
@@ -442,7 +461,7 @@ it is also disposed when this instance of the plugin context is disposed.</remar
             <exception cref="T:System.OperationCanceledException">Thrown when the library does not return 
 an ::EAffect pointer from its exported main function.</exception>
             <exception cref="T:System.NotSupportedException">Thrown when the library does not specify the correct magic number
-in the ::EAffect structure or when it does not support VST version 2.4.</exception>
+in the ::EAffect structure.</exception>
         </member>
         <member name="T:Jacobi.Vst.Interop.Host.VstPluginContext">
             <summary>
@@ -1042,6 +1061,13 @@ Called just after the last call to Process is made.
 Called just before the first call to Process is made.
 </summary>
             <returns>It is unclear what this return value represents.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Interop.Host.VstPluginCommandStub.GetNextPlugin(System.String@)">
+            <summary>
+Enumerate the plugins contained in the Shell plugin.
+</summary>
+            <param name="name">Filled with the name of the next plugin.</param>
+            <returns>Returns the unique plugin Id.</returns>
         </member>
         <member name="M:Jacobi.Vst.Interop.Host.VstPluginCommandStub.GetSpeakerArrangement(Jacobi.Vst.Core.VstSpeakerArrangement@,Jacobi.Vst.Core.VstSpeakerArrangement@)">
             <summary>

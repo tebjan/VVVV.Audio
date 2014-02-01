@@ -2458,6 +2458,13 @@
             <param name="output">Filled with the speaker arrangement for the plugin outputs.</param>
             <returns>Returns false when not implemented.</returns>
         </member>
+        <member name="M:Jacobi.Vst.Core.IVstPluginCommands23.GetNextPlugin(System.String@)">
+            <summary>
+            Retrieves the unique plugin Id and the name of the next (sub) plugin.
+            </summary>
+            <param name="name">Filled with the name of the next sub-plugin</param>
+            <returns>Returns the unique plugin id.</returns>
+        </member>
         <member name="M:Jacobi.Vst.Core.IVstPluginCommands23.StartProcess">
             <summary>
             Called just before the first call to Process is made.
@@ -2583,6 +2590,12 @@
             </summary>
             <param name="input">Passed with the forwarded call and back.</param>
             <param name="output">Passed with the forwarded call and back.</param>
+            <returns>Returns the value returned from the forwarded call.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Core.Host.VstPluginCommandAdapter.GetNextPlugin(System.String@)">
+            <summary>
+            This call is forwarded to the <see cref="T:Jacobi.Vst.Core.Plugin.IVstPluginCommandStub"/> implementation.
+            </summary>
             <returns>Returns the value returned from the forwarded call.</returns>
         </member>
         <member name="M:Jacobi.Vst.Core.Host.VstPluginCommandAdapter.StartProcess">
@@ -3366,7 +3379,7 @@
             <param name="noteLength">The length of the note (when the event is a midi note event).</param>
             <param name="noteOffset">The offset of the note.</param>
             <param name="midiData">The additional midi event data.</param>
-            <param name="detune">A detune value. Must lie within [-64,63] range.</param>
+            <param name="detune">A detune value. Should lie within [-64,63] range (not checked).</param>
             <param name="noteOffVelocity">Velocity for when the note is done.</param>
             <param name="isRealtime">True if the Midi Event was received in real time.</param>
         </member>
