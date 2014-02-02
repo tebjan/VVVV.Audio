@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.2.dtd" >
-   <PATCH nodename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VSTSynth.v4p" systemname="VSTSynth" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VSTSynth.v4p">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\VSTSynth.v4p" systemname="VSTSynth" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VSTSynth.v4p">
    <BOUNDS type="Window" left="1440" top="450" width="9015" height="10530">
    </BOUNDS>
    <NODE systemname="AudioEngine (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden" id="0">
@@ -45,7 +45,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="4845" top="900" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" values="|ASIO4ALL v2|">
+   <PIN pinname="Input Enum" slicecount="1" values="|Virus USB ASIO driver|">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Driver">
    </PIN>
@@ -113,7 +113,7 @@
    </PIN>
    <PIN pinname="Audio Out" visible="1">
    </PIN>
-   <PIN pinname="Safe Data" slicecount="1" values="zgANAD0AAABx9lcK2I1efBcOugUPHq9vJBbbYlNhZhBIx4on4cocHZqTA16WYOMQFHpcdtywaxkEIi5OUT13aKqHWn6+XGU5OjMAKyFzv2pndf9+t5ARF2djwAxJbYYAtz3YOjrHkjNGFb0EmXjKK275jWFL1vojIotBTHyQ0GGM1KVO88wpU5T/iC+yuTcpYBalOqDsJBzV1mVWCbZud/f6hgT0lERx5hE0XhKgyUeDewAArApDbc/GKX+YnIgtZxiWJov/rHtx3LhKaItzOWDYW2Xw8jQRffd6C7wbcDed7/EDQeynDPPGTGOu3/1LIyoUY85xr3gnC7MiAQAAAP/+/wpTAHcAZQBlAHQAIABTAGkAbgBlAAAAAAABAAAAAAAAAFIAAAL//v8ABgAAAAEAAAAAAAAAQAAAAv/+/wAGAAAAAQAAAACWybtVAAAC//7/AAAAAAABAAAAAQAAAG8AAAL//v8ABgAAAAEAAAAOIxBBZgAAAv/+/wAAAAAAAQAAAAgAAABIAAAC//7/AAYAAAABAAAA/n6/QGgAAAL//v8ABgAAAAEAAACAu/i8SwAAAv/+/wAAAAAAAQAAAAAAAABQAAAC//7/AAAAAAABAAAACgAAAE0AAAL//v8ABgAAAAEAAACmfz9AHwAAAv/+/wAGAAAAAQAAAKF7hz8dAAAC//7/AAYAAAABAAAA07YnQBoAAAL//v8ABgAAAAEAAADM2eo+CgAAAv/+/wAGAAAAAQAAALlEkz8IAAAC//7/AAYAAAABAAAAAACAPxwAAAL//v8ABgAAAAEAAAAgEAhBbQAAAv/+/wAAAAAAAQAAAAEAAABnAAAC//7/AAYAAAABAAAAobkdQBUAAAL//v8ABgAAAAEAAACniMpAWgAAAv/+/wAAAAAAAQAAAAIAAAAbAAAC//7/AAYAAAABAAAAiUKhP2sAAAL//v8AAAAAAAEAAAACAAAAbgAAAv/+/wAAAAAAAQAAAAUAAABpAAAC//7/AAYAAAABAAAAAye4QFMAAAL//v8AAAAAAAEAAAAEAAAASgAAAv/+/wAGAAAAAQAAAAAAAAADAAAC//7/AAAAAAABAAAAAAAAABMAAAL//v8ABgAAAAEAAAAAAABBBwAAAv/+/wAAAAAAAQAAAAYAAABXAAAC//7/AAAAAAABAAAAAAAAAEYAAAL//v8AAAAAAAEAAAAGAAAAVAAAAv/+/wAGAAAAAQAAAASQyj////////7/AAYAAAABAAAAnopAv////////v8AAQAAAAEAAAD//v8CNgA0AP///////v8ABgAAAAEAAACEPe0////////+/wAGAAAAAQAAAH57wj////////7/AAYAAAABAAAAAAAAgP///////v8ABgAAAAEAAAA9PRxG///////+/wAGAAAAAQAAAEFzokBMAAAC//7/AAYAAAABAAAA91mZQEkAAAL//v8ABgAAAAEAAADN5hZBHgAAAv/+/wAAAAAAAQAAAAEAAABsAAAC//7/AAYAAAABAAAAzeYWQVYAAAL//v8ABgAAAAEAAAC0N/NAIAAAAv/+/wAGAAAAAQAAAGu/7D8UAAAC//7/AAYAAAABAAAALZPJPlEAAAL//v8AAAAAAAEAAAABAAAAGAAAAv/+/wAAAAAAAQAAAAQAAABbAAAC//7/AAYAAAABAAAAvQ28QBkAAAL//v8ABgAAAAEAAAAvFxFA///////+/wAGAAAAAQAAAK69csD///////7/AAYAAAABAAAAlILqv////////v8ABgAAAAEAAACy47Q////////+/wAGAAAAAQAAAHu7XT9qAAAC//7/AAYAAAABAAAAVisLwP///////v8ABgAAAAEAAAASwtY6///////+/wAGAAAAAQAAAMi+Qz////////7/AAYAAAABAAAAkxtTwP///////v8AAQAAAAEAAAD//v8CNwA2AP///////v8ABgAAAAEAAADDVMBARwAAAv/+/wA=">
+   <PIN pinname="Safe Data" slicecount="1" values="zgANAD0AAAC3Pdg6UT13aNywaxkEIi5OqodafmiLczlg2Ftl8PI0Ec5xr3h993oLvBtwN67f/UsjKhRjQeynDPPGTGOU/4gvsrk3KWAWpToJtm539/qGBKDsJBzV1mVWRhW9BG75jWGZeMorIotBTHyQ0GFL1vojjNSlTvPMKVPmETReEqDJR4N7AACsCkNti/+se3HcuErPxil/ZxiWJpiciC1Ix4onFw66BVNhZhCd7/EDDx6vbyQW22K+XGU5OjMAK7eQERchc79qZ3X/fklthgBnY8AMOseSM3H2VwrYjV58JwuzIpZg4xD0lERxFHpcdpqTA17hyhwdAQAAAP/+/wpTAHcAZQBlAHQAIABTAGkAbgBlAAAAAAABAAAAAgAAAG4AAAL//v8ABgAAAAEAAADM2eo+CgAAAv/+/wAGAAAAAQAAAKF7hz8dAAAC//7/AAYAAAABAAAA07YnQBoAAAL//v8ABgAAAAEAAAC5RJM/CAAAAv/+/wAGAAAAAQAAAL0NvEAZAAAC//7/AAYAAAABAAAALxcRQP///////v8ABgAAAAEAAACuvXLA///////+/wABAAAAAQAAAP/+/wI3ADYA///////+/wAGAAAAAQAAAJSC6r////////7/AAYAAAABAAAAsuO0P////////v8ABgAAAAEAAADIvkM////////+/wAGAAAAAQAAAJMbU8D///////7/AAYAAAABAAAAVisLwP///////v8ABgAAAAEAAAASwtY6///////+/wAGAAAAAQAAAASQyj////////7/AAYAAAABAAAAnopAv////////v8AAQAAAAEAAAD//v8CNgA0AP///////v8ABgAAAAEAAAAAAACA///////+/wAGAAAAAQAAAD09HEb///////7/AAYAAAABAAAAhD3tP////////v8ABgAAAAEAAAB+e8I////////+/wAGAAAAAQAAAAMnuEBTAAAC//7/AAYAAAABAAAAAAAAAAMAAAL//v8AAAAAAAEAAAAEAAAASgAAAv/+/wAGAAAAAQAAAAAAAEEHAAAC//7/AAAAAAABAAAABgAAAFcAAAL//v8AAAAAAAEAAAAAAAAAEwAAAv/+/wAAAAAAAQAAAAAAAABGAAAC//7/AAAAAAABAAAABgAAAFQAAAL//v8ABgAAAAEAAAD3WZlASQAAAv/+/wAGAAAAAQAAAAAAIEEeAAAC//7/AAAAAAABAAAAAQAAAGwAAAL//v8ABgAAAAEAAAAAACBBVgAAAv/+/wAAAAAAAQAAAAEAAAAYAAAC//7/AAAAAAABAAAABAAAAFsAAAL//v8ABgAAAAEAAAC0N/NAIAAAAv/+/wAGAAAAAQAAAC2TyT5RAAAC//7/AAYAAAABAAAAa7/sPxQAAAL//v8ABgAAAAEAAAD+fr9AaAAAAv/+/wAGAAAAAQAAAACWybtVAAAC//7/AAAAAAABAAAACAAAAEgAAAL//v8ABgAAAAEAAAB7u10/agAAAv/+/wAAAAAAAQAAAAEAAABvAAAC//7/AAYAAAABAAAADiMQQWYAAAL//v8ABgAAAAEAAAAAAIA/HAAAAv/+/wAGAAAAAQAAACAQCEFtAAAC//7/AAYAAAABAAAAp4jKQFoAAAL//v8AAAAAAAEAAAABAAAAZwAAAv/+/wAGAAAAAQAAAKG5HUAVAAAC//7/AAYAAAABAAAAiUKhP2sAAAL//v8AAAAAAAEAAAACAAAAGwAAAv/+/wAAAAAAAQAAAAUAAABpAAAC//7/AAAAAAABAAAAAAAAAFIAAAL//v8ABgAAAAEAAAAAAAAAQAAAAv/+/wAGAAAAAQAAAMNUwEBHAAAC//7/AAAAAAABAAAACgAAAE0AAAL//v8ABgAAAAEAAABBc6JATAAAAv/+/wAGAAAAAQAAAKZ/P0AfAAAC//7/AAAAAAABAAAAAAAAAFAAAAL//v8ABgAAAAEAAACAu/i8SwAAAv/+/wA=">
    </PIN>
    <PIN pinname="Midi Message" visible="1">
    </PIN>
@@ -180,34 +180,12 @@
    </NODE>
    <LINK srcnodeid="66" srcpinname="Output String" dstnodeid="60" dstpinname="Filename">
    </LINK>
-   <NODE systemname="MidiFilePlayer" filename="%VVVV%\packs\AudioAlpha\girlpower\subpatches\MidiFilePlayer.v4p" nodename="%VVVV%\packs\AudioAlpha\girlpower\subpatches\MidiFilePlayer.v4p" componentmode="Hidden" id="68">
-   <BOUNDS type="Node" left="5595" top="2745" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Beat Input" visible="1">
-   </PIN>
-   <PIN pinname="Restart" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Read" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="File Name" slicecount="1" values="..\assets\001128817247.mid">
-   </PIN>
-   <PIN pinname="Midi Output Port" slicecount="1" values="|LoopBe Internal MIDI|">
-   </PIN>
-   <PIN pinname="Transpose" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="All Notes Off" slicecount="1" values="0">
-   </PIN>
-   <BOUNDS type="Window" left="8340" top="0" width="16620" height="16200">
-   </BOUNDS>
-   </NODE>
-   <LINK srcnodeid="0" srcpinname="Beat" dstnodeid="68" dstpinname="Beat Input">
-   </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="69" systemname="IOBox (Enumerations)">
    <BOUNDS type="Box" left="1620" top="2490" width="1845" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="1620" top="2490" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" values="|LoopBe Internal MIDI|">
+   <PIN pinname="Input Enum" slicecount="1" values="|01. Internal MIDI|">
    </PIN>
    </NODE>
    <LINK srcnodeid="69" srcpinname="Output Enum" dstnodeid="63" dstpinname="Midi Input Port">
@@ -223,11 +201,9 @@
    </BOUNDS>
    <BOUNDS type="Node" left="6615" top="1950" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" values="|LoopBe Internal MIDI|">
+   <PIN pinname="Input Enum" slicecount="1" values="|01. Internal MIDI|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="70" srcpinname="Output Enum" dstnodeid="68" dstpinname="Midi Output Port">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="71" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="3435" top="4275" width="795" height="240">
    </BOUNDS>
@@ -330,4 +306,32 @@
    </LINK>
    <LINK srcnodeid="78" srcpinname="Output" dstnodeid="75" dstpinname="Y Input Value">
    </LINK>
+   <NODE systemname="MidiFilePlayer" filename="%VVVV%\packs\VVVV.Audio\girlpower\subpatches\MidiFilePlayer.v4p" nodename="%VVVV%\packs\VVVV.Audio\girlpower\subpatches\MidiFilePlayer.v4p" componentmode="Hidden" id="68">
+   <BOUNDS type="Node" left="5595" top="2745" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Beat Input" visible="1">
+   </PIN>
+   <PIN pinname="Restart" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Read" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="File Name" slicecount="1" values="..\assets\001128817247.mid">
+   </PIN>
+   <PIN pinname="Midi Output Port">
+   </PIN>
+   <PIN pinname="Transpose" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="All Notes Off" slicecount="1" values="0">
+   </PIN>
+   <BOUNDS type="Window" left="8340" top="0" width="16620" height="16200">
+   </BOUNDS>
+   <PIN pinname="Enabled" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Beat" dstnodeid="68" dstpinname="Beat Input">
+   </LINK>
+   <LINK srcnodeid="70" srcpinname="Output Enum" dstnodeid="68" dstpinname="Midi Output Port">
+   </LINK>
+   <PACK Name="testPack" Version="0.1.0">
+   </PACK>
    </PATCH>

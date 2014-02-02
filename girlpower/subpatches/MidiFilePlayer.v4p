@@ -1,29 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.2.dtd" >
-   <PATCH nodename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\subpatches\MidiFilePlayer.v4p" systemname="MidiFilePlayer" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\MidiFilePlayer.v4p">
-   <NODE systemname="MidiRead (Spreads Simple)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\MidiRead.dll" nodename="MidiRead (Spreads Simple)" componentmode="Hidden" id="0">
-   <BOUNDS type="Node" left="3210" top="2790" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="File Name" slicecount="1" values="midi\001128817247.mid">
-   </PIN>
-   <PIN pinname="Read" visible="1">
-   </PIN>
-   <PIN pinname="Ticks" visible="1">
-   </PIN>
-   <PIN pinname="Division" visible="1">
-   </PIN>
-   <PIN pinname="Note Start Time" visible="1">
-   </PIN>
-   <PIN pinname="Note End Time" visible="1">
-   </PIN>
-   <PIN pinname="Note" visible="1">
-   </PIN>
-   <PIN pinname="Note Velocity" visible="1">
-   </PIN>
-   <PIN pinname="Note Channel" visible="1">
-   </PIN>
-   <PIN pinname="Tracks" slicecount="1" values="-1">
-   </PIN>
-   </NODE>
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\subpatches\MidiFilePlayer.v4p" systemname="MidiFilePlayer" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\MidiFilePlayer.v4p">
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="1">
    <BOUNDS type="Node" left="2895" top="375" width="100" height="100">
    </BOUNDS>
@@ -45,9 +21,9 @@
    <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="2">
    <BOUNDS type="Node" left="3120" top="3675" width="300" height="270">
    </BOUNDS>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="Input 2" visible="1">
+   <PIN pinname="Input 2" visible="1" slicecount="1" values="1">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -55,9 +31,9 @@
    <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="3">
    <BOUNDS type="Node" left="3600" top="3585" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="Input 2" visible="1">
+   <PIN pinname="Input 2" visible="1" slicecount="1" values="1">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -159,7 +135,7 @@
    <NODE systemname="EQ (Value)" nodename="EQ (Value)" componentmode="Hidden" id="12">
    <BOUNDS type="Node" left="4575" top="3705" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input 1" visible="1">
+   <PIN pinname="Input 1" visible="1" slicecount="1" values="0">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -216,16 +192,6 @@
    </LINK>
    <LINK srcnodeid="3" srcpinname="Output" dstnodeid="4" dstpinname="Input 2">
    </LINK>
-   <LINK srcnodeid="0" srcpinname="Note Start Time" dstnodeid="2" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="0" srcpinname="Division" dstnodeid="2" dstpinname="Input 2">
-   </LINK>
-   <LINK srcnodeid="0" srcpinname="Note End Time" dstnodeid="3" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="0" srcpinname="Division" dstnodeid="3" dstpinname="Input 2">
-   </LINK>
-   <LINK srcnodeid="0" srcpinname="Note Channel" dstnodeid="12" dstpinname="Input 1">
-   </LINK>
    <BOUNDS type="Window" left="8340" top="0" width="16620" height="16200">
    </BOUNDS>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="18" systemname="IOBox (Enumerations)">
@@ -258,8 +224,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="|File Name|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="19" srcpinname="Output String" dstnodeid="0" dstpinname="File Name">
-   </LINK>
    <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="20">
    <BOUNDS type="Node" left="2505" top="3615" width="300" height="270">
    </BOUNDS>
@@ -270,10 +234,6 @@
    <PIN pinname="Output" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="0" srcpinname="Ticks" dstnodeid="20" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="0" srcpinname="Division" dstnodeid="20" dstpinname="Input 2">
-   </LINK>
    <LINK srcnodeid="7" srcpinname="Output" dstnodeid="13" dstpinname="Input 1">
    </LINK>
    <LINK srcnodeid="11" srcpinname="Output" dstnodeid="15" dstpinname="Input 1">
@@ -287,15 +247,13 @@
    <NODE systemname="Add (Value)" nodename="Add (Value)" componentmode="Hidden" id="16">
    <BOUNDS type="Node" left="7245" top="4500" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input 1" visible="1">
+   <PIN pinname="Input 1" visible="1" slicecount="1" values="0">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
    <PIN pinname="Input 2" slicecount="1" values="12">
    </PIN>
    </NODE>
-   <LINK srcnodeid="0" srcpinname="Note" dstnodeid="16" dstpinname="Input 1">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="21" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="3600" top="420" width="795" height="240">
    </BOUNDS>
@@ -323,8 +281,6 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="1" srcpinname="Y Output Value" dstnodeid="22" dstpinname="Simulate">
-   </LINK>
-   <LINK srcnodeid="22" srcpinname="Bang" dstnodeid="0" dstpinname="Read">
    </LINK>
    <NODE systemname="NOT (Boolean)" nodename="NOT (Boolean)" componentmode="Hidden" id="23">
    <BOUNDS type="Node" left="5415" top="4050" width="100" height="100">
@@ -726,10 +682,56 @@
    </LINK>
    <LINK srcnodeid="49" srcpinname="Output" dstnodeid="47" dstpinname="Do Send">
    </LINK>
-   <LINK srcnodeid="0" srcpinname="Note Velocity" dstnodeid="39" dstpinname="Y Input Value">
-   </LINK>
    <LINK srcnodeid="39" srcpinname="Y Output Value" dstnodeid="43" dstpinname="Input 2">
    </LINK>
    <LINK srcnodeid="27" srcpinname="Y Output Value" dstnodeid="12" dstpinname="Input 2">
    </LINK>
+   <NODE systemname="MidiRead (Spreads Simple)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\MidiRead.dll" nodename="MidiRead (Spreads Simple)" componentmode="Hidden" id="0">
+   <BOUNDS type="Node" left="3210" top="2790" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="File Name">
+   </PIN>
+   <PIN pinname="Read" visible="1">
+   </PIN>
+   <PIN pinname="Ticks" visible="1">
+   </PIN>
+   <PIN pinname="Division" visible="1">
+   </PIN>
+   <PIN pinname="Note Start Time" visible="1">
+   </PIN>
+   <PIN pinname="Note End Time" visible="1">
+   </PIN>
+   <PIN pinname="Note" visible="1">
+   </PIN>
+   <PIN pinname="Note Velocity" visible="1">
+   </PIN>
+   <PIN pinname="Note Channel" visible="1">
+   </PIN>
+   <PIN pinname="Tracks" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Note Start Time" dstnodeid="2" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Division" dstnodeid="2" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Note End Time" dstnodeid="3" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Division" dstnodeid="3" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Note Channel" dstnodeid="12" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="19" srcpinname="Output String" dstnodeid="0" dstpinname="File Name">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Ticks" dstnodeid="20" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Division" dstnodeid="20" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Note" dstnodeid="16" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="22" srcpinname="Bang" dstnodeid="0" dstpinname="Read">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Note Velocity" dstnodeid="39" dstpinname="Y Input Value">
+   </LINK>
+   <PACK Name="testPack" Version="0.1.0">
+   </PACK>
    </PATCH>
