@@ -67,6 +67,7 @@ namespace VVVV.Audio.VST
             {
 
                 PluginContext = OpenPlugin(filename);
+                if(PluginContext == null) return;
 
                 SetOutputCount(PluginContext.PluginInfo.AudioOutputCount);
 
@@ -207,7 +208,7 @@ namespace VVVV.Audio.VST
         {
             //safeString.LastIndexOf('|');
 
-            if (string.IsNullOrWhiteSpace(safeString)) return;
+            if (string.IsNullOrWhiteSpace(safeString) || PluginContext == null) return;
 
             if (PluginContext.PluginInfo.Flags.HasFlag(VstPluginFlags.ProgramChunks))
             {
