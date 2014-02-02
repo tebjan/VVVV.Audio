@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.2.dtd" >
-   <PATCH nodename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\WaveTableSynthesis.v4p" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\WaveTableSynthesis.v4p" systemname="WaveTableSynthesis">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\WaveTableSynthesis.v4p" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\WaveTableSynthesis.v4p" systemname="WaveTableSynthesis">
    <BOUNDS height="12510" left="2085" top="375" type="Window" width="10230">
    </BOUNDS>
    <NODE componentmode="Hidden" hiddenwhenlocked="0" id="6" managers="" nodename="RandomSpread (Spreads)" systemname="RandomSpread (Spreads)">
@@ -329,15 +329,17 @@
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="221" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Node" left="3540" top="6810" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="3540" top="6810" width="795" height="240">
+   <BOUNDS type="Box" left="3540" top="6810" width="840" height="465">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="9" visible="1" values="40,80,80,80,80,80,80,80,80">
+   <PIN pinname="Y Input Value" slicecount="2" visible="1" values="40,40.3">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Frequency">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="2">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="225" systemname="IOBox (String)">
@@ -447,11 +449,11 @@
    <LINK srcnodeid="221" srcpinname="Y Output Value" dstnodeid="4" dstpinname="Frequency">
    </LINK>
    <NODE systemname="AudioEngine (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden" id="245">
-   <BOUNDS type="Node" left="4605" top="7785" width="100" height="100">
+   <BOUNDS type="Node" left="4635" top="8265" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Play" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
+   <PIN pinname="Driver" slicecount="1" values="|Virus USB ASIO driver|">
    </PIN>
    <PIN pinname="Control Panel" slicecount="1" values="0">
    </PIN>
@@ -562,4 +564,16 @@
    </LINK>
    <LINK srcnodeid="258" srcpinname="Output" dstnodeid="24" dstpinname="Input 1">
    </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="260" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="4950" top="7485" width="1935" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4950" top="7485" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" values="|Virus USB ASIO driver|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="260" srcpinname="Output Enum" dstnodeid="245" dstpinname="Driver">
+   </LINK>
+   <PACK Name="testPack" Version="0.1.0">
+   </PACK>
    </PATCH>
