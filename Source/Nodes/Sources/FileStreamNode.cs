@@ -18,16 +18,13 @@ namespace VVVV.Nodes
 {
 	public class FileStreamSignal : MultiChannelSignal
 	{
-		#region fields & pins
-		
+
 		public bool FLoop;
-		public bool FIsPlaying = false;
+		public bool FPlay = false;
 		public bool FRunToEndBeforeLooping = true;
 		public TimeSpan LoopStartTime;
 		public TimeSpan LoopEndTime;
 		public TimeSpan FSeekTime;
-
-		#endregion fields & pins
 		
 		public AudioFileReaderVVVV FAudioFile;
 		public SilenceProvider FSilence;
@@ -56,7 +53,7 @@ namespace VVVV.Nodes
 			var samplesToRead = sampleCount*channels;
 			FFileBuffer = BufferHelpers.Ensure(FFileBuffer, samplesToRead);
             int bytesread = 0;
-			if(FIsPlaying)
+			if(FPlay)
 			{
 	            bytesread = FAudioFile.Read(FFileBuffer, offset*channels, samplesToRead);
 	
@@ -70,7 +67,6 @@ namespace VVVV.Nodes
 	            	}
 	            	else
 	            	{
-	            		FIsPlaying = false;
 	            		bytesread = FSilence.Read(FFileBuffer, offset*channels, samplesToRead);
 	            	}
 					
@@ -218,18 +214,14 @@ namespace VVVV.Nodes
 
             if (FVolume.IsChanged)
             {
-                instance.FAudioFile.Volume = FVolume[i];
+            	instance.FAudioFile.Volume = FVolume[i];
             }
-			
-			if(FPlay.IsChanged)
-			{
-				instance.FIsPlaying = FPlay[i];
-				if((instance.FAudioFile.CurrentTime >= instance.FAudioFile.TotalTime) && FPlay[i])
-				{
-					instance.FAudioFile.Position = 0;
-				}
-			}
-			
+            
+            if(FPlay.IsChanged)
+            {
+            	instance.FPlay = FPlay[i];
+            }
+            
 			if(FLoop.IsChanged)
 			{
 				if(FLoop[i] && instance.FAudioFile.CurrentTime <= instance.LoopEndTime)
