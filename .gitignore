@@ -10,3 +10,10 @@ Source/Dependencies/VST.NET/_selfcompiled/
 Patches/vvvv.midi-read/
 *.wav
 Source/Dependencies/VST.NET/_orig/
+nodes/plugins/Jacobi.*.xml
+nodes/plugins/yeppp-clr.xml
+nodes/plugins/VVVV.Audio.xml
+nodes/plugins/VVVV.Audio.dll.eqbak
+nodes/plugins/NAudio.xml
+nodes/plugins/NAudio.dll.eqbak
+nodes/plugins/app.eqconfig
