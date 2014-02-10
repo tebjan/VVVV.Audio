@@ -34,7 +34,21 @@ namespace VVVV.Audio
 		//the driver wrapper
 		public AsioOut AsioOut;
 		
-		public AudioEngine()
+		private static AudioEngine SInstance;
+		public static AudioEngine Instance
+		{
+			get
+			{
+				if(SInstance == null)
+				{
+					SInstance = new AudioEngine();
+				}
+				
+				return SInstance;
+			}
+		}
+		
+		private AudioEngine()
 		{
 			Settings = new AudioEngineSettings { SampleRate = 44100, BufferSize = 512 };
 			Timer = new AudioEngineTimer(Settings.SampleRate);
@@ -408,7 +422,7 @@ namespace VVVV.Audio
 			{
 				if(FAudioEngine == null)
 				{
-					FAudioEngine = new AudioEngine();
+					FAudioEngine = AudioEngine.Instance;
 				}
 				
 				return FAudioEngine;
