@@ -37,43 +37,43 @@ namespace VVVV.Nodes
     public class VSTHostNode : UserControl, IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification
 	{
         [Config("Safe Data")]
-        ISpread<string> FSafeConfig;
+        public ISpread<string> FSafeConfig;
 
         [Config("Exposed Pins")]
-        IDiffSpread<string> ParameterNamesConfig;
+        public IDiffSpread<string> ParameterNamesConfig;
 
 		[Input("Input", BinSize = 2)]
-		IDiffSpread<ISpread<AudioSignal>> FInputSignals;
+		public IDiffSpread<ISpread<AudioSignal>> FInputSignals;
 
         [Input("Do Send Midi", IsBang = true)]
-        ISpread<bool> FSendMidiIn;
+        public ISpread<bool> FSendMidiIn;
 
         [Input("Midi Message")]
-        IDiffSpread<int> FMsgIn;
+        public IDiffSpread<int> FMsgIn;
 
         [Input("Midi Data 1")]
-        IDiffSpread<int> FData1In;
+        public IDiffSpread<int> FData1In;
 
         [Input("Midi Data 2")]
-        IDiffSpread<int> FData2In;
+        public IDiffSpread<int> FData2In;
 		
 		[Input("Filename", StringType = StringType.Filename, FileMask="VST Plugin (*.dll, *.vst3)|*.dll;*.vst3")]
-		IDiffSpread<string> FFilename;
+		public IDiffSpread<string> FFilename;
 
         [Input("Auto Save", DefaultValue = 1)]
-        ISpread<bool> FAutosafeIn;
+        public ISpread<bool> FAutosafeIn;
 		
 		[Output("Audio Out", Order = -10)]
-		Pin<AudioSignal> FOutputSignals;
+		public Pin<AudioSignal> FOutputSignals;
 
         [Output("Latency")]
-        ISpread<int> FLatencyOut;
+        public ISpread<int> FLatencyOut;
 
         [Output("Input Channels")]
-        ISpread<int> FInChannelsOut;
+        public ISpread<int> FInChannelsOut;
 
         [Output("Output Channels")]
-        ISpread<int> FOutChannelsOut;
+        public ISpread<int> FOutChannelsOut;
 		
 		IHDEHost FHDEHost;
 
@@ -85,8 +85,7 @@ namespace VVVV.Nodes
 		protected List<IDiffSpread> FDiffInputs = new List<IDiffSpread>();
 		
 		protected AudioEngine FEngine;
-
-        VstPluginContext SelectedPluginContext;
+		
         VstPluginControl FPluginControl;
 		
 		[ImportingConstructor]

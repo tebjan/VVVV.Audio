@@ -167,19 +167,19 @@ namespace VVVV.Nodes
 	public class ResampleNode : GenericAudioFilterNodeWithOutputs<ResampleSignal>
 	{
 		[Input("Source Rate", DefaultValue = 44100, StepSize = 100)]
-		IDiffSpread<double> FSrcRateIn;
+		public IDiffSpread<double> FSrcRateIn;
 		
 		[Input("Destination Rate", DefaultValue = 44100, StepSize = 100)]
-		IDiffSpread<double> FDstRateIn;
+		public IDiffSpread<double> FDstRateIn;
 		
 		[Input("Required Transition Band", DefaultValue = 3)]
-		IDiffSpread<double> FReqTransBandIn;
+		public IDiffSpread<double> FReqTransBandIn;
 		
 		[Input("Destination Rate Is Engine Rate")]
-		IDiffSpread<bool> FDstIsEngineRateIn;
+		public IDiffSpread<bool> FDstIsEngineRateIn;
 		
 		[Output("Resampler Input Latency")]
-        ISpread<int> FLatencyOut;
+        public ISpread<int> FLatencyOut;
 		
 		protected override void SetParameters(int i, ResampleSignal instance)
 		{

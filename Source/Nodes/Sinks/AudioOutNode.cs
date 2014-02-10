@@ -27,7 +27,7 @@ namespace VVVV.Nodes
 	{
 		#region fields & pins
 		[Input("Input")]
-		IDiffSpread<AudioSignal> FInput;
+		public IDiffSpread<AudioSignal> FInput;
 		
 		[Import()]
 		ILogger FLogger;

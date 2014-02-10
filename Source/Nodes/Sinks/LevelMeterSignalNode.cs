@@ -49,13 +49,13 @@ namespace VVVV.Nodes
 	public class LevelMeterSignalNode : GenericAudioSinkNodeWithOutputs<LevelMeterSignal, double>
 	{		
 		[Input("Smoothing")]
-		IDiffSpread<double> FSmoothing;
+		public IDiffSpread<double> FSmoothing;
 
         [Output("Level dBs")]
-        ISpread<double> FLeveldBsOut;
+        public ISpread<double> FLeveldBsOut;
 		
 		[Output("Level")]
-		ISpread<double> FLevelOut;
+		public ISpread<double> FLevelOut;
 
         protected override void SetOutputs(int i, LevelMeterSignal instance)
         {

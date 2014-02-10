@@ -31,9 +31,6 @@ namespace VVVV.Audio
 		//this mixes multiple sample providers from the graph to a waveprovider which is set to
 		MasterWaveProvider MasterWaveProvider;
 		
-		private int FOpenInputChannels;
-		private int FOpenOutputChannels;
-		
 		//the driver wrapper
 		public AsioOut AsioOut;
 		

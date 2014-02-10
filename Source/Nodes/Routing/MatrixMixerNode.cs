@@ -80,16 +80,16 @@ namespace VVVV.Nodes
     public class MatrixMixerNode : IPluginEvaluate, IPartImportsSatisfiedNotification
 	{
 		[Input("Input")]
-		IDiffSpread<AudioSignal> FInput;
+		public IDiffSpread<AudioSignal> FInput;
 
         [Input("Gain")]
-        IDiffSpread<float> Gain;
+        public IDiffSpread<float> Gain;
 		
 		[Input("Output Count", DefaultValue = 2)]
-		IDiffSpread<int> FOutChannels;
+		public IDiffSpread<int> FOutChannels;
 		
 		[Output("Output")]
-		ISpread<AudioSignal> OutBuffer;
+		public ISpread<AudioSignal> OutBuffer;
 		
 		MatrixMixerSignal FMixer;
 		

@@ -93,18 +93,18 @@ namespace VVVV.Nodes
     }
 	
 	
-	[PluginInfo(Name = "Recorder", Category = "Audio", Version = "Sink", Help = "Records audio to disk", Tags = "Writer, File, Wave")]
-	public class WaveRecorderNode : GenericAudioSinkNodeWithOutputs<WaveRecorderSignal, int>
+	[PluginInfo(Name = "Writer", Category = "Audio", Version = "Sink", Help = "Records audio to disk", Tags = "Writer, File, Wave")]
+	public class WaveWriterNode : GenericAudioSinkNodeWithOutputs<WaveRecorderSignal, int>
 	{
 
         [Input("Write")]
-        IDiffSpread<bool> FWriteIn;
+        public IDiffSpread<bool> FWriteIn;
 
         [Input("Filename", DefaultString = "MyNextBigHit.wav", StringType = StringType.Filename, FileMask = ".wav")]
-        IDiffSpread<string> FNameIn;
+        public IDiffSpread<string> FNameIn;
 
         [Output("Samples Written")]
-        ISpread<double> FLevelOut;
+        public ISpread<double> FLevelOut;
 
         protected override void SetOutputs(int i, WaveRecorderSignal instance)
         {

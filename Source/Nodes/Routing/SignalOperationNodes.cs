@@ -108,10 +108,10 @@ namespace VVVV.Nodes
 	public class SignalOperationNode<TOperator> : IPluginEvaluate where TOperator : AudioSignalOperator, new()
 	{
 		[Input("Input", IsPinGroup = true)]
-		IDiffSpread<ISpread<AudioSignal>> Inputs;
+		public IDiffSpread<ISpread<AudioSignal>> Inputs;
 		
 		[Output("Audio Out")]
-		ISpread<AudioSignal> OutBuffer;
+		public ISpread<AudioSignal> OutBuffer;
 
 		public void Evaluate(int SpreadMax)
 		{
@@ -138,10 +138,10 @@ namespace VVVV.Nodes
 	public class SignalOperationSpectralNode<TOperator> : IPluginEvaluate where TOperator : AudioSignalOperator, new()
 	{
 		[Input("Input")]
-		IDiffSpread<ISpread<AudioSignal>> Inputs;
+		public IDiffSpread<ISpread<AudioSignal>> Inputs;
 		
 		[Output("Audio Out")]
-		ISpread<AudioSignal> OutBuffer;
+		public ISpread<AudioSignal> OutBuffer;
 
 		public void Evaluate(int SpreadMax)
 		{

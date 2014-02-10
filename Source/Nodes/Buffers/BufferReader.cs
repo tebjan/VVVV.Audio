@@ -58,19 +58,19 @@ namespace VVVV.Nodes
 	public class BufferReaderNode : GenericAudioSourceNodeWithOutputs<BufferReaderSignal>
 	{
 		[Input("Buffer ID", EnumName = "AudioBufferStorageKeys")]
-		IDiffSpread<EnumEntry> FKeys;
+		public IDiffSpread<EnumEntry> FKeys;
 		
 		[Input("Read")]
-		IDiffSpread<bool> FRead;
+		public IDiffSpread<bool> FRead;
 		
 		[Input("Do Seek", IsBang = true)]
-		ISpread<bool> FDoSeekIn;
+		public ISpread<bool> FDoSeekIn;
 		
 		[Input("Seek Position")]
-		IDiffSpread<int> FSeekPositionIn;
+		public IDiffSpread<int> FSeekPositionIn;
 		
 		[Output("Read Position")]
-		ISpread<int> FReadPosition;
+		public ISpread<int> FReadPosition;
 		
 		//always evaluate parameters
 		protected override bool AnyInputChanged()

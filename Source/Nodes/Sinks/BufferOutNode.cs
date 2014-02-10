@@ -47,7 +47,7 @@ namespace VVVV.Nodes
 	{
 		
 		[Output("Buffer")]
-		ISpread<ISpread<float>> FBufferOut;
+		public ISpread<ISpread<float>> FBufferOut;
 
         protected override void SetOutputs(int i, BufferOutSignal instance)
         {

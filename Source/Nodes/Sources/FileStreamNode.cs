@@ -139,46 +139,46 @@ namespace VVVV.Nodes
 	{
 		#region fields & pins
 		[Input("Play")]
-		IDiffSpread<bool> FPlay;
+		public IDiffSpread<bool> FPlay;
 		
 		[Input("Loop")]
-		IDiffSpread<bool> FLoop;
+		public IDiffSpread<bool> FLoop;
 		
 		[Input("Loop Start Time")]
-		IDiffSpread<double> FLoopStart;
+		public IDiffSpread<double> FLoopStart;
 		
 		[Input("Loop End Time")]
-		IDiffSpread<double> FLoopEnd;
+		public IDiffSpread<double> FLoopEnd;
 		
 		[Input("Do Seek", IsBang = true)]
-		IDiffSpread<bool> FDoSeek;
+		public IDiffSpread<bool> FDoSeek;
 		
 		[Input("Seek Time")]
-		IDiffSpread<double> FSeekPosition;		
+		public IDiffSpread<double> FSeekPosition;		
 		
 		[Input("Volume", DefaultValue = 1f)]
-		IDiffSpread<float> FVolume;
+		public IDiffSpread<float> FVolume;
 		
 		[Input("Filename", StringType = StringType.Filename, FileMask="Audio File (*.wav, *.mp3, *.aiff, *.m4a)|*.wav;*.mp3;*.aiff;*.m4a")]
-		IDiffSpread<string> FFilename;
+		public IDiffSpread<string> FFilename;
 		
 		[Output("Duration")]
-		ISpread<double> FDurationOut;
+		public ISpread<double> FDurationOut;
 		
 		[Output("Position")]
-		ISpread<double> FPositionOut;
+		public ISpread<double> FPositionOut;
 			
 		[Output("Can Seek")]
-		ISpread<bool> FCanSeekOut;
+		public ISpread<bool> FCanSeekOut;
 		
 		[Output("Sample Rate")]
-        ISpread<int> FSampleRateOut;
+        public ISpread<int> FSampleRateOut;
 
 		[Output("Channels")]
-        ISpread<int> FChannelsOut;
+        public ISpread<int> FChannelsOut;
 		
         [Output("Uncompressed Format")]
-        ISpread<string> FFileFormatOut;
+        public ISpread<string> FFileFormatOut;
 		#endregion fields & pins
 		
 

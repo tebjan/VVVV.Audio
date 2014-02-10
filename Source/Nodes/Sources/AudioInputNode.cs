@@ -42,7 +42,7 @@ namespace VVVV.Nodes
 	{
 		
 		[Output("Audio Out")]
-		ISpread<AudioSignal> OutBuffer;
+		public ISpread<AudioSignal> OutBuffer;
 		
 		public AudioInNode()
 		{

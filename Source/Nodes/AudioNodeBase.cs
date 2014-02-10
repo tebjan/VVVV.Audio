@@ -132,7 +132,7 @@ namespace VVVV.Nodes
     public abstract class GenericAudioSinkNode<TSignal, TValue> : AudioNodeBase<TSignal> where TSignal : SinkSignal<TValue>
     {
         [Input("Input", Order = -10)]
-        protected IDiffSpread<AudioSignal> FInputs;
+        public IDiffSpread<AudioSignal> FInputs;
 
         protected ISpread<AudioSignal> FSignals = new Spread<AudioSignal>();
 
@@ -182,7 +182,7 @@ namespace VVVV.Nodes
     public abstract class GenericAudioSourceNode<TSignal> : AudioNodeBase<TSignal> where TSignal : AudioSignal
 	{
 		[Output("Audio Out", Order = -10)]
-		protected Pin<AudioSignal> FOutputSignals;
+		public Pin<AudioSignal> FOutputSignals;
 
 		public override void OnImportsSatisfied()
 		{
@@ -225,7 +225,7 @@ namespace VVVV.Nodes
     public abstract class GenericAudioFilterNode<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : AudioSignalInput
 	{
 		[Input("Input", Order = -10)]
-		protected IDiffSpread<AudioSignal> FInputs;
+		public IDiffSpread<AudioSignal> FInputs;
 	}
 	
 	/// <summary>
@@ -268,7 +268,7 @@ namespace VVVV.Nodes
     public abstract class GenericAudioFilterNodeWithOutputs<TSignal> : GenericAudioSourceNodeWithOutputs<TSignal> where TSignal : AudioSignalInput
     {
         [Input("Input", Order = -10)]
-        protected IDiffSpread<AudioSignal> FInputs;
+        public IDiffSpread<AudioSignal> FInputs;
     }	
 	
 	/// <summary>

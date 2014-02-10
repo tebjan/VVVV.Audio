@@ -122,10 +122,10 @@ namespace VVVV.Nodes
 	public class SineSignalNode : GenericAudioSourceNode<SineSignal>
 	{
 		[Input("Frequency", DefaultValue = 440)]
-		IDiffSpread<float> Frequency;
+		public IDiffSpread<float> Frequency;
 		
 		[Input("Gain", DefaultValue = 0.1)]
-		IDiffSpread<float> Gain;
+		public IDiffSpread<float> Gain;
 		
 		protected override void SetParameters(int i, SineSignal instance)
 		{
@@ -144,10 +144,10 @@ namespace VVVV.Nodes
 	public class MultiSineSignalNode : GenericAudioSourceNode<MultiSineSignal>
 	{
 		[Input("Frequency", DefaultValue = 440)]
-		IDiffSpread<ISpread<float>> Frequency;
+		public IDiffSpread<ISpread<float>> Frequency;
 		
 		[Input("Gain", DefaultValue = 0.1)]
-		IDiffSpread<ISpread<float>> Gain;
+		public IDiffSpread<ISpread<float>> Gain;
 		
 		protected override int GetSpreadMax(int originalSpreadMax)
 		{

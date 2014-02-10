@@ -5,11 +5,8 @@
 *.pdb
 Source/bin/
 Source/obj
-VVVV/
-Patches/plugins/bin/
 Delphi/
 Source/Dependencies/VST.NET/_selfcompiled/
 Patches/vvvv.midi-read/
 *.wav
 Source/Dependencies/VST.NET/_orig/
-nodes/plugins/

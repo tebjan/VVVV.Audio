@@ -196,10 +196,10 @@ namespace VVVV.Nodes
 	public class SineSignalNodeYeppp : GenericAudioSourceNode<SineSignalYeppp>
 	{
 		[Input("Frequency", DefaultValue = 440)]
-		IDiffSpread<float> Frequency;
+		public IDiffSpread<float> Frequency;
 		
 		[Input("Gain", DefaultValue = 0.1)]
-		IDiffSpread<float> Gain;
+		public IDiffSpread<float> Gain;
 		
 		[ImportingConstructor]
 		public SineSignalNodeYeppp([Import] ILogger logger)
@@ -223,10 +223,10 @@ namespace VVVV.Nodes
 	public class MultiSineSignalNodeYeppp : GenericAudioSourceNode<MultiSineSignalYeppp>
 	{
 		[Input("Frequency", DefaultValue = 440)]
-		IDiffSpread<ISpread<float>> Frequency;
+		public IDiffSpread<ISpread<float>> Frequency;
 		
 		[Input("Gain", DefaultValue = 0.1)]
-		IDiffSpread<ISpread<float>> Gain;
+		public IDiffSpread<ISpread<float>> Gain;
 		
 		[ImportingConstructor]
 		public MultiSineSignalNodeYeppp([Import] ILogger logger)

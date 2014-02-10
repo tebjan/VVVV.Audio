@@ -132,22 +132,22 @@ namespace VVVV.Nodes
 	{
 		#region fields & pins
 		[Input("Table")]
-		IDiffSpread<ISpread<float>> FTableIn;
+		public IDiffSpread<ISpread<float>> FTableIn;
 		
 		[Input("Frequency", DefaultValue = 440)]
-		IDiffSpread<float> FFreqIn;
+		public IDiffSpread<float> FFreqIn;
 		
 		[Input("Window Function")]
-		IDiffSpread<WavetableWindowFunction> FWindowFuncIn;
+		public IDiffSpread<WavetableWindowFunction> FWindowFuncIn;
 		
 		[Input("Delay Amount", DefaultValue = 0)]
-		IDiffSpread<float> FDelayAmountIn;
+		public IDiffSpread<float> FDelayAmountIn;
 		
 		[Input("Delay Time", DefaultValue = 0.5)]
-		IDiffSpread<float> FDelayTimeIn;
+		public IDiffSpread<float> FDelayTimeIn;
 	
 		[Import()]
-		ILogger FLogger;
+		public ILogger FLogger;
 		
 		float[] FWindow;
 		
@@ -161,8 +161,6 @@ namespace VVVV.Nodes
 			max = Math.Max(max, FDelayAmountIn.SliceCount);
 			return Math.Max(max, FDelayTimeIn.SliceCount);
 		}
-		
-		WavetableWindowFunction FlastWindowFunc;
 		
 		protected override void SetParameters(int i, WaveTableSignal instance)
 		{

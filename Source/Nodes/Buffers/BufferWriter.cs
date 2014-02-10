@@ -89,19 +89,19 @@ namespace VVVV.Nodes
 	public class BufferWriterNode : IPluginEvaluate
 	{
 		[Input("Input")]
-		IDiffSpread<AudioSignal> FInput;
+		public IDiffSpread<AudioSignal> FInput;
 		
 		[Input("Write")]
-		IDiffSpread<bool> FReadIn;
+		public IDiffSpread<bool> FReadIn;
 		
 		[Input("Preview Spread Count", DefaultValue = 100)]
-		IDiffSpread<int> FPreviewSizeIn;
+		public IDiffSpread<int> FPreviewSizeIn;
 		
 		[Input("Buffer ID", EnumName = "AudioBufferStorageKeys")]
-		IDiffSpread<EnumEntry> FKeys;
+		public IDiffSpread<EnumEntry> FKeys;
 		
 		[Output("Buffer Preview")]
-		ISpread<ISpread<float>> FBufferPreviewOut;
+		public ISpread<ISpread<float>> FBufferPreviewOut;
 		
 		Spread<BufferWriterSignal> FBufferReaders = new Spread<BufferWriterSignal>();
 		
