@@ -85,7 +85,7 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "BufferWriter", Category = "Audio", Version = "Sink", Help = "Records audio into a buffer", Tags = "Scope, Samples", AutoEvaluate = true)]
+	[PluginInfo(Name = "BufferWriter", Category = "VAudio", Version = "Sink", Help = "Records audio into a buffer", Tags = "Scope, Samples", AutoEvaluate = true)]
 	public class BufferWriterNode : IPluginEvaluate
 	{
 		[Input("Input")]

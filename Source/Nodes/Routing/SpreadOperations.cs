@@ -23,7 +23,7 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {
 	[PluginInfo(Name = "Cons",
-	            Category = "Audio",
+	            Category = "VAudio",
 	            Help = "Concatenates all input audio signals to one output spread",
 	            Tags = ""
 	           )]
@@ -32,7 +32,7 @@ namespace VVVV.Nodes
 	}
 	
 	[PluginInfo(Name = "Zip", 
-	            Category = "Audio", 
+	            Category = "VAudio", 
 	            Help = "Zips spreads together", 
 	            Tags = "spread, join")]
 	public class AudioZipNode : ZipNode<AudioSignal>
@@ -40,7 +40,7 @@ namespace VVVV.Nodes
 	}
 	
 	[PluginInfo(Name = "Unzip", 
-	            Category = "Audio", 
+	            Category = "VAudio", 
 	            Help = "Unzips a spread into multiple spreads", 
 	            Tags = "spread, split")]
 	public class AudioUnzipNode : UnzipNode<AudioSignal>
@@ -48,7 +48,7 @@ namespace VVVV.Nodes
 	}
 	
 	[PluginInfo(Name = "SetSlice",
-	            Category = "Audio",
+	            Category = "VAudio",
 	            Help = "Replace individual slices of the audio spread with the given input",
 	            Tags = "replace",
 	            Author = "woei")]
@@ -57,7 +57,7 @@ namespace VVVV.Nodes
 	}
 	
 	[PluginInfo(Name = "DeleteSlice",
-	            Category = "Audio",
+	            Category = "VAudio",
 	            Help = "Delete the slice at the given index",
 	            Tags = "remove, filter",
 	            Author = "woei")]
@@ -66,7 +66,7 @@ namespace VVVV.Nodes
 	}
 	
 	[PluginInfo(Name = "Pairwise",
-	            Category = "Audio",
+	            Category = "VAudio",
 	            Help = "Returns all combinations of successive slices. From an input ABCD returns AB, BC, CD",
 	            Tags = ""
 	           )]
@@ -75,7 +75,7 @@ namespace VVVV.Nodes
 	}
 	
 //	[PluginInfo(Name = "Select", 
-//	            Category = "Audio",
+//	            Category = "VAudio",
 //	            Help = "Select which slices and how many form the output spread",
 //	            Tags = "resample")]
 //    public class AudioSelectNode : SelectNode<AudioSignal>

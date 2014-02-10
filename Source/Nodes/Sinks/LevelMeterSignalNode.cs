@@ -45,7 +45,7 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "Meter", Category = "Audio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Meter, dB, Level")]
+	[PluginInfo(Name = "Meter", Category = "VAudio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Meter, dB, Level")]
 	public class LevelMeterSignalNode : GenericAudioSinkNodeWithOutputs<LevelMeterSignal, double>
 	{		
 		[Input("Smoothing")]

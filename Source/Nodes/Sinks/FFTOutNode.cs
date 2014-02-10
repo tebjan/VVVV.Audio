@@ -53,7 +53,7 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "FFT", Category = "Audio", Version = "Sink", Help = "Calculates the FFT of an audio buffer", Tags = "Spectrum, Frequencies")]
+	[PluginInfo(Name = "FFT", Category = "VAudio", Version = "Sink", Help = "Calculates the FFT of an audio buffer", Tags = "Spectrum, Frequencies")]
 	public class FFTOutNode : GenericAudioSinkNodeWithOutputs<FFTOutSignal, double[]>
 	{
 		[Output("Output")]

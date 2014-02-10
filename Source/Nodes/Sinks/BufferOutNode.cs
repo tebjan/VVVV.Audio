@@ -42,7 +42,7 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "GetBuffer", Category = "Audio", Version = "Sink", Help = "Returns a complete buffer", Tags = "Scope, Samples")]
+	[PluginInfo(Name = "GetBuffer", Category = "VAudio", Version = "Sink", Help = "Returns a complete buffer", Tags = "Scope, Samples")]
     public class BufferOutNode : GenericAudioSinkNodeWithOutputs<BufferOutSignal, float[]>
 	{
 		

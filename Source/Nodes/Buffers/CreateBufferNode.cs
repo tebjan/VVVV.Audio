@@ -95,7 +95,7 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "CreateBuffer", Category = "Audio", Help = "Creates a buffer which can be used to write and read samples", AutoEvaluate = true, Tags = "record")]
+	[PluginInfo(Name = "CreateBuffer", Category = "VAudio", Help = "Creates a buffer which can be used to write and read samples", AutoEvaluate = true, Tags = "record")]
 	public class CreateBufferNode : IPluginEvaluate, IDisposable
 	{
 		#pragma warning disable 0649

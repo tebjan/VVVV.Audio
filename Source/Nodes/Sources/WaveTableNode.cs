@@ -126,7 +126,7 @@ namespace VVVV.Nodes
 	}
 	
 	#region PluginInfo
-	[PluginInfo(Name = "WaveTable", Category = "Audio", Version = "Source", Help = "Generates an audio signal from a wave table", Tags = "LUT, Synthesis", AutoEvaluate = true)]
+	[PluginInfo(Name = "WaveTable", Category = "VAudio", Version = "Source", Help = "Generates an audio signal from a wave table", Tags = "LUT, Synthesis", AutoEvaluate = true)]
 	#endregion PluginInfo
 	public class WaveTableNode : GenericAudioSourceNode<WaveTableSignal>
 	{

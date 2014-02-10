@@ -33,7 +33,7 @@ namespace VVVV.Nodes
 {
 
 	
-	[PluginInfo(Name = "VSTHost", Category = "Audio", Version = "Source", Help = "Loads a VST plugin", AutoEvaluate = true, Tags = "plugin, effect")]
+	[PluginInfo(Name = "VSTHost", Category = "VAudio", Version = "Source", Help = "Loads a VST plugin", AutoEvaluate = true, Tags = "plugin, effect")]
     public class VSTHostNode : UserControl, IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification
 	{
         [Config("Safe Data")]

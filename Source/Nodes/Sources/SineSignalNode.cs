@@ -118,7 +118,7 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "Sine", Category = "Audio", Version = "Source", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
+	[PluginInfo(Name = "Sine", Category = "VAudio", Version = "Source", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
 	public class SineSignalNode : GenericAudioSourceNode<SineSignal>
 	{
 		[Input("Frequency", DefaultValue = 440)]
@@ -140,7 +140,7 @@ namespace VVVV.Nodes
 	}
 	
 	
-	[PluginInfo(Name = "MultiSine", Category = "Audio", Version = "Source", Help = "Creates a spread of sine waves", AutoEvaluate = true, Tags = "LFO, additive, synthesis")]
+	[PluginInfo(Name = "MultiSine", Category = "VAudio", Version = "Source", Help = "Creates a spread of sine waves", AutoEvaluate = true, Tags = "LFO, additive, synthesis")]
 	public class MultiSineSignalNode : GenericAudioSourceNode<MultiSineSignal>
 	{
 		[Input("Frequency", DefaultValue = 440)]

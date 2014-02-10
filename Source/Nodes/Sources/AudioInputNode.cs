@@ -37,7 +37,7 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "AudioIn", Category = "Audio", Version = "Source", Help = "Outputs the audio input", AutoEvaluate = true, Tags = "record, input")]
+	[PluginInfo(Name = "AudioIn", Category = "VAudio", Version = "Source", Help = "Outputs the audio input", AutoEvaluate = true, Tags = "record, input")]
 	public class AudioInNode : IPluginEvaluate
 	{
 		

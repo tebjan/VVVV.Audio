@@ -160,32 +160,32 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "Multiply", Category = "Audio", Help = "Multiplies audio signals", AutoEvaluate = true, Tags = "AM")]
+	[PluginInfo(Name = "Multiply", Category = "VAudio", Help = "Multiplies audio signals", AutoEvaluate = true, Tags = "AM")]
 	public class SignalMultiplyNode: SignalOperationNode<AudioSignalMultiplyOperator>
 	{
 	}
 	
-	[PluginInfo(Name = "Multiply", Category = "Audio", Version = "Spectral", Help = "Multiplies audio signals", AutoEvaluate = true, Tags = "AM")]
+	[PluginInfo(Name = "Multiply", Category = "VAudio", Version = "Spectral", Help = "Multiplies audio signals", AutoEvaluate = true, Tags = "AM")]
 	public class SignalMultiplySpectralNode: SignalOperationSpectralNode<AudioSignalMultiplyOperator>
 	{
 	}
 	
-	[PluginInfo(Name = "Add", Category = "Audio", Help = "Adds audio signals", AutoEvaluate = true, Tags = "Mix")]
+	[PluginInfo(Name = "Add", Category = "VAudio", Help = "Adds audio signals", AutoEvaluate = true, Tags = "Mix")]
 	public class SignalAddNode: SignalOperationNode<AudioSignalAddOperator>
 	{
 	}
 	
-	[PluginInfo(Name = "Add", Category = "Audio", Version = "Spectral", Help = "Adds audio signals", AutoEvaluate = true, Tags = "Mix")]
+	[PluginInfo(Name = "Add", Category = "VAudio", Version = "Spectral", Help = "Adds audio signals", AutoEvaluate = true, Tags = "Mix")]
 	public class SignalAddSpectralNode: SignalOperationSpectralNode<AudioSignalAddOperator>
 	{
 	}
 	
-	[PluginInfo(Name = "Subtract", Category = "Audio", Help = "Subtracts audio signals", AutoEvaluate = true, Tags = "Difference")]
+	[PluginInfo(Name = "Subtract", Category = "VAudio", Help = "Subtracts audio signals", AutoEvaluate = true, Tags = "Difference")]
 	public class SignalSubtractNode: SignalOperationNode<AudioSignalSubtractOperator>
 	{
 	}
 	
-	[PluginInfo(Name = "Subtract", Category = "Audio", Version = "Spectral", Help = "Subtracts audio signals", AutoEvaluate = true, Tags = "Difference")]
+	[PluginInfo(Name = "Subtract", Category = "VAudio", Version = "Spectral", Help = "Subtracts audio signals", AutoEvaluate = true, Tags = "Difference")]
 	public class SignalSubtractSpectralNode: SignalOperationSpectralNode<AudioSignalSubtractOperator>
 	{
 	}

@@ -93,7 +93,7 @@ namespace VVVV.Nodes
     }
 	
 	
-	[PluginInfo(Name = "Writer", Category = "Audio", Version = "Sink", Help = "Records audio to disk", Tags = "Writer, File, Wave")]
+	[PluginInfo(Name = "Writer", Category = "VAudio", Version = "Sink", Help = "Records audio to disk", Tags = "Writer, File, Wave")]
 	public class WaveWriterNode : GenericAudioSinkNodeWithOutputs<WaveRecorderSignal, int>
 	{
 

@@ -76,7 +76,7 @@ namespace VVVV.Nodes
 		}
 	}
 	
-	[PluginInfo(Name = "MatrixMixer", Category = "Audio", Version = "Filter", Help = "Mixes the input signals to any output", AutoEvaluate = true, Tags = "mix, map, multichannel")]
+	[PluginInfo(Name = "MatrixMixer", Category = "VAudio", Version = "Filter", Help = "Mixes the input signals to any output", AutoEvaluate = true, Tags = "mix, map, multichannel")]
     public class MatrixMixerNode : IPluginEvaluate, IPartImportsSatisfiedNotification
 	{
 		[Input("Input")]

@@ -38,7 +38,7 @@ namespace VVVV.Nodes
 		
 	}
 	
-	[PluginInfo(Name = "AudioEngine", Category = "Audio", Help = "Configures the audio engine", AutoEvaluate = true, Tags = "Asio")]
+	[PluginInfo(Name = "AudioEngine", Category = "VAudio", Help = "Configures the audio engine", AutoEvaluate = true, Tags = "Asio")]
 	public class AudioEngineNode : IPluginEvaluate, IDisposable
 	{
 		#region fields & pins
