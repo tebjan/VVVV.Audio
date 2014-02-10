@@ -128,20 +128,26 @@ namespace VVVV.Audio.VST
 //                lvItem.SubItems.Add(PluginContext.Find<string>("PluginPath"));
 		}
 
-        //HACK: very evil hack
+        
         private void GetProgramNames()
         {
-            var ctx = OpenPlugin(FFilename);
-
-            ProgramNames = new string[ctx.PluginInfo.ProgramCount];
-
-            for (int i = 0; i < ctx.PluginInfo.ProgramCount; i++)
+        	ProgramNames = new string[PluginContext.PluginInfo.ProgramCount];
+        	
+        	for (int i = 0; i < ProgramNames.Length; i++)
             {
-                ctx.PluginCommandStub.SetProgram(i);
-                ProgramNames[i] = ctx.PluginCommandStub.GetProgramName();
+                ProgramNames[i] = PluginContext.PluginCommandStub.GetProgramNameIndexed(i);
             }
-            
-            ctx.Dispose();
+        	
+        	//HACK: very evil hack
+//            var ctx = OpenPlugin(FFilename);
+//
+//            for (int i = 0; i < ctx.PluginInfo.ProgramCount; i++)
+//            {
+//                ctx.PluginCommandStub.SetProgram(i);
+//                ProgramNames[i] = ctx.PluginCommandStub.GetProgramName();
+//            }
+//            
+//            ctx.Dispose();
         }
 
         private void SetNeedsSafe(int index)
