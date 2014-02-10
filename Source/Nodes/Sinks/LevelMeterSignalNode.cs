@@ -66,7 +66,7 @@ namespace VVVV.Nodes
                 var smooth = FSmoothing[i];
                 var level = FLevelOut[i] * smooth + val * (1 - smooth);
                 FLevelOut[i] = level;
-                FLeveldBsOut[i] = AudioUtils.SampleTodBs(level);
+                FLeveldBsOut[i] = Decibels.LinearToDecibels(level);
             }
             else
             {
