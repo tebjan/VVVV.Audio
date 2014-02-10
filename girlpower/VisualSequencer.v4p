@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.2.dtd" >
-   <PATCH nodename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VisualSequencer.v4p" systemname="VisualSequencer" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VisualSequencer.v4p">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\VisualSequencer.v4p" systemname="VisualSequencer" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VisualSequencer.v4p">
    <BOUNDS type="Window" left="420" top="510" width="9840" height="11580">
    </BOUNDS>
    <NODE id="6" nodename="IOBox (Value Advanced)" componentmode="InABox" systemname="IOBox (Value Advanced)">
@@ -58,30 +58,6 @@
    <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
-   <NODE id="163" systemname="AudioOut (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden">
-   <PIN pinname="Input" visible="1" slicecount="1" values="||">
-   </PIN>
-   <BOUNDS type="Node" left="480" top="10365" width="750" height="270">
-   </BOUNDS>
-   </NODE>
-   <NODE id="37" systemname="AudioEngine (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden">
-   <PIN pinname="Play" visible="1">
-   </PIN>
-   <PIN pinname="BPM" slicecount="1" values="124">
-   </PIN>
-   <PIN pinname="Driver">
-   </PIN>
-   <PIN pinname="Control Panel">
-   </PIN>
-   <BOUNDS type="Node" left="1695" top="10425" width="3555" height="270">
-   </BOUNDS>
-   </NODE>
-   <LINK srcnodeid="110" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Control Panel">
-   </LINK>
-   <LINK srcnodeid="81" srcpinname="Output Enum" dstnodeid="37" dstpinname="Driver">
-   </LINK>
-   <LINK srcnodeid="6" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Play">
-   </LINK>
    <NODE systemname="Power (Value)" nodename="Power (Value)" componentmode="Hidden" id="174">
    <BOUNDS type="Node" left="480" top="8340" width="555" height="270">
    </BOUNDS>
@@ -480,32 +456,6 @@
    </NODE>
    <LINK srcnodeid="183" srcpinname="Lightness" dstnodeid="218" dstpinname="Go To Position">
    </LINK>
-   <NODE id="173" systemname="MultiSine (Audio Source)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="MultiSine (Audio Source)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
-   <PIN pinname="Audio Out" visible="1" pintype="Output">
-   </PIN>
-   <BOUNDS type="Node" left="480" top="9870" width="420" height="270">
-   </BOUNDS>
-   <BOUNDS type="Box" left="0" top="6195" width="2400" height="1800">
-   </BOUNDS>
-   <BOUNDS type="Window" left="0" top="0" width="6000" height="4500">
-   </BOUNDS>
-   <PIN pinname="Descriptive Name" pintype="Configuration" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Frequency" pintype="Input" visible="1">
-   </PIN>
-   <PIN pinname="Gain" pintype="Input" visible="1" slicecount="256" values="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9.42659123267958E-005,9.42659123267958E-005,0,0.000348974037823912,0.000348974037823912,0.000589634741903759,0.000589634741903759,0,0.000845020767354249,0.000845020767354249,0.00110558615854762,0.00110558615854762,0.00135913985991509,0.00135913985991509,0,0,0,0,0,0.00501732866600743,0.00501732866600743,0,0.0021674288344928,0.0021674288344928,0.00247504481435728,0.00539090016076267,0.00267045122542439,0.00267045122542439,0.00295849563762224,0.00295849563762224,0.0064345844391372,0.00322651589664726,0.00694067140496369,0.00346405447969421,0.00346405447969421,0.0074085278110892,0.00369633989081973,0.0079552165766805,0.00400799810390036,0.00400799810390036,0.00450013252518825,0.00450013252518825,0.00450013252518825,0.00986806956330945,0.0050698320049776,0.0097835914469709,0.00445086781676261,0,0.00498142541118796,0.00498142541118796,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
-   </PIN>
-   <PIN pinname="Window Handle" pintype="Output">
-   </PIN>
-   <PIN pinname="ID" pintype="Output" visible="-1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="174" srcpinname="Output" dstnodeid="173" dstpinname="Frequency">
-   </LINK>
-   <LINK srcnodeid="207" srcpinname="Output" dstnodeid="173" dstpinname="Gain">
-   </LINK>
-   <LINK srcnodeid="173" srcpinname="Audio Out" dstnodeid="163" dstpinname="Input">
-   </LINK>
    <LINK srcnodeid="218" srcpinname="Position Out" dstnodeid="207" dstpinname="Input 2">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="219" systemname="IOBox (Value Advanced)">
@@ -553,5 +503,55 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="221" srcpinname="Y Output Value" dstnodeid="195" dstpinname="Random Seed">
+   </LINK>
+   <NODE id="173" systemname="MultiSine (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="MultiSine (VAudio Source)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
+   <PIN pinname="Audio Out" visible="1" pintype="Output">
+   </PIN>
+   <BOUNDS type="Node" left="480" top="9870" width="420" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="0" top="6195" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="6000" height="4500">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" pintype="Configuration" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Frequency" pintype="Input" visible="1">
+   </PIN>
+   <PIN pinname="Gain" pintype="Input" visible="1">
+   </PIN>
+   <PIN pinname="Window Handle" pintype="Output">
+   </PIN>
+   <PIN pinname="ID" pintype="Output" visible="-1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="174" srcpinname="Output" dstnodeid="173" dstpinname="Frequency">
+   </LINK>
+   <LINK srcnodeid="207" srcpinname="Output" dstnodeid="173" dstpinname="Gain">
+   </LINK>
+   <NODE id="163" systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioOut (VAudio)" componentmode="Hidden">
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <BOUNDS type="Node" left="480" top="10365" width="750" height="270">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="173" srcpinname="Audio Out" dstnodeid="163" dstpinname="Input">
+   </LINK>
+   <NODE id="37" systemname="AudioEngine (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioEngine (VAudio)" componentmode="Hidden">
+   <PIN pinname="Play" visible="1">
+   </PIN>
+   <PIN pinname="BPM" slicecount="1" values="124">
+   </PIN>
+   <PIN pinname="Driver">
+   </PIN>
+   <PIN pinname="Control Panel">
+   </PIN>
+   <BOUNDS type="Node" left="1695" top="10425" width="3555" height="270">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="110" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Control Panel">
+   </LINK>
+   <LINK srcnodeid="81" srcpinname="Output Enum" dstnodeid="37" dstpinname="Driver">
+   </LINK>
+   <LINK srcnodeid="6" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Play">
    </LINK>
    </PATCH>

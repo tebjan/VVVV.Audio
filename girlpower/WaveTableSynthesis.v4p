@@ -416,56 +416,6 @@
    <PIN pinname="String Type" slicecount="1" values="MultiLine">
    </PIN>
    </NODE>
-   <NODE componentmode="Hidden" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" hiddenwhenlocked="0" id="4" managers="" nodename="WaveTable (Audio Source)" systemname="WaveTable (Audio Source)">
-   <PIN pinname="Table" pintype="Input" visible="1">
-   </PIN>
-   <PIN pinname="Frequency" visible="1">
-   </PIN>
-   <BOUNDS height="270" left="3120" top="7800" type="Node" width="1110">
-   </BOUNDS>
-   <BOUNDS height="1800" left="975" top="5895" type="Box" width="2400">
-   </BOUNDS>
-   <PIN pinname="Output" pintype="Output" visible="1">
-   </PIN>
-   <PIN pinname="Delta" pintype="Input" visible="1">
-   </PIN>
-   <BOUNDS height="5010" left="0" top="0" type="Window" width="6240">
-   </BOUNDS>
-   <PIN encoded="0" pinname="Descriptive Name" pintype="Configuration" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="ID" pintype="Output" visible="-1">
-   </PIN>
-   <PIN pinname="Delay Time" slicecount="1" values="0.1">
-   </PIN>
-   <PIN pinname="Delay Amount" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Delay Feedback">
-   </PIN>
-   <PIN pinname="Audio Out" visible="1">
-   </PIN>
-   <PIN pinname="Window Function" slicecount="1" values="Hann">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="221" srcpinname="Y Output Value" dstnodeid="4" dstpinname="Frequency">
-   </LINK>
-   <NODE systemname="AudioEngine (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden" id="245">
-   <BOUNDS type="Node" left="4635" top="8265" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Play" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Driver" slicecount="1" values="|Virus USB ASIO driver|">
-   </PIN>
-   <PIN pinname="Control Panel" slicecount="1" values="0">
-   </PIN>
-   </NODE>
-   <NODE systemname="AudioOut (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden" id="246">
-   <BOUNDS type="Node" left="3120" top="8280" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="4" srcpinname="Audio Out" dstnodeid="246" dstpinname="Input">
-   </LINK>
    <NODE systemname="LFO (Animation)" nodename="LFO (Animation)" componentmode="Hidden" id="252">
    <BOUNDS type="Node" left="6615" top="930" width="100" height="100">
    </BOUNDS>
@@ -508,8 +458,6 @@
    <PIN pinname="String Type" slicecount="1" values="MultiLine">
    </PIN>
    </NODE>
-   <LINK srcnodeid="123" srcpinname="Output" dstnodeid="4" dstpinname="Table">
-   </LINK>
    <LINK srcnodeid="123" srcpinname="Output" dstnodeid="12" dstpinname="Input">
    </LINK>
    <NODE componentmode="Hidden" hiddenwhenlocked="0" id="258" managers="" nodename="RandomSpread (Spreads)" systemname="RandomSpread (Spreads)">
@@ -572,8 +520,60 @@
    <PIN pinname="Input Enum" slicecount="1" values="|Virus USB ASIO driver|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="260" srcpinname="Output Enum" dstnodeid="245" dstpinname="Driver">
-   </LINK>
    <PACK Name="testPack" Version="0.1.0">
    </PACK>
+   <NODE componentmode="Hidden" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" hiddenwhenlocked="0" id="4" managers="" nodename="WaveTable (VAudio Source)" systemname="WaveTable (VAudio Source)">
+   <PIN pinname="Table" pintype="Input" visible="1">
+   </PIN>
+   <PIN pinname="Frequency" visible="1">
+   </PIN>
+   <BOUNDS height="270" left="3120" top="7800" type="Node" width="1110">
+   </BOUNDS>
+   <BOUNDS height="1800" left="975" top="5895" type="Box" width="2400">
+   </BOUNDS>
+   <PIN pinname="Output" pintype="Output" visible="1">
+   </PIN>
+   <PIN pinname="Delta" pintype="Input" visible="1">
+   </PIN>
+   <BOUNDS height="5010" left="0" top="0" type="Window" width="6240">
+   </BOUNDS>
+   <PIN encoded="0" pinname="Descriptive Name" pintype="Configuration" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="ID" pintype="Output" visible="-1">
+   </PIN>
+   <PIN pinname="Delay Time" slicecount="1" values="0.1">
+   </PIN>
+   <PIN pinname="Delay Amount" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Delay Feedback">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Window Function" slicecount="1" values="Hann">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="221" srcpinname="Y Output Value" dstnodeid="4" dstpinname="Frequency">
+   </LINK>
+   <LINK srcnodeid="123" srcpinname="Output" dstnodeid="4" dstpinname="Table">
+   </LINK>
+   <NODE systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioOut (VAudio)" componentmode="Hidden" id="246">
+   <BOUNDS type="Node" left="3120" top="8280" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Audio Out" dstnodeid="246" dstpinname="Input">
+   </LINK>
+   <NODE systemname="AudioEngine (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioEngine (VAudio)" componentmode="Hidden" id="245">
+   <BOUNDS type="Node" left="4635" top="8265" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Play" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Driver">
+   </PIN>
+   <PIN pinname="Control Panel" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="260" srcpinname="Output Enum" dstnodeid="245" dstpinname="Driver">
+   </LINK>
    </PATCH>

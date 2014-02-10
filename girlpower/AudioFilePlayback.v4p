@@ -1,23 +1,7 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta31.2.dtd" >
-   <PATCH nodename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\AudioFilePlayback.v4p" systemname="AudioFilePlayback" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\AudioFilePlayback.v4p">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\AudioFilePlayback.v4p" systemname="AudioFilePlayback" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\AudioFilePlayback.v4p">
    <BOUNDS type="Window" left="6060" top="855" width="8625" height="9690">
    </BOUNDS>
-   <NODE systemname="AudioEngine (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioEngine (Audio)" componentmode="Hidden" id="2">
-   <BOUNDS type="Node" left="5355" top="6360" width="1050" height="270">
-   </BOUNDS>
-   <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
-   </PIN>
-   <PIN pinname="Control Panel" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Play">
-   </PIN>
-   <PIN pinname="Desired Output Channels" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Desired Input Channels" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Sample Rate" slicecount="1" values="48000">
-   </PIN>
-   </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="7" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="5340" top="5460" width="480" height="480">
    </BOUNDS>
@@ -38,8 +22,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="Play">
    </PIN>
    </NODE>
-   <LINK srcnodeid="7" srcpinname="Y Output Value" dstnodeid="2" dstpinname="Play">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="26" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="2055" top="690" width="480" height="480">
    </BOUNDS>
@@ -98,10 +80,178 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="|Seek Time|">
    </PIN>
    </NODE>
-   <NODE systemname="FileStream (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="FileStream (Audio)" componentmode="Hidden" id="57">
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="67" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="3165" top="2805" width="3015" height="465">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3165" top="2805" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Input String" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="113" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="1305" top="4110" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1305" top="4110" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Y Input Value" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Resampler Input Latency|">
+   </PIN>
+   </NODE>
+   <NODE systemname="Select (Value)" nodename="Select (Value)" componentmode="Hidden" id="114">
+   <BOUNDS type="Node" left="2235" top="2850" width="540" height="270">
+   </BOUNDS>
+   <PIN pinname="Select" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Input" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="IOBox (String)" nodename="IOBox (String)" componentmode="InABox" id="119">
+   <BOUNDS type="Node" left="3195" top="6075" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3195" top="6075" width="1425" height="495">
+   </BOUNDS>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Input String" slicecount="2" values="MixL.wav,MixR.wav">
+   </PIN>
+   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="121" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="1755" top="7470" width="795" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1755" top="7470" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
+   </PIN>
+   <PIN pinname="Vector Size" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="|0, 0|">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Samples Written|">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="122" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="1980" top="5970" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1980" top="5970" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Write">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="124" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="3855" top="1215" width="3480" height="525">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3855" top="1215" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="2" values="..\..\..\lib\assets\sounds\vvvv.wav,..\..\..\lib\assets\sounds\vvvv5.1.wav">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="|Audio File (*.wav, *.mp3, *.aiff, *.m4a)||*.wav;*.mp3;*.aiff;*.m4a|">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="Filename">
+   </PIN>
+   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="125" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="1590" top="3630" width="2370" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1590" top="3630" width="2370" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|resample to engine sample rate|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="127">
+   <BOUNDS type="Node" left="2190" top="4680" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2190" top="4680" width="1050" height="540">
+   </BOUNDS>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="4" values="1,0,0,1">
+   </PIN>
+   <PIN pinname="Vector Size" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="|0, 0, 0, 1|">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="Columns" slicecount="1" values="2">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="128" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="5865" top="5790" width="1590" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5865" top="5790" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" values="44100">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Sample Rate|">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="129" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="5700" top="4800" width="1590" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5700" top="4800" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" values="|ASIO4ALL v2|">
+   </PIN>
+   </NODE>
+   <PACK Name="testPack" Version="0.1.0">
+   </PACK>
+   <NODE systemname="FileStream (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="FileStream (VAudio)" componentmode="Hidden" id="57">
    <BOUNDS type="Node" left="600" top="2115" width="2610" height="270">
    </BOUNDS>
-   <PIN pinname="Filename" visible="1" slicecount="1" values="..\..\..\lib\assets\sounds\vvvv.mp3">
+   <PIN pinname="Filename" visible="1">
    </PIN>
    <PIN pinname="Volume" slicecount="1" values="0.5">
    </PIN>
@@ -128,29 +278,15 @@
    </LINK>
    <LINK srcnodeid="38" srcpinname="Y Output Value" dstnodeid="57" dstpinname="Seek Time">
    </LINK>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="67" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="3165" top="2805" width="3015" height="465">
-   </BOUNDS>
-   <BOUNDS type="Node" left="3165" top="2805" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Default" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="File Mask" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
-   </PIN>
-   <PIN pinname="Input String" visible="1">
-   </PIN>
-   <PIN pinname="Rows" slicecount="1" values="2">
-   </PIN>
-   </NODE>
-   <NODE id="3" systemname="AudioOut (Audio)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="AudioOut (Audio)" componentmode="Hidden">
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <BOUNDS type="Node" left="600" top="7260" width="100" height="100">
-   </BOUNDS>
-   </NODE>
-   <NODE id="112" systemname="Resample (Audio Filter)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="Resample (Audio Filter)" componentmode="Hidden">
+   <LINK srcnodeid="57" srcpinname="Channels" dstnodeid="114" dstpinname="Select">
+   </LINK>
+   <LINK srcnodeid="57" srcpinname="Sample Rate" dstnodeid="114" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="57" srcpinname="Uncompressed Format" dstnodeid="67" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="124" srcpinname="Output String" dstnodeid="57" dstpinname="Filename">
+   </LINK>
+   <NODE id="112" systemname="Resample (VAudio Filter)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="Resample (VAudio Filter)" componentmode="Hidden">
    <BOUNDS type="Node" left="600" top="3585" width="780" height="270">
    </BOUNDS>
    <PIN pinname="Destinaion Rate">
@@ -170,151 +306,13 @@
    <PIN pinname="Required Transition Band" slicecount="1" values="3">
    </PIN>
    </NODE>
-   <LINK srcnodeid="112" srcpinname="Audio Out" dstnodeid="3" dstpinname="Input">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="113" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1305" top="4110" width="795" height="240">
-   </BOUNDS>
-   <BOUNDS type="Node" left="1305" top="4110" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Value Type" slicecount="1" values="Integer">
-   </PIN>
-   <PIN pinname="Y Input Value" visible="1">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Resampler Input Latency|">
-   </PIN>
-   </NODE>
-   <NODE systemname="Select (Value)" nodename="Select (Value)" componentmode="Hidden" id="114">
-   <BOUNDS type="Node" left="2235" top="2850" width="540" height="270">
-   </BOUNDS>
-   <PIN pinname="Select" visible="1">
-   </PIN>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="57" srcpinname="Channels" dstnodeid="114" dstpinname="Select">
-   </LINK>
-   <LINK srcnodeid="57" srcpinname="Sample Rate" dstnodeid="114" dstpinname="Input">
-   </LINK>
    <LINK srcnodeid="114" srcpinname="Output" dstnodeid="112" dstpinname="Source Rate">
    </LINK>
    <LINK srcnodeid="112" srcpinname="Resampler Input Latency" dstnodeid="113" dstpinname="Y Input Value">
    </LINK>
-   <NODE systemname="IOBox (String)" nodename="IOBox (String)" componentmode="InABox" id="119">
-   <BOUNDS type="Node" left="3195" top="6075" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="3195" top="6075" width="1425" height="495">
-   </BOUNDS>
-   <PIN pinname="Rows" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Input String" slicecount="2" values="MixL.wav,MixR.wav">
-   </PIN>
-   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
-   </PIN>
-   <PIN pinname="Output String" visible="1">
-   </PIN>
-   </NODE>
-   <NODE systemname="Recorder (Audio Sink)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="Recorder (Audio Sink)" componentmode="Hidden" id="120">
-   <BOUNDS type="Node" left="1755" top="6870" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Filename" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="119" srcpinname="Output String" dstnodeid="120" dstpinname="Filename">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="121" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1755" top="7470" width="795" height="480">
-   </BOUNDS>
-   <BOUNDS type="Node" left="1755" top="7470" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Rows" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Y Input Value">
-   </PIN>
-   <PIN pinname="Vector Size" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Default" slicecount="1" values="|0, 0|">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Samples Written|">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="120" srcpinname="Samples Written" dstnodeid="121" dstpinname="Y Input Value">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="122" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="2115" top="5970" width="480" height="480">
-   </BOUNDS>
-   <BOUNDS type="Node" left="2115" top="5970" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Value Type" slicecount="1" values="Boolean">
-   </PIN>
-   <PIN pinname="Behavior" slicecount="1" values="Toggle">
-   </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Write">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="122" srcpinname="Y Output Value" dstnodeid="120" dstpinname="Write">
-   </LINK>
    <LINK srcnodeid="57" srcpinname="Audio Out" dstnodeid="112" dstpinname="Input">
    </LINK>
-   <LINK srcnodeid="57" srcpinname="Uncompressed Format" dstnodeid="67" dstpinname="Input String">
-   </LINK>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="124" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="3855" top="1215" width="3480" height="525">
-   </BOUNDS>
-   <BOUNDS type="Node" left="3855" top="1215" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Input String" slicecount="2" values="..\..\..\lib\assets\sounds\vvvv.wav,..\..\..\lib\assets\sounds\vvvv5.1.wav">
-   </PIN>
-   <PIN pinname="Default" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="File Mask" slicecount="1" values="|Audio File (*.wav, *.mp3, *.aiff, *.m4a)||*.wav;*.mp3;*.aiff;*.m4a|">
-   </PIN>
-   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
-   </PIN>
-   <PIN pinname="String Type" slicecount="1" values="Filename">
-   </PIN>
-   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
-   </PIN>
-   <PIN pinname="Rows" slicecount="1" values="2">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="124" srcpinname="Output String" dstnodeid="57" dstpinname="Filename">
-   </LINK>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="125" systemname="IOBox (String)">
-   <BOUNDS type="Node" left="1590" top="3630" width="2370" height="270">
-   </BOUNDS>
-   <BOUNDS type="Box" left="1590" top="3630" width="2370" height="270">
-   </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" values="|resample to engine sample rate|">
-   </PIN>
-   <PIN pinname="Output String" visible="0">
-   </PIN>
-   <PIN pinname="Show Grid" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="String Type" slicecount="1" values="MultiLine">
-   </PIN>
-   </NODE>
-   <NODE systemname="MatrixMixer (Audio Filter)" filename="%VVVV%\packs\AudioAlpha\nodes\plugins\bin\VVVV.Audio.dll" nodename="MatrixMixer (Audio Filter)" componentmode="Hidden" id="126">
+   <NODE systemname="MatrixMixer (VAudio Filter)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="MatrixMixer (VAudio Filter)" componentmode="Hidden" id="126">
    <BOUNDS type="Node" left="1770" top="5400" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
@@ -324,40 +322,56 @@
    <PIN pinname="Gain" visible="1">
    </PIN>
    </NODE>
+   <LINK srcnodeid="127" srcpinname="Y Output Value" dstnodeid="126" dstpinname="Gain">
+   </LINK>
    <LINK srcnodeid="112" srcpinname="Audio Out" dstnodeid="126" dstpinname="Input">
+   </LINK>
+   <NODE id="3" systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioOut (VAudio)" componentmode="Hidden">
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <BOUNDS type="Node" left="600" top="7260" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="112" srcpinname="Audio Out" dstnodeid="3" dstpinname="Input">
+   </LINK>
+   <NODE systemname="AudioEngine (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioEngine (VAudio)" componentmode="Hidden" id="2">
+   <BOUNDS type="Node" left="5355" top="6360" width="1050" height="270">
+   </BOUNDS>
+   <PIN pinname="Driver">
+   </PIN>
+   <PIN pinname="Control Panel" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Play">
+   </PIN>
+   <PIN pinname="Desired Output Channels" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Desired Input Channels" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Sample Rate">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="7" srcpinname="Y Output Value" dstnodeid="2" dstpinname="Play">
+   </LINK>
+   <LINK srcnodeid="128" srcpinname="Output Enum" dstnodeid="2" dstpinname="Sample Rate">
+   </LINK>
+   <LINK srcnodeid="129" srcpinname="Output Enum" dstnodeid="2" dstpinname="Driver">
+   </LINK>
+   <NODE systemname="Writer (VAudio Sink)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="Writer (VAudio Sink)" componentmode="Hidden" id="120">
+   <BOUNDS type="Node" left="1755" top="6870" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Filename" visible="1" slicecount="1" values="MyNextBigHit.wav">
+   </PIN>
+   <PIN pinname="Samples Written" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="122" srcpinname="Y Output Value" dstnodeid="120" dstpinname="Write">
    </LINK>
    <LINK srcnodeid="126" srcpinname="Output" dstnodeid="120" dstpinname="Input">
    </LINK>
-   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="127">
-   <BOUNDS type="Node" left="2190" top="4680" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="2190" top="4680" width="1050" height="540">
-   </BOUNDS>
-   <PIN pinname="Rows" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Y Input Value" slicecount="4" values="1,0,0,1">
-   </PIN>
-   <PIN pinname="Vector Size" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Default" slicecount="1" values="|0, 0, 0, 1|">
-   </PIN>
-   <PIN pinname="Y Output Value" visible="1">
-   </PIN>
-   <PIN pinname="Columns" slicecount="1" values="2">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="127" srcpinname="Y Output Value" dstnodeid="126" dstpinname="Gain">
+   <LINK srcnodeid="120" srcpinname="Samples Written" dstnodeid="121" dstpinname="Y Input Value">
    </LINK>
-   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="128" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Box" left="5865" top="5790" width="1590" height="240">
-   </BOUNDS>
-   <BOUNDS type="Node" left="5865" top="5790" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" values="48000">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Sample Rate|">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="128" srcpinname="Output Enum" dstnodeid="2" dstpinname="Sample Rate">
+   <LINK srcnodeid="119" srcpinname="Output String" dstnodeid="120" dstpinname="Filename">
    </LINK>
    </PATCH>

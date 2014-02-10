@@ -87,7 +87,8 @@ namespace VVVV.Nodes
 		protected AudioEngine FEngine;
 		
         VstPluginControl FPluginControl;
-		
+		VstPluginContext SelectedPluginContext;
+        
 		[ImportingConstructor]
         public VSTHostNode([Import] IHDEHost host, [Import] IPluginHost plugHost)
 		{
