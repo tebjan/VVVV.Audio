@@ -44,7 +44,7 @@ namespace VVVV.Nodes
 		}
 	}
 	
-		#region PluginInfo
+	#region PluginInfo
 	[PluginInfo(Name = "dB2Lin",
 	            Category = "Value",
 	            Help = "Converts dBfs values to linear amplitude values in the range [0..1]",
