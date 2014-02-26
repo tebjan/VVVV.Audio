@@ -27,37 +27,9 @@
    </BOUNDS>
    <BOUNDS type="Node" left="4845" top="900" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" values="|Virus USB ASIO driver|">
+   <PIN pinname="Input Enum" slicecount="1" values="|ASIO4ALL v2|">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Driver">
-   </PIN>
-   </NODE>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="53" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1425" top="8385" width="675" height="1110">
-   </BOUNDS>
-   <BOUNDS type="Node" left="1425" top="8385" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Level dBs|">
-   </PIN>
-   <PIN pinname="Show Slider" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Show Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Minimum" slicecount="1" values="-90">
-   </PIN>
-   <PIN pinname="Maximum" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Rows" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Sticky Slider" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Columns" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Show Grid" slicecount="1" values="1">
    </PIN>
    </NODE>
    <NODE systemname="MidiShort (Devices)" nodename="MidiShort (Devices)" componentmode="Hidden" id="63">
@@ -83,7 +55,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="3285" top="6780" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="2" values="MyNextBigHitL.wav,MyNextBigHitR.wav">
+   <PIN pinname="Input String" slicecount="2" values="MixL.wav,MixR.wav">
    </PIN>
    <PIN pinname="Default" slicecount="1" values="MyNextBigHit.wav">
    </PIN>
@@ -96,6 +68,8 @@
    <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
    </PIN>
    <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="69" systemname="IOBox (Enumerations)">
@@ -241,9 +215,9 @@
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
+   <PIN pinname="Filename" visible="1" slicecount="2" values="MixL,MixR">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="66" srcpinname="Output String" dstnodeid="60" dstpinname="Filename">
-   </LINK>
    <NODE systemname="Meter (VAudio Sink)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="Meter (VAudio Sink)" componentmode="Hidden" id="52">
    <BOUNDS type="Node" left="1440" top="7785" width="100" height="100">
    </BOUNDS>
@@ -251,9 +225,9 @@
    </PIN>
    <PIN pinname="Smoothing" slicecount="1" values="0.28">
    </PIN>
+   <PIN pinname="Level dBs" visible="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="52" srcpinname="Level dBs" dstnodeid="53" dstpinname="Y Input Value">
-   </LINK>
    <NODE systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioOut (VAudio)" componentmode="Hidden" id="7">
    <BOUNDS type="Node" left="285" top="8460" width="100" height="100">
    </BOUNDS>
@@ -271,7 +245,7 @@
    </PIN>
    <PIN pinname="Audio Out" visible="1">
    </PIN>
-   <PIN pinname="Safe Data" slicecount="1" values="zgANAD0AAAB993oLvBtwN85xr3hB7KcM88ZMY67f/UsjKhRjlP+IL7K5NylgFqU6oOwkHNXWZVbcsGsZBCIuTmiLczlIx4onU2FmEBcOugUUelx2YNhbZfDyNBHYjV58qodaflE9d2iakwNefJDQYYzUpU7zzClT5hE0XhKgyUeDewAArApDbc/GKX+YnIgtZxiWJov/rHtx3LhKCbZud/f6hgRx9lcKDx6vbyQW22Kd7/EDvlxlOTozACshc79qZ3X/freQERdnY8AMSW2GALc92Do6x5IzRhW9BJl4yitu+Y1hS9b6IyKLQUwnC7Mi9JREceHKHB2WYOMQAQAAAP/+/wpTAHcAZQBlAHQAIABTAGkAbgBlAAYAAAABAAAAlILqv////////v8ABgAAAAEAAACy47Q////////+/wABAAAAAQAAAP/+/wI3ADYA///////+/wAGAAAAAQAAAFYrC8D///////7/AAYAAAABAAAAEsLWOv///////v8ABgAAAAEAAADIvkM////////+/wAGAAAAAQAAAJMbU8D///////7/AAYAAAABAAAABJDKP////////v8ABgAAAAEAAACeikC////////+/wABAAAAAQAAAP/+/wI2ADQA///////+/wAGAAAAAQAAAIQ97T////////7/AAYAAAABAAAAfnvCP////////v8ABgAAAAEAAAChe4c/HQAAAv/+/wAGAAAAAQAAANO2J0AaAAAC//7/AAYAAAABAAAAvQ28QBkAAAL//v8ABgAAAAEAAAD+fr9AaAAAAv/+/wAAAAAAAQAAAAgAAABIAAAC//7/AAYAAAABAAAAAJbJu1UAAAL//v8ABgAAAAEAAACmfz9AHwAAAv/+/wAGAAAAAQAAAC8XEUD///////7/AAYAAAABAAAArr1ywP///////v8ABgAAAAEAAAAAAAAAQAAAAv/+/wAGAAAAAQAAALlEkz8IAAAC//7/AAYAAAABAAAAzNnqPgoAAAL//v8AAAAAAAEAAAAAAAAAUAAAAv/+/wAAAAAAAQAAAAYAAABXAAAC//7/AAAAAAABAAAAAAAAAEYAAAL//v8AAAAAAAEAAAAGAAAAVAAAAv/+/wAGAAAAAQAAAPdZmUBJAAAC//7/AAYAAAABAAAADekZQR4AAAL//v8AAAAAAAEAAAABAAAAbAAAAv/+/wAGAAAAAQAAAA3pGUFWAAAC//7/AAYAAAABAAAAtDfzQCAAAAL//v8ABgAAAAEAAABrv+w/FAAAAv/+/wAGAAAAAQAAAC2TyT5RAAAC//7/AAAAAAABAAAAAQAAABgAAAL//v8AAAAAAAEAAAAEAAAAWwAAAv/+/wAGAAAAAQAAAAAAAID///////7/AAYAAAABAAAAPT0cRv///////v8AAAAAAAEAAAAAAAAAUgAAAv/+/wAAAAAAAQAAAAEAAABvAAAC//7/AAYAAAABAAAADiMQQWYAAAL//v8ABgAAAAEAAAB7u10/agAAAv/+/wAGAAAAAQAAAAAAgD8cAAAC//7/AAYAAAABAAAAIBAIQW0AAAL//v8AAAAAAAEAAAABAAAAZwAAAv/+/wAGAAAAAQAAAKG5HUAVAAAC//7/AAYAAAABAAAAp4jKQFoAAAL//v8AAAAAAAEAAAACAAAAGwAAAv/+/wAGAAAAAQAAAIlCoT9rAAAC//7/AAAAAAABAAAAAgAAAG4AAAL//v8AAAAAAAEAAAAFAAAAaQAAAv/+/wAGAAAAAQAAAAMnuEBTAAAC//7/AAAAAAABAAAABAAAAEoAAAL//v8ABgAAAAEAAAAAAAAAAwAAAv/+/wAAAAAAAQAAAAAAAAATAAAC//7/AAYAAAABAAAAAAAAQQcAAAL//v8ABgAAAAEAAADDVMBARwAAAv/+/wAGAAAAAQAAAEFzokBMAAAC//7/AAYAAAABAAAAgLv4vEsAAAL//v8AAAAAAAEAAAAKAAAATQAAAv/+/wA=">
+   <PIN pinname="Safe Data" slicecount="1" values="zgANAD0AAAAnC7Mi2I1efOHKHB2u3/1LIyoUYwm2bnf3+oYElP+IL7K5NylgFqU6oOwkHNXWZVYii0FMfJDQYYzUpU7zzClT5hE0XhKgyUeDewAArApDbc/GKX+YnIgtZxiWJov/rHtx3LhKYNhbZfDyNBFRPXdoqodaftywaxkEIi5OaItzOZqTA15x9lcKlmDjEBR6XHbOca94QeynDPPGTGN993oLvBtwN/SURHEXDroFDx6vbyQW22Kd7/EDvlxlOTozACshc79qZ3X/freQERdnY8AMSW2GALc92Do6x5IzRhW9BJl4yitu+Y1hS9b6I1NhZhBIx4onAQAAAP/+/wpTAHcAZQBlAHQAIABTAGkAbgBlAAYAAAABAAAAw1TAQEcAAAL//v8ABgAAAAEAAAAAAAAAQAAAAv/+/wAGAAAAAQAAAIC7+LxLAAAC//7/AAYAAAABAAAAyL5DP////////v8ABgAAAAEAAACTG1PA///////+/wAGAAAAAQAAAAAAAID///////7/AAYAAAABAAAAPT0cRv///////v8ABgAAAAEAAAAEkMo////////+/wAGAAAAAQAAAJ6KQL////////7/AAEAAAABAAAA//7/AjYANAD///////7/AAYAAAABAAAAhD3tP////////v8ABgAAAAEAAAB+e8I////////+/wAGAAAAAQAAAAAAAEEHAAAC//7/AAAAAAABAAAABgAAAFcAAAL//v8AAAAAAAEAAAAAAAAARgAAAv/+/wAAAAAAAQAAAAYAAABUAAAC//7/AAYAAAABAAAA91mZQEkAAAL//v8ABgAAAAEAAAAAACBBHgAAAv/+/wAAAAAAAQAAAAEAAABsAAAC//7/AAYAAAABAAAAAAAgQVYAAAL//v8ABgAAAAEAAAC0N/NAIAAAAv/+/wAGAAAAAQAAAGu/7D8UAAAC//7/AAYAAAABAAAALZPJPlEAAAL//v8AAAAAAAEAAAABAAAAGAAAAv/+/wAAAAAAAQAAAAQAAABbAAAC//7/AAYAAAABAAAALxcRQP///////v8ABgAAAAEAAACuvXLA///////+/wAGAAAAAQAAAMzZ6j4KAAAC//7/AAYAAAABAAAAuUSTPwgAAAL//v8ABgAAAAEAAAChe4c/HQAAAv/+/wAGAAAAAQAAANO2J0AaAAAC//7/AAYAAAABAAAAvQ28QBkAAAL//v8AAAAAAAEAAAAAAAAAUAAAAv/+/wAAAAAAAQAAAAAAAABSAAAC//7/AAAAAAABAAAACgAAAE0AAAL//v8ABgAAAAEAAACmfz9AHwAAAv/+/wABAAAAAQAAAP/+/wI3ADYA///////+/wAGAAAAAQAAAFYrC8D///////7/AAYAAAABAAAAEsLWOv///////v8ABgAAAAEAAACUguq////////+/wAGAAAAAQAAALLjtD////////7/AAYAAAABAAAAQXOiQEwAAAL//v8ABgAAAAEAAAAAlsm7VQAAAv/+/wAAAAAAAQAAAAEAAABvAAAC//7/AAYAAAABAAAADiMQQWYAAAL//v8ABgAAAAEAAAB7u10/agAAAv/+/wAGAAAAAQAAAAAAgD8cAAAC//7/AAYAAAABAAAAIBAIQW0AAAL//v8AAAAAAAEAAAABAAAAZwAAAv/+/wAGAAAAAQAAAKG5HUAVAAAC//7/AAYAAAABAAAAp4jKQFoAAAL//v8AAAAAAAEAAAACAAAAGwAAAv/+/wAGAAAAAQAAAIlCoT9rAAAC//7/AAAAAAABAAAAAgAAAG4AAAL//v8AAAAAAAEAAAAFAAAAaQAAAv/+/wAGAAAAAQAAAAMnuEBTAAAC//7/AAAAAAABAAAABAAAAEoAAAL//v8ABgAAAAEAAAAAAAAAAwAAAv/+/wAAAAAAAQAAAAAAAAATAAAC//7/AAAAAAABAAAACAAAAEgAAAL//v8ABgAAAAEAAAD+fr9AaAAAAv/+/wA=">
    </PIN>
    <PIN pinname="Midi Message" visible="1">
    </PIN>
@@ -333,5 +307,49 @@
    <LINK srcnodeid="0" srcpinname="Beat" dstnodeid="74" dstpinname="Input 1">
    </LINK>
    <LINK srcnodeid="0" srcpinname="Beat" dstnodeid="68" dstpinname="Beat Input">
+   </LINK>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="79">
+   <BOUNDS type="Node" left="1680" top="8475" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1680" top="8475" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="52" srcpinname="Level dBs" dstnodeid="79" dstpinname="Y Input Value">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="80" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="2085" top="6270" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2085" top="6270" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="80" srcpinname="Y Output Value" dstnodeid="60" dstpinname="Write">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="81" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="3345" top="8715" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3345" top="8715" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="60" srcpinname="Samples Written" dstnodeid="81" dstpinname="Y Input Value">
+   </LINK>
+   <LINK srcnodeid="66" srcpinname="Output String" dstnodeid="60" dstpinname="Filename">
    </LINK>
    </PATCH>

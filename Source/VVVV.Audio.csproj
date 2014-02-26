@@ -35,7 +35,7 @@
     <DebugType>None</DebugType>
     <DebugSymbols>False</DebugSymbols>
     <StartAction>Program</StartAction>
-    <StartProgram>..\VVVV\vvvv.exe</StartProgram>
+    <StartProgram>..\..\..\vvvv.exe</StartProgram>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">

@@ -47,6 +47,11 @@ namespace VVVV.Nodes
                     FWriter = new WaveFileWriter(FFileName, new WaveFormat(WaveFormat.SampleRate, 16, 1));
                     SamplesWritten = 0;
                 }
+                else
+                {
+                	SamplesWritten = 0;
+                	FFlushCounter = 0;
+                }
             }
         }
 
@@ -57,6 +62,8 @@ namespace VVVV.Nodes
         }
 
         byte[] FByteBuffer = new byte[1];
+        int FFlushCounter = 0;
+        bool FLastWriteState;
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
             if (Write && FInput != null && FWriter != null)
@@ -69,15 +76,31 @@ namespace VVVV.Nodes
                 //read bytes from input
                 FWave16Provider.Read(FByteBuffer, 0, byteCount);
 
-                //write to disk
+                //write to stream
                 FWriter.Write(FByteBuffer, 0, byteCount);
 
                 SamplesWritten += count;
+                FFlushCounter += count;
+                if(FFlushCounter >= 32768)
+                {
+                	FWriter.Flush();
+                	FFlushCounter = 0;
+                }
+                FLastWriteState = true;
+            }
+            else
+            {
+            	FFlushCounter = 0;
+            	if(FLastWriteState)
+            	{
+            		FWriter.Flush();
+            		FLastWriteState = false;
+            	}
             }
 		}
 
-        public double SamplesWritten { get; protected set; }
-
+        public int SamplesWritten { get; protected set; }
+	
         public bool Write { get; set; }
 
         public override void Dispose()
@@ -93,27 +116,27 @@ namespace VVVV.Nodes
     }
 	
 	
-	[PluginInfo(Name = "Writer", Category = "VAudio", Version = "Sink", Help = "Records audio to disk", Tags = "Writer, File, Wave")]
+	[PluginInfo(Name = "Writer", Category = "VAudio", Version = "Sink", Help = "Records audio to disk", Tags = "file, wave, record")]
 	public class WaveWriterNode : GenericAudioSinkNodeWithOutputs<WaveRecorderSignal, int>
 	{
 
         [Input("Write")]
         public IDiffSpread<bool> FWriteIn;
 
-        [Input("Filename", DefaultString = "MyNextBigHit.wav", StringType = StringType.Filename, FileMask = ".wav")]
+        [Input("Filename", DefaultString = "", StringType = StringType.Filename, FileMask = ".wav")]
         public IDiffSpread<string> FNameIn;
 
         [Output("Samples Written")]
-        public ISpread<double> FLevelOut;
+        public ISpread<int> FSamplesWrittenOut;
 
         protected override void SetOutputs(int i, WaveRecorderSignal instance)
         {
-            FLevelOut[i] = instance.SamplesWritten;
+            FSamplesWrittenOut[i] = instance.SamplesWritten;
         }
 
         protected override void SetOutputSliceCount(int sliceCount)
         {
-            FLevelOut.SliceCount = sliceCount;
+            FSamplesWrittenOut.SliceCount = sliceCount;
         }
 
         protected override WaveRecorderSignal GetInstance(int i)
