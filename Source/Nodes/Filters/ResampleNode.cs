@@ -163,7 +163,7 @@ namespace VVVV.Nodes
 	/// <summary>
 	/// Description of ResampleFilter.
 	/// </summary>
-	//[PluginInfo(Name = "Resample", Category = "VAudio", Version = "Filter", Help = "Resamples the input signal to any output sample rate", AutoEvaluate = true, Tags = "sample rate, converter")]
+	[PluginInfo(Name = "Resample", Category = "VAudio", Version = "Filter", Help = "Resamples the input signal to any output sample rate", AutoEvaluate = true, Tags = "sample rate, converter")]
 	public class ResampleNode : GenericAudioFilterNodeWithOutputs<ResampleSignal>
 	{
 		[Input("Source Rate", DefaultValue = 44100, StepSize = 100)]

@@ -41,6 +41,12 @@ namespace VVVV.Audio
 			FRequestBufferFill(offset, count);
 	        Array.Copy(FBuffer, offset, buffer, offset, count);
 		}
+		
+		public override void Dispose()
+		{
+			FRequestBufferFill = null;
+			base.Dispose();
+		}
 	}
 	
 	/// <summary>
@@ -141,7 +147,7 @@ namespace VVVV.Audio
 		/// </summary>
 		/// <param name="newInput"></param>
 		protected virtual void InputWasSet(ISpread<AudioSignal> newInput)
-		{	
+		{
 		}
 		
 		protected ISpread<AudioSignal> FInput;

@@ -311,7 +311,8 @@ namespace VVVV.Nodes
 				
 				if(FOutputSignals.SliceCount != outCount)
 				{
-					FOutputSignals.SliceCount = outCount;
+					//FOutputSignals.SliceCount = outCount;
+					FOutputSignals.ResizeAndDispose(outCount);
 					
 					var outSlice = 0;
 					for (int i = 0; i < FInternalSignals.SliceCount; i++)

@@ -25,17 +25,23 @@ namespace VVVV.Nodes
 	
 	public class MatrixMixerSignal : MultiChannelInputSignal
 	{
-		public MatrixMixerSignal(ISpread<AudioSignal> input, int outChannels)
-		{
-			Input = input;
-			SetOutputCount(outChannels);
-			GainMatrix = new Spread<float>(outChannels);
-		}
-		
 		public ISpread<float> GainMatrix
 		{
 			get;
 			protected set;
+		}
+		
+		public int OutputChannelCount
+		{
+			get
+			{
+				return this.FOutputCount;
+			}
+			set
+			{
+				SetOutputCount(value);
+				GainMatrix = new Spread<float>(value);
+			}
 		}
 		
 		float[] FTempBuffer = new float[1];
@@ -85,21 +91,22 @@ namespace VVVV.Nodes
         [Input("Gain")]
         public IDiffSpread<float> Gain;
 		
-		[Input("Output Count", DefaultValue = 2)]
+		[Input("Output Count", DefaultValue = 2, IsSingle = true)]
 		public IDiffSpread<int> FOutChannels;
 		
 		[Output("Output")]
 		public ISpread<AudioSignal> OutBuffer;
 		
-		MatrixMixerSignal FMixer;
+		MatrixMixerSignal FMixer = new MatrixMixerSignal();
 		
 		public void Evaluate(int SpreadMax)
 		{
 			
 			if(FInput.IsChanged || FOutChannels.IsChanged)
 			{
-				FMixer = new MatrixMixerSignal(FInput, FOutChannels[0]);
-				OutBuffer.SliceCount = FOutChannels[0];
+				FMixer.Input = FInput;
+				FMixer.OutputChannelCount = FOutChannels[0];
+				//OutBuffer.SliceCount = FOutChannels[0];
 				OutBuffer.AssignFrom(FMixer.Outputs);
 				FMixer.GainMatrix.AssignFrom(Gain);
 			}

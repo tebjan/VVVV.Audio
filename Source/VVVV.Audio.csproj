@@ -71,9 +71,6 @@
     <Reference Include="Jacobi.Vst.Interop">
       <HintPath>Dependencies\VST.NET\Jacobi.Vst.Interop.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio">
-      <HintPath>Dependencies\NAudio\NAudio.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -118,6 +115,7 @@
     <Compile Include="Nodes\Buffers\BufferWriter.cs" />
     <Compile Include="Nodes\Buffers\CreateBufferNode.cs" />
     <Compile Include="Nodes\Filters\ResampleNode.cs" />
+    <Compile Include="Nodes\Misc\Lin2dBNodes.cs" />
     <Compile Include="Nodes\Routing\MatrixMixerNode.cs" />
     <Compile Include="Nodes\Routing\SignalOperationNodes.cs" />
     <Compile Include="Nodes\Routing\SpreadOperations.cs" />
@@ -156,7 +154,12 @@
     <Compile Include="Utils\NAudio\AudioFileReaderVVVV.cs" />
     <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\NAudio\NAudio\NAudio.csproj">
+      <Project>{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E}</Project>
+      <Name>NAudio</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Nodes\VST\PluginInfoForm.resx">
       <DependentUpon>PluginInfoForm.cs</DependentUpon>
@@ -169,6 +172,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dependencies\MidiRead.dll">
+      <Link>MidiRead.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Dependencies\r8brain-free-src-1.5-dll\Win32\r8bsrc.dll">
       <Link>r8bsrc.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -177,6 +184,9 @@
       <Link>yeppp.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Nodes\Misc" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>
