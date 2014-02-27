@@ -43,31 +43,46 @@ namespace VVVV.Nodes
 	{
 		#region fields & pins
 		#pragma warning disable 0649
-		[Input("Play", DefaultValue = 0)]
+		[Input("Play", DefaultValue = 0, IsSingle = true)]
 		IDiffSpread<bool> FPlayIn;
 		
-		[Input("BPM", DefaultValue = 120)]
+		[Input("BPM", DefaultValue = 120, IsSingle = true)]
 		IDiffSpread<double> FBPMIn;
 		
-		[Input("Driver", EnumName = "NAudioASIO")]
+		[Input("Loop", IsSingle = true)]
+		public IDiffSpread<bool> FLoop;
+		
+		[Input("Loop Start Beat", IsSingle = true)]
+		public IDiffSpread<double> FLoopStartBeat;
+		
+		[Input("Loop End Beat", IsSingle = true)]
+		public IDiffSpread<double> FLoopEndBeat;
+		
+		[Input("Do Seek", IsBang = true, IsSingle = true)]
+		ISpread<bool> FDoSeek;
+		
+		[Input("Seek Beat", IsSingle = true)]
+		ISpread<double> FSeekBeat;
+		
+		[Input("Driver", EnumName = "NAudioASIO", IsSingle = true)]
 		IDiffSpread<EnumEntry> FDriverIn;
 		
-		[Input("Sample Rate", EnumName = "ASIODriverSampleRates", DefaultEnumEntry = "44100")]
+		[Input("Sample Rate", EnumName = "ASIODriverSampleRates", DefaultEnumEntry = "44100", IsSingle = true)]
         IDiffSpread<EnumEntry> FSamplingRateIn;
 		
-		[Input("Desired Input Channels", DefaultValue = 2)]
+		[Input("Desired Input Channels", DefaultValue = 2, IsSingle = true)]
 		IDiffSpread<int> FInputChannelsIn;
 		
-		[Input("Input Channel Offset", DefaultValue = 0, Visibility = PinVisibility.OnlyInspector)]
+		[Input("Input Channel Offset", DefaultValue = 0, Visibility = PinVisibility.OnlyInspector, IsSingle = true)]
 		IDiffSpread<int> FInputChannelOffsetIn;
 		
-		[Input("Desired Output Channels", DefaultValue = 2)]
+		[Input("Desired Output Channels", DefaultValue = 2, IsSingle = true)]
 		IDiffSpread<int> FOutputChannelsIn;
 		
-		[Input("Output Channel Offset", DefaultValue = 0, Visibility = PinVisibility.OnlyInspector)]
+		[Input("Output Channel Offset", DefaultValue = 0, Visibility = PinVisibility.OnlyInspector, IsSingle = true)]
 		IDiffSpread<int> FOutputChannelOffsetIn;
 		
-		[Input("Control Panel", IsBang = true)]
+		[Input("Control Panel", IsBang = true, IsSingle = true)]
 		IDiffSpread<bool> FShowPanelIn;
 		
 		[Output("Time")]
@@ -187,6 +202,26 @@ namespace VVVV.Nodes
 			if(FBPMIn.IsChanged)
 			{
 				FEngine.Timer.BPM =FBPMIn[0];
+			}
+			
+			if(FLoop.IsChanged)
+			{
+				FEngine.Timer.Loop = FLoop[0];
+			}
+			
+			if(FLoopStartBeat.IsChanged)
+			{
+				FEngine.Timer.LoopStartBeat = FLoopStartBeat[0];
+			}
+			
+			if(FLoopEndBeat.IsChanged)
+			{
+				FEngine.Timer.LoopEndBeat = FLoopEndBeat[0];
+			}
+			
+			if(FDoSeek[0])
+			{
+				FEngine.Timer.Beat = FSeekBeat[0];
 			}
 			
 			FTime[0] = FEngine.Timer.Time;

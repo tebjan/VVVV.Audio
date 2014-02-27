@@ -26,10 +26,17 @@ namespace VVVV.Audio
 		public void Progress(int samplesCount)
 		{
 			FSamplePosition += samplesCount;
-			var deltaTime = samplesCount/(double)FSampleRate;
-			var deltaBeat = deltaTime * FTimeToBPM;
-			FBeat += deltaBeat;
-			FTime = FBeat * FBPMToTime;
+			
+			if(Loop && FLoopSampleLength > 0)
+			{
+				while(FSamplePosition >= (FLoopStartSample + FLoopSampleLength))
+				{
+					FSamplePosition -= FLoopSampleLength;
+				}
+			}
+			
+			FTime = FSamplePosition/(double)FSampleRate;
+			FBeat = FTime * FTimeToBPM;
 		}
 		
 		public long BufferStart
@@ -57,6 +64,13 @@ namespace VVVV.Audio
 			{
 				return FBeat;
 			}
+			
+			set
+			{
+				FBeat = value;
+				FTime = FBeat * FBPMToTime;
+				FSamplePosition = (long)Math.Round(FTime * FSampleRate);
+			}
 		}
 		
 		double FBPM;
@@ -74,6 +88,44 @@ namespace VVVV.Audio
 				FTimeToBPM = FBPM/60.0;
 				FBPMToTime = 60.0/FBPM;
 			}
+		}
+		
+		long FLoopSampleLength;
+		public bool Loop
+		{
+			get;
+			set;
+		}
+		
+		double FLoopStartBeat;
+		long FLoopStartSample;
+		public double LoopStartBeat 
+		{
+			get { return FLoopStartBeat; }
+			set 
+			{ 
+				FLoopStartBeat = value;
+				CalcLoop();
+			}
+		}
+		
+		double FLoopEndBeat;
+		long FLoopEndSample;
+		public double LoopEndBeat 
+		{
+			get { return FLoopEndBeat; }
+			set 
+			{ 
+				FLoopEndBeat = value;
+				CalcLoop();
+			}
+		}
+		
+		private void CalcLoop()
+		{
+			FLoopStartSample = (long)Math.Round(FLoopStartBeat * FBPMToTime * FSampleRate);
+			FLoopEndSample = (long)Math.Round(FLoopEndBeat * FBPMToTime * FSampleRate);
+			FLoopSampleLength = Math.Max(FLoopEndSample - FLoopStartSample, 0);
 		}
 
         public int TimeSignatureDenominator = 4;
