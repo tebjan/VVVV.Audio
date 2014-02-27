@@ -27,23 +27,20 @@ namespace VVVV.Nodes
 		public TimeSpan FSeekTime;
 		
 		public AudioFileReaderVVVV FAudioFile;
-		public SilenceProvider FSilence;
-
-		public FileStreamSignal()
-		{
-			FSilence = new SilenceProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2));
-		}
 		
 		public void OpenFile(string filename)
 		{
 			if (FAudioFile != null)
 			{
 				FAudioFile.Dispose();
+				FAudioFile = null;
 			}
 			
-			FAudioFile = new AudioFileReaderVVVV(filename, 44100);
-			FSilence = new SilenceProvider(FAudioFile.WaveFormat);
-			SetOutputCount(FAudioFile.WaveFormat.Channels);
+			if(!string.IsNullOrEmpty(filename))
+			{
+				FAudioFile = new AudioFileReaderVVVV(filename, 44100);
+				SetOutputCount(FAudioFile.WaveFormat.Channels);
+			}
 		}
 		
 		float[] FFileBuffer = new float[1];
@@ -67,7 +64,7 @@ namespace VVVV.Nodes
 	            	}
 	            	else
 	            	{
-	            		bytesread = FSilence.Read(FFileBuffer, offset*channels, samplesToRead);
+	            		bytesread = FFileBuffer.ReadSilence(offset*channels, samplesToRead);
 	            	}
 					
 	            }
@@ -107,30 +104,6 @@ namespace VVVV.Nodes
 		}		
 	}
 	
-	//SilenceProvider code from vexorum, http://naudio.codeplex.com/workitem/16377
-	public class SilenceProvider : ISampleProvider
-	{
-	    private readonly WaveFormat format;
-	
-	    public SilenceProvider(WaveFormat format)
-	    {
-	        this.format = format;
-	    }
-	
-	    public int Read(float[] buffer, int offset, int count)
-	    {
-	        for (int i = 0; i < count; i++)
-	        {
-	            buffer[offset + i] = 0;
-	        }
-	        return count;
-	    }
-	
-	    public WaveFormat WaveFormat
-	    {
-	        get { return format; }
-	    }
-	}	
 	
 	#region PluginInfo
 	[PluginInfo(Name = "FileStream", Category = "VAudio", Help = "Plays Back sound files", Tags = "wav, mp3, aiff", Author = "beyon")]

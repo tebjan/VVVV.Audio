@@ -121,7 +121,7 @@ namespace VVVV.Audio
 
                     OriginalFileFormat = (FReaderStream as Mp3FileReader).Mp3WaveFormat;
         		}
-        		else if (fileName.EndsWith(".aiff"))
+        		else if (fileName.EndsWith(".aiff") || fileName.EndsWith(".aif"))
         		{
         			FReaderStream = new AiffFileReader(fileName);
 
@@ -247,7 +247,8 @@ namespace VVVV.Audio
         {
             if (disposing)
             {
-                FReaderStream.Dispose();
+            	if(FReaderStream != null)
+                	FReaderStream.Dispose();
                 FReaderStream = null;
             }
             base.Dispose(disposing);

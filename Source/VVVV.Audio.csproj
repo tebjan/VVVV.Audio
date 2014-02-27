@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>VVVV.Nodes</RootNamespace>
     <AssemblyName>VVVV.Audio</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OutputPath>..\nodes\plugins\</OutputPath>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoWin32Manifest>False</NoWin32Manifest>
@@ -17,6 +17,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\nodes\plugins\VVVV.Audio.xml</DocumentationFile>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -44,6 +45,7 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
+    <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -80,6 +82,7 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="VVVV.Core">
       <HintPath>..\..\..\lib\core\VVVV.Core.dll</HintPath>
@@ -116,6 +119,7 @@
     <Compile Include="Nodes\Buffers\CreateBufferNode.cs" />
     <Compile Include="Nodes\Filters\ResampleNode.cs" />
     <Compile Include="Nodes\Misc\Lin2dBNodes.cs" />
+    <Compile Include="Nodes\Misc\WaveFormSpreadNode.cs" />
     <Compile Include="Nodes\Routing\MatrixMixerNode.cs" />
     <Compile Include="Nodes\Routing\SignalOperationNodes.cs" />
     <Compile Include="Nodes\Routing\SpreadOperations.cs" />

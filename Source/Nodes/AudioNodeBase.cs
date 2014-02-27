@@ -181,13 +181,25 @@ namespace VVVV.Nodes
     /// </summary>
     public abstract class GenericAudioSourceNode<TSignal> : AudioNodeBase<TSignal> where TSignal : AudioSignal
 	{
-		[Output("Audio Out", Order = -10)]
+    	[Import]
+    	protected IIOFactory FIOFactory;
+		//[Output("Audio Out", Order = -10)]
 		public Pin<AudioSignal> FOutputSignals;
 
 		public override void OnImportsSatisfied()
 		{
 			
 			base.OnImportsSatisfied();
+			
+			
+			
+			var outputAttribute = new OutputAttribute("Audio Out")
+			{
+				Order = -10,
+				Visibility = GetOutputVisiblilty()
+			};
+			
+			FOutputSignals = FIOFactory.CreatePin<AudioSignal>(outputAttribute);
 			
 			FOutputSignals.Connected += delegate
 			{
@@ -201,6 +213,11 @@ namespace VVVV.Nodes
 
 			//set out buffer slice count to 0 so the
 			FOutputSignals.SliceCount = 0;
+		}
+		
+		protected virtual PinVisibility GetOutputVisiblilty()
+		{
+			return PinVisibility.True;
 		}
 		
 		private void CheckOutConnections()
