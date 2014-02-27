@@ -95,7 +95,7 @@ namespace VVVV.Audio
 	/// <summary>
 	/// Base class for signals which just generate audio
 	/// </summary>
-	public class AudioSignal : AudioSignalBase, ISampleProvider, ICanCopyBuffer
+	public abstract class AudioSignal : AudioSignalBase, ISampleProvider, ICanCopyBuffer
 	{
 		
 		public AudioSignal()

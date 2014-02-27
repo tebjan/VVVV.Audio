@@ -118,7 +118,7 @@ namespace VVVV.Nodes
 			if(Inputs.IsChanged)
 			{
 				//old signals must be disposed
-				OutBuffer.Resize(0, () => { return new AudioSignal(); }, s => { if(s != null) s.Dispose(); });
+				OutBuffer.ResizeAndDispose(0, () => { return null; });
 				for(int outSlice=0; outSlice<SpreadMax; outSlice++)
 				{
 					var sig = new TOperator();
