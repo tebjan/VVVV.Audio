@@ -3,9 +3,9 @@
    <BOUNDS type="Window" left="1830" top="360" width="11400" height="13650">
    </BOUNDS>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="7" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="2025" top="585" width="480" height="480">
+   <BOUNDS type="Box" left="945" top="1140" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="2025" top="585" width="0" height="0">
+   <BOUNDS type="Node" left="945" top="1140" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
@@ -511,7 +511,7 @@
    <LINK srcnodeid="126" srcpinname="Output" dstnodeid="82" dstpinname="Input">
    </LINK>
    <NODE systemname="AudioEngine (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioEngine (VAudio)" componentmode="Hidden" id="2">
-   <BOUNDS type="Node" left="2025" top="1260" width="1050" height="270">
+   <BOUNDS type="Node" left="945" top="1815" width="1050" height="270">
    </BOUNDS>
    <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
    </PIN>

@@ -513,11 +513,11 @@
    <LINK srcnodeid="258" srcpinname="Output" dstnodeid="24" dstpinname="Input 1">
    </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="260" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Box" left="4950" top="7485" width="1935" height="240">
+   <BOUNDS type="Box" left="5745" top="7830" width="1935" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="4950" top="7485" width="0" height="0">
+   <BOUNDS type="Node" left="5745" top="7830" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" values="|Virus USB ASIO driver|">
+   <PIN pinname="Input Enum" slicecount="1" values="|ASIO4ALL v2|">
    </PIN>
    </NODE>
    <PACK Name="testPack" Version="0.1.0">

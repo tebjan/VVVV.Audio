@@ -1,9 +1,10 @@
 ﻿#region usings
 using System;
 using System.ComponentModel.Composition;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 
 using NAudio;
 using NAudio.Utils;
@@ -32,9 +33,10 @@ namespace VVVV.Nodes
 			if (FAudioFile != null)
 			{
 				FAudioFile.Dispose();
+				FAudioFile = null;
 			}
 			
-			if(!string.IsNullOrEmpty(filename))
+			if(!string.IsNullOrEmpty(filename) && File.Exists(filename))
 			{
 				FAudioFile = new AudioFileReaderVVVV(filename, 44100);
 				SetOutputCount(FAudioFile.WaveFormat.Channels);
@@ -68,9 +70,12 @@ namespace VVVV.Nodes
 		public double StartTime;
 		public double EndTime;
 		
-		public Task ReadIntoSpreadAsync(CancellationToken ct)
+		public void ReadIntoSpreadAsync()
 		{
-			return Task.Factory.StartNew(() => ReadIntoSpread(ct), ct);
+			if(FAudioFile == null) return;
+			CancelCurrentTask();
+			FCtsSource = new CancellationTokenSource();
+			FCurrentTask = Task.Factory.StartNew(() => ReadIntoSpread(FCtsSource.Token), FCtsSource.Token);
 		}
 		
 		public void ReadIntoSpread(CancellationToken ct)
@@ -137,9 +142,33 @@ namespace VVVV.Nodes
 			}
 			
 		}
+		
+		private CancellationTokenSource FCtsSource;
+		private Task FCurrentTask;
+		private void CancelCurrentTask()
+		{
+			if (FCtsSource != null)
+			{
+				FCtsSource.Cancel();
+				try
+				{
+					FCurrentTask.Wait();
+				}
+				catch (Exception)
+				{
+					// Ignore
+				}
+				finally
+				{
+					FCtsSource = null;
+					FCurrentTask.Dispose();
+				}
+			}
+		}
 
 		public override void Dispose()
 		{
+			CancelCurrentTask();
 			FAudioFile.Dispose();
 			base.Dispose();
 		}		
@@ -191,8 +220,6 @@ namespace VVVV.Nodes
 			return PinVisibility.False;
 		}
 		
-		private CancellationTokenSource FCtsSource;
-		private Task FCurrentTask;
 		protected override async void SetParameters(int i, WaveFormSignal instance)
 		{
 			if(FFilename.IsChanged)
@@ -247,37 +274,9 @@ namespace VVVV.Nodes
 			}
 			
 			//do the calculation
-			CancelCurrentTask();
-			FCtsSource = new CancellationTokenSource();
-			FCurrentTask = instance.ReadIntoSpreadAsync(FCtsSource.Token);
+			instance.ReadIntoSpreadAsync();
 		}
 		
-		private void CancelCurrentTask()
-		{
-			if (FCtsSource != null)
-			{
-				FCtsSource.Cancel();
-				try
-				{
-					FCurrentTask.Wait();
-				}
-				catch (Exception)
-				{
-					// Ignore
-				}
-				finally
-				{
-					FCtsSource = null;
-					FCurrentTask.Dispose();
-				}
-			}
-		}
-		
-		public override void Dispose()
-		{
-			CancelCurrentTask();
-			base.Dispose();
-		}
 		
 		protected override void SetOutputSliceCount(int sliceCount)
 		{
@@ -294,7 +293,7 @@ namespace VVVV.Nodes
 		{
 			if(instance.FAudioFile == null)
 			{
-				FWaveFormOut[i] = new Spread<double>(0);
+				FWaveFormOut.Add(new Spread<double>(0));
 			}
 			else
 			{

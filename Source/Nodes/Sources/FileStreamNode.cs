@@ -1,6 +1,8 @@
 #region usings
 using System;
 using System.ComponentModel.Composition;
+using System.IO;
+
 using NAudio;
 using NAudio.Utils;
 using NAudio.Wave;
@@ -36,7 +38,7 @@ namespace VVVV.Nodes
 				FAudioFile = null;
 			}
 			
-			if(!string.IsNullOrEmpty(filename))
+			if(!string.IsNullOrEmpty(filename) && File.Exists(filename))
 			{
 				FAudioFile = new AudioFileReaderVVVV(filename, 44100);
 				SetOutputCount(FAudioFile.WaveFormat.Channels);

@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
-   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\StereoMixer (Audio Filter).v4p" systemname="StereoMixer (Audio Filter)" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\StereoMixer (Audio Filter).v4p">
-   <BOUNDS type="Window" left="6120" top="4725" width="4170" height="4995">
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\StereoMixer (VAudio Filter).v4p" systemname="StereoMixer (Audio Filter)" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\StereoMixer (Audio Filter).v4p">
+   <BOUNDS type="Window" left="6120" top="4725" width="7095" height="6585">
    </BOUNDS>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="3" systemname="IOBox (Node)">
    <BOUNDS type="Box" left="285" top="3780" width="795" height="240">
@@ -98,16 +98,6 @@
    </LINK>
    <LINK srcnodeid="6" srcpinname="Y Output Value" dstnodeid="11" dstpinname="Input 2">
    </LINK>
-   <NODE systemname="Gamma (Value)" nodename="Gamma (Value)" componentmode="Hidden" id="13">
-   <BOUNDS type="Node" left="690" top="2910" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="7" srcpinname="XY" dstnodeid="13" dstpinname="Input">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="14" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="2820" top="1125" width="795" height="240">
    </BOUNDS>
@@ -122,18 +112,28 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="Gamma">
    </PIN>
    </NODE>
-   <LINK srcnodeid="14" srcpinname="Y Output Value" dstnodeid="13" dstpinname="Gamma">
-   </LINK>
    <NODE systemname="MatrixMixer (VAudio Filter)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="MatrixMixer (VAudio Filter)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="285" top="3360" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Gain" visible="1">
+   <PIN pinname="Gain" visible="1" slicecount="2" values="0.707106781186548,0.707106781186548">
    </PIN>
    </NODE>
    <LINK srcnodeid="0" srcpinname="Output" dstnodeid="3" dstpinname="Input Node">
    </LINK>
    <LINK srcnodeid="4" srcpinname="Output Node" dstnodeid="0" dstpinname="Input">
    </LINK>
+   <NODE id="13" systemname="Gamma (Value)" nodename="Gamma (Value)" componentmode="Hidden">
+   <BOUNDS type="Node" left="690" top="2910" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
    <LINK srcnodeid="13" srcpinname="Output" dstnodeid="0" dstpinname="Gain">
+   </LINK>
+   <LINK srcnodeid="14" srcpinname="Y Output Value" dstnodeid="13" dstpinname="Gamma">
+   </LINK>
+   <LINK srcnodeid="7" srcpinname="XY" dstnodeid="13" dstpinname="Input">
    </LINK>
    </PATCH>

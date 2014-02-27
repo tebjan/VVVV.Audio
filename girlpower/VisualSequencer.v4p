@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
    <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\VisualSequencer.v4p" systemname="VisualSequencer" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VisualSequencer.v4p">
-   <BOUNDS type="Window" left="420" top="510" width="9840" height="11580">
+   <BOUNDS type="Window" left="420" top="510" width="9840" height="11910">
    </BOUNDS>
    <NODE id="6" nodename="IOBox (Value Advanced)" componentmode="InABox" systemname="IOBox (Value Advanced)">
    <PIN pinname="Y Output Value" visible="1">
@@ -9,9 +9,9 @@
    </PIN>
    <PIN pinname="X Input Value" slicecount="1" values="1">
    </PIN>
-   <BOUNDS type="Box" left="1695" top="9570" width="480" height="480">
+   <BOUNDS type="Box" left="4500" top="9900" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="1695" top="9570" width="0" height="0">
+   <BOUNDS type="Node" left="4500" top="9900" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -27,9 +27,9 @@
    <NODE id="81" nodename="IOBox (Enumerations)" componentmode="InABox" systemname="IOBox (Enumerations)">
    <PIN pinname="Output Enum">
    </PIN>
-   <BOUNDS type="Box" left="2850" top="9840" width="1590" height="240">
+   <BOUNDS type="Box" left="5655" top="10170" width="1590" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="2850" top="9840" width="0" height="0">
+   <BOUNDS type="Node" left="5655" top="10170" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="1" values="|ASIO4ALL v2|">
    </PIN>
@@ -39,9 +39,9 @@
    <NODE id="110" nodename="IOBox (Value Advanced)" componentmode="InABox" systemname="IOBox (Value Advanced)">
    <PIN pinname="Y Output Value">
    </PIN>
-   <BOUNDS type="Box" left="5190" top="9570" width="480" height="480">
+   <BOUNDS type="Box" left="7995" top="9900" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="5190" top="9570" width="0" height="0">
+   <BOUNDS type="Node" left="7995" top="9900" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
@@ -529,13 +529,11 @@
    <LINK srcnodeid="207" srcpinname="Output" dstnodeid="173" dstpinname="Gain">
    </LINK>
    <NODE id="163" systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioOut (VAudio)" componentmode="Hidden">
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
-   <BOUNDS type="Node" left="480" top="10365" width="750" height="270">
+   <BOUNDS type="Node" left="450" top="10875" width="750" height="270">
    </BOUNDS>
    </NODE>
-   <LINK srcnodeid="173" srcpinname="Audio Out" dstnodeid="163" dstpinname="Input">
-   </LINK>
    <NODE id="37" systemname="AudioEngine (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="AudioEngine (VAudio)" componentmode="Hidden">
    <PIN pinname="Play" visible="1">
    </PIN>
@@ -545,7 +543,7 @@
    </PIN>
    <PIN pinname="Control Panel">
    </PIN>
-   <BOUNDS type="Node" left="1695" top="10425" width="3555" height="270">
+   <BOUNDS type="Node" left="4500" top="10755" width="3555" height="270">
    </BOUNDS>
    </NODE>
    <LINK srcnodeid="110" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Control Panel">
@@ -553,5 +551,33 @@
    <LINK srcnodeid="81" srcpinname="Output Enum" dstnodeid="37" dstpinname="Driver">
    </LINK>
    <LINK srcnodeid="6" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Play">
+   </LINK>
+   <NODE systemname="StereoMixer (VAudio Filter)" filename="%VVVV%\packs\VVVV.Audio\nodes\modules\StereoMixer (VAudio Filter).v4p" nodename="StereoMixer (VAudio Filter)" componentmode="Hidden" id="224">
+   <BOUNDS type="Node" left="480" top="10395" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <BOUNDS type="Window" left="6120" top="4725" width="7095" height="6585">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="173" srcpinname="Audio Out" dstnodeid="224" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="224" srcpinname="Output" dstnodeid="163" dstpinname="Input">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="225" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="1605" top="9915" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1605" top="9915" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="0.5">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="225" srcpinname="Y Output Value" dstnodeid="224" dstpinname="Gain">
    </LINK>
    </PATCH>
