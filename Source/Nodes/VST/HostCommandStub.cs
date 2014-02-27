@@ -171,11 +171,15 @@ namespace VVVV.Audio.VST
         }
 
         /// <inheritdoc />
+        public Action<VstEvent[]> FProcessEventsAction;
         public bool ProcessEvents(Jacobi.Vst.Core.VstEvent[] events)
         {
-            RaisePluginCalled("ProcessEvents(" + events.Length + ")");
+            //RaisePluginCalled("ProcessEvents(" + events.Length + ")");
+            if(FProcessEventsAction != null)
+            	FProcessEventsAction(events);
             return false;
         }
+        
 
         /// <inheritdoc />
         public bool SizeWindow(int width, int height)

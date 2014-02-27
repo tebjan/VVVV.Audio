@@ -265,6 +265,12 @@ namespace VVVV.Audio.VST
                 hostCmdStub.RaiseSave = SetNeedsSafe;
 				
 				VstPluginContext ctx = VstPluginContext.Create(pluginPath, hostCmdStub);
+				var midiOutChannels = ctx.PluginCommandStub.GetNumberOfMidiOutputChannels();
+				
+				//if(midiOutChannels > 0)
+				{
+					hostCmdStub.FProcessEventsAction = ReceiveEvents;
+				}
 				
 				// add custom data to the context
 				ctx.Set("PluginPath", pluginPath);
@@ -281,6 +287,19 @@ namespace VVVV.Audio.VST
 			}
 			
 			return null;
+		}
+		
+		public VstEventCollection MidiOutEvents;
+		
+		void ReceiveEvents(VstEvent[] events)
+		{
+			if(events.Length > 0)
+			{
+				if(MidiOutEvents == null)
+					MidiOutEvents = new VstEventCollection(events);
+				else
+					MidiOutEvents.AddRange(events);
+			}
 		}
 
         //format changes
