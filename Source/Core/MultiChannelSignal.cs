@@ -74,7 +74,10 @@ namespace VVVV.Audio
 			}
 			
 			//make sure new buffers get assigned by the manage buffers method
-			FReadBuffers[0] = new float[0];
+			if(FOutputCount > 0)
+			{
+				FReadBuffers[0] = new float[0];
+			}
 		}
 		
 		public ISpread<AudioSignal> Outputs
@@ -99,7 +102,7 @@ namespace VVVV.Audio
 		
 		protected void Read(int offset, int count)
 		{
-			if(FNeedsRead)
+			if(FNeedsRead && FOutputCount > 0)
 			{
 				ManageBuffers(count);
 				FillBuffers(FReadBuffers, offset, count);

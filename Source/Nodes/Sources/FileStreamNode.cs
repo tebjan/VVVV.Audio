@@ -43,6 +43,10 @@ namespace VVVV.Nodes
 				FAudioFile = new AudioFileReaderVVVV(filename, 44100);
 				SetOutputCount(FAudioFile.WaveFormat.Channels);
 			}
+			else
+			{
+				SetOutputCount(0);
+			}
 		}
 		
 		float[] FFileBuffer = new float[1];
@@ -167,6 +171,8 @@ namespace VVVV.Nodes
                 {
                     FDurationOut[i] = 0;
                     FCanSeekOut[i] = false;
+                    FSampleRateOut[i] = 0;
+                    FChannelsOut[i] = 0;
                     FFileFormatOut[i] = "";
                 }
                 else
@@ -186,6 +192,8 @@ namespace VVVV.Nodes
                 }
 		
 			}
+			
+			if (instance.FAudioFile == null) return;
 
             if (FVolume.IsChanged)
             {

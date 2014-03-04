@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
    <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\WaveForm (DX9 VAudio).v4p" systemname="WaveForm (DX9 VAudio)" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\WaveForm (DX9 VAudio).v4p">
-   <BOUNDS type="Window" left="6332" top="5225" width="9615" height="9105">
+   <BOUNDS type="Window" left="6330" top="5220" width="16875" height="9105">
    </BOUNDS>
    <NODE systemname="WaveForm (Spreads)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="WaveForm (Spreads)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="2580" top="2655" width="4890" height="270">
@@ -23,7 +23,7 @@
    </PIN>
    </NODE>
    <NODE systemname="Quad (DX9)" nodename="Quad (DX9)" componentmode="Hidden" id="2">
-   <BOUNDS type="Node" left="5655" top="7125" width="100" height="100">
+   <BOUNDS type="Node" left="1200" top="8415" width="12060" height="270">
    </BOUNDS>
    <PIN pinname="Transform" visible="1">
    </PIN>
@@ -237,9 +237,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="20" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="8115" top="1500" width="5025" height="300">
+   <BOUNDS type="Box" left="7965" top="1485" width="5025" height="300">
    </BOUNDS>
-   <BOUNDS type="Node" left="8115" top="1500" width="0" height="0">
+   <BOUNDS type="Node" left="7965" top="1485" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input String" slicecount="1" values="||">
    </PIN>
@@ -255,9 +255,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="21" systemname="IOBox (Node)">
-   <BOUNDS type="Box" left="5655" top="7605" width="795" height="240">
+   <BOUNDS type="Box" left="1200" top="8895" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="5655" top="7605" width="0" height="0">
+   <BOUNDS type="Node" left="1200" top="8895" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" values="Layer">
    </PIN>
@@ -317,5 +317,65 @@
    <LINK srcnodeid="7" srcpinname="Y Output Value" dstnodeid="6" dstpinname="Input 2">
    </LINK>
    <LINK srcnodeid="0" srcpinname="Wave Form Bin Size" dstnodeid="7" dstpinname="Y Input Value">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="22" systemname="IOBox (Node)">
+   <BOUNDS type="Box" left="375" top="1590" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="375" top="1590" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Node" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Render State|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="22" srcpinname="Output Node" dstnodeid="2" dstpinname="Render State">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="23" systemname="IOBox (Node)">
+   <BOUNDS type="Box" left="9000" top="6330" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="9000" top="6330" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Node" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Texture">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="23" srcpinname="Output Node" dstnodeid="2" dstpinname="Texture">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="24" systemname="IOBox (Node)">
+   <BOUNDS type="Box" left="10620" top="6345" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="10620" top="6345" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Node" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Sampler State|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="24" srcpinname="Output Node" dstnodeid="2" dstpinname="Sampler State">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="25" systemname="IOBox (Node)">
+   <BOUNDS type="Box" left="12375" top="6375" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="12375" top="6375" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Node" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Texture Transform|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="25" srcpinname="Output Node" dstnodeid="2" dstpinname="Texture Transform">
+   </LINK>
+   <NODE nodename="IOBox (Color)" componentmode="InABox" id="26" systemname="IOBox (Color)">
+   <BOUNDS type="Box" left="13470" top="6330" width="2250" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="13470" top="6330" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Color Input" slicecount="1" values="|1.00000,1.00000,1.00000,1.00000|">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Color">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="26" srcpinname="Color Output" dstnodeid="2" dstpinname="Color">
    </LINK>
    </PATCH>
