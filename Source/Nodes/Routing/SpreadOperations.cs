@@ -9,6 +9,7 @@ using VVVV.Utils.VColor;
 using VVVV.Utils.VMath;
 using VVVV.Audio;
 using VVVV.Nodes;
+using VVVV.Nodes.Generic;
 
 using NAudio.Wave;
 using NAudio.Wave.Asio;
@@ -35,7 +36,7 @@ namespace VVVV.Nodes
 	            Category = "VAudio", 
 	            Help = "Zips spreads together", 
 	            Tags = "spread, join")]
-	public class AudioZipNode : ZipNode<AudioSignal>
+	public class AudioZipNode : Zip<AudioSignal>
 	{
 	}
 	
@@ -43,7 +44,7 @@ namespace VVVV.Nodes
 	            Category = "VAudio", 
 	            Help = "Unzips a spread into multiple spreads", 
 	            Tags = "spread, split")]
-	public class AudioUnzipNode : UnzipNode<AudioSignal>
+	public class AudioUnzipNode : Unzip<AudioSignal>
 	{
 	}
 	
