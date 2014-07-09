@@ -52,3 +52,6 @@ obj/
 [Dd]ebug*/
 [Rr]elease*/
 Ankh.NoLoad
+
+!/Source/Dependencies/VST.NET/*/Debug/
+!/Source/Dependencies/VST.NET/*/Release/
