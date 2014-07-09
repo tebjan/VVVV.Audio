@@ -19,3 +19,7 @@ nodes/plugins/NAudio.dll.eqbak
 nodes/plugins/app.eqconfig
 VVVV.Audio/
 VVVV.Audio_orig/
+
+#Nuget
+/Source/packages/*
+!/Source/packages/repositories.config
