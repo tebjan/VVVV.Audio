@@ -142,6 +142,7 @@
     <Compile Include="Nodes\Sinks\WaveRecorderNode.cs" />
     <Compile Include="Nodes\Sources\AudioInputNode.cs" />
     <Compile Include="Nodes\Sources\FileStreamNode.cs" />
+    <Compile Include="Nodes\Sources\LTCEncoder.cs" />
     <Compile Include="Nodes\Sources\WaveTableNode.cs" />
     <Compile Include="Nodes\Sources\SineSignalNode.cs" />
     <Compile Include="Nodes\Sources\SineSignalNodeYeppp.cs" />
