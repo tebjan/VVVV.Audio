@@ -181,7 +181,7 @@ namespace VVVV.Audio
 	    }
 	    
 	    		
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			Input = null;
 		}
