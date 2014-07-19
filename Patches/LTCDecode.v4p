@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug32.1.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug32.2.dtd" >
    <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\Patches\LTCDecode.v4p" systemname="LTCDecode" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\Patches\LTCDecode.v4p">
    <BOUNDS type="Window" left="7200" top="3135" width="10590" height="10845">
    </BOUNDS>
@@ -10,7 +10,7 @@
    <PIN pinname="Control Panel" slicecount="1" values="0">
    </PIN>
    </NODE>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="1" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="1" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="6525" top="5595" width="480" height="480">
    </BOUNDS>
    <BOUNDS type="Node" left="6525" top="5595" width="0" height="0">
@@ -26,6 +26,10 @@
    <PIN pinname="Behavior" slicecount="1" values="Toggle">
    </PIN>
    <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
    </PIN>
    </NODE>
    <LINK srcnodeid="1" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Play">
@@ -44,7 +48,7 @@
    <PIN pinname="Loop End Time" slicecount="1" values="9999">
    </PIN>
    </NODE>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="3" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="3" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="6540" top="6780" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="6540" top="6780" width="0" height="0">
@@ -52,6 +56,10 @@
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
    </PIN>
    </NODE>
    <LINK srcnodeid="0" srcpinname="Time" dstnodeid="3" dstpinname="Y Input Value">
@@ -86,7 +94,7 @@
    </LINK>
    <LINK srcnodeid="2" srcpinname="Audio Out" dstnodeid="5" dstpinname="Input">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="15" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="15" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="6465" top="2685" width="705" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="6465" top="2685" width="0" height="0">
@@ -96,6 +104,10 @@
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
    </PIN>
    </NODE>
    <LINK srcnodeid="15" srcpinname="Y Output Value" dstnodeid="14" dstpinname="Gain">
@@ -111,11 +123,15 @@
    <LINK srcnodeid="22" srcpinname="Output Enum" dstnodeid="0" dstpinname="Driver">
    </LINK>
    <NODE systemname="LTCEncoder (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="LTCEncoder (VAudio Source)" componentmode="Hidden" id="23">
-   <BOUNDS type="Node" left="975" top="3480" width="100" height="100">
+   <BOUNDS type="Node" left="975" top="3090" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Audio Out" visible="1">
    </PIN>
    <PIN pinname="Timecode" visible="1">
+   </PIN>
+   <PIN pinname="Play" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Do Seek" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE systemname="LTCDecoder (VAudio Sink)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="LTCDecoder (VAudio Sink)" componentmode="Hidden" id="30">
@@ -138,7 +154,7 @@
    </NODE>
    <LINK srcnodeid="30" srcpinname="Timecode" dstnodeid="29" dstpinname="Input">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="28" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="28" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="990" top="6150" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="990" top="6150" width="0" height="0">
@@ -149,10 +165,14 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="29" srcpinname="Hours" dstnodeid="28" dstpinname="Y Input Value">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="27" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="27" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="1170" top="5760" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="1170" top="5760" width="0" height="0">
@@ -163,10 +183,14 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="29" srcpinname="Minutes" dstnodeid="27" dstpinname="Y Input Value">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="26" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="26" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="1335" top="5355" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="1335" top="5355" width="0" height="0">
@@ -177,10 +201,14 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="29" srcpinname="Seconds" dstnodeid="26" dstpinname="Y Input Value">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="25" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="25" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="1530" top="4935" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="1530" top="4935" width="0" height="0">
@@ -193,73 +221,87 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="29" srcpinname="Frame" dstnodeid="25" dstpinname="Y Input Value">
    </LINK>
    <LINK srcnodeid="23" srcpinname="Audio Out" dstnodeid="30" dstpinname="Input">
    </LINK>
    <NODE systemname="Join (Timecode)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="Join (Timecode)" componentmode="Hidden" id="31">
-   <BOUNDS type="Node" left="960" top="3015" width="100" height="100">
+   <BOUNDS type="Node" left="570" top="1785" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Timecode" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="31" srcpinname="Timecode" dstnodeid="23" dstpinname="Timecode">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="32" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="975" top="1365" width="795" height="240">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="32" systemname="IOBOX (VALUE ADVANCED)">
+   <BOUNDS type="Box" left="585" top="135" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="975" top="1365" width="0" height="0">
+   <BOUNDS type="Node" left="585" top="135" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   <PIN pinname="Y Input Value" slicecount="1" values="41">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
    </PIN>
    </NODE>
    <LINK srcnodeid="32" srcpinname="Y Output Value" dstnodeid="31" dstpinname="Hours">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="33" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1140" top="1710" width="795" height="240">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="33" systemname="IOBOX (VALUE ADVANCED)">
+   <BOUNDS type="Box" left="750" top="480" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="1140" top="1710" width="0" height="0">
+   <BOUNDS type="Node" left="750" top="480" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="2">
+   <PIN pinname="Y Input Value" slicecount="1" values="16">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
    </PIN>
    </NODE>
    <LINK srcnodeid="33" srcpinname="Y Output Value" dstnodeid="31" dstpinname="Minutes">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="34" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1320" top="2040" width="795" height="240">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="34" systemname="IOBOX (VALUE ADVANCED)">
+   <BOUNDS type="Box" left="930" top="810" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="1320" top="2040" width="0" height="0">
+   <BOUNDS type="Node" left="930" top="810" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="3">
+   <PIN pinname="Y Input Value" slicecount="1" values="24">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
    </PIN>
    </NODE>
    <LINK srcnodeid="34" srcpinname="Y Output Value" dstnodeid="31" dstpinname="Seconds">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="35" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1515" top="2385" width="795" height="240">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="35" systemname="IOBOX (VALUE ADVANCED)">
+   <BOUNDS type="Box" left="1125" top="1155" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="1515" top="2385" width="0" height="0">
+   <BOUNDS type="Node" left="1125" top="1155" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="4">
+   <PIN pinname="Y Input Value" slicecount="1" values="6">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -267,28 +309,12 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="35" srcpinname="Y Output Value" dstnodeid="31" dstpinname="Frame">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="36" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1845" top="2865" width="480" height="480">
-   </BOUNDS>
-   <BOUNDS type="Node" left="1845" top="2865" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Value Type" slicecount="1" values="Boolean">
-   </PIN>
-   <PIN pinname="Behavior" slicecount="1" values="Bang">
-   </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="36" srcpinname="Y Output Value" dstnodeid="23" dstpinname="Do Seek">
    </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="37" systemname="IOBox (String)">
    <BOUNDS type="Box" left="5145" top="1095" width="1485" height="255">
@@ -328,7 +354,7 @@
    <PIN pinname="Gain">
    </PIN>
    </NODE>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="38" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="38" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="2715" top="3540" width="705" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="2715" top="3540" width="0" height="0">
@@ -338,6 +364,10 @@
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
    </PIN>
    </NODE>
    <LINK srcnodeid="38" srcpinname="Y Output Value" dstnodeid="39" dstpinname="Gain">
@@ -384,7 +414,7 @@
    <PIN pinname="Minutes" visible="1">
    </PIN>
    </NODE>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="52" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="52" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="4035" top="7035" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="4035" top="7035" width="0" height="0">
@@ -395,10 +425,14 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="53" srcpinname="Hours" dstnodeid="52" dstpinname="Y Input Value">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="51" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="51" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="4215" top="6645" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="4215" top="6645" width="0" height="0">
@@ -409,10 +443,14 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="53" srcpinname="Minutes" dstnodeid="51" dstpinname="Y Input Value">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="50" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="50" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="4380" top="6240" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="4380" top="6240" width="0" height="0">
@@ -423,10 +461,14 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="53" srcpinname="Seconds" dstnodeid="50" dstpinname="Y Input Value">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="49" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="49" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="4575" top="5820" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="4575" top="5820" width="0" height="0">
@@ -439,12 +481,16 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="53" srcpinname="Frame" dstnodeid="49" dstpinname="Y Input Value">
    </LINK>
    <LINK srcnodeid="46" srcpinname="Timecode" dstnodeid="53" dstpinname="Input">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="54" systemname="IOBox (Value Advanced)">
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="54" systemname="IOBOX (VALUE ADVANCED)">
    <BOUNDS type="Box" left="5025" top="4350" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="5025" top="4350" width="0" height="0">
@@ -453,7 +499,101 @@
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
+   <PIN pinname="Minimum" slicecount="1" values="-1000">
+   </PIN>
+   <PIN pinname="Maximum" slicecount="1" values="1000">
+   </PIN>
    </NODE>
    <LINK srcnodeid="48" srcpinname="Output" dstnodeid="54" dstpinname="Y Input Value">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="55" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="2970" top="2235" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2970" top="2235" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Do Seek|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="55" srcpinname="Y Output Value" dstnodeid="23" dstpinname="Do Seek">
+   </LINK>
+   <NODE systemname="Sec2LTC (VAudio)" filename="%VVVV%\packs\VVVV.Audio\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p" nodename="%VVVV%\packs\VVVV.Audio\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p" componentmode="Hidden" id="56">
+   <BOUNDS type="Node" left="1560" top="2205" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="630" top="1830" width="3540" height="4470">
+   </BOUNDS>
+   <BOUNDS type="Window" left="12585" top="2625" width="6150" height="6660">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="7.76">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Timecode" visible="1">
+   </PIN>
+   </NODE>
+   <PACK Name="addonpack" Version="32.2.0">
+   </PACK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="57" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="3030" top="1020" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3030" top="1020" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="22.19">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="58">
+   <BOUNDS type="Node" left="2880" top="1545" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" slicecount="1" values="20">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="57" srcpinname="Y Output Value" dstnodeid="58" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="58" srcpinname="Output" dstnodeid="56" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="56" srcpinname="Timecode" dstnodeid="23" dstpinname="Timecode">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="59" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="540" top="2370" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="540" top="2370" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Play">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="59" srcpinname="Y Output Value" dstnodeid="23" dstpinname="Play">
    </LINK>
    </PATCH>

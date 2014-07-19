@@ -9,7 +9,7 @@ using VVVV.PluginInterfaces.V2;
 namespace VVVV.Nodes.LTC
 {
 	#region PluginInfo
-	[PluginInfo(Name = "Split", Category = "Timecode", Help = "Split Timecode into parts", Tags = "", Author = "elliotwoods", AutoEvaluate = true)]
+	[PluginInfo(Name = "Split", Category = "Timecode", Help = "Split Timecode into parts", Tags = "", Author = "elliotwoods")]
 	#endregion PluginInfo
 	public class TimecodeSplit : IPluginEvaluate
 	{
