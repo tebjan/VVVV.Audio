@@ -29,6 +29,7 @@ namespace VVVV.Nodes
 		public TimeSpan FSeekTime;
 		
 		public AudioFileReaderVVVV FAudioFile;
+		public double Speed { get; set; }
 		
 		public void OpenFile(string filename)
 		{
@@ -50,27 +51,55 @@ namespace VVVV.Nodes
 		}
 		
 		float[] FFileBuffer = new float[1];
+		double FFractionalAccum; //gathers frac error
+		BufferWiseResampler FResampler = new BufferWiseResampler();
 		protected override void FillBuffers(float[][] buffer, int offset, int sampleCount)
 		{
 			var channels = FAudioFile.WaveFormat.Channels;
-			var samplesToRead = sampleCount*channels;
+			
+			var blockAlign = FAudioFile.OriginalFileFormat.BlockAlign;
+			
+			int samplesToRead;
+			
+			
+			if(Speed == 1.0)
+			{
+				samplesToRead = sampleCount * channels;
+			}
+			else
+			{
+				var desiredSamples = sampleCount * channels * Speed; //ideal value
+				samplesToRead = (int)Math.Truncate(desiredSamples); //can only read that much
+				var rem = samplesToRead % blockAlign;
+				samplesToRead -= rem;
+				
+				FFractionalAccum += (desiredSamples - samplesToRead); //gather error
+				
+				//correct error
+				if(FFractionalAccum >= blockAlign)
+				{
+					samplesToRead += blockAlign;
+					FFractionalAccum -= blockAlign;
+				}
+			}
+			
 			FFileBuffer = BufferHelpers.Ensure(FFileBuffer, samplesToRead);
-            int bytesread = 0;
+            int samplesRead = 0;
 			if(FPlay)
 			{
-	            bytesread = FAudioFile.Read(FFileBuffer, offset*channels, samplesToRead);
+	            samplesRead = FAudioFile.Read(FFileBuffer, offset*channels, samplesToRead);
 	
-	            if (bytesread == 0)
+	            if (samplesRead == 0)
 	            {
 	            	if(FLoop)
 	            	{
 	            		FAudioFile.CurrentTime = LoopStartTime;
 	            		FRunToEndBeforeLooping = false;
-		                bytesread = FAudioFile.Read(FFileBuffer, offset*channels, samplesToRead);  		
+		                samplesRead = FAudioFile.Read(FFileBuffer, offset*channels, samplesToRead);  		
 	            	}
 	            	else
 	            	{
-	            		bytesread = FFileBuffer.ReadSilence(offset*channels, samplesToRead);
+	            		samplesRead = FFileBuffer.ReadSilence(offset*channels, samplesToRead);
 	            	}
 					
 	            }
@@ -84,14 +113,21 @@ namespace VVVV.Nodes
 	            	}
 	            }
 	            
-	            //copy to output buffers
-				for (int i = 0; i < channels; i++)
-				{
-					for (int j = 0; j < sampleCount; j++)
-					{
-						buffer[i][j] = FFileBuffer[i + j*channels];
-					}
-				}	            
+	            if(Speed == 1.0)
+	            {
+	            	//copy to output buffers
+	            	for (int i = 0; i < channels; i++)
+	            	{
+	            		for (int j = 0; j < sampleCount; j++)
+	            		{
+	            			buffer[i][j] = FFileBuffer[i + j*channels];
+	            		}
+	            	}
+	            }
+	            else //resample
+	            {
+	            	FResampler.ResampleDeinterleave(FFileBuffer, buffer, samplesToRead/channels, sampleCount, channels);
+	            }
 			}
 			else //silence
 			{
@@ -112,7 +148,7 @@ namespace VVVV.Nodes
 	
 	
 	#region PluginInfo
-	[PluginInfo(Name = "FileStream", Category = "VAudio", Help = "Plays Back sound files", Tags = "wav, mp3, aiff", Author = "beyon")]
+	[PluginInfo(Name = "FileStream", Category = "VAudio", Help = "Plays Back sound files", Tags = "wav, mp3, aiff", Author = "tonfilm, beyon")]
 	#endregion PluginInfo
 	public class FileStreamNode : GenericMultiAudioSourceNodeWithOutputs<FileStreamSignal>
 	{
@@ -133,7 +169,10 @@ namespace VVVV.Nodes
 		public IDiffSpread<bool> FDoSeek;
 		
 		[Input("Seek Time")]
-		public IDiffSpread<double> FSeekPosition;		
+		public IDiffSpread<double> FSeekPosition;
+
+		[Input("Speed", DefaultValue = 1)]
+		public IDiffSpread<double> FSpeed;
 		
 		[Input("Volume", DefaultValue = 1f)]
 		public IDiffSpread<float> FVolume;
@@ -243,6 +282,9 @@ namespace VVVV.Nodes
 				if(instance.FSeekTime < instance.LoopStartTime) instance.FRunToEndBeforeLooping = false;
 				instance.FAudioFile.CurrentTime = TimeSpan.FromSeconds(FSeekPosition[i]);
 			}
+			
+			if(FSpeed.IsChanged)
+				instance.Speed = FSpeed[i];
 		}
 		
 		protected override void SetOutputSliceCount(int sliceCount)
