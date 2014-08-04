@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug32.1.dtd" >
-   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p" systemname="Sec2LTC (VAudio)" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug32.2.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p" systemname="Sec2LTC (VAudio)" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p">
    <BOUNDS type="Window" left="12585" top="2625" width="6150" height="6660">
    </BOUNDS>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="17">
@@ -75,7 +75,7 @@
    <LINK srcnodeid="29" srcpinname="Y Output Value" dstnodeid="28" dstpinname="Input 2">
    </LINK>
    <NODE systemname="Mod (Value)" nodename="Mod (Value)" componentmode="Hidden" id="30">
-   <BOUNDS type="Node" left="1530" top="4260" width="100" height="100">
+   <BOUNDS type="Node" left="1530" top="3855" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1">
    </PIN>
@@ -93,7 +93,7 @@
    </PIN>
    <PIN pinname="Minutes" visible="1">
    </PIN>
-   <PIN pinname="Seconds" visible="1">
+   <PIN pinname="Seconds" visible="1" slicecount="1" values="0">
    </PIN>
    <PIN pinname="Frame" visible="1">
    </PIN>
@@ -109,7 +109,7 @@
    <LINK srcnodeid="32" srcpinname="Timecode" dstnodeid="33" dstpinname="Input Node">
    </LINK>
    <NODE systemname="Mod (Value)" nodename="Mod (Value)" componentmode="Hidden" id="37">
-   <BOUNDS type="Node" left="2190" top="4275" width="100" height="100">
+   <BOUNDS type="Node" left="2190" top="3870" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1" slicecount="1" values="1">
    </PIN>
@@ -135,7 +135,7 @@
    <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="39" dstpinname="Input 2">
    </LINK>
    <NODE systemname="Mod (Value)" nodename="Mod (Value)" componentmode="Hidden" id="40">
-   <BOUNDS type="Node" left="3225" top="4215" width="100" height="100">
+   <BOUNDS type="Node" left="3225" top="3810" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1" slicecount="1" values="1">
    </PIN>
@@ -148,12 +148,42 @@
    </LINK>
    <LINK srcnodeid="25" srcpinname="Output" dstnodeid="32" dstpinname="Hours">
    </LINK>
-   <LINK srcnodeid="30" srcpinname="Output" dstnodeid="32" dstpinname="Minutes">
-   </LINK>
-   <LINK srcnodeid="37" srcpinname="Output" dstnodeid="32" dstpinname="Seconds">
-   </LINK>
    <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="40" dstpinname="Input 2">
    </LINK>
-   <LINK srcnodeid="40" srcpinname="Output" dstnodeid="32" dstpinname="Frame">
+   <NODE systemname="Frac (Value)" nodename="Frac (Value)" componentmode="Hidden" id="41">
+   <BOUNDS type="Node" left="1155" top="4260" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Whole Part" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="30" srcpinname="Output" dstnodeid="41" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="41" srcpinname="Whole Part" dstnodeid="32" dstpinname="Minutes">
+   </LINK>
+   <NODE systemname="Frac (Value)" nodename="Frac (Value)" componentmode="Hidden" id="42">
+   <BOUNDS type="Node" left="1725" top="4290" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Whole Part" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="37" srcpinname="Output" dstnodeid="42" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="42" srcpinname="Whole Part" dstnodeid="32" dstpinname="Seconds">
+   </LINK>
+   <NODE systemname="Frac (Value)" nodename="Frac (Value)" componentmode="Hidden" id="43">
+   <BOUNDS type="Node" left="2535" top="4290" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Whole Part" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="40" srcpinname="Output" dstnodeid="43" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="43" srcpinname="Whole Part" dstnodeid="32" dstpinname="Frame">
    </LINK>
    </PATCH>
