@@ -105,8 +105,17 @@ namespace VVVV.Nodes
 			Init(fps, tvStd, bgFlags);
 		}
 		
+		private struct EncoderParams
+		{
+		    public double FPS;
+		    public TVStandard TVStandard;
+		    public BGFlags BGFlags;
+		}
+		
+		EncoderParams LastEncoderParams;
 		public void Init(double fps, TVStandard tvStd, BGFlags bgFlags)
 		{
+		    LastEncoderParams = new EncoderParams { FPS = fps, TVStandard = tvStd, BGFlags = bgFlags };
 			if(FEncoderRingBuffer != null)
 				FEncoderRingBuffer.Dispose();
 			
@@ -114,11 +123,12 @@ namespace VVVV.Nodes
 			FEncoderRingBuffer = new LTCPullBuffer(encoder);
 		}
 		
+        protected override void Engine_SampleRateChanged(object sender, EventArgs e)
+        {
+            base.Engine_SampleRateChanged(sender, e);
+            Init(LastEncoderParams.FPS, LastEncoderParams.TVStandard, LastEncoderParams.BGFlags);
+        }
 		
-		public void SetFPS(double fps)
-		{
-			
-		}
 		
 		public LTCPullBuffer Encoder
 		{
