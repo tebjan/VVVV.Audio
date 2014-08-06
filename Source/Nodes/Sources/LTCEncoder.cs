@@ -112,6 +112,7 @@ namespace VVVV.Nodes
 		    public BGFlags BGFlags;
 		}
 		
+		bool FInitialized;
 		EncoderParams LastEncoderParams;
 		public void Init(double fps, TVStandard tvStd, BGFlags bgFlags)
 		{
@@ -121,12 +122,14 @@ namespace VVVV.Nodes
 			
 			var encoder = new Encoder(AudioEngine.Instance.Settings.SampleRate, fps, tvStd, bgFlags);
 			FEncoderRingBuffer = new LTCPullBuffer(encoder);
+			FInitialized = true;
 		}
 		
         protected override void Engine_SampleRateChanged(object sender, EventArgs e)
         {
             base.Engine_SampleRateChanged(sender, e);
-            Init(LastEncoderParams.FPS, LastEncoderParams.TVStandard, LastEncoderParams.BGFlags);
+            if(FInitialized)
+                Init(LastEncoderParams.FPS, LastEncoderParams.TVStandard, LastEncoderParams.BGFlags);
         }
 		
 		
