@@ -1,11 +1,11 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug32.2.dtd" >
-   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p" systemname="Sec2LTC (VAudio)" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p">
-   <BOUNDS type="Window" left="12585" top="2625" width="6150" height="6660">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta32.1.dtd" >
+   <PATCH nodename="H:\_patching\Meso\di-bmw-pbe-amsterdam-2014\vvvv\vvvv_45beta32.1_x64\packs\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p" systemname="Sec2LTC (VAudio)" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\VVVV.Audio\nodes\modules\Sec2LTC (VAudio).v4p">
+   <BOUNDS type="Window" left="12580" top="2620" width="4090" height="6420">
    </BOUNDS>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="17">
-   <BOUNDS type="Node" left="5010" top="495" width="100" height="100">
+   <BOUNDS type="Node" left="3040" top="265" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="5010" top="495" width="795" height="240">
+   <BOUNDS type="Box" left="3040" top="265" width="560" height="270">
    </BOUNDS>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
@@ -17,9 +17,9 @@
    </PIN>
    </NODE>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="19">
-   <BOUNDS type="Node" left="960" top="720" width="100" height="100">
+   <BOUNDS type="Node" left="670" top="520" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="960" top="720" width="795" height="240">
+   <BOUNDS type="Box" left="670" top="520" width="795" height="240">
    </BOUNDS>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -27,7 +27,7 @@
    </PIN>
    </NODE>
    <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="25">
-   <BOUNDS type="Node" left="975" top="2880" width="300" height="270">
+   <BOUNDS type="Node" left="690" top="2680" width="300" height="270">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -37,9 +37,9 @@
    <LINK srcnodeid="19" srcpinname="Y Output Value" dstnodeid="25" dstpinname="Input">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="26" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1200" top="2220" width="795" height="240">
+   <BOUNDS type="Box" left="920" top="2020" width="440" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="1200" top="2220" width="0" height="0">
+   <BOUNDS type="Node" left="920" top="2020" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="3600">
    </PIN>
@@ -47,11 +47,13 @@
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
    </NODE>
    <LINK srcnodeid="26" srcpinname="Y Output Value" dstnodeid="25" dstpinname="Input 2">
    </LINK>
    <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="28">
-   <BOUNDS type="Node" left="1530" top="2835" width="300" height="270">
+   <BOUNDS type="Node" left="1340" top="2680" width="300" height="270">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="1">
    </PIN>
@@ -61,9 +63,9 @@
    <LINK srcnodeid="19" srcpinname="Y Output Value" dstnodeid="28" dstpinname="Input">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="29" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="1755" top="2460" width="795" height="240">
+   <BOUNDS type="Box" left="1585" top="2370" width="300" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="1755" top="2460" width="0" height="0">
+   <BOUNDS type="Node" left="1585" top="2370" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="60">
    </PIN>
@@ -71,11 +73,13 @@
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
    </NODE>
    <LINK srcnodeid="29" srcpinname="Y Output Value" dstnodeid="28" dstpinname="Input 2">
    </LINK>
    <NODE systemname="Mod (Value)" nodename="Mod (Value)" componentmode="Hidden" id="30">
-   <BOUNDS type="Node" left="1530" top="3855" width="100" height="100">
+   <BOUNDS type="Node" left="1340" top="3660" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1">
    </PIN>
@@ -87,7 +91,7 @@
    <LINK srcnodeid="28" srcpinname="Output" dstnodeid="30" dstpinname="Input 1">
    </LINK>
    <NODE systemname="Join (Timecode)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.dll" nodename="Join (Timecode)" componentmode="Hidden" id="32">
-   <BOUNDS type="Node" left="990" top="5070" width="100" height="100">
+   <BOUNDS type="Node" left="700" top="4870" width="2000" height="270">
    </BOUNDS>
    <PIN pinname="Hours" visible="1" slicecount="1" values="2">
    </PIN>
@@ -99,9 +103,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="33" systemname="IOBox (Node)">
-   <BOUNDS type="Box" left="975" top="5550" width="795" height="240">
+   <BOUNDS type="Box" left="685" top="5350" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="975" top="5550" width="0" height="0">
+   <BOUNDS type="Node" left="685" top="5350" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" values="Timecode">
    </PIN>
@@ -109,7 +113,7 @@
    <LINK srcnodeid="32" srcpinname="Timecode" dstnodeid="33" dstpinname="Input Node">
    </LINK>
    <NODE systemname="Mod (Value)" nodename="Mod (Value)" componentmode="Hidden" id="37">
-   <BOUNDS type="Node" left="2190" top="3870" width="100" height="100">
+   <BOUNDS type="Node" left="2010" top="3660" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1" slicecount="1" values="1">
    </PIN>
@@ -121,7 +125,7 @@
    <LINK srcnodeid="19" srcpinname="Y Output Value" dstnodeid="37" dstpinname="Input 1">
    </LINK>
    <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="39">
-   <BOUNDS type="Node" left="3240" top="2745" width="100" height="100">
+   <BOUNDS type="Node" left="2660" top="2680" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1">
    </PIN>
@@ -135,7 +139,7 @@
    <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="39" dstpinname="Input 2">
    </LINK>
    <NODE systemname="Mod (Value)" nodename="Mod (Value)" componentmode="Hidden" id="40">
-   <BOUNDS type="Node" left="3225" top="3810" width="100" height="100">
+   <BOUNDS type="Node" left="2650" top="3660" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 1" visible="1" slicecount="1" values="1">
    </PIN>
@@ -146,12 +150,10 @@
    </NODE>
    <LINK srcnodeid="39" srcpinname="Output" dstnodeid="40" dstpinname="Input 1">
    </LINK>
-   <LINK srcnodeid="25" srcpinname="Output" dstnodeid="32" dstpinname="Hours">
-   </LINK>
    <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="40" dstpinname="Input 2">
    </LINK>
    <NODE systemname="Frac (Value)" nodename="Frac (Value)" componentmode="Hidden" id="41">
-   <BOUNDS type="Node" left="1155" top="4260" width="100" height="100">
+   <BOUNDS type="Node" left="1340" top="4080" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -163,7 +165,7 @@
    <LINK srcnodeid="41" srcpinname="Whole Part" dstnodeid="32" dstpinname="Minutes">
    </LINK>
    <NODE systemname="Frac (Value)" nodename="Frac (Value)" componentmode="Hidden" id="42">
-   <BOUNDS type="Node" left="1725" top="4290" width="100" height="100">
+   <BOUNDS type="Node" left="2000" top="4080" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="0">
    </PIN>
@@ -175,7 +177,7 @@
    <LINK srcnodeid="42" srcpinname="Whole Part" dstnodeid="32" dstpinname="Seconds">
    </LINK>
    <NODE systemname="Frac (Value)" nodename="Frac (Value)" componentmode="Hidden" id="43">
-   <BOUNDS type="Node" left="2535" top="4290" width="100" height="100">
+   <BOUNDS type="Node" left="2650" top="4080" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="0">
    </PIN>
@@ -186,4 +188,20 @@
    </LINK>
    <LINK srcnodeid="43" srcpinname="Whole Part" dstnodeid="32" dstpinname="Frame">
    </LINK>
+   <NODE systemname="Frac (Value)" nodename="Frac (Value)" componentmode="Hidden" id="44">
+   <BOUNDS type="Node" left="690" top="4080" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Whole Part" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="25" srcpinname="Output" dstnodeid="44" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="44" srcpinname="Whole Part" dstnodeid="32" dstpinname="Hours">
+   </LINK>
+   <PACK Name="VVVV.Packs" Version="0.1.0">
+   </PACK>
+   <PACK Name="addonpack" Version="31.9.0">
+   </PACK>
    </PATCH>
