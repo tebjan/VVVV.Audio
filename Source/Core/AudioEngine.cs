@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
+using System.Reflection;
 using NAudio.CoreAudioApi;
 using NAudio.Utils;
 using NAudio.Wave;
@@ -17,17 +19,7 @@ using Jacobi.Vst.Core;
 
 namespace VVVV.Audio
 {
-	
-	public enum AudioOutType
-	{
-		Asio,
-		Wasapi,
-		DirectSound,
-		Wave
-	}
-	
-	public class AudioEngine: IDisposable
-	{
+	    
 		//this mixes multiple sample providers from the graph to a waveprovider which is set to
 		MasterWaveProvider MasterWaveProvider;
 		
