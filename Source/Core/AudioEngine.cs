@@ -19,7 +19,8 @@ using Jacobi.Vst.Core;
 
 namespace VVVV.Audio
 {
-	    
+	public class AudioEngine
+	{
 		//this mixes multiple sample providers from the graph to a waveprovider which is set to
 		MasterWaveProvider MasterWaveProvider;
 		
