@@ -1,0 +1,3390 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CannedBytes.Midi</name>
+    </assembly>
+    <members>
+        <member name="T:CannedBytes.Midi.MidiDataCallbackContract">
+            <summary>
+            Specifies the code contract for the <see cref="T:CannedBytes.Midi.IMidiDataCallback"/> interface.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.IMidiDataCallback">
+            <summary>
+            Implemented by a Midi Port that can callback to its client for notification.
+            </summary>
+            <remarks>This interface is a receiver interface.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiDataCallback.LongData(CannedBytes.Midi.MidiBufferStream,CannedBytes.Midi.MidiDataCallbackType)">
+            <summary>
+            Callback on a long midi message.
+            </summary>
+            <param name="buffer">The buffer that is involved in the notification. Must not be null.</param>
+            <param name="notificationType">The type of notification.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiDataCallbackContract.CannedBytes#Midi#IMidiDataCallback#LongData(CannedBytes.Midi.MidiBufferStream,CannedBytes.Midi.MidiDataCallbackType)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+            <param name="notificationType">No contract.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiDataErrorReceiverContract">
+            <summary>
+            Specifies a code contract for the <see cref="T:CannedBytes.Midi.IMidiDataErrorReceiver"/> interface.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.IMidiDataErrorReceiver">
+            <summary>
+            The IMidiErrorReciever interface is used to communicate
+            midi receive errors down a error-receiver chain.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiDataErrorReceiver.ShortError(System.Int32,System.Int64)">
+            <summary>
+            An error on a short midi message is received.
+            </summary>
+            <param name="data">The short midi message.</param>
+            <param name="timestamp">The time at which the message was received.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiDataErrorReceiver.LongError(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+            <summary>
+            An error on a long midi message is received.
+            </summary>
+            <param name="buffer">The long midi message.</param>
+            <param name="timestamp">The time at which the message was received.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiDataErrorReceiverContract.CannedBytes#Midi#IMidiDataErrorReceiver#ShortError(System.Int32,System.Int64)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="data">No contract.</param>
+            <param name="timestamp">No contract.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiDataErrorReceiverContract.CannedBytes#Midi#IMidiDataErrorReceiver#LongError(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+            <param name="timestamp">No contract.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiDataReceiverContract">
+            <summary>
+            Specifies the code contract for the <see cref="T:CannedBytes.Midi.IMidiDataReceiver"/> interface.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.IMidiDataReceiver">
+            <summary>
+            The IMidiReceiver interface is used to communicate
+            received midi events down a receiver chain.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiDataReceiver.ShortData(System.Int32,System.Int64)">
+            <summary>
+            A short midi message is received.
+            </summary>
+            <param name="data">The short midi message.</param>
+            <param name="timestamp">The time at which the message was received.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiDataReceiver.LongData(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+            <summary>
+            A long midi message is received.
+            </summary>
+            <param name="buffer">The long midi message.</param>
+            <param name="timestamp">The time at which the message was received.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiDataReceiverContract.CannedBytes#Midi#IMidiDataReceiver#ShortData(System.Int32,System.Int64)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="data">No contract.</param>
+            <param name="timestamp">No contract.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiDataReceiverContract.CannedBytes#Midi#IMidiDataReceiver#LongData(CannedBytes.Midi.MidiBufferStream,System.Int64)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+            <param name="timestamp">No contract.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiDataSenderContract">
+            <summary>
+            Specifies the code contracts for the <see cref="T:CannedBytes.Midi.IMidiDataSender"/> interface.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.IMidiDataSender">
+            <summary>
+            The IMidiSender interface is used to communicate midi messages
+            to be sent up a sender chain.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiDataSender.ShortData(System.Int32)">
+            <summary>
+            Sends a short midi message up the sender chain.
+            </summary>
+            <param name="data">The short midi message.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiDataSender.LongData(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Sends a long midi message up the sender chain.
+            </summary>
+            <param name="buffer">The long midi message.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiDataSenderContract.CannedBytes#Midi#IMidiDataSender#ShortData(System.Int32)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="data">No contract.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiDataSenderContract.CannedBytes#Midi#IMidiDataSender#LongData(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.IMidiPort">
+            <summary>
+            The IMidiPort interface is implemented by the midi ports.
+            It provides access to the shared properties and methods common
+            to all midi port implementations.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiPort.Open(System.Int32)">
+            <summary>
+            Opens the midi port represent by the specified <paramref name="deviceId"/>.
+            </summary>
+            <param name="deviceId">A zero-based index port identifier.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiPort.Close">
+            <summary>
+            Closes the midi port.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiPort.Reset">
+            <summary>
+            Resets the midi port.
+            </summary>
+            <remarks>Will return buffers to the manager.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiPort.HasStatus(CannedBytes.Midi.MidiPortStatus)">
+            <summary>
+            Queries the <see cref="P:CannedBytes.Midi.IMidiPort.Status"/> property of the midi port
+            if the specified flag is present.
+            </summary>
+            <param name="portStatus">The status value to test.</param>
+            <returns>Returns true if the specified <paramref name="portStatus"/> is
+            present on the midi port <see cref="P:CannedBytes.Midi.IMidiPort.Status"/> otherwise false is returned.</returns>
+        </member>
+        <member name="P:CannedBytes.Midi.IMidiPort.Status">
+            <summary>
+            Gets a status value for the midi port.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.IMidiPort.PortId">
+            <summary>
+            Gets the port id; an integer representing a zero-based index.
+            </summary>
+            <remarks>Port id's are unique for midi in- and midi out ports. </remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.IMidiPort.AutoReturnBuffers">
+            <summary>
+            Gets or sets a value that indicates if <see cref="T:CannedBytes.Midi.MidiBufferStream"/>'s
+            should be returned to the <see cref="T:CannedBytes.Midi.MidiBufferManager"/> automatically.
+            </summary>
+        </member>
+        <member name="E:CannedBytes.Midi.IMidiPort.StatusChanged">
+            <summary>
+            The StatusChanged event fires after the midi port has changed status.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiPortEventReceiverContract">
+            <summary>
+            Specifies code contracts for the <see cref="T:CannedBytes.Midi.IMidiPortEventReceiver"/> interface.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.IMidiPortEventReceiver">
+            <summary>
+            The IMidiPortEventReceiver is used to pass <see cref="T:CannedBytes.Midi.MidiPortEvent"/>s down a receive chain.
+            </summary>
+            <remarks>There is no sender interface for port events because only the <see cref="T:CannedBytes.Midi.MidiInPort"/> can produce these events.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.IMidiPortEventReceiver.PortEvent(CannedBytes.Midi.MidiPortEvent)">
+            <summary>
+            Passes the received <paramref name="midiEvent"/> to the next component in the receive chain.
+            </summary>
+            <param name="midiEvent">Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPortEventReceiverContract.CannedBytes#Midi#IMidiPortEventReceiver#PortEvent(CannedBytes.Midi.MidiPortEvent)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="midiEvent">Must not be null.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.IO.MidiStreamEventWriter">
+            <summary>
+            The MidiStreamEventWriter class writes short or long midi messages
+            into a <see cref="T:CannedBytes.Midi.MidiBufferStream"/>.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.#ctor(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Constructs a new instance on the specified <paramref name="stream"/>.
+            </summary>
+            <param name="stream">A stream provided by a <see cref="T:CannedBytes.Midi.MidiOutStreamPort"/>. Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.InvariantContract">
+            <summary>
+            Object Invariant Contract.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.CanWriteShort">
+            <summary>
+            Returns true if the stream has room to write one short midi message.
+            </summary>
+            <returns>Returns false if there is no more room.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.CanWriteLong(System.Byte[])">
+            <summary>
+            Checks if there is room to write the specified <paramref name="longMsg"/> into the stream.
+            </summary>
+            <param name="longMsg">A buffer containing the long midi message. Can be null.</param>
+            <returns>Returns false if there is no more room.</returns>
+            <remarks>If the <paramref name="longMsg"/> is null,
+            the method checks the stream for a short midi message.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.GetMessageSize(System.Byte[])">
+            <summary>
+            Helper to determine the size in bytes of a message.
+            </summary>
+            <param name="longMsg">Can be null.</param>
+            <returns>Returns the size in bytes.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.WriteShort(System.Int32,System.Int32)">
+            <summary>
+            Writes a short midi message to the stream.
+            </summary>
+            <param name="value">The short midi message.</param>
+            <param name="deltaTime">A time indication of the midi message.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.WriteLong(System.Byte[],System.Int32)">
+            <summary>
+            Writes a long midi message to the stream.
+            </summary>
+            <param name="longMsg">A buffer containing the long midi message.</param>
+            <param name="deltaTime">A time indication of the midi message.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.WriteTempo(System.Int32,System.Int32)">
+            <summary>
+            Writes a tempo event to the stream.
+            </summary>
+            <param name="tempo">The new tempo in uSecs/Quarter note.</param>
+            <param name="deltaTime">A time indication of the midi message.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.WriteCallback(System.Int32)">
+            <summary>
+            Inserts a marker into the stream for a callback to the client.
+            </summary>
+            <param name="deltaTime">A time indication of the midi event.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.WriteEvent(System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            Writes a midi event to stream.
+            </summary>
+            <param name="midiEvent">The midi event data.</param>
+            <param name="deltaTime">A time indication of the midi event.</param>
+            <param name="longData">Optional long message data. Can be null.</param>
+            <remarks>Refer to the Win32 MIDIEVNT structure for more information.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.IO.MidiStreamEventWriter.Dispose(CannedBytes.DisposeObjectKind)">
+            <inheritdocs/>
+        </member>
+        <member name="P:CannedBytes.Midi.IO.MidiStreamEventWriter.InnerWriter">
+            <summary>
+            Gets a binary writer derived classes can use to write data to the stream.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.IO.MidiStreamEventWriter.BaseStream">
+            <summary>
+            Gets the stream this writer is acting on.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MemoryUtil">
+            <summary>
+            Helper class for unmanaged memory operations.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MemoryUtil.SizeOf(System.Type)">
+            <summary>
+            Returns the native size of a <paramref name="type"/>.
+            </summary>
+            <param name="type">Must not be null.</param>
+            <returns>Returns a positive integer.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MemoryUtil.Free(System.IntPtr)">
+            <summary>
+            Free's the unmanaged memory allocated by <see cref="M:Alloc"/>.
+            </summary>
+            <param name="memory">Memory pointer. Must not be IntPtr.Zero.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MemoryUtil.Alloc(System.Int32)">
+            <summary>
+            Allocates unmanaged memory of <paramref name="size"/> bytes.
+            </summary>
+            <param name="size">A positive integer.</param>
+            <returns>Returns a pointer to the memory.</returns>
+        </member>
+        <member name="F:CannedBytes.Midi.MemoryUtil.SizeOfMidiHeader">
+            <summary>The native size of <see cref="T:CannedBytes.Midi.MidiHeader"/>.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MemoryUtil.SizeOfMidiInCaps">
+            <summary>The native size of <see cref="T:CannedBytes.Midi.MidiInCaps"/>.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MemoryUtil.SizeOfMidiOutCaps">
+            <summary>The native size of <see cref="T:CannedBytes.Midi.MidiOutCaps"/>.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MemoryUtil.SizeOfMmTime">
+            <summary>The native size of <see cref="T:CannedBytes.Midi.MmTime"/>.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MemoryUtil.SizeOfMidiStreamOutPortProperty">
+            <summary>The native size of <see cref="T:CannedBytes.Midi.MidiOutStreamPortProperty"/>.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiBufferException">
+            <summary>
+            Thrown when there is a problem with a <see cref="T:CannedBytes.Midi.MidiBufferStream"/>.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiException">
+            <summary>
+            The MidiException class represents the base class for all midi related exception types.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiException.#ctor">
+            <summary>
+            Constructs an empty instance.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiException.#ctor(System.String)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>.
+            </summary>
+            <param name="message">The exception message text.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>
+            and the <paramref name="inner"/>Exception.
+            </summary>
+            <param name="message">The exception message text.</param>
+            <param name="inner">The exception this instance will wrap.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization constructor.
+            </summary>
+            <param name="info">Must not be null.</param>
+            <param name="context">Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferException.#ctor">
+            <summary>
+            Constructs an empty instance.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferException.#ctor(System.String)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>.
+            </summary>
+            <param name="message">The exception message text.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>
+            and the <paramref name="inner"/>Exception.
+            </summary>
+            <param name="message">The exception message text.</param>
+            <param name="inner">The exception this instance will wrap.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization constructor.
+            </summary>
+            <param name="info">Must not be null.</param>
+            <param name="context">Must not be null.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiBufferManagerContract">
+            <summary>
+            Abstract class template for contracts for abstract <see cref="T:CannedBytes.Midi.MidiBufferManager"/> class.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiBufferManager">
+            <summary>
+            The MidiBufferManager base class implements unmanaged memory management
+            for <see cref="T:CannedBytes.Midi.MidiBufferStream"/>s that are used by the <see cref="P:CannedBytes.Midi.MidiBufferManager.MidiPort"/>s
+            for sending and receiving sysex message or sending streams of midi events.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferManager.memHeaders">
+            <summary>Unmanaged pointer to the header.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferManager.memBuffers">
+            <summary>Unmanaged pointer to the buffer.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferManager.locker">
+            <summary>Locking object.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferManager.usedBuffers">
+            <summary>List of used buffers.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferManager.unusedBuffers">
+            <summary>A list of used buffers.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferManager.mapBuffers">
+            <summary>A map of all buffers.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferManager.buffersReturnedEvent">
+            <summary>An threading event to signal all buffers were returned.</summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.#ctor(CannedBytes.Midi.MidiPort,System.IO.FileAccess)">
+            <summary>
+            For derived classes only.
+            </summary>
+            <param name="port">A reference to the midi port this buffer manager serves.</param>
+            <param name="access">The type of access the stream provides to the underlying buffer.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="port"/> is null.</exception>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.InvariantContract">
+            <summary>
+            The objects invariant contract.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferManager.midiPort">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiBufferManager.MidiPort"/> property.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.WaitForBuffersReturned(System.Int32)">
+            <summary>
+            Blocks the calling thread until all buffers are returned
+            to the manager or the specified timeout period has elapsed.
+            </summary>
+            <param name="millisecondTimeout">A timeout in milliseconds.</param>
+            <returns>Returns true if all buffers were returned or false when the timeout expired.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.Initialize(System.Int32,System.Int32)">
+            <summary>
+            Initializes the instance for use.
+            </summary>
+            <param name="bufferCount">The number of buffers that will be available.</param>
+            <param name="bufferSize">The size (in bytes) of each buffer.</param>
+            <remarks>Two blocks of continuous unmanaged memory will be allocated.
+            Call the <see cref="M:Dispose"/> method to free that memory.
+            Buffer manager instances that are owned by <see cref="P:CannedBytes.Midi.MidiBufferManager.MidiPort"/>s will
+            be disposed when the port is disposed.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.RetrieveBuffer">
+            <summary>
+            Retrieves a fresh (unused) buffer for the application to use.
+            </summary>
+            <returns>Returns null when no more buffers are unused.</returns>
+            <remarks>This method is only called by the application logic for an <see cref="T:CannedBytes.Midi.MidiOutPort"/>
+            or a <see cref="T:CannedBytes.Midi.MidiOutStreamPort"/>. The <see cref="T:CannedBytes.Midi.MidiInPort"/> registers its own buffers.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.ReturnBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Returns a buffer to the manager for reuse.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when the buffer does not belong to this manager or when the buffer is not ready to be returned.
+            </exception>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.Dispose(CannedBytes.DisposeObjectKind)">
+            <summary>
+            Called when the instance is disposed.
+            </summary>
+            <param name="disposeKind">The type of resources to dispose.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown when not all buffers have been
+            returned to the buffer manager.</exception>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.OnPrepareBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Called when a buffer needs to be prepared for use.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.OnUnprepareBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Called when a buffer needs to be un-prepared after use.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.FindBuffer(System.IntPtr)">
+            <summary>
+            Finds a buffer instance based on the <see cref="T:CannedBytes.Midi.MidiHeader"/> that is used by the <see cref="P:CannedBytes.Midi.MidiBufferManager.MidiPort"/> implementations.
+            </summary>
+            <param name="headerMemory">A pointer to the midi header structure.</param>
+            <returns>Returns null if the buffer was not found.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.AllocateBuffers">
+            <summary>
+            Allocates the unmanaged memory for the midi headers and buffers.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.FreeBuffers">
+            <summary>
+            Frees the allocated memory.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.PrepareAllBuffers">
+            <summary>
+            Loops through all the buffers and calls the <see cref="M:OnPrepareBuffer"/> for each one.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManager.UnprepareAllBuffers">
+            <summary>
+            Loops through all the buffers and calls the <see cref="M:OnUnprepareBuffer"/> for each one.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferManager.MidiPort">
+            <summary>
+            Gets the MidiPort this buffer manager serves.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferManager.StreamAccess">
+            <summary>
+            Gets the type of access the stream provides to the underlying data.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferManager.BufferSize">
+            <summary>
+            Gets the size (in bytes) of each buffer.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferManager.BufferCount">
+            <summary>
+            Gets the number of buffers that will be available.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferManager.UsedBufferCount">
+            <summary>
+            Gets the number of buffers currently in use by the <see cref="P:CannedBytes.Midi.MidiBufferManager.MidiPort"/>.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferManager.UnusedBufferCount">
+            <summary>
+            Gets the number of buffers that are currently not in use by the <see cref="P:CannedBytes.Midi.MidiBufferManager.MidiPort"/>.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferManager.IsInitialized">
+            <summary>
+            Indicates if the buffer manager has been initialized.
+            </summary>
+            <remarks>Call the <see cref="M:Initialze"/> method to initialize this instance.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManagerContract.#ctor">
+            <summary>
+            Hidden.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManagerContract.OnPrepareBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferManagerContract.OnUnprepareBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Contract.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiBufferStream">
+            <summary>
+            Represents a continues block of memory space that is used to
+            transfer large pieces of midi data to and from the <see cref="T:CannedBytes.Midi.MidiPort"/>s.
+            </summary>
+            <remarks>Although the class uses unmanaged memory pointers it does not own this memory,
+            there for <see cref="M:Dispose"/> need not be called.</remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferStream.MidiHeaderDataOffset">
+            <summary>Byte offset into header memory for the Data property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferStream.MidiHeaderBufferLengthOffset">
+            <summary>Byte offset into header memory for the BufferLength property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferStream.MidiHeaderBytesRecordedOffset">
+            <summary>Byte offset into header memory for the BytesRecorded property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferStream.MidiHeaderFlagsOffset">
+            <summary>Byte offset into header memory for the Flags property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferStream.MidiHeaderOffsetOffset">
+            <summary>Byte offset into header memory for the Offset property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiBufferStream.headerAccessor">
+            <summary>Accessor for writing an reading the unmanaged header memory.</summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferStream.#ctor(System.IntPtr,System.IntPtr,System.Int64,System.IO.FileAccess)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="headerMem">A pointer to the unmanaged midi header memory.</param>
+            <param name="bufferMem">A pointer to the unmanaged midi buffer memory.</param>
+            <param name="bufferLength">The total length (in bytes) of the buffer.</param>
+            <param name="streamAccess">The access the <see cref="T:System.IO.Stream"/> provides to the underlying buffer.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferStream.Clear">
+            <summary>
+            Clears the buffer. Call before use.
+            </summary>
+            <remarks>Does not clear the contents only sets some properties to zero.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiBufferStream.ToIntPtr">
+            <summary>
+            Returns the pointer that can be passed to the midi port.
+            </summary>
+            <returns>Never returns IntPtr.Zero.</returns>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferStream.BytesRecorded">
+            <summary>
+            Gets the number of bytes that have been recorded by <see cref="T:CannedBytes.Midi.MidiInPort"/>.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferStream.IsMidiStream">
+            <summary>
+            Gets a value indicating if this buffer contains a midi (out) stream.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferStream.HeaderMemory">
+            <summary>
+            Gets the pointer to the midi header.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferStream.HeaderBufferLength">
+            <summary>
+            Gets or sets the midi header buffer length value.
+            </summary>
+            <remarks>Note that the <see cref="T:CannedBytes.Midi.MidiOutPort"/> and the <see cref="T:CannedBytes.Midi.MidiOutStreamPort"/>
+            use this value to determine how many bytes to send.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferStream.HeaderFlags">
+            <summary>
+            Gets or sets the midi header flags.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiBufferStream.CallbackOffset">
+            <summary>
+            Gets the offset into the buffer when the callback occurred.
+            </summary>
+            <remarks>Only used by the <see cref="T:CannedBytes.Midi.MidiOutStreamPort"/> for callback events.</remarks>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiData">
+            <summary>
+            The MidiData struct allows manipulation of all the parts of a short midi message.
+            </summary>
+            <remarks>
+            The <see cref="P:Data"/> property contains the raw short midi data and is the only
+            property that is backed by a field. All other properties represent parts of the
+            <see cref="P:Data"/> property.
+            The <see cref="P:Status"/>, <see cref="P:Param1"/> and <see cref="P:Param2"/> properties
+            are used for normal short midi messages.
+            The <see cref="P:RunningStatusData"/> property returns the short midi message without the
+            <see cref="P:Status"/> for use in a running status scenario.
+            </remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.ChannelMask">
+            <summary>Bit mask for the channel nibble.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.StatusMask">
+            <summary>Bit mask for the status byte.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.Param1Mask">
+            <summary>Bit mask for the first parameter byte.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.Param2Mask">
+            <summary>Bit mask for the second parameter byte.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.Data24Mask">
+            <summary>Bit mask for the lower 24 bits.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.Data16Mask">
+            <summary>Bit mask for the lower 16 bits.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.Data8Mask">
+            <summary>Bit mask for the lower 8 bits.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.Param1Shift">
+            <summary>Number of bits to shift for the first parameter.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.Param2Shift">
+            <summary>Number of bits to shift for the second parameter.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.RunningStatusDataShift">
+            <summary>Number of bits to shift to get the data for a running status message.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.RunningStatusDataMask">
+            <summary>Byte mask to get the data for a running status message.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.DataValueMax">
+            <summary>
+            Maximum value allowed for any data byte.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.#ctor(System.Int32)">
+            <summary>
+            Constructs a new instance for the specified <paramref name="data"/>.
+            </summary>
+            <param name="data">The raw midi short message.</param>
+            <remarks>The value is assigned to the <see cref="P:Data"/> property.</remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiData.data">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiData.Data"/> property.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.ToInt32">
+            <summary>
+            Explicit conversion to an <see cref="T:System.Int32"/>.
+            </summary>
+            <returns>Returns the raw midi <see cref="P:Data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.Equals(System.Object)">
+            <summary>
+            Optimized override.
+            </summary>
+            <param name="obj">An object to test.</param>
+            <returns>Returns true if the <paramref name="obj"/> represents
+            the same midi short message as this instance.</returns>
+            <remarks>If the specified <paramref name="obj"/> is not of the
+            MidiData type or the value is null, the method returns false.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.Equals(CannedBytes.Midi.MidiData)">
+            <summary>
+            Specialized typed overload.
+            </summary>
+            <param name="obj">An object to test.</param>
+            <returns>Returns true if the <paramref name="obj"/> represents
+            the same midi short message as this instance.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.GetHashCode">
+            <summary>
+            Specialized override.
+            </summary>
+            <returns>Returns the hash code for this instance.</returns>
+            <remarks>The hash code is based on the raw midi short message.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.GetData24(System.Int32)">
+            <summary>
+            Helper method to extract the lower 24 bits.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns the lower 24 bits of <paramref name="data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.GetData16(System.Int32)">
+            <summary>
+            Helper method to extract the lower 16 bits.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns the lower 16 bits of <paramref name="data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.GetData8(System.Int32)">
+            <summary>
+            Helper method to extract the lower 8 bits.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns the lower 8 bits of <paramref name="data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.GetStatus(System.Int32)">
+            <summary>
+            Helper method to extract the status byte.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns the status byte of <paramref name="data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.GetParameter1(System.Int32)">
+            <summary>
+            Helper method to extract the first parameter byte.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns the first parameter byte of <paramref name="data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.GetParameter2(System.Int32)">
+            <summary>
+            Helper method to extract the second parameter byte.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns the second parameter byte of <paramref name="data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.FromInt32(System.Int32)">
+            <summary>
+            An explicit conversion from a <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns a new MidiData instance.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.op_Implicit(CannedBytes.Midi.MidiData)~System.Int32">
+            <summary>
+            Implicit operator to convert to a <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="data">The MidiData to convert.</param>
+            <returns>Returns the <see cref="P:Data"/> for <paramref name="data"/>.</returns>
+            <remarks>
+            This method is called in the following code:
+            <code>
+            MidiData MidiData = new MidiData(0);
+            int shortMsg = MidiData;
+            </code></remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.op_Equality(CannedBytes.Midi.MidiData,CannedBytes.Midi.MidiData)">
+            <summary>
+            Optimized equality operator.
+            </summary>
+            <param name="dataLeft">The first (left) instance.</param>
+            <param name="dataRight">The second (right) instance.</param>
+            <returns>Returns true if both instances represent the same midi short message.</returns>
+            <remarks>This method is called in the following code:
+            <code>
+            MidiData leftData = new MidiData(0);
+            MidiData rightData = new MidiData(0);
+            if(leftData == rightData)
+            {
+              // they are equal
+            }
+            </code></remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiData.op_Inequality(CannedBytes.Midi.MidiData,CannedBytes.Midi.MidiData)">
+            <summary>
+            Optimized inequality operator.
+            </summary>
+            <param name="dataLeft">The first (left) instance.</param>
+            <param name="dataRight">The second (right) instance.</param>
+            <returns>Returns false if both instances represent the same midi short message.</returns>
+            <remarks>This method is called in the following code:
+            <code>
+            MidiData leftData = new MidiData(0);
+            MidiData rightData = new MidiData(0xFF);
+            if(leftData != rightData)
+            {
+              // they are not equal
+            }
+            </code></remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiData.Data">
+            <summary>
+            Gets or sets the raw midi short message data.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiData.RunningStatusData">
+            <summary>
+            Gets the running status data (without the <see cref="P:Status"/> part).
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiData.Status">
+            <summary>
+            Gets or sets the status part of the short midi message.
+            </summary>
+            <remarks>Setting the <see cref="P:Status"/> field will also set the <see cref="P:Channel"/>.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiData.Channel">
+            <summary>
+            Gets or sets the channel part of the <see cref="P:Status"/> field.
+            </summary>
+            <remarks>Setting the <see cref="P:Status"/> field will also set the <see cref="P:Channel"/>.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiData.HasParameter1">
+            <summary>
+            Gets a value indicating if <see cref="P:CannedBytes.Midi.MidiData.Parameter1"/> should have a value.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiData.Parameter1">
+            <summary>
+            Gets or sets the first parameter part of the short midi message.
+            </summary>
+            <remarks>Note: Not all midi short messages use (all) parameters.</remarks>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the specified <paramref name="value"/>
+            is greater than <see cref="F:DataValueMax"/>.</exception>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiData.HasParameter2">
+            <summary>
+            Gets a value indicating if <see cref="P:CannedBytes.Midi.MidiData.Parameter2"/> should have a value.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiData.Parameter2">
+            <summary>
+            Gets or sets the second parameter part of the short midi message.
+            </summary>
+            <remarks>Note: Not all midi short messages use (all) parameters.</remarks>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the specified <paramref name="value"/>
+            is greater than <see cref="F:DataValueMax"/>.</exception>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiDataCallbackType">
+            <summary>
+            Enumerates the types of notifications.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiDataCallbackType.Unknown">
+            <summary>
+            No reason / unknown reason.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiDataCallbackType.Notification">
+            <summary>
+            There was a callback from the port.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiDataCallbackType.Done">
+            <summary>
+            Processing (of the buffer) is done.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiDataCallbackType.Error">
+            <summary>
+            There was an error.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiEventData">
+            <summary>
+            The MidiEventData struct allows manipulation of all the parts of a midi event used in a stream.
+            </summary>
+            <remarks>
+            The <see cref="P:Data"/> property contains the raw midi event data and is the only
+            property that is backed by a field. All other properties represent parts of the
+            <see cref="P:Data"/> property.
+            The <see cref="P:Length"/> property is used when the data is used in a midi stream
+            and describes the length of a long midi stream event.
+            The <see cref="P:Tempo"/> property is used when the data is used in a midi stream
+            and describes the tempo for a tempo midi stream event.
+            The <see cref="P:EventType"/> property is used when the data is used in a midi stream
+            and describes the type of midi stream event.
+            </remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventData.Data8Mask">
+            <summary>Bit mask for the lower 8 bits.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventData.Data24Mask">
+            <summary>Bit mask for the lower 24 bits.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventData.EventTypeShift">
+            <summary>Number of bytes to shift for the EventType position.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventData.DataValueMax">
+            <summary>
+            Maximum value allowed for any data byte.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.#ctor(System.Int32)">
+            <summary>
+            Constructs a new instance for the specified <paramref name="data"/>.
+            </summary>
+            <param name="data">The raw midi short message.</param>
+            <remarks>The value is assigned to the <see cref="P:Data"/> property.</remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventData.data">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiEventData.Data"/> property.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.ToInt32">
+            <summary>
+            Explicit conversion to an <see cref="T:System.Int32"/>.
+            </summary>
+            <returns>Returns the raw midi <see cref="P:Data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.Equals(System.Object)">
+            <summary>
+            Optimized override.
+            </summary>
+            <param name="obj">An object to test.</param>
+            <returns>Returns true if the <paramref name="obj"/> represents
+            the same midi short message as this instance.</returns>
+            <remarks>If the specified <paramref name="obj"/> is not of the
+            MidiEventData type or the value is null, the method returns false.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.Equals(CannedBytes.Midi.MidiEventData)">
+            <summary>
+            Specialized typed overload.
+            </summary>
+            <param name="obj">An object to test.</param>
+            <returns>Returns true if the <paramref name="obj"/> represents
+            the same midi short message as this instance.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.GetHashCode">
+            <summary>
+            Specialized override.
+            </summary>
+            <returns>Returns the hash code for this instance.</returns>
+            <remarks>The hash code is based on the raw midi short message.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.GetData24(System.Int32)">
+            <summary>
+            Helper method to extract the lower 24 bits.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns the lower 24 bits of <paramref name="data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.GetEventType(System.Int32)">
+            <summary>
+            Helper method to extract the event type.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns the event type of <paramref name="data"/>.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.FromInt32(System.Int32)">
+            <summary>
+            An explicit conversion from a <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="data">Short midi data.</param>
+            <returns>Returns a new MidiEventData instance.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.op_Implicit(CannedBytes.Midi.MidiEventData)~System.Int32">
+            <summary>
+            Implicit operator to convert to a <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="data">The MidiEventData to convert.</param>
+            <returns>Returns the <see cref="P:Data"/> for <paramref name="data"/>.</returns>
+            <remarks>
+            This method is called in the following code:
+            <code>
+            MidiEventData midiEventData = new MidiEventData(0);
+            int shortMsg = midiEventData;
+            </code></remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.op_Equality(CannedBytes.Midi.MidiEventData,CannedBytes.Midi.MidiEventData)">
+            <summary>
+            Optimized equality operator.
+            </summary>
+            <param name="dataLeft">The first (left) instance.</param>
+            <param name="dataRight">The second (right) instance.</param>
+            <returns>Returns true if both instances represent the same midi short message.</returns>
+            <remarks>This method is called in the following code:
+            <code>
+            MidiEventData leftData = new MidiEventData(0);
+            MidiEventData rightData = new MidiEventData(0);
+            if(leftData == rightData)
+            {
+              // they are equal
+            }
+            </code></remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiEventData.op_Inequality(CannedBytes.Midi.MidiEventData,CannedBytes.Midi.MidiEventData)">
+            <summary>
+            Optimized inequality operator.
+            </summary>
+            <param name="dataLeft">The first (left) instance.</param>
+            <param name="dataRight">The second (right) instance.</param>
+            <returns>Returns false if both instances represent the same midi short message.</returns>
+            <remarks>This method is called in the following code:
+            <code>
+            MidiEventData leftData = new MidiEventData(0);
+            MidiEventData rightData = new MidiEventData(0xFF);
+            if(leftData != rightData)
+            {
+              // they are not equal
+            }
+            </code></remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiEventData.Data">
+            <summary>
+            Gets or sets the raw midi short message data.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiEventData.Length">
+            <summary>
+            Gets or sets the length.
+            </summary>
+            <remarks>Used for midi events in midi streams. Only 24 bits are used.
+            The last 8 bits are reserved for the <see cref="P:EventType"/> information.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiEventData.Tempo">
+            <summary>
+            Gets or sets the tempo.
+            </summary>
+            <remarks>Used for midi events in midi streams. Only 24 bits are used.
+            The upper 8 bits are reserved for the <see cref="P:EventType"/> information.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiEventData.EventType">
+            <summary>
+            Gets or sets the type of stream event.
+            </summary>
+            <remarks>Used for midi events in midi streams. Use in combination with the <see cref="P:Length"/> and
+            <see cref="P:Tempo"/> properties.</remarks>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiEventType">
+            <summary>
+            The types of stream event.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.ShortMessage">
+            <summary>Short midi message event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.ShortTempo">
+            <summary>A tempo event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.ShortNop">
+            <summary>A "no operation" event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.ShortMessageCallback">
+            <summary>A short midi message with callback event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.ShortTempoCallback">
+            <summary>A tempo with callback event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.ShortNopCallback">
+            <summary>A "no operation" with callback event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.LongMessage">
+            <summary>A long midi message event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.LongComment">
+            <summary>A (long) comment event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.LongVersion">
+            <summary>A (long) version event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.LongMessageCallback">
+            <summary>A (long) midi message with callback event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.LongCommentCallback">
+            <summary>A (long) comment with callback event.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiEventType.LongVersionCallback">
+            <summary>A (long) version with callback event.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiHeader">
+            <summary>
+            Represents the Windows Multimedia MidiHDR structure.
+            </summary>
+            <remarks>Currently only used to calculate the size in unmanaged memory.</remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiHeader.Data">
+            <summary>Midi header property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiHeader.BufferLength">
+            <summary>Midi header property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiHeader.BytesRecorded">
+            <summary>Midi header property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiHeader.User">
+            <summary>Midi header property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiHeader.Flags">
+            <summary>Midi header property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiHeader.Successor">
+            <summary>Midi header property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiHeader.Reserved">
+            <summary>Midi header property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiHeader.Offset">
+            <summary>Midi header property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiHeader.ReservedArray">
+            <summary>Midi header property.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiInBufferManager">
+            <summary>
+            The MidiInBufferManager manages <see cref="T:CannedBytes.Midi.MidiBufferStream"/> instances on behalf of
+            a <see cref="T:CannedBytes.Midi.MidiInPort"/> instance.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInBufferManager.#ctor(CannedBytes.Midi.MidiInPort)">
+            <summary>
+            Initializes the buffer manager on the Midi In <paramref name="port"/>.
+            </summary>
+            <param name="port">Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInBufferManager.ReturnBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Returns the <paramref name="buffer"/> to the pool.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+            <remarks>Call this method when the <paramref name="buffer"/> is no longer needed.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInBufferManager.OnPrepareBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Prepares the <paramref name="buffer"/> for the Midi In Port.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+            <remarks>This method is not intended to be called by client code.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInBufferManager.OnUnprepareBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Un-prepares the <paramref name="buffer"/> for the Midi In Port.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+            <remarks>This method is not intended to be called by client code.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInBufferManager.Initialize(System.Int32,System.Int32)">
+            <summary>
+            Initializes the buffer pool of the buffer manager.
+            </summary>
+            <param name="bufferCount">Specify 0 for no buffers.</param>
+            <param name="bufferSize">Specify greater than 0.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInBufferManager.RegisterAllBuffers">
+            <summary>
+            Registers all buffers in the pool with the Midi In Port.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown when the Midi In Port is not open.</exception>
+            <remarks>After <see cref="M:MidiInPort.Reset"/> has been called, all buffers are
+            returned to this buffer manager. Use this function to register all the (unused) buffers
+            with the midi port again in order to receive long midi messages.
+            Note that the <see cref="P:MidiInPort.IsOpen"/> must be true - the port must be open.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInBufferManager.AddBufferToPort(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Adds the <paramref name="buffer"/> to the midi port.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInBufferManager.MidiPort">
+            <summary>
+            Gets the Midi In Port.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiInCaps">
+            <summary>
+            Represents the Windows Multimedia MIDIINCAPS structure.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiInCaps.Mid">
+            <summary>Midi in caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiInCaps.Pid">
+            <summary>Midi in caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiInCaps.DriverVersion">
+            <summary>Midi in caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiInCaps.Name">
+            <summary>Midi in caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiInCaps.Support">
+            <summary>Midi in caps property.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiInPort">
+            <summary>
+            The MidiInPort class represents an interface to a physical (or virtual, depending on the driver)
+            Midi In Port.
+            </summary>
+            <remarks>
+            Note that when registering a Port Event receiver it is only called when there were no Data or Error
+            receivers to take the message.
+            </remarks>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiPort">
+            <summary>
+            The MidiPort class represents an abstract base class for concrete
+            Midi Port implementations.
+            </summary>
+            <remarks>The MidiPort implements Methods and Properties common to all
+            Midi Port implementations.</remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPort.instanceHandle">
+            <summary>
+            A handle to this instance that is passed to unmanaged functions.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.#ctor">
+            <summary>
+            For derived classes only.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.HasStatus(CannedBytes.Midi.MidiPortStatus)">
+            <summary>
+            Queries the port <see cref="P:Status"/> if one or more of the
+            specified <see cref="T:CannedBytes.Midi.MidiPortStatus"/> flags are present.
+            </summary>
+            <param name="portStatus">One or more status flags to query.</param>
+            <returns>Returns true if one or more of the <see cref="T:CannedBytes.Midi.MidiPortStatus"/>
+            flags is set in the <see cref="P:Status"/> property.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.ModifyStatus(CannedBytes.Midi.MidiPortStatus,CannedBytes.Midi.MidiPortStatus)">
+            <summary>
+            Modifies the <see cref="P:Status"/> value.
+            </summary>
+            <param name="addStatus">One or more status flags to add.</param>
+            <param name="removeStatus">One or more status flags to remove.</param>
+            <exception cref="T:CannedBytes.Midi.MidiPortException">Thrown when the resulting status would be invalid.</exception>
+            <remarks>
+            The following status flag combinations are invalid:
+            <see cref="P:Status"/> cannot equal <see cref="F:CannedBytes.Midi.MidiPortStatus.None"/>.
+            <see cref="P:Status"/> cannot contain any other flags when set to <see cref="F:CannedBytes.Midi.MidiPortStatus.Closed"/>.
+            <see cref="P:Status"/> cannot contain both <see cref="F:CannedBytes.Midi.MidiPortStatus.Started"/> and
+            <see cref="F:CannedBytes.Midi.MidiPortStatus.Stopped"/> or <see cref="F:CannedBytes.Midi.MidiPortStatus.Paused"/>.
+            </remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPort.status">
+            <summary>
+            The backing field for the <see cref="P:CannedBytes.Midi.MidiPort.Status"/> property.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPort.portId">
+            <summary>
+            The backing field for the <see cref="P:CannedBytes.Midi.MidiPort.PortId"/> property.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.Open(System.Int32)">
+            <summary>
+            Opens the Midi Port identified by the <paramref name="deviceId"/>.
+            </summary>
+            <param name="deviceId">An index into the available port list.</param>
+            <remarks>
+            The <see cref="P:Status"/> property will be set to <see cref="F:CannedBytes.Midi.MidiPortStatus.Open"/>.
+            </remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.Close">
+            <summary>
+            Closes the Midi Port.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.Reset">
+            <summary>
+            Resets the Midi Port.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.OnStatusChanged(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:CannedBytes.Midi.MidiPort.StatusChanged"/> event.
+            </summary>
+            <param name="e">Pass <see cref="F:System.EventArgs.Empty"/>.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.Connect(CannedBytes.Midi.MidiOutPort)">
+            <summary>
+            Connects this Midi Port to the specified <paramref name="outPort"/>.
+            </summary>
+            <param name="outPort">A reference to a Midi Out Port. Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.Disconnect(CannedBytes.Midi.MidiOutPort)">
+            <summary>
+            Disconnects this Midi Port from the specified <paramref name="outPort"/>.
+            </summary>
+            <param name="outPort">A reference to a Midi Out Port. Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.Dispose(CannedBytes.DisposeObjectKind)">
+            <summary>
+            Closes the Midi Port (if needed) and disposes the instance.
+            </summary>
+            <param name="disposeKind">The type of resources to dispose.</param>
+            <remarks>
+            If <paramref name="disposeKind"/> is set to Managed the <see cref="P:BufferManager"/> is also disposed.
+            </remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.ThrowIfDisposed">
+            <summary>
+            Check helper method for derived classes to throw an <see cref="T:System.ObjectDisposedException"/>
+            exception when the instance has been disposed.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.ToIntPtr">
+            <summary>
+            Returns an <see cref="T:System.IntPtr"/> that represents the instance's this reference.
+            </summary>
+            <returns>Returns the instance <see cref="T:System.IntPtr"/>.</returns>
+            <remarks>Dereference using <see cref="T:System.Runtime.InteropServices.GCHandle"/>.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.MidiProc(System.IntPtr,System.UInt32,System.IntPtr,System.IntPtr,System.IntPtr)">
+            <summary>
+            Callback from the midi driver (on a separate thread).
+            </summary>
+            <param name="handle">Port handle.</param>
+            <param name="msg">The midi message to handle.</param>
+            <param name="instance">A <see cref="T:System.Runtime.InteropServices.GCHandle"/> that contains a weak
+            reference to the port instance.</param>
+            <param name="param1">Parameter 1.</param>
+            <param name="param2">Parameter 2.</param>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPort.MidiProcRef">
+            <summary>
+            Keeps a reference to the midi proc. delegate to avoid GC from taking it.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPort.OnMessage(System.Int32,System.IntPtr,System.IntPtr)">
+            <summary>
+            Derived classes implement this method to process port messages.
+            </summary>
+            <param name="msg">The port message.</param>
+            <param name="parameter1">Message specific parameter 1.</param>
+            <param name="parameter2">Message specific parameter 2.</param>
+            <returns>Returns true when the message is handled.</returns>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPort.Status">
+            <summary>
+            Returns the current status of the Midi Port.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPort.PortId">
+            <summary>
+            Gets the identifier of the Midi Port.
+            </summary>
+            <remarks>Returns the same id as passed in the <see cref="M:Open"/> method.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPort.AutoReturnBuffers">
+            <summary>
+            Set this to false when you want to return buffers manually.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPort.IsOpen">
+            <summary>
+            Gets a value indicating if the <see cref="P:CannedBytes.Midi.MidiPort.MidiSafeHandle"/> is set.
+            </summary>
+        </member>
+        <member name="E:CannedBytes.Midi.MidiPort.StatusChanged">
+            <summary>
+            The event is raised after the <see cref="P:Status"/> of the Midi Port has changed.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPort.MidiSafeHandle">
+            <summary>
+            Gets the <see cref="T:System.Runtime.InteropServices.SafeHandle"/> for the Midi Port. Can be null (if the port is not open).
+            </summary>
+            <remarks>Derived classes can access backing field usually during <see cref="M:CannedBytes.Midi.MidiPort.Open(System.Int32)"/> execution.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.Open(System.Int32)">
+            <summary>
+            Opens the Midi In Port identified by the <paramref name="deviceId"/>.
+            </summary>
+            <param name="deviceId">An index into the available Midi In Ports.</param>
+            <remarks>Refer to <see cref="T:CannedBytes.Midi.MidiInPortCapsCollection"/>.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.Close">
+            <summary>
+            Closes the Midi In Port.
+            </summary>
+            <remarks>
+            When the Midi Port is in a <see cref="F:CannedBytes.Midi.MidiPortStatus.Started"/> status <see cref="M:Stop"/>
+            is called. If any buffers are still in use the <see cref="M:Reset"/> method is called to
+            return all the buffers to the <see cref="P:BufferManager"/>. The method will block until all
+            buffers are returned.
+            </remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.Reset">
+            <summary>
+            Resets the Midi In Port returning all buffers to the <see cref="P:BufferManager"/>.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.Start">
+            <summary>
+            Starts recording on the Midi In Port.
+            </summary>
+            <remarks>
+            The <see cref="P:NextReceiever"/> property must not be null or an exception will be thrown.
+            </remarks>
+            <exception cref="T:CannedBytes.Midi.MidiInPortException">Thrown when the <see cref="P:NextReceiever"/> property is null
+            or the <see cref="P:BufferManager"/> has not been initialized.</exception>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.Stop">
+            <summary>
+            Stop recording on the Midi In Port.
+            </summary>
+            <remarks>Pending buffers will be returned. Calling <see cref="M:CannedBytes.Midi.MidiInPort.Stop"/> when the Midi In Port
+            is not in the <see cref="F:CannedBytes.Midi.MidiPortStatus.Started"/> state has no effect.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.ThrowIfError(System.Int32)">
+            <summary>
+            Throws an <see cref="T:CannedBytes.Midi.MidiInPortException"/> when the <paramref name="result"/> is non-zero.
+            </summary>
+            <param name="result">A return value from on off the <see cref="T:CannedBytes.Midi.NativeMethods"/> methods.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.GetErrorText(System.Int32)">
+            <summary>
+            Retrieves the error text for the error <paramref name="result"/>.
+            </summary>
+            <param name="result">A return value from on off the <see cref="T:CannedBytes.Midi.NativeMethods"/> methods.</param>
+            <returns>Returns the error text or an empty string if <paramref name="result"/> was not an
+            error. Never returns null.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.OnMessage(System.Int32,System.IntPtr,System.IntPtr)">
+            <summary>
+            Callback from the midi driver (on a separate thread).
+            </summary>
+            <param name="msg">The type of message to handle.</param>
+            <param name="parameter1">Parameter 1.</param>
+            <param name="parameter2">Parameter 2.</param>
+            <returns>Returns true when handled.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.HandleDataMessage(System.UInt32,System.IntPtr,System.IntPtr)">
+            <summary>
+            Handles the long and short data messages.
+            </summary>
+            <param name="umsg">Type of message.</param>
+            <param name="param1">First parameter.</param>
+            <param name="param2">Second parameter.</param>
+            <returns>Returns true if the <paramref name="umsg"/> has been handled.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.HandlePortEvent(System.UInt32,System.IntPtr,System.IntPtr)">
+            <summary>
+            Handles the port events for all message types.
+            </summary>
+            <param name="umsg">Type of message.</param>
+            <param name="param1">First parameter.</param>
+            <param name="param2">Second parameter.</param>
+            <returns>Returns true if the <paramref name="umsg"/> has been handled.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.HandleErrorMessage(System.UInt32,System.IntPtr,System.IntPtr)">
+            <summary>
+            Handles the long and short error messages.
+            </summary>
+            <param name="umsg">Type of message.</param>
+            <param name="param1">First parameter.</param>
+            <param name="param2">Second parameter.</param>
+            <returns>Returns true if the <paramref name="umsg"/> has been handled.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.HandleUnhandledMessage(System.UInt32,System.IntPtr)">
+            <summary>
+            Returns buffers to the buffer manager if the message is unhandled.
+            </summary>
+            <param name="umsg">The type of message.</param>
+            <param name="parameter1">The midi header pointer.</param>
+            <returns>Returns true when buffers were returned.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.HandleOpenAndClose(System.UInt32)">
+            <summary>
+            Handles the open and close messages.
+            </summary>
+            <param name="umsg">Type of message.</param>
+            <returns>Returns true if the <paramref name="umsg"/> has been handled.</returns>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiInPort.receiver">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiInPort.Successor"/> property.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiInPort.errorReceiver">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiInPort.NextErrorReceiver"/> property.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiInPort.portEventReceiver">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiInPort.NextPortEventReceiver"/> property.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.Dispose(CannedBytes.DisposeObjectKind)">
+            <summary>
+            Disposes this instance.
+            </summary>
+            <param name="disposeKind">The type of resources to dispose.</param>
+            <remarks>Closes the Midi In Port. If <paramref name="disposeKind"/> is Managed
+            the <see cref="P:BufferManager"/> and the <see cref="P:CannedBytes.Midi.MidiInPort.Successor"/> and the
+            <see cref="P:CannedBytes.Midi.MidiInPort.NextErrorReceiver"/> are set to null.</remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiInPort.bufferManager">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiInPort.BufferManager"/> property.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPort.GetPortCapabilities(System.Int32)">
+            <summary>
+            Returns the capabilities for the specified <paramref name="portId"/>.
+            </summary>
+            <param name="portId">An index into the list of available in ports.</param>
+            <returns>Never returns null.</returns>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPort.Capabilities">
+            <summary>
+            Retrieves the Midi In Port capabilities.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPort.Successor">
+            <summary>
+            Gets or sets the next <see cref="T:CannedBytes.Midi.IMidiDataReceiver"/> implementation.
+            </summary>
+            <remarks>The interface will be called directly from the method that handles the
+            driver callbacks. Calls will be made on a new thread.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPort.CannedBytes#IChainOf{CannedBytes#Midi#IMidiDataErrorReceiver}#Successor">
+            <summary>
+            Gets or sets the next <see cref="T:CannedBytes.Midi.IMidiDataErrorReceiver"/> implementation.
+            </summary>
+            <remarks>The interface will be called directly from the method that handles the
+            driver callbacks. Calls will be made on a new thread.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPort.NextErrorReceiver">
+            <summary>
+            Gets or sets the next <see cref="T:CannedBytes.Midi.IMidiDataErrorReceiver"/> implementation.
+            </summary>
+            <remarks>The interface will be called directly from the method that handles the
+            driver callbacks. Calls will be made on a new thread.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPort.CannedBytes#IChainOf{CannedBytes#Midi#IMidiPortEventReceiver}#Successor">
+            <summary>
+            Gets or sets a reference to the next port event receiver.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPort.NextPortEventReceiver">
+            <summary>
+            Gets or sets the next receiver for <see cref="T:CannedBytes.Midi.MidiPortEvent"/>s.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPort.BufferManager">
+            <summary>
+            Gets the buffer manager for the Midi In Port.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiInPortCaps">
+            <summary>
+            Represents Midi Input Port capabilities.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPortCaps.#ctor(CannedBytes.Midi.MidiInCaps@)">
+            <summary>
+            Constructs a new instance based on the unmanaged structure.
+            </summary>
+            <param name="caps">Reference to the unmanaged structure.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPortCaps.#ctor(System.Int32,System.Int32,System.Int64,System.String,System.Int64)">
+            <summary>
+            Constructs an immutable instance.
+            </summary>
+            <param name="manufacturerId">The manufacturer Id.</param>
+            <param name="productId">The product Id.</param>
+            <param name="driverVersion">The driver version.</param>
+            <param name="name">The port name.</param>
+            <param name="support">Driver support flags.</param>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPortCaps.ManufacturerId">
+            <summary>
+            Manufacturer identifier of the port driver for the Midi output
+            port.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPortCaps.ProductId">
+            <summary>
+            Product identifier of the Midi output port.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPortCaps.DriverVersion">
+            <summary>
+            Version number of the port driver for the Midi output port. The
+            high-order byte is the major version number, and the low-order byte
+            is the minor version number.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPortCaps.Name">
+            <summary>
+            Product name.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiInPortCaps.Support">
+            <summary>
+            Optional functionality supported by the port.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiInPortCapsCollection">
+            <summary>
+            The MidiInPortCapsCollection class provides a collection of all available
+            Midi In Ports.
+            </summary>
+            <remarks>The collection contains instances of the <see cref="T:CannedBytes.Midi.MidiInPortCaps"/> class.
+            Instantiating more than one instance is useless. The instance is populated in its ctor.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPortCapsCollection.#ctor">
+            <summary>
+            Initializes the collection instance.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiInPortException">
+            <summary>
+            The MidiOutPortException is thrown when errors occur with the
+            <see cref="T:MidiInPort"/>.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiPortException">
+            <summary>
+            The MidiPortException serves as a base class for specialized
+            port exception types.
+            </summary>
+            <remarks>
+            <seealso cref="T:CannedBytes.Midi.MidiInPortException"/>
+            <seealso cref="T:CannedBytes.Midi.MidiOutPortException"/>
+            </remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPortException.#ctor">
+            <summary>
+            Constructs an empty instance.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPortException.#ctor(System.String)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>.
+            </summary>
+            <param name="message">The exception message text.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPortException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>
+            and the <paramref name="inner"/>Exception.
+            </summary>
+            <param name="message">The exception message text.</param>
+            <param name="inner">The exception this instance will wrap.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPortException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization constructor.
+            </summary>
+            <param name="info">Must not be null.</param>
+            <param name="context">Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPortException.#ctor">
+            <summary>
+            Constructs an empty instance.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPortException.#ctor(System.String)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>.
+            </summary>
+            <param name="message">The exception message text.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPortException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>
+            and the <paramref name="inner"/>Exception.
+            </summary>
+            <param name="message">The exception message text.</param>
+            <param name="inner">The exception this instance will wrap.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInPortException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization constructor.
+            </summary>
+            <param name="info">Must not be null.</param>
+            <param name="context">Must not be null.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiInSafeHandle">
+            <summary>
+            SafeHandle implementation for a MidiInPort.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiSafeHandle">
+            <summary>
+            The MidiSafeHandle represents a handle to a midi device/port.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiSafeHandle.#ctor">
+            <summary>
+            Constructs a new instance that owns the handle.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiInSafeHandle.ReleaseHandle">
+            <summary>
+            Closes the port handle.
+            </summary>
+            <returns>Returns true when successful.</returns>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutBufferManager">
+            <summary>
+            The MidiOutBufferManagerBase class provides a base implementation
+            of a <see cref="T:CannedBytes.Midi.MidiBufferManager"/> for a Midi Out Port.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutBufferManager.#ctor(CannedBytes.Midi.MidiOutPortBase)">
+            <summary>
+            For derived classes only.
+            </summary>
+            <param name="port">A midi port base class.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutBufferManager.Initialize(System.Int32,System.Int32)">
+            <summary>
+            Initializes the buffers this instance manages.
+            </summary>
+            <param name="bufferCount">The number of buffers.</param>
+            <param name="bufferSize">The size in bytes of each buffer.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutBufferManager.OnPrepareBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Prepares a <paramref name="buffer"/> to be passed to the Midi Out Port.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutBufferManager.OnUnprepareBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Un-prepares a <paramref name="buffer"/> that was finished.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutCaps">
+            <summary>
+            Represents the Windows Multimedia MIDIOUTCAPS structure.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutCaps.Mid">
+            <summary>Midi out caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutCaps.Pid">
+            <summary>Midi out caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutCaps.DriverVersion">
+            <summary>Midi out caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutCaps.Name">
+            <summary>Midi out caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutCaps.Technology">
+            <summary>Midi out caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutCaps.Voices">
+            <summary>Midi out caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutCaps.Notes">
+            <summary>Midi out caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutCaps.ChannelMask">
+            <summary>Midi out caps property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutCaps.Support">
+            <summary>Midi out caps property.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutPort">
+            <summary>
+            The MidiOutPort class represents an interface to a physical (or virtual, depending on the driver)
+            Midi Out Port.
+            </summary>
+            <remarks>
+            Midi Ports are sometimes also called Midi Devices.
+            </remarks>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutPortBase">
+            <summary>
+            The MidiOutPortBase class represent the common implementation for
+            both the <see cref="T:CannedBytes.Midi.MidiOutPort"/> and the <see cref="T:CannedBytes.Midi.MidiOutStreamPort"/>.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.Open(System.Int32)">
+            <summary>
+            Provides a base implementation for opening an Out Port.
+            </summary>
+            <param name="deviceId">Must lie between 0 and the number of out devices.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.Close">
+            <summary>
+            Closes the Midi Out Port.
+            </summary>
+            <remarks>
+            If any buffers are still in use the <see cref="M:Reset"/> method is called to
+            return all the buffers to the <see cref="P:BufferManager"/>. The method will block until all
+            buffers are returned.
+            </remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.Reset">
+            <summary>
+            Turns off all notes and returns pending <see cref="T:MidiBufferStream"/>s to the
+            <see cref="P:BufferManager"/> marked as done.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortBase.bufferManager">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiOutPortBase.BufferManager"/> property.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.Dispose(CannedBytes.DisposeObjectKind)">
+            <summary>
+            Disposes this instance.
+            </summary>
+            <param name="disposeKind">The type of resources to dispose.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.GetPortCapabilities(System.Int32)">
+            <summary>
+            Returns the capabilities for the specified <paramref name="portId"/>.
+            </summary>
+            <param name="portId">An index into the list of available out ports.</param>
+            <returns>Never returns null.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.ThrowIfError(System.Int32)">
+            <summary>
+            Throws an exception if the <paramref name="result"/> represents an error code.
+            </summary>
+            <param name="result">The result of a call to one of the <see cref="T:CannedBytes.Midi.NativeMethods"/> methods.</param>
+            <exception cref="T:CannedBytes.Midi.MidiOutPortException">Thrown when the <paramref name="result"/> is non-zero.</exception>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.GetErrorText(System.Int32)">
+            <summary>
+            Lookup an error description text.
+            </summary>
+            <param name="result">Result of a <see cref="T:CannedBytes.Midi.NativeMethods"/> call.</param>
+            <returns>Returns the error text or an empty string. Never returns null.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.ShortData(System.Int32)">
+            <summary>
+            Sends the short midi message to the Midi Out Port.
+            </summary>
+            <param name="data">A short midi message.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.LongData(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Sends the long midi message to the Midi Out Port.
+            </summary>
+            <param name="buffer">The long midi message. Must not be null.</param>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortBase.callback">
+            <summary>
+            Backing field of the <see cref="P:CannedBytes.Midi.MidiOutPortBase.NextCallback"/> properties.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortBase.OnMessage(System.Int32,System.IntPtr,System.IntPtr)">
+            <summary>
+            Midi out device callback handler.
+            </summary>
+            <param name="msg">The type of callback event.</param>
+            <param name="parameter1">First parameter dependent on <paramref name="msg"/>.</param>
+            <param name="parameter2">Second parameter dependent on <paramref name="msg"/>.</param>
+            <returns>Returns true when handled.</returns>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortBase.BufferManager">
+            <summary>
+            Gets the buffer manager for the Midi In Port.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortBase.Capabilities">
+            <summary>
+            Retrieves the Midi Stream Out Port capabilities.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortBase.CannedBytes#IChainOf{CannedBytes#Midi#IMidiDataCallback}#Successor">
+            <summary>
+            Gets or sets the reference to the next component that receives the callback.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortBase.NextCallback">
+            <summary>
+            Gets or sets the callback reference that receives notifications.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPort.Open(System.Int32)">
+            <summary>
+            Opens the Midi Out Port identified by the <paramref name="deviceId"/>.
+            </summary>
+            <param name="deviceId">An index into the available Midi Out Ports.</param>
+            <remarks>Refer to <see cref="T:CannedBytes.Midi.MidiOutPortCapsCollection"/>.</remarks>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutPortCaps">
+            <summary>
+            Represents Midi output port capabilities.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortCaps.#ctor(CannedBytes.Midi.MidiOutCaps@)">
+            <summary>
+            Constructs a new instance based on the unmanaged structure.
+            </summary>
+            <param name="caps">Reference to the unmanaged structure.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortCaps.#ctor(System.Int32,System.Int32,System.Int64,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int64)">
+            <summary>
+            Constructs an immutable instance.
+            </summary>
+            <param name="manufacturerId">The manufacturer Id.</param>
+            <param name="productId">The product Id.</param>
+            <param name="driverVersion">The driver version.</param>
+            <param name="name">The port name.</param>
+            <param name="technology">The port technology: <see cref="T:CannedBytes.Midi.MidiOutPortCapsTechnology"/>.</param>
+            <param name="voices">The number of voices.</param>
+            <param name="notes">The number of notes.</param>
+            <param name="channelMask">Supported channels.</param>
+            <param name="support">Driver support flags: <see cref="T:CannedBytes.Midi.MidiOutPortCapsSupportTypes"/>.</param>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortCaps.ManufacturerId">
+            <summary>
+            Manufacturer identifier of the port driver for the Midi output
+            port.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortCaps.ProductId">
+            <summary>
+            Product identifier of the Midi output port.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortCaps.DriverVersion">
+            <summary>
+            Version number of the port driver for the Midi output port. The
+            high-order byte is the major version number, and the low-order byte
+            is the minor version number.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortCaps.Name">
+            <summary>
+            Product name.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortCaps.Technology">
+            <summary>
+            EventType describing the type of the Midi output port.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortCaps.Voices">
+            <summary>
+            Number of voices supported by an internal synthesizer port. If
+            the port is an external port, this member is not meaningful
+            and is set to 0.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortCaps.Notes">
+            <summary>
+            Maximum number of simultaneous notes that can be played by an
+            internal synthesizer device. If the device is a port, this
+            member is not meaningful and is set to 0.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortCaps.ChannelMask">
+            <summary>
+            Channels that an internal synthesizer port responds to, where the
+            least significant bit refers to channel 0 and the most significant
+            bit to channel 15. Port ports that transmit on all channels set
+            this member to 0xFFFF.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutPortCaps.Support">
+            <summary>
+            Optional functionality supported by the port.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutPortCapsCollection">
+            <summary>
+            The MidiOutPortCapsCollection class provides a collection of all available
+            Midi Out Ports.
+            </summary>
+            <remarks>The collection contains instances of the <see cref="T:CannedBytes.Midi.MidiOutPortCaps"/> class.
+            Instantiating more than one instance is useless.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortCapsCollection.#ctor">
+            <summary>
+            Initializes the collection instance.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutPortCapsSupportTypes">
+            <summary>
+            Indicates Midi Out driver support.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsSupportTypes.Volume">
+            <summary>
+            The driver supports volume control (MIDICAPS_VOLUME).
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsSupportTypes.LeftRightVolume">
+            <summary>
+            The driver supports separate left-right volume control (MIDICAPS_LRVOLUME).
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsSupportTypes.PatchCaching">
+            <summary>
+            The driver supports patch caching (MIDICAPS_CACHE).
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsSupportTypes.Stream">
+            <summary>
+            The driver supports midiStreamOut directly (MIDICAPS_STREAM).
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutPortCapsTechnology">
+            <summary>
+            Represents the different types of technology used by a MIDI out device.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsTechnology.None">
+            <summary>Not set.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsTechnology.MidiPort">
+            <summary>The device is a MIDI port.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsTechnology.Synth">
+            <summary>The device is a MIDI synth.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsTechnology.SquareWaveSynth">
+            <summary>The device is a square wave synth.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsTechnology.FMSynth">
+            <summary>The device is an FM synth.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsTechnology.MidiMapper">
+            <summary>The device is a MIDI mapper.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsTechnology.WavetableSynth">
+            <summary>The device is a Wavetable synth.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutPortCapsTechnology.SoftwareSynth">
+            <summary>The device is a software synth.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutPortException">
+            <summary>
+            The MidiOutPortException is thrown when errors occur with the
+            <see cref="T:MidiOutPort"/>.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortException.#ctor">
+            <summary>
+            Constructs an empty instance.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortException.#ctor(System.String)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>.
+            </summary>
+            <param name="message">The exception message text.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>
+            and the <paramref name="inner"/>Exception.
+            </summary>
+            <param name="message">The exception message text.</param>
+            <param name="inner">The exception this instance will wrap.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutPortException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization constructor.
+            </summary>
+            <param name="info">Must not be null.</param>
+            <param name="context">Must not be null.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutSafeHandle">
+            <summary>
+            SafeHandle implementation for a MidiOutPort.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutSafeHandle.ReleaseHandle">
+            <summary>
+            Closes the port handle (with retry).
+            </summary>
+            <returns>Returns true when successful.</returns>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutStreamSafeHandle">
+            <summary>
+            SafeHandle implementation for a MidiOutStreamPort.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamSafeHandle.ReleaseHandle">
+            <summary>
+            Closes the port handle (with retry).
+            </summary>
+            <returns>Returns true when successful.</returns>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiPortEvent">
+            <summary>
+            Information on a Midi Event source from a Midi (In) Port.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPortEvent.#ctor(CannedBytes.Midi.MidiPortEventType,System.Int32,System.Int64)">
+            <summary>
+            Constructs a new instance for a short midi message.
+            </summary>
+            <param name="recordType">A value appropriate for short midi messages.</param>
+            <param name="data">The short midi message.</param>
+            <param name="deltaTime">A time indication of the midi message.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiPortEvent.#ctor(CannedBytes.Midi.MidiPortEventType,CannedBytes.Midi.MidiBufferStream,System.Int64)">
+            <summary>
+            Constructs a new instance for a long midi message.
+            </summary>
+            <param name="recordType">A value appropriate for long midi messages.</param>
+            <param name="buffer">The long midi message. Must not be null.</param>
+            <param name="deltaTime">A time indication of the midi message.</param>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPortEvent.IsShortMessage">
+            <summary>
+            Gets an indication if the port is event is a short message, otherwise a long message.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPortEvent.RecordType">
+            <summary>
+            Gets the type of record.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPortEvent.Data">
+            <summary>
+            Gets the short midi message.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPortEvent.Buffer">
+            <summary>
+            Gets the long midi message.
+            </summary>
+            <remarks>Can return null if this record was constructed for a short midi message.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiPortEvent.Timestamp">
+            <summary>
+            Gets A time indication of the midi message.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiPortEventType">
+            <summary>
+            All the different types of events that a Midi Port can source.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortEventType.None">
+            <summary>An invalid value.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortEventType.ShortData">
+            <summary>Record contains a short midi message.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortEventType.ShortError">
+            <summary>Record contains a short midi message error.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortEventType.MoreData">
+            <summary>Record contains another short midi message.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortEventType.LongData">
+            <summary>Record contains a long midi message.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortEventType.LongError">
+            <summary>Record contains a long midi message error.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiPortStatus">
+            <summary>
+            The MidiPortStatus enumeration specifies the states a midi port can be in.
+            </summary>
+            <remarks>Note that not all states are valid for all types of Midi Ports.</remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortStatus.None">
+            <summary>Status not specified (invalid status).</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortStatus.Closed">
+            <summary>The Midi Port is closed. No other status can be present.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortStatus.Open">
+            <summary>The Midi Port is opened.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortStatus.Started">
+            <summary>The Midi Port is started. It can now record or play.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortStatus.Stopped">
+            <summary>The Midi Port is stopped.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortStatus.Paused">
+            <summary>The Midi Port is paused.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortStatus.Reset">
+            <summary>The Midi Port is reset. The reset flag is cleared at the next state change.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiPortStatus.Pending">
+            <summary>Additional flag indicating an in-progress to a certain state.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiRelativeTimeBase">
+            <summary>
+            Represents a tempo-related time base.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiRelativeTimeBase.OnValueChanged(System.Nullable{System.Int32},System.Nullable{System.Int32},CannedBytes.Midi.SmpteTimeBase)">
+            <summary>
+            Called when one of the properties change value.
+            </summary>
+            <param name="newTimeDivision">Non-null when changed.</param>
+            <param name="newPpqn">Non-null when changed.</param>
+            <param name="newSmpte">Non-null when changed.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiRelativeTimeBase.ThrowIfNotAMultipleOf24(System.Int32,System.String)">
+            <summary>
+            Throws an exception when the <paramref name="value"/> is not a multiple of 24.
+            </summary>
+            <param name="value">Can be zero.</param>
+            <param name="argumentName">The name of the method argument that contained the <paramref name="value"/>.</param>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiRelativeTimeBase.ppqn">
+            <summary>
+            Backing field for the <see cref="P:PulsesPerQuarterNote"/> property.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiRelativeTimeBase.timeDivision">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiRelativeTimeBase.TimeDivision"/> property.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiRelativeTimeBase.smpte">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiRelativeTimeBase.Smpte"/> property.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiRelativeTimeBase.PulsesPerQuarterNote">
+            <summary>
+            Gets or sets how many pulses per quarter note (PPQN).
+            </summary>
+            <remarks>Same as TimeDivision (but never negative). Must be multiples of 24.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiRelativeTimeBase.TimeDivision">
+            <summary>
+            Gets or sets the Midi file time division value (MThd).
+            </summary>
+            <remarks>Same as PPQN. When negative a SMPTE time is used.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiRelativeTimeBase.Smpte">
+            <summary>
+            Gets or sets the Smpte time base values.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiStreamException">
+            <summary>
+            The MidiStreamException is throw when errors occur in a <see cref="T:MidiStream"/>.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiStreamException.#ctor">
+            <summary>
+            Constructs an empty instance.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiStreamException.#ctor(System.String)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>.
+            </summary>
+            <param name="message">The exception message text.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiStreamException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructs an instance containing the specified <paramref name="message"/>
+            and the <paramref name="inner"/>Exception.
+            </summary>
+            <param name="message">The exception message text.</param>
+            <param name="inner">The exception this instance will wrap.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiStreamException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization constructor.
+            </summary>
+            <param name="info">Must not be null.</param>
+            <param name="context">Must not be null.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutStreamBufferManager">
+            <summary>
+            The MidiOutBufferManager class manages <see cref="T:CannedBytes.Midi.MidiBufferStream"/> instances on behalf of the
+            <see cref="T:CannedBytes.Midi.MidiOutStreamPort"/>.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamBufferManager.#ctor(CannedBytes.Midi.MidiOutStreamPort)">
+            <summary>
+            Constructs a new instance on the Midi Stream Out <paramref name="port"/>.
+            </summary>
+            <param name="port">Must not be null.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamBufferManager.OnPrepareBuffer(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Called to prepare <paramref name="buffer"/> for the port.
+            </summary>
+            <param name="buffer">Must not be null.</param>
+            <remarks>Buffers are also marked as streams.</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutStreamBufferManager.MidiPort">
+            <summary>
+            Gets the Midi Out Port.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutStreamPort">
+            <summary>
+            The MidiOutPort class represents an interface to a physical (or virtual, depending on the driver)
+            Midi Out Port.
+            </summary>
+            <remarks>
+            Midi Ports are sometimes also called Midi Devices.
+            </remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.Open(System.Int32)">
+            <summary>
+            Opens the Midi Out Port identified by the <paramref name="deviceId"/>.
+            </summary>
+            <param name="deviceId">An index into the available Midi Out Ports.</param>
+            <remarks>Refer to <see cref="T:CannedBytes.Midi.MidiOutPortCapsCollection"/>.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.Close">
+            <summary>
+            Closes the Midi Out Stream Port.
+            </summary>
+            <remarks>
+            When the Midi Port is in a <see cref="F:CannedBytes.Midi.MidiPortStatus.Started"/> status <see cref="M:Stop"/>
+            is called. If any buffers are still in use the <see cref="M:Reset"/> method is called to
+            return all the buffers to the <see cref="P:BufferManager"/>. The method will block until all
+            buffers are returned.
+            </remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.Restart">
+            <summary>
+            Resumes a paused midi stream.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.Pause">
+            <summary>
+            Pauses the midi stream.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.Stop">
+            <summary>
+            Turns off playing notes and returns pending <see cref="T:CannedBytes.Midi.MidiBufferStream"/>s to the <see cref="P:BufferManager"/>
+            marked as done.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.LongData(CannedBytes.Midi.MidiBufferStream)">
+            <summary>
+            Outputs the <paramref name="buffer"/> to the port.
+            </summary>
+            <param name="buffer">The midi stream.</param>
+            <remarks><see cref="M:CannedBytes.Midi.MidiOutStreamPort.Open(System.Int32)"/> opens the port in paused mode. So <see cref="M:CannedBytes.Midi.MidiOutStreamPort.Restart"/>
+            must be called before streams can be output with this method.
+            Use the <see cref="T:MidiEventStreamWriter"/> on the <see cref="T:MidiBufferStream"/>
+            to fill a midi stream.</remarks>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.OnMessage(System.Int32,System.IntPtr,System.IntPtr)">
+            <inheritdocs/>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutStreamPort.bufferManager">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiOutStreamPort.BufferManager"/> property.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.Dispose(CannedBytes.DisposeObjectKind)">
+            <inheritdocs/>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.GetTime(CannedBytes.Midi.TimeFormatTypes)">
+            <summary>
+            Retrieves the current time position for playback.
+            </summary>
+            <param name="formatType">One of the <see cref="T:CannedBytes.Midi.TimeFormatTypes"/> enumerated values, except Smpte.</param>
+            <returns>Returns the current time in the requested time <paramref name="formatType"/>.
+            When the value is negative, the requested time <paramref name="formatType"/> was not supported
+            and the return value specifies the proposed time format type (as a negative value).</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.GetTime(CannedBytes.Midi.MmTime@)">
+            <summary>
+            Gets the current time position from the port.
+            </summary>
+            <param name="time">A reference to the time structure that receives the value.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.GetProperty(System.UInt32)">
+            <summary>
+            Returns a property from the port.
+            </summary>
+            <param name="flags">Indication of what property to read.</param>
+            <returns>Returns the property value read.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPort.SetProperty(System.UInt32,System.UInt32)">
+            <summary>
+            Sets a property to the port.
+            </summary>
+            <param name="flags">Indication of what property to write.</param>
+            <param name="value">The value of the property.</param>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutStreamPort.BufferManager">
+            <summary>
+            Gets the buffer manager for the Midi Stream Out Port.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutStreamPort.SmpteTime">
+            <summary>
+            Returns the current stream position in a Smpte format.
+            </summary>
+            <returns>Returns the smpte time.</returns>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutStreamPort.TimeDivision">
+            <summary>
+            Returns the Time division for this stream, in the format specified
+            in the Standard MIDI Files 1.0 specification.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiOutStreamPort.Tempo">
+            <summary>
+            Returns the Tempo of the stream, in microseconds per quarter note.
+            </summary>
+            <remarks>The tempo is honored only if the time division for the stream
+            is specified in quarter note format.</remarks>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiOutStreamPortProperty">
+            <summary>
+            The unmanaged structure for Stream Port properties.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiOutStreamPortProperty.#ctor(System.UInt32)">
+            <summary>
+            Constructs a new instance with a <paramref name="value"/>.
+            </summary>
+            <param name="value">Can be zero.</param>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutStreamPortProperty.StructSize">
+            <summary>Unmanaged structure property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiOutStreamPortProperty.PropertyValue">
+            <summary>Unmanaged structure property.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiTempo">
+            <summary>
+            A musical tempo indication.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiTempo.MicrosecondsPerMinute">
+            <summary>
+            The number of microseconds that are in a minute (BPM).
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiTempo.OnValueChanged(System.Nullable{System.Single},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Called when one of the property values changes.
+            </summary>
+            <param name="newBpm">Non-null when changed.</param>
+            <param name="newMilliTempo">Non-null when changed.</param>
+            <param name="newMicroTempo">Non-null when changed.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiTempo.Clear">
+            <summary>
+            Resets all property values.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiTempo.bpm">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiTempo.BeatsPerMinute"/> property.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiTempo.microTempo">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiTempo.MicrosecondTempo"/> property.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiTempo.milliTempo">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiTempo.MillisecondTempo"/> property.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiTempo.BeatsPerMinute">
+            <summary>
+            Gets or sets the BPM.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiTempo.MicrosecondTempo">
+            <summary>
+            Gets or sets the tempo in microseconds per quarter note.
+            </summary>
+            <remarks>Midi file compatible tempo value (Meta Event).</remarks>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiTempo.MillisecondTempo">
+            <summary>
+            Gets or sets the tempo in milliseconds per quarter note.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MidiTimeBase">
+            <summary>
+             Absolute Timer time base.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiTimeBase.Create(System.Int32,System.Int32)">
+            <summary>
+            Factory method for Midi file compatible values.
+            </summary>
+            <param name="timeDivision">Must not be zero.</param>
+            <param name="tempo">Can be zero.</param>
+            <returns>Never returns null.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiTimeBase.Create(CannedBytes.Midi.MidiRelativeTimeBase,CannedBytes.Midi.MidiTempo)">
+            <summary>
+            Factory method for use with relative <paramref name="timeBase"/> and <paramref name="tempo"/>.
+            </summary>
+            <param name="timeBase">Must not be null.</param>
+            <param name="tempo">Must not be null.</param>
+            <returns>Never returns null.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.MidiTimeBase.OnValueChanged(System.Nullable{System.Int64},System.Nullable{System.Int64})">
+            <summary>
+            Called when one of the property values have changed.
+            </summary>
+            <param name="newMilliResolution">Non-null when changed.</param>
+            <param name="newMicroResolution">Non-null when changed.</param>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiTimeBase.milliResolution">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiTimeBase.MillisecondResolution"/> property.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiTimeBase.microResolution">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiTimeBase.MicrosecondResolution"/> property.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MidiTimeBase.smpteTime">
+            <summary>
+            Backing field for the <see cref="P:CannedBytes.Midi.MidiTimeBase.SmpteTime"/> property.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiTimeBase.MillisecondResolution">
+            <summary>
+            Gets or sets the resolution of the time base: how many ticks elapse per millisec.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiTimeBase.MicrosecondResolution">
+            <summary>
+            Gets or sets the resolution of the time base: how many ticks elapse per microsec.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.MidiTimeBase.SmpteTime">
+            <summary>
+            Gets or sets the SMPTE Time resolution information.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.MmTime">
+            <summary>
+            Internal time structure passed to <see cref="T:CannedBytes.Midi.NativeMethods"/>.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.Type">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.MilliSeconds">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.Sample">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.ByteCount">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.Ticks">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.MidiSongPtrPos">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.SmpteHour">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.SmpteMin">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.SmpteSec">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.SmpteFrame">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.SmpteFps">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.SmpteDummy">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.SmptePad0">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.MmTime.SmptePad1">
+            <summary>Unmanaged MmTime property.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.NativeMethods">
+            <summary>
+            The NativeMethods static class implements the P-invoke calls to the Win32
+            multi-media midi API (midiXxxxx).
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MAXERRORLENGTH">
+            <summary>Max length of an error text.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MMSYSERR_NOERROR">
+            <summary>Error code that is not an error.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIDIERR_STILLPLAYING">
+            <summary>Error indicating the buffer is used for playing.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.CALLBACK_FUNCTION">
+            <summary>Midi open flag for using a callback procedure.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIDI_IO_STATUS">
+            <summary>Midi open flag for status callbacks.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIM_OPEN">
+            <summary>A midi callback message type for port open.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIM_CLOSE">
+            <summary>A midi callback message type for port close.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIM_DATA">
+            <summary>A midi callback message type for short data.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIM_LONGDATA">
+            <summary>A midi callback message type for long data.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIM_ERROR">
+            <summary>A midi callback message type for short error.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIM_LONGERROR">
+            <summary>A midi callback message type for long error.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MOM_OPEN">
+            <summary>A midi callback message type for port open.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MOM_CLOSE">
+            <summary>A midi callback message type for port close.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MOM_DONE">
+            <summary>A midi callback message type for buffer done.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MOM_POSITIONCB">
+            <summary>A midi callback message type for positional callback notification.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIM_MOREDATA">
+            <summary>A midi callback message type for overrun data.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MHDR_DONE">
+            <summary>A midi buffer header flag indicating processing is done.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MHDR_PREPARED">
+            <summary>A midi buffer header flag indicating the buffer is prepare by the port.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MHDR_INQUEUE">
+            <summary>A midi buffer header flag indicating the buffer is in the queue.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MHDR_ISSTRM">
+            <summary>A midi buffer header flag indicating the buffer is a stream.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIDIPROP_SET">
+            <summary>Midi stream port property option flags.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIDIPROP_GET">
+            <summary>Midi stream port property option flags.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIDIPROP_TIMEDIV">
+            <summary>Midi stream port property option flags.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.NativeMethods.MIDIPROP_TEMPO">
+            <summary>Midi stream port property option flags.</summary>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInGetErrorText(System.Int32,System.Text.StringBuilder,System.Int32)">
+            <summary>
+            Retrieves an error text for an Midi In Port <paramref name="errCode"/>.
+            </summary>
+            <param name="errCode">The error code.</param>
+            <param name="errMsg">Receives the error text.</param>
+            <param name="sizeOfErrMsg">The length of the initialized <paramref name="errMsg"/> object.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInOpen(CannedBytes.Midi.MidiInSafeHandle@,System.UInt32,CannedBytes.Midi.NativeMethods.MidiProc,System.IntPtr,System.UInt32)">
+            <summary>
+            Opens a midi in port.
+            </summary>
+            <param name="handle">Receives the handle of the midi in port.</param>
+            <param name="deviceId">A logical port identifier.</param>
+            <param name="proc">The callback midi procedure.</param>
+            <param name="instance">The instance handle of the midi in port object.</param>
+            <param name="flags">Option flags.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInClose(System.IntPtr)">
+            <summary>
+            Closes the midi in port.
+            </summary>
+            <param name="handle">The initialized port handle.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInStart(CannedBytes.Midi.MidiSafeHandle)">
+            <summary>
+            Starts receiving midi data on a midi in port.
+            </summary>
+            <param name="handle">The midi in port handle.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInStop(CannedBytes.Midi.MidiSafeHandle)">
+            <summary>
+            Stops receiving data on a midi in port.
+            </summary>
+            <param name="handle">The midi in port handle.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInReset(CannedBytes.Midi.MidiSafeHandle)">
+            <summary>
+            Resets a midi in port, returning added buffers to the client.
+            </summary>
+            <param name="handle">The midi in port handle.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInPrepareHeader(CannedBytes.Midi.MidiSafeHandle,System.IntPtr,System.UInt32)">
+            <summary>
+            Prepares buffer memory for use by the midi in port.
+            </summary>
+            <param name="handle">The midi in port handle.</param>
+            <param name="header">Pointer to the header information for the buffer.</param>
+            <param name="sizeOfmidiHeader">The size of the midi header structure.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInUnprepareHeader(CannedBytes.Midi.MidiSafeHandle,System.IntPtr,System.UInt32)">
+            <summary>
+            Undoes the preparation of the buffer memory.
+            </summary>
+            <param name="handle">The handle of the midi in port.</param>
+            <param name="header">Pointer to the header information for the buffer.</param>
+            <param name="sizeOfmidiHeader">The size of the midi header structure.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInAddBuffer(CannedBytes.Midi.MidiSafeHandle,System.IntPtr,System.UInt32)">
+            <summary>
+            Adds a buffer to the midi in port for storing received midi data.
+            </summary>
+            <param name="handle">The handle of the midi in port.</param>
+            <param name="header">Pointer to the header information for the buffer.</param>
+            <param name="sizeOfmidiHeader">The size of the midi header structure.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInGetDevCaps(System.IntPtr,CannedBytes.Midi.MidiInCaps@,System.UInt32)">
+            <summary>
+            Retrieves port capabilities information for the midi in port.
+            </summary>
+            <param name="deviceId">A logical port identifier.</param>
+            <param name="caps">A reference to the structure receiving the information.</param>
+            <param name="sizeOfmidiInCaps">The size of that structure.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiInGetNumDevs">
+            <summary>
+            Retrieves the number of midi in ports.
+            </summary>
+            <returns>Returns the number.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiConnect(CannedBytes.Midi.MidiSafeHandle,CannedBytes.Midi.MidiSafeHandle,System.IntPtr)">
+            <summary>
+            Connects two midi ports.
+            </summary>
+            <param name="inHandle">The handle of a midi port.</param>
+            <param name="outHandle">The handle of a midi port.</param>
+            <param name="reserved">Not used.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiDisconnect(CannedBytes.Midi.MidiSafeHandle,CannedBytes.Midi.MidiSafeHandle,System.IntPtr)">
+            <summary>
+            Disconnects two midi ports.
+            </summary>
+            <param name="inHandle">The handle of a midi port.</param>
+            <param name="outHandle">The handle of a midi port.</param>
+            <param name="reserved">Not used.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutOpen(CannedBytes.Midi.MidiOutSafeHandle@,System.UInt32,CannedBytes.Midi.NativeMethods.MidiProc,System.IntPtr,System.UInt32)">
+            <summary>
+            Opens a midi out port.
+            </summary>
+            <param name="handle">Receives the midi out port handle.</param>
+            <param name="deviceId">The logical port identifier.</param>
+            <param name="proc">The midi callback procedure.</param>
+            <param name="instance">An instance handle to the midi out port object.</param>
+            <param name="flags">Option flags.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutClose(System.IntPtr)">
+            <summary>
+            Closes a midi out port.
+            </summary>
+            <param name="handle">The handle to a midi out port.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutReset(CannedBytes.Midi.MidiSafeHandle)">
+            <summary>
+            Resets a midi out port, returning any processing buffers to the client.
+            </summary>
+            <param name="handle">The handle to a midi out port.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutShortMsg(CannedBytes.Midi.MidiSafeHandle,System.UInt32)">
+            <summary>
+            Outputs a short midi message over the midi out port.
+            </summary>
+            <param name="handle">The handle to a midi out port.</param>
+            <param name="message">The short midi message.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutPrepareHeader(CannedBytes.Midi.MidiSafeHandle,System.IntPtr,System.UInt32)">
+            <summary>
+            Prepares buffer memory for use by the midi out port.
+            </summary>
+            <param name="handle">The midi out port handle.</param>
+            <param name="header">Pointer to the header information for the buffer.</param>
+            <param name="sizeOfmidiHeader">The size of the midi header structure.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutUnprepareHeader(CannedBytes.Midi.MidiSafeHandle,System.IntPtr,System.UInt32)">
+            <summary>
+            Undoes the preparation of the buffer memory.
+            </summary>
+            <param name="handle">The handle of the midi out port.</param>
+            <param name="header">Pointer to the header information for the buffer.</param>
+            <param name="sizeOfmidiHeader">The size of the midi header structure.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutLongMsg(CannedBytes.Midi.MidiSafeHandle,System.IntPtr,System.UInt32)">
+            <summary>
+            Outputs a long midi message to the midi out port.
+            </summary>
+            <param name="handle">The handle of the midi out port.</param>
+            <param name="header">Pointer to the header information for the buffer.</param>
+            <param name="sizeOfmidiHeader">The size of the midi header structure.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutGetErrorText(System.Int32,System.Text.StringBuilder,System.Int32)">
+            <summary>
+            Retrieves an error text for an midi out port <paramref name="errCode"/>.
+            </summary>
+            <param name="errCode">The error code.</param>
+            <param name="errMsg">Receives the error text.</param>
+            <param name="sizeOfErrMsg">The length of the initialized <paramref name="errMsg"/> object.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutGetDevCaps(System.IntPtr,CannedBytes.Midi.MidiOutCaps@,System.UInt32)">
+            <summary>
+            Retrieves the device capabilities for a specific midi out device.
+            </summary>
+            <param name="deviceId">The logical identification of the device.</param>
+            <param name="caps">A structure that will receive the information.</param>
+            <param name="sizeOfmidiOutCaps">The size of the structure that will receive the information.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiOutGetNumDevs">
+            <summary>
+            Retrieves the number of midi out devices.
+            </summary>
+            <returns>Returns the number.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiStreamClose(System.IntPtr)">
+            <summary>
+            Closes a midi stream port.
+            </summary>
+            <param name="handle">The midi stream port handle.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiStreamOpen(CannedBytes.Midi.MidiOutStreamSafeHandle@,System.UInt32@,System.UInt32,CannedBytes.Midi.NativeMethods.MidiProc,System.IntPtr,System.UInt32)">
+            <summary>
+            Opens a midi stream port (out).
+            </summary>
+            <param name="handle">Receives the handle of the port when its open.</param>
+            <param name="deviceId">A reference to the logical identifier of the port.</param>
+            <param name="cMidi">Not used. 1.</param>
+            <param name="proc">The midi callback procedure.</param>
+            <param name="instance">An instance handle of the midi stream object.</param>
+            <param name="flags">Option flags.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiStreamOut(CannedBytes.Midi.MidiSafeHandle,System.IntPtr,System.UInt32)">
+            <summary>
+            Outputs a buffer to the stream port.
+            </summary>
+            <param name="handle">The handle of the midi stream port.</param>
+            <param name="header">Pointer to the header information for the buffer.</param>
+            <param name="sizeOfmidiHeader">The size of the midi header structure.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiStreamPause(CannedBytes.Midi.MidiSafeHandle)">
+            <summary>
+            Pauses playback of the midi stream port.
+            </summary>
+            <param name="handle">The handle of the midi stream port.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiStreamRestart(CannedBytes.Midi.MidiSafeHandle)">
+            <summary>
+            Starts (or restarts) playback on the stream port.
+            </summary>
+            <param name="handle">The handle of the midi stream port.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiStreamStop(CannedBytes.Midi.MidiSafeHandle)">
+            <summary>
+            Stops the playback of the midi stream port.
+            </summary>
+            <param name="handle">The handle of the midi stream port.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiStreamPosition(CannedBytes.Midi.MidiSafeHandle,CannedBytes.Midi.MmTime@,System.UInt32)">
+            <summary>
+            Retrieves the time position of the playback of a stream port.
+            </summary>
+            <param name="handle">The handle of a stream port.</param>
+            <param name="time">A reference to the structure that will receive the time.</param>
+            <param name="sizeOfMmTime">The size of that structure.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.NativeMethods.midiStreamProperty(CannedBytes.Midi.MidiSafeHandle,CannedBytes.Midi.MidiOutStreamPortProperty@,System.UInt32)">
+            <summary>
+            Gets or sets a property on the midi stream port.
+            </summary>
+            <param name="handle">The handle of the midi stream port.</param>
+            <param name="prop">A reference to the property information.</param>
+            <param name="flags">Option flags.</param>
+            <returns>Returns zero when successful.</returns>
+        </member>
+        <member name="T:CannedBytes.Midi.NativeMethods.MidiProc">
+            <summary>
+            Represents the method that handles messages from the midi driver.
+            </summary>
+            <param name="handle">Port handle.</param>
+            <param name="msg">Type of message.</param>
+            <param name="instance">The instance handle of the port object.</param>
+            <param name="param1">First parameter.</param>
+            <param name="param2">Second parameter.</param>
+        </member>
+        <member name="T:CannedBytes.Midi.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiBufferManager_BufferNotDone">
+            <summary>
+              Looks up a localized string similar to Specified MidiBuffer is not marked as &apos;Done&apos;..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiBufferManager_BufferStillInQueue">
+            <summary>
+              Looks up a localized string similar to Specified MidiBuffer is still queued by the Midi Port..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiBufferManager_HeaderNotAttached">
+            <summary>
+              Looks up a localized string similar to The specified MidiHeader does not belong to any MidiBuffer..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiBufferManager_HeaderOutOfSync">
+            <summary>
+              Looks up a localized string similar to The specified MidiHeader is not in sync with the MidiBuffer that owns it..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiBufferStream_PositionTooLong">
+            <summary>
+              Looks up a localized string similar to The MidiStream too long..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiInPort_BufferManagerNotInitialzed">
+            <summary>
+              Looks up a localized string similar to Cannot start the Midi In Port because the BufferManager has not been initialized. Call Initialize on the MidiInBufferManager..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiInPort_CannotChangeReceiver">
+            <summary>
+              Looks up a localized string similar to The Midi receiver can not be changed when the Midi In Port is started..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiInPort_NoReceiver">
+            <summary>
+              Looks up a localized string similar to The MidiInPort is not connected to a MidiReceiver.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiInPort_PortNotOpen">
+            <summary>
+              Looks up a localized string similar to The Midi In Port is not open..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiOutPort_CannotChangeCallback">
+            <summary>
+              Looks up a localized string similar to The Midi callback receiver can not be changed when the Midi Out Stream Port is started..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiOutPort_PortNotOpen">
+            <summary>
+              Looks up a localized string similar to The Midi Out Port is not open..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiPort_InvalidStatus">
+            <summary>
+              Looks up a localized string similar to Invalid port status ({0})..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiPort_ObjectDisposed">
+            <summary>
+              Looks up a localized string similar to The MidiPort of type {0} has been disposed..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiReceiverChainManager_EndOfChain">
+            <summary>
+              Looks up a localized string similar to End of Chain! Last Receiver added did not implement IMidiReceiverChain..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiStream_CountTooLarge">
+            <summary>
+              Looks up a localized string similar to Parameter &apos;count&apos; is larger than specified buffer length..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiStream_EndOfStream">
+            <summary>
+              Looks up a localized string similar to End of stream..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiStream_NotReadable">
+            <summary>
+              Looks up a localized string similar to Not a readable stream..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiStream_NotSeekable">
+            <summary>
+              Looks up a localized string similar to Cannot seek in stream..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiStream_NotWritable">
+            <summary>
+              Looks up a localized string similar to Not a writable stream..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiStreamOutPort_InvalidTimeFormatType">
+            <summary>
+              Looks up a localized string similar to You cannot specify TimeFormatType.Smpte. Use the GetSmpteTime() method instead..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiStreamOutPort_NoShortMessage">
+            <summary>
+              Looks up a localized string similar to The MidiStreamOutPort does not support short midi messages..
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.Properties.Resources.MidiStreamWriter_StreamNotWritable">
+            <summary>
+              Looks up a localized string similar to Not a writable stream..
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.SmpteFrameRate">
+            <summary>
+            Different frame rates for SMPTE.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.SmpteFrameRate.None">
+            <summary>Not set.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.SmpteFrameRate.Smpte24">
+            <summary>24 frames per second.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.SmpteFrameRate.Smpte25">
+            <summary>25 frames per second.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.SmpteFrameRate.SmpteDrop30">
+            <summary>Drop-30 frames per second.</summary>
+            <remarks>Not supported!</remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.SmpteFrameRate.Smpte30">
+            <summary>30 frames per second.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.SmpteTime">
+            <summary>
+            The SmpteTime class contains time in a SMPTE format.
+            </summary>
+            <remarks>After construction the class is immutable.</remarks>
+        </member>
+        <member name="F:CannedBytes.Midi.SmpteTime.MicrosecondsInHour">
+            <summary>Number microseconds per hour.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.SmpteTime.MicrosecondsInMinute">
+            <summary>Number microseconds per minute.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.SmpteTime.MicrosecondsInSecond">
+            <summary>Number microseconds per second.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.SmpteTime.MicrosecondsInMillisec">
+            <summary>Number microseconds per millisecond.</summary>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTime.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,CannedBytes.Midi.SmpteFrameRate)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="hour">Smpte hours.</param>
+            <param name="minute">Smpte minutes.</param>
+            <param name="second">Smpte seconds.</param>
+            <param name="frame">Smpte frames.</param>
+            <param name="fps">Smpte frames per second. Must not be <see cref="F:CannedBytes.Midi.SmpteFrameRate.None"/> or <see cref="F:CannedBytes.Midi.SmpteFrameRate.SmpteDrop30"/>.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTime.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,CannedBytes.Midi.SmpteFrameRate,System.Int32)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="hour">Smpte hours.</param>
+            <param name="minute">Smpte minutes.</param>
+            <param name="second">Smpte seconds.</param>
+            <param name="frame">Smpte frames.</param>
+            <param name="subFrames">Smpte sub-frames.</param>
+            <param name="fps">Smpte frames per second. Must not be <see cref="F:CannedBytes.Midi.SmpteFrameRate.None"/> or <see cref="F:CannedBytes.Midi.SmpteFrameRate.SmpteDrop30"/>.</param>
+            <param name="subFramesPerFrame">The number of sub-frames in a frame. Can be zero.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTime.FromMicroseconds(System.Int64,CannedBytes.Midi.SmpteFrameRate,System.Int32)">
+            <summary>
+            Constructs a new instance based on <paramref name="microseconds"/>.
+            </summary>
+            <param name="microseconds">A number of microseconds.</param>
+            <param name="fps">The frame rate to use.</param>
+            <param name="subFramesPerFrame">The number of sub-frames in a frame. Can be zero.</param>
+            <returns>Never returns null.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTime.ToMicroseconds">
+            <summary>
+            Calculates the number of microseconds for the current time.
+            </summary>
+            <returns>Returns a value in microseconds.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTime.ConvertTo(CannedBytes.Midi.SmpteFrameRate,System.Int32)">
+            <summary>
+            Converts the current instance to a new Smpte time base.
+            </summary>
+            <param name="fps">Frames per second.</param>
+            <param name="subFramesPerFrame">Sub-frames per frame.</param>
+            <returns>Returns a new instance.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTime.ToFrameRate(System.Int32)">
+            <summary>
+            Convert an int with value 24, 25, 29 and 30 to its corresponding <see cref="T:CannedBytes.Midi.SmpteFrameRate"/> value.
+            </summary>
+            <param name="frameRate">The frameRate value.</param>
+            <returns>Returns <see cref="F:CannedBytes.Midi.SmpteFrameRate.None"/> of no conversion could be made.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTime.FromFrameRate(CannedBytes.Midi.SmpteFrameRate)">
+            <summary>
+            Converts a frame rate value to an integer.
+            </summary>
+            <param name="fps">The frame rate value.</param>
+            <returns>Returns zero if <see cref="F:CannedBytes.Midi.SmpteFrameRate.None"/> was specified.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTime.GetMicrosecondsPerFrame(System.Single)">
+            <summary>
+            Returns the number of microseconds per frame.
+            </summary>
+            <param name="frameRate">The frame rate to use. Use 29.97 for drop 30.</param>
+            <returns>Returns the value in microseconds.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTime.ThrowIfInvalidFrameRate(CannedBytes.Midi.SmpteFrameRate)">
+            <summary>
+            Throws an exception if the specified <paramref name="fps"/> is not supported.
+            </summary>
+            <param name="fps">Must not be <see cref="F:CannedBytes.Midi.SmpteFrameRate.None"/> or <see cref="F:CannedBytes.Midi.SmpteFrameRate.SmpteDrop30"/>.</param>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTime.Hour">
+            <summary>
+            Gets the Smpte hours.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTime.Minute">
+            <summary>
+            Gets the Smpte minutes.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTime.Second">
+            <summary>
+            Gets the Smpte seconds.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTime.Frame">
+            <summary>
+            Gets the Smpte frames.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTime.SubFrames">
+            <summary>
+            Gets the Smpte sub-frames.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTime.FramesPerSecond">
+            <summary>
+            Gets the Smpte frames per second.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTime.SubFramesPerFrame">
+            <summary>
+            Gets the number of sub-frames per frame.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTime.MicrosecondsPerFrame">
+            <summary>
+            Gets the number of microseconds for one frame.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.SmpteTimeBase">
+            <summary>
+            Contains time base information for a <see cref="T:CannedBytes.Midi.SmpteTime"/>.
+            </summary>
+        </member>
+        <member name="M:CannedBytes.Midi.SmpteTimeBase.#ctor(CannedBytes.Midi.SmpteFrameRate,System.Int32)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="fps">Number of frames per second.</param>
+            <param name="subsPerFrame">Number of sub-frames per frame. Can be zero.</param>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTimeBase.FramesPerSecond">
+            <summary>
+            Gets the frame rate.
+            </summary>
+        </member>
+        <member name="P:CannedBytes.Midi.SmpteTimeBase.SubFramesPerFrame">
+            <summary>
+            Gets the number of sub-frames per frame.
+            </summary>
+        </member>
+        <member name="T:CannedBytes.Midi.TimeFormatTypes">
+            <summary>
+            Enumerates the different time format types.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.TimeFormatTypes.None">
+            <summary>Invalid value.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.TimeFormatTypes.Milliseconds">
+            <summary>Time in milliseconds.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.TimeFormatTypes.Samples">
+            <summary>Number of waveform-audio samples.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.TimeFormatTypes.Bytes">
+            <summary>Current byte offset from beginning of the file.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.TimeFormatTypes.Smpte">
+            <summary>Society of Motion Picture and Television Engineers (SMPTE) time.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.TimeFormatTypes.Midi">
+            <summary>MIDI time.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.TimeFormatTypes.Ticks">
+            <summary>Ticks within a MIDI stream.</summary>
+        </member>
+        <member name="T:CannedBytes.Midi.UnmanagedMemoryAccessor">
+            <summary>
+            A helper class that allows randomly accessing unmanaged memory.
+            </summary>
+        </member>
+        <member name="F:CannedBytes.Midi.UnmanagedMemoryAccessor.memory">
+            <summary>A pointer to the unmanaged memory.</summary>
+        </member>
+        <member name="F:CannedBytes.Midi.UnmanagedMemoryAccessor.length">
+            <summary>The length in bytes of the unmanaged memory.</summary>
+        </member>
+        <member name="M:CannedBytes.Midi.UnmanagedMemoryAccessor.#ctor(System.IntPtr,System.Int64)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="memory">A pointer to the start of the memory block.</param>
+            <param name="length">The length in bytes of the memory block.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.UnmanagedMemoryAccessor.WriteIntPtrAt(System.Int32,System.IntPtr)">
+            <summary>
+            Writes a <paramref name="value"/> to the specified <paramref name="byteOffset"/>.
+            </summary>
+            <param name="byteOffset">An offset from the start of the memory block where the writing should start.
+            Make sure the <paramref name="byteOffset"/> is properly aligned (usually 16-bits).</param>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.UnmanagedMemoryAccessor.WriteUintAt(System.Int32,System.UInt32)">
+            <summary>
+            Writes a <paramref name="value"/> to the specified <paramref name="byteOffset"/>.
+            </summary>
+            <param name="byteOffset">An offset from the start of the memory block where the writing should start.
+            Make sure the <paramref name="byteOffset"/> is properly aligned (usually 16-bits).</param>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.UnmanagedMemoryAccessor.ReadUintAt(System.Int32)">
+            <summary>
+            Reads a unsigned integer from the memory block at the <paramref name="byteOffset"/>.
+            </summary>
+            <param name="byteOffset">An offset from the start of the memory block where the writing should start.
+            Make sure the <paramref name="byteOffset"/> is properly aligned (usually 16-bits).</param>
+            <returns>Returns the value.</returns>
+        </member>
+        <member name="M:CannedBytes.Midi.UnmanagedMemoryAccessor.ValidateAccess(System.Int32,System.Int32)">
+            <summary>
+            Throws an exception when the memory block bounds are about to be violated.
+            </summary>
+            <param name="offset">Must be greater than or equal to zero.</param>
+            <param name="size">Must be greater than zero.</param>
+        </member>
+        <member name="M:CannedBytes.Midi.UnmanagedMemoryAccessor.Clear">
+            <summary>
+            Zero-outs the memory block.
+            </summary>
+        </member>
+    </members>
+</doc>

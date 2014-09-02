@@ -46,7 +46,6 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
-    <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -65,23 +64,25 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jacobi.Vst.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\VST.NET\AnyCPU\Release\Jacobi.Vst.Core.dll</HintPath>
+    <Reference Include="Jacobi.Vst.Core">
+      <HintPath>Dependencies\x86\Jacobi.Vst.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Jacobi.Vst.Framework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\VST.NET\AnyCPU\Release\Jacobi.Vst.Framework.dll</HintPath>
+    <Reference Include="Jacobi.Vst.Framework">
+      <HintPath>Dependencies\x86\Jacobi.Vst.Framework.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Jacobi.Vst.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fbcf2896e9f57db0, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\VST.NET\x64\Release\Jacobi.Vst.Interop.dll</HintPath>
+    <Reference Include="Jacobi.Vst.Interop">
+      <HintPath>Dependencies\x86\Jacobi.Vst.Interop.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="LTCSharp">
-      <HintPath>Dependencies\LTCSharp\LTCSharp.dll</HintPath>
+      <HintPath>Dependencies\x86\LTCSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NAudio">
-      <HintPath>Dependencies\NAudio\NAudio.dll</HintPath>
+      <HintPath>Dependencies\AnyCPU\NAudio\NAudio.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
@@ -95,22 +96,24 @@
     <Reference Include="System.Linq" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="VVVV.Core">
-      <HintPath>packages\VVVV.Core.32.2.0-develop-330\lib\net40\VVVV.Core.dll</HintPath>
+      <HintPath>packages\VVVV.Core.32.2.0-develop-468\lib\net40\VVVV.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Nodes.Generic">
-      <HintPath>packages\VVVV.Nodes.Generic.32.2.0-develop-330\build\net40\lib\x86\VVVV.Nodes.Generic.dll</HintPath>
+      <HintPath>packages\VVVV.Nodes.Generic.32.2.0-develop-468\build\net40\lib\x64\VVVV.Nodes.Generic.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.PluginInterfaces">
-      <HintPath>packages\VVVV.PluginInterfaces.32.2.0-develop-330\build\net40\lib\x86\VVVV.PluginInterfaces.dll</HintPath>
+      <HintPath>packages\VVVV.PluginInterfaces.32.2.0-develop-468\build\net40\lib\x86\VVVV.PluginInterfaces.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Utils">
-      <HintPath>packages\VVVV.Utils.32.2.0-develop-330\lib\net40\VVVV.Utils.dll</HintPath>
-    </Reference>
-    <Reference Include="VVVV.UtilsIL">
-      <HintPath>packages\VVVV.UtilsIL.32.2.0-develop-330\lib\net40\VVVV.UtilsIL.dll</HintPath>
+      <HintPath>packages\VVVV.Utils.32.2.0-develop-468\lib\net40\VVVV.Utils.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="yeppp-clr">
-      <HintPath>Dependencies\Yeppp\yeppp-clr.dll</HintPath>
+      <HintPath>Dependencies\AnyCPU\yeppp-clr.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -184,24 +187,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dependencies\MidiRead.dll">
-      <Link>MidiRead.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Dependencies\r8brain-free-src-1.5-dll\Win32\r8bsrc.dll">
-      <Link>r8bsrc.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Dependencies\Yeppp\x86\yeppp.dll">
-      <Link>yeppp.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <Import Project="packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets" Condition="Exists('packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets')" />
-  <Import Project="packages\VVVV.PluginInterfaces.32.2.0-develop-330\build\net40\VVVV.PluginInterfaces.targets" Condition="Exists('packages\VVVV.PluginInterfaces.32.2.0-develop-330\build\net40\VVVV.PluginInterfaces.targets')" />
-  <Import Project="packages\VVVV.Utils3rdParty.32.2.0-develop-330\build\net40\VVVV.Utils3rdParty.targets" Condition="Exists('packages\VVVV.Utils3rdParty.32.2.0-develop-330\build\net40\VVVV.Utils3rdParty.targets')" />
-  <Import Project="packages\VVVV.Hosting.32.2.0-develop-330\build\net40\VVVV.Hosting.targets" Condition="Exists('packages\VVVV.Hosting.32.2.0-develop-330\build\net40\VVVV.Hosting.targets')" />
-  <Import Project="packages\VVVV.Nodes.Generic.32.2.0-develop-330\build\net40\VVVV.Nodes.Generic.targets" Condition="Exists('packages\VVVV.Nodes.Generic.32.2.0-develop-330\build\net40\VVVV.Nodes.Generic.targets')" />
+  <Import Project="packages\VVVV.PluginInterfaces.32.2.0-develop-468\build\net40\VVVV.PluginInterfaces.targets" Condition="Exists('packages\VVVV.PluginInterfaces.32.2.0-develop-468\build\net40\VVVV.PluginInterfaces.targets')" />
+  <Import Project="packages\VVVV.Utils3rdParty.32.2.0-develop-468\build\net40\VVVV.Utils3rdParty.targets" Condition="Exists('packages\VVVV.Utils3rdParty.32.2.0-develop-468\build\net40\VVVV.Utils3rdParty.targets')" />
+  <Import Project="packages\VVVV.Nodes.Generic.32.2.0-develop-468\build\net40\VVVV.Nodes.Generic.targets" Condition="Exists('packages\VVVV.Nodes.Generic.32.2.0-develop-468\build\net40\VVVV.Nodes.Generic.targets')" />
+  <Import Project="packages\VVVV.Hosting.32.2.0-develop-468\build\net40\VVVV.Hosting.targets" Condition="Exists('packages\VVVV.Hosting.32.2.0-develop-468\build\net40\VVVV.Hosting.targets')" />
 </Project>

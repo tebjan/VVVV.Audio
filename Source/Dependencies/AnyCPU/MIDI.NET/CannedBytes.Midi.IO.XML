@@ -1,0 +1,398 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>CannedBytes.Midi.IO</name>
+  </assembly>
+  <members>
+    <member name="T:CannedBytes.Midi.IO.MidiFileEvent">
+      <summary>
+            A MidiFileEvent couples a (delta/absolute) time to a midi message.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileEvent.DeltaTime">
+      <summary>
+            A delta time value counting from the previous event.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileEvent.AbsoluteTime">
+      <summary>
+            A absolute time value counting from the 'start'.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileEvent.Message">
+      <summary>
+            The midi message - can be cast to a more-specific class type.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.IO.MidiFileEventType">
+      <summary>
+            The types of events that can be found in a midi file.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileEventType.None">
+      <summary>
+            Not initialized / unknown.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileEventType.Event">
+      <summary>
+            Short midi event.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileEventType.SystemExclusive">
+      <summary>
+            A System Exclusive message.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileEventType.SystemExclusiveContinuation">
+      <summary>
+            A System Exclusive message continuation.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileEventType.Meta">
+      <summary>
+            A meta event.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.IO.MidiFileFormat">
+      <summary>
+            The different file formats for midi files.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileFormat.SingleTrack">
+      <summary>
+            The midi file contains a single track.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileFormat.MultipleTracks">
+      <summary>
+            The midi file contains multiple tracks.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileFormat.MultiplePatterns">
+      <summary>
+            The midi file contains multiple songs.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.IO.MidiFileStreamReader">
+      <summary>
+            Reads the midi file track information and provides this info as structured data.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.#ctor(System.IO.Stream)">
+      <summary>
+            Constructs a new instance on the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <requires description="The stream does not support reading." csharp="stream.CanRead" vb="stream.CanRead">stream.CanRead</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.ReadNextEvent">
+      <summary>
+            Reads the next event in the midi file.
+            </summary>
+      <returns>Returns true if successful.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.ReadDeltaTime">
+      <summary>
+            Reads the delta-time for the midi event.
+            </summary>
+      <returns>Returns true when successful.</returns>
+      <remarks>Sets the <see cref="P:DeltaTime" /> and <see cref="P:CannedBytes.Midi.IO.MidiFileStreamReader.AbsoluteTime" /> properties.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.ReadEvent(System.Byte)">
+      <summary>
+            Reads the event based on the <paramref name="status" />.
+            </summary>
+      <param name="status">First byte of the tot event.</param>
+      <returns>Returns true when successful.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.ReadSysEx(System.Byte)">
+      <summary>
+            Reads the sysex event.
+            </summary>
+      <param name="status">The first byte of the sysex message.</param>
+      <returns>Returns true when successful.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.ReadMetaEvent">
+      <summary>
+            Reads a meta event.
+            </summary>
+      <returns>Returns true when successful.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.SafeReadData(System.Int32)">
+      <summary>
+            Used to read bytes into <see cref="P:Data" />.
+            </summary>
+      <param name="index">The index into <see cref="P:CannedBytes.Midi.IO.MidiFileStreamReader.Data" /> where to start.</param>
+      <returns>Returns the number of bytes read.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.SafeRead(System.Byte[],System.Int32,System.UInt32)">
+      <summary>
+            Reads a number of bytes <paramref name="length" /> into the <paramref name="buffer" /> starting at <paramref name="index" />.
+            </summary>
+      <param name="buffer">Must not be null and large enough for <paramref name="length" /> bytes.</param>
+      <param name="index">Index into the <paramref name="buffer" /> where to start.</param>
+      <param name="length">The total length to write into the <paramref name="buffer" />.</param>
+      <returns>Returns the number of bytes read.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.SafeReadByte">
+      <summary>
+            Reads a single byte and throws an <see cref="T:System.IO.EndOfStreamException" /> if the stream is at the end.
+            </summary>
+      <returns>Returns the value read.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.ReadVariableLength">
+      <summary>
+            Reads a variable length value.
+            </summary>
+      <returns>Returns the value read.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamReader.Dispose(CannedBytes.DisposeObjectKind)">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileStreamReader.BaseStream">
+      <summary>
+            Gets the file stream that is read.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileStreamReader.EventType">
+      <summary>
+            Gets the type of midi event that was read after a call to <see cref="M:ReadNextEvent" />.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileStreamReader.DeltaTime">
+      <summary>
+            Gets the delta-time for the current midi event.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileStreamReader.AbsoluteTime">
+      <summary>
+            Gets the absolute-time for the current midi event.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileStreamReader.MidiEvent">
+      <summary>
+            Gets the midi event data.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileStreamReader.MetaEvent">
+      <summary>
+            Gets the meta event type.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileStreamReader.Data">
+      <summary>
+            Gets the data for a SysEx or meta event.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.IO.MidiFileStreamWriter">
+      <summary>
+            Writes a midi track to a stream.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileStreamWriter.writer">
+      <summary>An internal binary writer.</summary>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamWriter.#ctor(System.IO.Stream)">
+      <summary>
+            Constructs a new instance.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+      <requires description="The stream does not support writing." csharp="stream.CanWrite" vb="stream.CanWrite">stream.CanWrite</requires>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MidiFileStreamWriter.lastStatus">
+      <summary>Previous status of a midi event used for running status.</summary>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamWriter.WriteMidiEvent(System.Int64,System.Int32)">
+      <summary>
+            Writes a midi (short) event to the stream.
+            </summary>
+      <param name="deltaTime">Must be greater or equal to zero.</param>
+      <param name="data">The midi short event data.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamWriter.WriteMetaEvent(System.Int64,CannedBytes.Midi.Message.MidiMetaType,System.Byte[])">
+      <summary>
+            Writes a meta event to the stream.
+            </summary>
+      <param name="deltaTime">Must be greater or equal to zero.</param>
+      <param name="type">The type of meta event.</param>
+      <param name="data">The data for the meta event. Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamWriter.WriteSysExEvent(System.Int64,System.Byte[],System.Boolean)">
+      <summary>
+            Writes a system exclusive message to the stream.
+            </summary>
+      <param name="deltaTime">Must be greater or equal to zero.</param>
+      <param name="data">The message data. It is assumed that NO sysex markers are present in the data. Must not be null.</param>
+      <param name="isContinuation">An indication if this message is a continuation of a previous sysex message.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamWriter.WriteVariableLength(System.UInt32)">
+      <summary>
+            Writes a variable length <paramref name="value" />.
+            </summary>
+      <param name="value">The value to write.</param>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiFileStreamWriter.Dispose(CannedBytes.DisposeObjectKind)">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiFileStreamWriter.BaseStream">
+      <summary>
+            Gets the stream that is written to.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.IO.MidiMessageOutStreamWriter">
+      <summary>
+            Writes midi messages to an out-stream buffer.
+            </summary>
+      <remarks>Uses the <see cref="T:CannedBytes.Midi.IO.MidiStreamEventWriter" /> internally.</remarks>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiMessageOutStreamWriter.#ctor(CannedBytes.Midi.MidiBufferStream)">
+      <summary>
+            Constructs a new instance on the <paramref name="stream" />.
+            </summary>
+      <param name="stream">Must not be null.</param>
+      <requires csharp="stream != null" vb="stream &lt;&gt; Nothing">stream != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiMessageOutStreamWriter.CanWrite(CannedBytes.Midi.Message.IMidiMessage)">
+      <summary>
+            Indicates if the stream has enough room to write the specified <paramref name="message" /> to the stream.
+            </summary>
+      <param name="message">Must no be null.</param>
+      <returns>Returns true if the message can be written.</returns>
+      <requires csharp="message != null" vb="message &lt;&gt; Nothing">message != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiMessageOutStreamWriter.Write(CannedBytes.Midi.Message.IMidiMessage,System.Int32)">
+      <summary>
+            Writes a new event to the stream for the <paramref name="message" />.
+            </summary>
+      <param name="message">Must not be null.</param>
+      <param name="deltaTime">The delta-time for the event.</param>
+      <requires csharp="message != null" vb="message &lt;&gt; Nothing">message != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiMessageOutStreamWriter.Write(CannedBytes.Midi.Message.MidiShortMessage,System.Int32)">
+      <summary>
+            Writes a new event to the stream for the <paramref name="message" />.
+            </summary>
+      <param name="message">Must not be null.</param>
+      <param name="deltaTime">The delta-time for the event.</param>
+      <requires csharp="message != null" vb="message &lt;&gt; Nothing">message != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiMessageOutStreamWriter.Write(CannedBytes.Midi.Message.MidiLongMessage,System.Int32)">
+      <summary>
+            Writes a new event to the stream for the <paramref name="message" />.
+            </summary>
+      <param name="message">Must not be null.</param>
+      <param name="deltaTime">The delta-time for the event.</param>
+      <requires csharp="message != null" vb="message &lt;&gt; Nothing">message != null</requires>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MidiMessageOutStreamWriter.Dispose(CannedBytes.DisposeObjectKind)">
+      <inheritdocs />
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiMessageOutStreamWriter.BaseStream">
+      <summary>
+            Gets a reference to the buffer stream that is written to.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MidiMessageOutStreamWriter.StreamWriter">
+      <summary>
+            Gets the stream event writer.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.IO.MThdChunk">
+      <summary>
+            Represents the Midi Header chunk in a midi file.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MThdChunk.Format">
+      <summary>
+            The file format of the midi file.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MThdChunk.NumberOfTracks">
+      <summary>
+            The number of tracks stored in the midi file.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MThdChunk.TimeDivision">
+      <summary>
+            The time division used for timing of the midi events.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.IO.MTrkChunk">
+      <summary>
+            Represents the midi track chunk in a midi file.
+            </summary>
+      <remarks>Although this class is marked as a chunk, it will typically
+            be instantiated by the <see cref="T:MTrkChunkHandler" /> only.</remarks>
+    </member>
+    <member name="P:CannedBytes.Midi.IO.MTrkChunk.Events">
+      <summary>
+            A list of midi events that make up the track.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Midi.IO.MTrkChunkHandler">
+      <summary>
+            A custom chunk handler for the track chunk in a midi file.
+            </summary>
+      <remarks>It reads the midi track chunk data and fills a <see cref="T:CannedBytes.Midi.IO.MTrkChunk" /> instance.</remarks>
+    </member>
+    <member name="F:CannedBytes.Midi.IO.MTrkChunkHandler.midiMessageFactory">
+      <summary>
+            A midi message factory for pooled short midi messages.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MTrkChunkHandler.Read(CannedBytes.Media.IO.ChunkFileContext)">
+      <summary>
+            Reads the midi track from the midi file.
+            </summary>
+      <param name="context">File context of the midi file being read. Must not be null.</param>
+      <returns>Returns the custom chunk object containing the data that was read.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MTrkChunkHandler.CreateMetaEvent(System.Int64,System.Int64,System.Byte,System.Byte[])">
+      <summary>
+            Creates a new midi event that represents a meta event.
+            </summary>
+      <param name="absoluteTime">The absolute-time of the event.</param>
+      <param name="deltaTime">The delta-time of the event.</param>
+      <param name="metaType">The type of meta event.</param>
+      <param name="data">The data for the meta event.</param>
+      <returns>Never returns null.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MTrkChunkHandler.CreateMidiEvent(System.Int64,System.Int64,System.Int32)">
+      <summary>
+            Creates a new midi event that represents a midi event.
+            </summary>
+      <param name="absoluteTime">The absolute-time of the event.</param>
+      <param name="deltaTime">The delta-time of the event.</param>
+      <param name="midiMsg">The midi event data.</param>
+      <returns>Never returns null.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MTrkChunkHandler.CreateSysExEvent(System.Int64,System.Int64,System.Byte[],System.Boolean)">
+      <summary>
+            Creates a new midi event that represents a system exclusive event.
+            </summary>
+      <param name="absoluteTime">The absolute-time of the event.</param>
+      <param name="deltaTime">The delta-time of the event.</param>
+      <param name="data">The data for the sysex event.</param>
+      <param name="isContinuation">An indication if the sysex data is a continuation on a previous message.</param>
+      <returns>Never returns null.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MTrkChunkHandler.CanWrite(System.Object)">
+      <summary>
+            Indicates if the chunk <paramref name="instance" /> can be written.
+            </summary>
+      <param name="instance">Must be a <see cref="T:CannedBytes.Midi.IO.MTrkChunk" />.</param>
+      <returns>Returns true if there is a good chance <see cref="M:CannedBytes.Midi.IO.MTrkChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)" /> will
+            successfully write the <paramref name="instance" /> to the file stream.</returns>
+    </member>
+    <member name="M:CannedBytes.Midi.IO.MTrkChunkHandler.Write(CannedBytes.Media.IO.ChunkFileContext,System.Object)">
+      <summary>
+            Writes the chunk object <paramref name="instance" /> to the stream.
+            </summary>
+      <param name="context">Must not be null.</param>
+      <param name="instance">Must not be null.</param>
+    </member>
+  </members>
+</doc>

@@ -1,0 +1,397 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>CannedBytes.Media</name>
+  </assembly>
+  <members>
+    <member name="T:CannedBytes.Media.NativeMethods">
+      <summary>
+            P/Invoke declarations for Win32 timer API.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.NativeMethods.TIME_KILL_SYNCHRONOUS">
+      <summary>Flags to not call the <see cref="T:CannedBytes.Media.NativeMethods.TimerProc" /> when the timer is closed.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.NativeMethods.TIME_CALLBACK_FUNCTION">
+      <summary>Not used. For documentation.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.NativeMethods.MMSYSERR_INVALPARAM">
+      <summary>Error code for an invalid parameter.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.NativeMethods.TIMERR_NOERROR">
+      <summary>Error code for no error.</summary>
+    </member>
+    <member name="M:CannedBytes.Media.NativeMethods.timeGetDevCaps(CannedBytes.Media.TimerCaps@,System.UInt32)">
+      <summary>
+            Retrieves the timer capabilities.
+            </summary>
+      <param name="caps">A reference to the <see cref="T:CannedBytes.Media.TimerCaps" /> structure.</param>
+      <param name="sizeOfTimerCaps">The size of the structure in bytes.</param>
+      <returns>Returns an error code.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.NativeMethods.timeKillEvent(System.UInt32)">
+      <summary>
+            Kills the timer.
+            </summary>
+      <param name="id">The identification of the timer instance.</param>
+      <returns>Returns an error code.</returns>
+    </member>
+    <member name="M:CannedBytes.Media.NativeMethods.timeSetEvent(System.UInt32,System.UInt32,CannedBytes.Media.NativeMethods.TimerProc,System.IntPtr,System.UInt32)">
+      <summary>
+            The timeSetEvent function starts a specified timer event. The multimedia timer runs in its own thread.
+            After the event is activated, it calls the specified callback function or sets or pulses the specified event object.
+            </summary>
+      <param name="delay">Event delay, in milliseconds. If this value is not in the range
+            of the minimum and maximum event delays supported by the timer, the function returns an error.</param>
+      <param name="resolution">Resolution of the timer event, in milliseconds. The resolution increases with
+            smaller values; a resolution of 0 indicates periodic events should occur with the greatest possible accuracy.
+            To reduce system overhead, however, you should use the maximum value appropriate for your application.</param>
+      <param name="proc">Pointer to a callback function that is called once upon expiration of a single event or
+            periodically upon expiration of periodic events.</param>
+      <param name="user">User-supplied callback data.</param>
+      <param name="mode">Timer event type.</param>
+      <returns>Returns an identifier for the timer event if successful or an error otherwise. This function returns
+            NULL if it fails and the timer event was not created. This identifier is also passed to the callback function.</returns>
+    </member>
+    <member name="F:CannedBytes.Media.NativeMethods.TimerCapsSize">
+      <summary>The size in bytes of the <see cref="T:CannedBytes.Media.TimerCaps" /> structure.</summary>
+    </member>
+    <member name="T:CannedBytes.Media.NativeMethods.TimerProc">
+      <summary>
+            Called by the timer API when the timer expires.
+            </summary>
+      <param name="id">The id of the timer instance.</param>
+      <param name="msg">Not used.</param>
+      <param name="user">A user defined parameter.</param>
+      <param name="parameter1">Not used.</param>
+      <param name="parameter2">Not used.</param>
+    </member>
+    <member name="T:CannedBytes.Media.Properties.Resources">
+      <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.Properties.Resources.ResourceManager">
+      <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.Properties.Resources.Culture">
+      <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.Properties.Resources.Timer_FailedToGetCaps">
+      <summary>
+              Looks up a localized string similar to Failed to retrieve timer capabilities in static constructor of Timer..
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.Properties.Resources.Timer_FailedToKillTimer">
+      <summary>
+              Looks up a localized string similar to Failed to close the timer in Dispose..
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.TickTimer">
+      <summary>
+            Increments a <see cref="P:CannedBytes.Media.TickTimer.Ticks" /> count each time the timer fires.
+            </summary>
+      <remarks>The timer is created with the highest possible <see cref="P:Resolution" />
+            and the minimal <see cref="P:Period" />.</remarks>
+    </member>
+    <member name="T:CannedBytes.Media.Timer">
+      <summary>
+            An abstract base class for implementing timers.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.Timer.instanceHandle">
+      <summary>A handle to this instance used in the callback procedure.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.Timer.timerId">
+      <summary>The unique id of this timer instance.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.Timer.timerCaps">
+      <summary>Timer capabilities.</summary>
+    </member>
+    <member name="M:CannedBytes.Media.Timer.LoadTimerCaps">
+      <summary>
+            Fetches the timer capabilities.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.Timer.#ctor(CannedBytes.Media.TimerMode)">
+      <summary>
+            Constructs a new instance.
+            </summary>
+      <param name="timerMode">The mode of the timer.</param>
+    </member>
+    <member name="F:CannedBytes.Media.Timer.period">
+      <summary>Backing field for the <see cref="P:CannedBytes.Media.Timer.Period" /> property.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.Timer.resolution">
+      <summary>Backing field for the <see cref="P:CannedBytes.Media.Timer.Resolution" /> property.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.Timer.mode">
+      <summary>Backing field for the <see cref="P:CannedBytes.Media.Timer.Mode" /> property.</summary>
+    </member>
+    <member name="M:CannedBytes.Media.Timer.StartTimer">
+      <summary>
+            Starts the timer.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.Timer.StopTimer">
+      <summary>
+            Stops the timer, no effect if timer is not running.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.Timer.ToIntPtr">
+      <summary>
+            Returns an <see cref="T:System.IntPtr" /> that represents the instance's this reference.
+            </summary>
+      <returns>Returns the instance <see cref="T:System.IntPtr" />.</returns>
+      <remarks>Dereference using <see cref="T:System.Runtime.InteropServices.GCHandle" />.</remarks>
+    </member>
+    <member name="M:CannedBytes.Media.Timer.Dispose(CannedBytes.DisposeObjectKind)">
+      <summary>
+            Disposes the object instance.
+            </summary>
+      <param name="disposeKind">The type if resources to dispose.</param>
+    </member>
+    <member name="M:CannedBytes.Media.Timer.ThrowIfRunning">
+      <summary>
+            Throws an exception if the timer is running.
+            </summary>
+      <exception cref="T:System.InvalidOperationException">Thrown when the timer is running.</exception>
+    </member>
+    <member name="M:CannedBytes.Media.Timer.OnTimerExpired">
+      <summary>
+            Derived classes override this method which is called when the timer fires.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.Timer.TimerProcedure">
+      <summary>
+            We maintain a reference to the callback procedure so the GC wont take it.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.Timer.OnTimerCallback(System.UInt32,System.UInt32,System.IntPtr,System.IntPtr,System.IntPtr)">
+      <summary>
+            Called back from the Win32 API when the timer fires.
+            </summary>
+      <param name="timerId">The id of the timer.</param>
+      <param name="msg">Not used.</param>
+      <param name="userData">A reference to the <see cref="T:CannedBytes.Media.Timer" /> object.</param>
+      <param name="parameter1">Not used.</param>
+      <param name="parameter2">Not used.</param>
+    </member>
+    <member name="P:CannedBytes.Media.Timer.MaxPeriod">
+      <summary>
+            Gets the maximum period time in milliseconds.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.Timer.MinPeriod">
+      <summary>
+            Gets the minimum period time in milliseconds.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.Timer.IsRunning">
+      <summary>
+            Gets an indication if the timer is running (true) or stopped (false).
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.Timer.Period">
+      <summary>
+            Gets or sets the period (recurrence) in milliseconds the timer will fire.
+            </summary>
+      <remarks>
+            The value has to lie between <see cref="P:CannedBytes.Media.Timer.MinPeriod" /> and <see cref="P:CannedBytes.Media.Timer.MaxPeriod" />.
+            Has no effect when the <see cref="P:CannedBytes.Media.Timer.Mode" /> is set to <see cref="F:CannedBytes.Media.TimerMode.OneShot" />.
+            </remarks>
+    </member>
+    <member name="P:CannedBytes.Media.Timer.Resolution">
+      <summary>
+            Gets or sets the resolution of the timer in milliseconds.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.Timer.Mode">
+      <summary>
+            Gets or sets the mode of the timer.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.TickTimer.#ctor">
+      <summary>
+            Constructs a new instance as a periodic timer.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.TickTimer.OnTimerExpired">
+      <summary>
+            Increments the <see cref="P:CannedBytes.Media.TickTimer.Ticks" /> count (thread-safe).
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.TickTimer.ticks">
+      <summary>Backing field for the <see cref="P:CannedBytes.Media.TickTimer.Ticks" /> property.</summary>
+    </member>
+    <member name="M:CannedBytes.Media.TickTimer.Reset">
+      <summary>
+            Resets the tick count to zero. Timer must be stopped.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.TickTimer.Ticks">
+      <summary>
+            Gets the tick count.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.CallbackTimer">
+      <summary>
+            Implements a timer that calls back when it fires.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.CallbackTimer.CallbackEventName">
+      <summary>Event name for the callback event.</summary>
+    </member>
+    <member name="F:CannedBytes.Media.CallbackTimer.callbacks">
+      <summary>Backing field for the callback.</summary>
+    </member>
+    <member name="M:CannedBytes.Media.CallbackTimer.#ctor(CannedBytes.Media.TimerMode)">
+      <summary>
+            Constructs a new instance.
+            </summary>
+      <param name="mode">The timer mode.</param>
+    </member>
+    <member name="M:CannedBytes.Media.CallbackTimer.AddCallbackHandler(System.EventHandler,System.Int32,System.Windows.Threading.Dispatcher)">
+      <summary>
+            Adds a callback handler to the timer with specified <paramref name="divider" /> and <paramref name="dispatcher" />.
+            </summary>
+      <param name="handler">Must not be null.</param>
+      <param name="divider">A divider used to lower callback frequency. Use zero (0) or one (1) when not used.</param>
+      <param name="dispatcher">An optional dispatcher object to synchronize callbacks to the UI thread. Can be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.CallbackTimer.InvokeEventHandler(CannedBytes.EventHandlerRegistration{CannedBytes.Media.CallbackTimer.CallbackRegistration})">
+      <summary>
+            Manages counting down dividers and invoking handlers.
+            </summary>
+      <param name="registration">The event handler callback registration. Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.CallbackTimer.InvokeHandlerDirect(CannedBytes.EventHandlerRegistration{CannedBytes.Media.CallbackTimer.CallbackRegistration})">
+      <summary>
+            Directly invokes the handler (no synchronization).
+            </summary>
+      <param name="registration">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.CallbackTimer.OnStarted">
+      <summary>
+            Helper to call the <see cref="E:CannedBytes.Media.CallbackTimer.Started" /> event.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.CallbackTimer.OnStopped">
+      <summary>
+            Helper to call the <see cref="E:CannedBytes.Media.CallbackTimer.Stopped" /> event.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.CallbackTimer.OnTimerExpired">
+      <summary>
+            Called when the timer fires, invokes the callback.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.CallbackTimer.StartTimer">
+      <summary>
+            Starts the timer.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.CallbackTimer.StopTimer">
+      <summary>
+            Stops the timer, no effect when timer is not running.
+            </summary>
+    </member>
+    <member name="E:CannedBytes.Media.CallbackTimer.Callback">
+      <summary>
+            The 'normal' callback event.
+            </summary>
+    </member>
+    <member name="E:CannedBytes.Media.CallbackTimer.Started">
+      <summary>
+            Event that fires just before the timer starts.
+            </summary>
+    </member>
+    <member name="E:CannedBytes.Media.CallbackTimer.Stopped">
+      <summary>
+            Event that fires just after the timer was stopped.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.CallbackTimer.CallbackRegistration">
+      <summary>
+            Callback information.
+            </summary>
+    </member>
+    <member name="P:CannedBytes.Media.CallbackTimer.CallbackRegistration.Dispatcher">
+      <summary>An optional dispatcher to synchronize calling into the UI thread.</summary>
+    </member>
+    <member name="P:CannedBytes.Media.CallbackTimer.CallbackRegistration.DividerCount">
+      <summary>A divider that is used for lower callback frequency.</summary>
+    </member>
+    <member name="P:CannedBytes.Media.CallbackTimer.CallbackRegistration.RunningDivider">
+      <summary>The current running divider value.</summary>
+    </member>
+    <member name="P:CannedBytes.Media.CallbackTimer.CallbackRegistration.LastError">
+      <summary>Last error that occurred during handler invocation.</summary>
+    </member>
+    <member name="T:CannedBytes.Media.TimerCaps">
+      <summary>
+            Unmanaged structure.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.TimerCaps.PeriodMin">
+      <summary>
+            The maximum period in milliseconds.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.TimerCaps.PeriodMax">
+      <summary>
+            The minimum period in milliseconds.
+            </summary>
+    </member>
+    <member name="T:CannedBytes.Media.TimerException">
+      <summary>
+            An exception used to report timer-related errors.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.TimerException.#ctor">
+      <summary>
+            Constructs a new default instance.
+            </summary>
+    </member>
+    <member name="M:CannedBytes.Media.TimerException.#ctor(System.String)">
+      <summary>
+            Constructs a new instance with a <paramref name="message" />.
+            </summary>
+      <param name="message">Must not be null or empty.</param>
+    </member>
+    <member name="M:CannedBytes.Media.TimerException.#ctor(System.String,System.Exception)">
+      <summary>
+            Constructs a new instance with a <paramref name="message" /> and an <paramref name="inner" /> exception.
+            </summary>
+      <param name="message">Must not be null or empty.</param>
+      <param name="inner">Must not be null.</param>
+    </member>
+    <member name="M:CannedBytes.Media.TimerException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary>
+            Serialization constructor.
+            </summary>
+      <param name="info">Must not be null.</param>
+      <param name="context">Must not be null.</param>
+    </member>
+    <member name="T:CannedBytes.Media.TimerMode">
+      <summary>
+            The mode in which the timer operates.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.TimerMode.OneShot">
+      <summary>
+            The timer is fired only once.
+            </summary>
+    </member>
+    <member name="F:CannedBytes.Media.TimerMode.Periodic">
+      <summary>
+            The timer is fired periodically.
+            </summary>
+    </member>
+  </members>
+</doc>
