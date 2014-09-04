@@ -41,7 +41,7 @@ namespace VVVV.Nodes
 			
 			if(!string.IsNullOrEmpty(filename) && File.Exists(filename))
 			{
-				FAudioFile = new AudioFileReaderVVVV(filename, 44100);
+				FAudioFile = new AudioFileReaderVVVV(filename);
 				SetOutputCount(FAudioFile.WaveFormat.Channels);
 			}
 			else
@@ -202,8 +202,8 @@ namespace VVVV.Nodes
 
 		protected override void SetParameters(int i, FileStreamSignal instance)
 		{
-			if(FFilename.IsChanged)
-			{
+		    if(FFilename.IsChanged && (instance.FAudioFile == null || instance.FAudioFile.FFileName != FFilename[i]))
+			{ 
 				instance.OpenFile(FFilename[i]);
                 
                 if (instance.FAudioFile == null)

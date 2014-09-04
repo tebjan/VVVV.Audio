@@ -38,7 +38,7 @@ namespace VVVV.Nodes
 			
 			if(!string.IsNullOrEmpty(filename) && File.Exists(filename))
 			{
-				FAudioFile = new AudioFileReaderVVVV(filename, 44100);
+				FAudioFile = new AudioFileReaderVVVV(filename);
 				SetOutputCount(FAudioFile.WaveFormat.Channels);
 			}
 			else

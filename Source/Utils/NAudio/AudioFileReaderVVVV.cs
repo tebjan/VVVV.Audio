@@ -16,7 +16,7 @@ namespace VVVV.Audio
     /// </summary>
     public class AudioFileReaderVVVV : WaveStream, ISampleProvider
     {
-        private string fileName;
+        public string FFileName;
         private WaveStream FReaderStream; // the waveStream which we will use for all positioning
         private VolumeSampleProvider FSampleChannel; // sample provider that gives us most stuff we need
         private readonly int FDestBytesPerSample;
@@ -77,11 +77,11 @@ namespace VVVV.Audio
         /// Initializes a new instance of AudioFileReader
         /// </summary>
         /// <param name="fileName">The file to open</param>
-        public AudioFileReaderVVVV(string fileName, int desiredSamplerate)
+        public AudioFileReaderVVVV(string fileName)
         {
             FLockObject = new object();
-            this.fileName = fileName;
-            CreateReaderStream(fileName, desiredSamplerate);
+            this.FFileName = fileName;
+            CreateReaderStream(fileName);
             FSourceBytesPerSample = (FReaderStream.WaveFormat.BitsPerSample / 8) * FReaderStream.WaveFormat.Channels;
             
             this.FSampleChannel = new VolumeSampleProvider(FReaderStream.ToSampleProvider());
@@ -94,7 +94,7 @@ namespace VVVV.Audio
         /// and ensuring we are in PCM format
         /// </summary>
         /// <param name="fileName">File Name</param>
-        private void CreateReaderStream(string fileName, int desiredSamplerate, bool alwaysUseMediaFoundationReader = false)
+        private void CreateReaderStream(string fileName, bool alwaysUseMediaFoundationReader = false)
         {
         	if(alwaysUseMediaFoundationReader)
         	{
@@ -121,7 +121,7 @@ namespace VVVV.Audio
 
                     OriginalFileFormat = (FReaderStream as Mp3FileReader).Mp3WaveFormat;
         		}
-        		else if (fileName.EndsWith(".aiff") || fileName.EndsWith(".aif"))
+        		else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
         		{
         			FReaderStream = new AiffFileReader(fileName);
 
