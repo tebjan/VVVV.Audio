@@ -964,6 +964,13 @@
             <param name="output">Filled with the speaker arrangement for the plugin outputs.</param>
             <returns>Returns false when not implemented.</returns>
         </member>
+        <member name="M:Jacobi.Vst.Core.IVstPluginCommands23.GetNextPlugin(System.String@)">
+            <summary>
+            Retrieves the unique plugin Id and the name of the next (sub) plugin.
+            </summary>
+            <param name="name">Filled with the name of the next sub-plugin</param>
+            <returns>Returns the unique plugin id.</returns>
+        </member>
         <member name="M:Jacobi.Vst.Core.IVstPluginCommands23.StartProcess">
             <summary>
             Called just before the first call to Process is made.
@@ -1611,6 +1618,12 @@
             </summary>
             <param name="input">Passed with the forwarded call and back.</param>
             <param name="output">Passed with the forwarded call and back.</param>
+            <returns>Returns the value returned from the forwarded call.</returns>
+        </member>
+        <member name="M:Jacobi.Vst.Core.Host.VstPluginCommandAdapter.GetNextPlugin(System.String@)">
+            <summary>
+            This call is forwarded to the <see cref="T:Jacobi.Vst.Core.Plugin.IVstPluginCommandStub"/> implementation.
+            </summary>
             <returns>Returns the value returned from the forwarded call.</returns>
         </member>
         <member name="M:Jacobi.Vst.Core.Host.VstPluginCommandAdapter.StartProcess">
@@ -2706,8 +2719,8 @@
             The title displayed on the dialog.
             </summary>
             <remarks>Fill this field before call the OpenFileSelector method.
-            The number of characters must not exceed 1023.</remarks>
-            <exception cref="T:System.ArgumentException">Thrown when the value exceeds 1023 characters.</exception>
+            The number of characters must not exceed 1024.</remarks>
+            <exception cref="T:System.ArgumentException">Thrown when the value exceeds 1024 characters.</exception>
         </member>
         <member name="P:Jacobi.Vst.Core.VstFileSelect.InitialPath">
             <summary>
@@ -2747,15 +2760,15 @@
             <summary>
             Gets or sets the name of the filter.
             </summary>
-            <remarks>The number of characters must not exceed 127.</remarks>
-            <exception cref="T:System.ArgumentException">Thrown when the value exceeds 127 characters.</exception>
+            <remarks>The number of characters must not exceed 128.</remarks>
+            <exception cref="T:System.ArgumentException">Thrown when the value exceeds 128 characters.</exception>
         </member>
         <member name="P:Jacobi.Vst.Core.VstFileType.Extension">
             <summary>
             Gets or sets the file extension for the file filter.
             </summary>
-            <remarks>The number of characters must not exceed 7.</remarks>
-            <exception cref="T:System.ArgumentException">Thrown when value exceeds 7 characters.</exception>
+            <remarks>The number of characters must not exceed 8.</remarks>
+            <exception cref="T:System.ArgumentException">Thrown when value exceeds 8 characters.</exception>
         </member>
         <member name="T:Jacobi.Vst.Core.VstHostLanguage">
             <summary>
@@ -2922,7 +2935,7 @@
             <param name="noteLength">The length of the note (when the event is a midi note event).</param>
             <param name="noteOffset">The offset of the note.</param>
             <param name="midiData">The additional midi event data.</param>
-            <param name="detune">A detune value. Must lie within [-64,63] range.</param>
+            <param name="detune">A detune value. Should lie within [-64,63] range (not checked).</param>
             <param name="noteOffVelocity">Velocity for when the note is done.</param>
             <param name="isRealtime">True if the Midi Event was received in real time.</param>
         </member>
@@ -2974,7 +2987,7 @@
             Always filled by the plugin with the note name of the 
             <see cref="P:Jacobi.Vst.Core.VstMidiKeyName.CurrentKeyNumber"/> in the <see cref="P:Jacobi.Vst.Core.VstMidiKeyName.CurrentProgramIndex"/>.
             </summary>
-            <remarks>The value must not exceed 63 characters.</remarks>
+            <remarks>The value must not exceed 64 characters.</remarks>
             <exception cref="T:System.ArgumentException">Thrown when the value exceeds 63 characters.</exception>
         </member>
         <member name="T:Jacobi.Vst.Core.VstMidiProgramCategory">
@@ -2997,7 +3010,7 @@
             <summary>
             Filled by the plugin with the name of the <see cref="P:Jacobi.Vst.Core.VstMidiProgramCategory.CurrentCategoryIndex"/>.
             </summary>
-            <remarks>The value must not exceed 63 characters.</remarks>
+            <remarks>The value must not exceed 64 characters.</remarks>
             <exception cref="T:System.ArgumentException">Thrown when the value exceeds 63 characters.</exception>
         </member>
         <member name="T:Jacobi.Vst.Core.VstMidiProgramName">
@@ -3019,7 +3032,7 @@
             <summary>
             The name for the <see cref="P:Jacobi.Vst.Core.VstMidiProgramName.CurrentProgramIndex"/>.
             </summary>
-            <remarks>The value must not exceed 63 characters.</remarks>
+            <remarks>The value must not exceed 64 characters.</remarks>
             <exception cref="T:System.ArgumentException">Thrown when the value exceeds 63 characters.</exception>
         </member>
         <member name="P:Jacobi.Vst.Core.VstMidiProgramName.MidiProgram">
@@ -3114,14 +3127,14 @@
             <summary>
             The label for the parameter.
             </summary>
-            <remarks>The value must not exceed 63 characters.</remarks>
+            <remarks>The value must not exceed 64 characters.</remarks>
             <exception cref="T:System.ArgumentException">Thrown when the value exceeds 63 characters.</exception>
         </member>
         <member name="P:Jacobi.Vst.Core.VstParameterProperties.ShortLabel">
             <summary>
             A short label for the parameter.
             </summary>
-            <remarks>The value must not exceed 7 characters.</remarks>
+            <remarks>The value must not exceed 8 characters.</remarks>
             <exception cref="T:System.ArgumentException">Thrown when the value exceeds 7 characters.</exception>
         </member>
         <member name="P:Jacobi.Vst.Core.VstParameterProperties.DisplayIndex">
@@ -3147,7 +3160,7 @@
             <summary>
             The label for the category.
             </summary>
-            <remarks>The value must not exceed 23 characters.</remarks>
+            <remarks>The value must not exceed 24 characters.</remarks>
             <exception cref="T:System.ArgumentException">Thrown when the value exceeds 23 characters.</exception>
         </member>
         <member name="T:Jacobi.Vst.Core.VstParameterPropertiesFlags">
@@ -3224,14 +3237,14 @@
             <summary>
             The name or label of the connection pin.
             </summary>
-            <remarks>The value must not exceed 63 characters.</remarks>
+            <remarks>The value must not exceed 64 characters.</remarks>
             <exception cref="T:System.ArgumentException">Thrown when the value exceeds 63 characters.</exception>
         </member>
         <member name="P:Jacobi.Vst.Core.VstPinProperties.ShortLabel">
             <summary>
             The short label of the connection pin.
             </summary>
-            <remarks>The value must not exceed 7 characters.</remarks>
+            <remarks>The value must not exceed 8 characters.</remarks>
             <exception cref="T:System.ArgumentException">Thrown when the value exceeds 7 characters.</exception>
         </member>
         <member name="P:Jacobi.Vst.Core.VstPinProperties.ArrangementType">
@@ -3495,7 +3508,7 @@
             <summary>
             for new setups, new names should be given (L/R/C... won't do).
             </summary>
-            <remarks>The value must not exceed 63 characters.</remarks>
+            <remarks>The value must not exceed 64 characters.</remarks>
             <exception cref="T:System.ArgumentException">Thrown when the value exceeds 63 characters.</exception>
         </member>
         <member name="P:Jacobi.Vst.Core.VstSpeakerProperties.SpeakerType">
