@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DebugType>None</DebugType>
+    <DebugType>PdbOnly</DebugType>
     <DebugSymbols>False</DebugSymbols>
     <StartAction>Program</StartAction>
     <StartProgram>..\..\..\vvvv.exe</StartProgram>
