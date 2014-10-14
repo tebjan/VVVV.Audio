@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.Collections.Generic;
 
+using System.Linq;
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
 using VVVV.Utils.VColor;
@@ -57,7 +58,7 @@ namespace VVVV.Audio
 		protected int FOutputCount;
 		public MultiChannelSignal()
 		{
-			Outputs = new Spread<AudioSignal>();
+			Outputs = new List<AudioSignal>();
 			SetOutputCount(2);
 		}
 		
@@ -68,7 +69,7 @@ namespace VVVV.Audio
 			{
 				FOutputCount = newCount;
 				
-				Outputs.ResizeAndDispose(newCount, () => { return new SingleSignal(Read); });
+				Outputs.ResizeAndDispose(newCount, () => new SingleSignal(Read));
 
 				FReadBuffers = new float[FOutputCount][];
 			}
@@ -80,7 +81,7 @@ namespace VVVV.Audio
 			}
 		}
 		
-		public ISpread<AudioSignal> Outputs
+		public List<AudioSignal> Outputs
 		{
 			get;
 			protected set;
@@ -154,6 +155,36 @@ namespace VVVV.Audio
 		}
 		
 		protected ISpread<AudioSignal> FInput;
+	}
+	
+	public static class ListExtra
+	{
+	    public static void ResizeAndDispose<T>(this List<T> list, int newSize, Func<T> create)
+	    {
+	        int count = list.Count;
+	        if(newSize < count)
+	        {
+	            var itemCount = count - newSize;
+	            var toRemove = list.GetRange(newSize, itemCount);
+	            toRemove.Reverse();
+	            foreach(var item in toRemove)
+	            {
+	                list.Remove(item);
+	                var disposable = item as IDisposable;
+	                if(item != null)
+	                    disposable.Dispose();
+	            }
+	        }
+	        else if(newSize > count)
+	        {
+	            var itemCount = newSize - count;
+	            
+	            for(int i=0; i < itemCount; i++)
+	            {
+	                list.Add(create());
+	            }
+	        }
+	    }
 	}
 }
 

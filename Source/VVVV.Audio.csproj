@@ -174,7 +174,6 @@
     <Compile Include="Utils\FFT.cs" />
     <Compile Include="Utils\NAudio\AudioFileReaderVVVV.cs" />
     <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
-    <Compile Include="vvvv50\AudioRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Nodes\VST\PluginInfoForm.resx">
@@ -189,9 +188,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="vvvv50" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <Import Project="packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets" Condition="Exists('packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets')" />

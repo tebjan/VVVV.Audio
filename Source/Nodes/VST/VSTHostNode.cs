@@ -224,7 +224,7 @@ namespace VVVV.Nodes
                 var outCount = 0;
 				for (int i = 0; i < FInternalSignals.SliceCount; i++)
 				{
-					outCount += FInternalSignals[i].Outputs.SliceCount;
+					outCount += FInternalSignals[i].Outputs.Count;
 				}
 				
 				if(FOutputSignals.SliceCount != outCount)
@@ -234,7 +234,7 @@ namespace VVVV.Nodes
 					var outSlice = 0;
 					for (int i = 0; i < FInternalSignals.SliceCount; i++)
 					{
-						for (int j = 0; j < FInternalSignals[i].Outputs.SliceCount; j++)
+						for (int j = 0; j < FInternalSignals[i].Outputs.Count; j++)
 						{
 							FOutputSignals[outSlice] = FInternalSignals[i].Outputs[j];
 							outSlice++;
