@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{135530F1-FE32-41AB-9029-2A5D8FF13263}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>VVVV.Audio.Signals</RootNamespace>
+    <AssemblyName>VVVV.Audio.Signals</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworkProfile />
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\core\VVVV.Audio.Signals.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>..\..\core\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>PdbOnly</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NAudio">
+      <HintPath>..\Dependencies\AnyCPU\NAudio\NAudio.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="VVVV.PluginInterfaces">
+      <HintPath>..\packages\VVVV.PluginInterfaces.33.4.0-develop-494\build\net40\lib\x86\VVVV.PluginInterfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VVVV.Utils">
+      <HintPath>..\packages\VVVV.Utils.33.4.0-develop-494\lib\net40\VVVV.Utils.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Buffers\BufferAudioSignal.cs" />
+    <Compile Include="Buffers\BufferReaderSignal.cs" />
+    <Compile Include="Buffers\BufferWriterSignal.cs" />
+    <Compile Include="Filters\R8BrainSampleRateConverter.cs" />
+    <Compile Include="Filters\ResampleSignal.cs" />
+    <Compile Include="Misc\WaveFormSignal.cs" />
+    <Compile Include="MultiChannelSignal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\AudioSignalOperator.cs" />
+    <Compile Include="Routing\MatrixMixerSignal.cs" />
+    <Compile Include="Sinks\BufferOutSignal.cs" />
+    <Compile Include="Sinks\FFTOutSignal.cs" />
+    <Compile Include="Sinks\LevelMeterSignal.cs" />
+    <Compile Include="Sinks\WaveRecorderSignal.cs" />
+    <Compile Include="Sources\AudioInSignal.cs" />
+    <Compile Include="Sources\FileStreamSignal.cs" />
+    <Compile Include="Sources\SineSignal.cs" />
+    <Compile Include="Sources\WaveTableSignal.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Buffers" />
+    <Folder Include="Filters" />
+    <Folder Include="Misc" />
+    <Folder Include="Routing" />
+    <Folder Include="Sinks" />
+    <Folder Include="Sources" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VVVV.Audio.Core\VVVV.Audio.Core.csproj">
+      <Project>{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}</Project>
+      <Name>VVVV.Audio.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -4,7 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # SharpDevelop 5.0
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio", "VVVV.Audio.csproj", "{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Core", "VVVV.Audio.Core\VVVV.Audio.Core.csproj", "{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Nodes", "VVVV.Audio.Nodes\VVVV.Audio.Nodes.csproj", "{B856AC71-61D0-4906-A04A-1BEB32AD5967}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Signals", "VVVV.Audio.Signals\VVVV.Audio.Signals.csproj", "{135530F1-FE32-41AB-9029-2A5D8FF13263}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InteropNodes", "InteropNodes", "{16CEF1A9-4AEA-4569-BD17-970FA51D4A42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.VST", "VVVV.Audio.VST\VVVV.Audio.VST.csproj", "{A174A8D1-9154-4EF9-8E35-79F0D85165F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.LTC", "VVVV.Audio.LTC\VVVV.Audio.LTC.csproj", "{5C7C0E59-C368-412C-9D10-8E63F6E44D94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,8 +26,28 @@ Global
 		{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B856AC71-61D0-4906-A04A-1BEB32AD5967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B856AC71-61D0-4906-A04A-1BEB32AD5967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B856AC71-61D0-4906-A04A-1BEB32AD5967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B856AC71-61D0-4906-A04A-1BEB32AD5967}.Release|Any CPU.Build.0 = Release|Any CPU
+		{135530F1-FE32-41AB-9029-2A5D8FF13263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135530F1-FE32-41AB-9029-2A5D8FF13263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135530F1-FE32-41AB-9029-2A5D8FF13263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135530F1-FE32-41AB-9029-2A5D8FF13263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A174A8D1-9154-4EF9-8E35-79F0D85165F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A174A8D1-9154-4EF9-8E35-79F0D85165F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A174A8D1-9154-4EF9-8E35-79F0D85165F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A174A8D1-9154-4EF9-8E35-79F0D85165F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C7C0E59-C368-412C-9D10-8E63F6E44D94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C7C0E59-C368-412C-9D10-8E63F6E44D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C7C0E59-C368-412C-9D10-8E63F6E44D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C7C0E59-C368-412C-9D10-8E63F6E44D94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A174A8D1-9154-4EF9-8E35-79F0D85165F7} = {16CEF1A9-4AEA-4569-BD17-970FA51D4A42}
+		{5C7C0E59-C368-412C-9D10-8E63F6E44D94} = {16CEF1A9-4AEA-4569-BD17-970FA51D4A42}
 	EndGlobalSection
 EndGlobal

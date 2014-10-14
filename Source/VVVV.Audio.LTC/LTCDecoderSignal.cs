@@ -1,0 +1,40 @@
+﻿#region usings
+using System;
+using System.Linq;
+using LTCSharp;
+#endregion
+namespace VVVV.Audio
+{
+	public class LTCDecoderSignal : SinkSignal<Timecode>
+	{
+		LTCSharp.Decoder FDecoder;
+
+		public LTCDecoderSignal(AudioSignal input)
+		{
+			FInput = input;
+			FDecoder = new Decoder(AudioEngine.Instance.Settings.SampleRate, 25, 2);
+		}
+
+		protected override void Engine_SampleRateChanged(object sender, EventArgs e)
+		{
+			base.Engine_SampleRateChanged(sender, e);
+			if (FDecoder != null)
+				FDecoder.Dispose();
+			FDecoder = new Decoder(AudioEngine.Instance.Settings.SampleRate, 25, 2);
+		}
+
+		protected override void FillBuffer(float[] buffer, int offset, int count)
+		{
+			if (FInput != null) {
+				FInput.Read(buffer, offset, count);
+				FDecoder.Write(buffer, count, 0);
+				if (FDecoder.GetQueueLength() > 0)
+					this.SetLatestValue(FDecoder.Read().getTimecode());
+			}
+		}
+	}
+}
+
+
+
+

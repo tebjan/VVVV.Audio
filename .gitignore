@@ -55,3 +55,10 @@ Ankh.NoLoad
 
 !/Source/Dependencies/VST.NET/*/Debug/
 !/Source/Dependencies/VST.NET/*/Release/
+Source/nodes/plugins/VVVV.Audio.xml
+Source/nodes/plugins/NAudio.xml
+nodes/plugins/VVVV.Audio.LTC.xml
+nodes/plugins/VVVV.Audio.Nodes.xml
+nodes/plugins/VVVV.Audio.VST.xml
+core/VVVV.Audio.Core.xml
+core/VVVV.Audio.Signals.xml
