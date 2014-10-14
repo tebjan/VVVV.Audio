@@ -65,6 +65,9 @@
       <HintPath>..\packages\VVVV.Core.33.4.0-develop-494\lib\net40\VVVV.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="VVVV.Nodes.Generic">
+      <HintPath>..\packages\VVVV.Nodes.Generic.33.4.0-develop-494\build\net40\lib\x86\VVVV.Nodes.Generic.dll</HintPath>
+    </Reference>
     <Reference Include="VVVV.PluginInterfaces">
       <HintPath>..\packages\VVVV.PluginInterfaces.33.4.0-develop-494\build\net40\lib\x86\VVVV.PluginInterfaces.dll</HintPath>
       <Private>False</Private>
@@ -88,6 +91,8 @@
     <Compile Include="Misc\Lin2dBNodes.cs" />
     <Compile Include="Misc\WaveFormSpreadNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\BasicNodesAudioSignal.cs" />
+    <Compile Include="Routing\EqualsNodesAudioSignal.cs" />
     <Compile Include="Routing\MatrixMixerNode.cs" />
     <Compile Include="Routing\SignalOperationNodes.cs" />
     <Compile Include="Sinks\AudioOutNode.cs" />
@@ -128,4 +133,5 @@
   <Import Project="..\packages\VVVV.PluginInterfaces.33.4.0-develop-494\build\net40\VVVV.PluginInterfaces.targets" Condition="Exists('..\packages\VVVV.PluginInterfaces.33.4.0-develop-494\build\net40\VVVV.PluginInterfaces.targets')" />
   <Import Project="..\packages\VVVV.Utils3rdParty.33.4.0-develop-494\build\net40\VVVV.Utils3rdParty.targets" Condition="Exists('..\packages\VVVV.Utils3rdParty.33.4.0-develop-494\build\net40\VVVV.Utils3rdParty.targets')" />
   <Import Project="..\packages\VVVV.Hosting.33.4.0-develop-494\build\net40\VVVV.Hosting.targets" Condition="Exists('..\packages\VVVV.Hosting.33.4.0-develop-494\build\net40\VVVV.Hosting.targets')" />
+  <Import Project="..\packages\VVVV.Nodes.Generic.33.4.0-develop-494\build\net40\VVVV.Nodes.Generic.targets" Condition="Exists('..\packages\VVVV.Nodes.Generic.33.4.0-develop-494\build\net40\VVVV.Nodes.Generic.targets')" />
 </Project>
