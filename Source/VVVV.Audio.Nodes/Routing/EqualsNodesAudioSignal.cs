@@ -1,4 +1,5 @@
 using System;
+using VVVV.Audio;
 using VVVV.PluginInterfaces.V2;
 using VVVV.Nodes.Generic;
 
