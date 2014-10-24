@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/tebjan/vvvv.audio.png?label=ready&title=Ready)](https://waffle.io/tebjan/vvvv.audio)
 VVVV.Audio
 ==========
 
