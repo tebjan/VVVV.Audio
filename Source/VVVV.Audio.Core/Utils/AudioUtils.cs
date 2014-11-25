@@ -7,6 +7,7 @@
  * 
  */
 using System;
+using System.Collections.Generic;
 
 namespace VVVV.Audio
 {
@@ -38,6 +39,36 @@ namespace VVVV.Audio
 			{
 				buffer[i+offset] = (float)(source[i+offset]);
 			}
+		}
+		
+		public static IEnumerable<T> Circular<T>(this IEnumerable<T> coll)
+		{
+		    while(true)
+		    {
+		        foreach(T t in coll)
+		            yield return t;
+		    }
+		}
+		
+		/// <summary>
+		/// Modulo function with the property, that the remainder of a division z / d
+		/// and z &lt; 0 is positive. For example: zmod(-2, 30) = 28.
+		/// </summary>
+		/// <param name="z"></param>
+		/// <param name="d"></param>
+		/// <returns>Remainder of division z / d.</returns>
+		public static int Zmod(int z, int d)
+		{
+            if (z >= d)
+				return z % d;
+			
+            if (z < 0)
+			{
+				int remainder = z % d;
+				return remainder == 0 ? 0 : remainder + d;
+			}
+			
+            return z;
 		}
 		
 		/// <summary>
