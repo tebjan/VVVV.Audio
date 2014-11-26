@@ -182,7 +182,7 @@ namespace VVVV.Audio
                     {
                         float sample;
 
-                        if (slope > 0.99f) // rising saw
+                        if (slope >= 0.99f) // rising saw
                         { 
                             FPhase = sync ? -1 : FPhase + 2*T + buffer[i]*FMLevel;
                             if (FPhase > 1.0f - T) //transition
@@ -195,7 +195,7 @@ namespace VVVV.Audio
                                 sample = FPhase;
                             }
                         }
-                        else if (slope < 0.01f) // falling saw
+                        else if (slope <= 0.01f) // falling saw
                         { 	
                             FPhase = sync ? -1 : FPhase + 2*T + buffer[i]*FMLevel;                            
                             if (FPhase > 1.0f - T) //transition
