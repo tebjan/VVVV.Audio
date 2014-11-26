@@ -11,6 +11,14 @@ using System.Collections.Generic;
 
 namespace VVVV.Audio
 {
+    public enum WindowFunction
+	{
+		Block,
+		Hamming,
+		Hann,
+		BlackmannHarris
+	}
+    
 	/// <summary>
 	/// Audio helpers, all audio samples are considered float32 in the range [-1..1]
 	/// </summary>
@@ -69,6 +77,74 @@ namespace VVVV.Audio
 			}
 			
             return z;
+		}
+
+        public static float[] CreateWindowFloat(int size, WindowFunction windowType)
+        {
+            var ret = new float[size];
+            switch (windowType)
+            {
+                case WindowFunction.Block:
+                    for (int i = 0; i < size; i++)
+                    {
+                        ret[i] = 1;
+                    }
+                    break;
+                case WindowFunction.Hamming:
+                    for (int i = 0; i < size; i++)
+                    {
+                        ret[i] = (float)HammingWindow(i, size);
+                    }
+                    break;
+                case WindowFunction.Hann:
+                    for (int i = 0; i < size; i++)
+                    {
+                        ret[i] = (float)HannWindow(i, size);
+                    }
+                    break;
+                case WindowFunction.BlackmannHarris:
+                    for (int i = 0; i < size; i++)
+                    {
+                        ret[i] = (float)BlackmannHarrisWindow(i, size);
+                    }
+                    break;
+            }
+
+            return ret;
+        }
+
+		public static double[] CreateWindowDouble(int size, WindowFunction windowType)
+		{
+            var ret = new double[size];
+            switch (windowType)
+            {
+                case WindowFunction.Block:
+                    for (int i = 0; i < size; i++)
+                    {
+                        ret[i] = 1;
+                    }
+                    break;
+                case WindowFunction.Hamming:
+                    for (int i = 0; i < size; i++)
+                    {
+                        ret[i] = HammingWindow(i, size);
+                    }
+                    break;
+                case WindowFunction.Hann:
+                    for (int i = 0; i < size; i++)
+                    {
+                        ret[i] = HannWindow(i, size);
+                    }
+                    break;
+                case WindowFunction.BlackmannHarris:
+                    for (int i = 0; i < size; i++)
+                    {
+                        ret[i] = BlackmannHarrisWindow(i, size);
+                    }
+                    break;
+            }
+
+            return ret;
 		}
 		
 		/// <summary>

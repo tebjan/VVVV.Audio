@@ -205,18 +205,6 @@ namespace VVVV.Audio
 		}
 		
 		protected AudioSignal FInput;
-
-        protected int ReadInput(float[] buffer, int offset, int count)
-        {
-            if (FInput != null)
-            {
-                return FInput.Read(buffer, offset, count);
-            }
-            else
-            {
-                return buffer.ReadSilence(offset, count);
-            }
-        }
 		
 	}
 	

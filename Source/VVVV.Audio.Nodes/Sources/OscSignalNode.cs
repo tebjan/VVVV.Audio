@@ -15,24 +15,44 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {
 
-	[PluginInfo(Name = "Sine", Category = "VAudio", Version = "Source", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
-	public class SineSignalNode : GenericAudioSourceNode<SineSignal>
+	[PluginInfo(Name = "Osc", Category = "VAudio", Version = "Source", Help = "Creates an audio wave", AutoEvaluate = true, Tags = "Sine, Triangle, Square, Sawtooth, Wave")]
+	public class OscSignalNode : GenericAudioSourceNode<OscSignal>
 	{
+	    [Input("WaveForm")]
+		public IDiffSpread<WaveFormSelection> WaveForm;
+	    
 		[Input("Frequency", DefaultValue = 440)]
 		public IDiffSpread<float> Frequency;
+		
+		[Input("Slope", DefaultValue = 0.5)]
+		public IDiffSpread<float> FSlope;
+		
+		[Input("FMLevel")]
+		public IDiffSpread<float> FFMLevel;
+		
+		[Input("FM")]
+		public IDiffSpread<AudioSignal> FFMInput;
+		
+		[Input("PTR")]
+		public IDiffSpread<bool> FPTR;
 		
 		[Input("Gain", DefaultValue = 0.1)]
 		public IDiffSpread<float> Gain;
 		
-		protected override void SetParameters(int i, SineSignal instance)
+		protected override void SetParameters(int i, OscSignal instance)
 		{
+		    instance.WaveForm = WaveForm[i];
 			instance.Gain = Gain[i];
 			instance.Frequency = Frequency[i];
+			instance.Slope = FSlope[i];
+			instance.PTR = FPTR[i];
+			instance.Input = FFMInput[i];
+			instance.FMLevel = FFMLevel[i];
 		}
 
-        protected override SineSignal GetInstance(int i)
+        protected override OscSignal GetInstance(int i)
 		{
-			return new SineSignal(Frequency[i], Gain[i]);
+			return new OscSignal(Frequency[i], Gain[i]);
 		}
 	}
 	
