@@ -21,11 +21,7 @@ namespace VVVV.Audio
 			Gain = gain;
 		}
 
-		public float Frequency;
-
 		public float Gain = 0.1f;
-		
-		public float Slope = 0.5f;
 		
 		public float FMLevel;
 
@@ -35,7 +31,7 @@ namespace VVVV.Audio
 
 		private const float TwoPi = (float)(Math.PI * 2);
 
-		private float FPhase = 0;
+		float FPhase = -1;
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
@@ -50,8 +46,20 @@ namespace VVVV.Audio
 		            
 //			PerfCounter.Stop("Sine");
 		}
+		
+        protected override void Engine_SampleRateChanged(object sender, EventArgs e)
+        {
+            base.Engine_SampleRateChanged(sender, e);
+            CalcFrequencyConsts(FFrequency);
+        }
 
-        private float triangle(float phase, float slope = 0.5f)
+		/// <summary>
+		/// Calcualtes an asymmetric triangle wave
+		/// </summary>
+		/// <param name="phase">Position in wave, 0..1</param>
+		/// <param name="slope">Slope, 0..1, 0.5 is symmetric triangle</param>
+		/// <returns></returns>
+        private float Triangle(float phase, float slope = 0.5f)
         {
         	return phase < slope ? (2/slope) * phase - 1 : 1 - (2/(1-slope)) * (phase-slope);
         }
@@ -69,84 +77,185 @@ namespace VVVV.Audio
             return x;
         }
 
-        float FLastPhase;
-        float FLastPhase01;
-        float FLastFMInc;
-        float h4;
-        float out2;
-        float FWaveSelector, fmInc, in5;
+        float T; 
+        float FFrequency;
+        public float Frequency 
+        {
+            get 
+            {
+                return FFrequency;
+            }
+            set 
+            {
+                if(FFrequency != value)
+                {
+                    FFrequency = value;
+                    CalcFrequencyConsts(value);
+                }
+            }
+        }
+
+        void CalcFrequencyConsts(float freq)
+        {
+            T = freq / SampleRate;
+            CalcTriangleCoefficients(FSlope, T);
+        }
+        
+        float FSlope;
+        public float Slope
+        {
+            get
+            {
+                return FSlope;
+            }
+            
+            set
+            {
+                if(FSlope != value)
+                {
+                    FSlope = value;
+                    CalcTriangleCoefficients(value, T);
+                }
+            }
+        }
+        
+        //triangle precalculated values
+        bool FTriangleUp = true;
+        float A, B, AoverB, BoverA, a2, a1, a0, b2, b1, b0;
+
+        void CalcTriangleCoefficients(float slope, float T)
+        {
+            //triangle magnitudes
+            var slopeClamp = (float)VMath.Clamp(slope, 0.01, 0.99);
+            A = 1/slopeClamp;
+            B = -1/(1-slopeClamp);
+            AoverB = A / B;
+            BoverA = B / A;
+            
+            var t4 = 4*T;
+            var t2 = 2*T;
+            
+            //coeffs max
+            var rezDenomA = 1 / (t4*(A-1));
+            
+            a2 = -rezDenomA;
+           
+            a1 = (t2*A - t4 + 2) * rezDenomA;
+            
+            var tmp = A*T - 1;
+            a0 = -(tmp*tmp) * rezDenomA;
+            
+            //coeffs min
+            var rezDenomB = 1 / (t4*(B+1));
+            
+            b2 = -rezDenomB;
+            b1 = (t2*B + t4 - 2) * rezDenomB;
+            
+            tmp = B*T + 1;
+            b0 = -(tmp*tmp) * rezDenomB;
+        }
 
         private void OscEPTR(float[] buffer, int count)
         {
             bool sync = false;
-
-            float dx1 = 0;
-            float w1 = 0;
-            float w2 = 0;
-            float lx = 0;
-            float w0 = 0;
-            float w3 = 0;
-            var slope = Slope;
-
+            var slope = FSlope;
+            
             switch (WaveForm)
             {
                 case WaveFormSelection.Sine:
                     break;
-                case WaveFormSelection.Sawtooth:
+                
+                case WaveFormSelection.Sawtooth: 
                     slope = Wrap(slope + 0.5f, 0, 1);
                     goto case WaveFormSelection.Triangle;
-                case WaveFormSelection.Triangle:
-                    var stepInc = 2.0f * (Frequency / SampleRate);
                     
+                case WaveFormSelection.Triangle:
+                    
+                    //get FM wave
                     if(FInput != null)
                         FInput.Read(buffer, 0, count);
                     else
                         buffer.ReadSilence(0, count);
                     
+                    //per sample loop
                     for (int i = 0; i < count; i++)
                     {
-                        float out1;
-                        float phase = sync ? 0 : Wrap(stepInc + buffer[i]*FMLevel + FLastPhase); // ramp with FM and sync
-                        float phase01 = phase * 0.5f + 0.5f; // utility ramp in 0~1 range
-                       
-                        var dx = phase01 - FLastPhase01;
-                        if (slope > .99f)
-                        {  			// rising saw
-                            out1 = dx < 0 ? 0 : phase;
-                        }
-                        else if (slope < .01)
-                        { 		// falling saw
-                            out1 = dx < 0 ? 0 : -phase;
-                        }
-                        else
-                        { 				    // variable slope
-                            if (dx < 0) out1 = -1;    // ELTR on fall-to-rise
-                            else if (phase01 > slope && FLastPhase01 < slope) out1 = 1; // LTR on rise-to-fall
-                            else out1 = triangle(phase01, slope);
-                        }
+                        float sample;
 
-                        FLastPhase = phase; 		// FM phase accumulator
-                        FLastPhase01 = phase01;		// previous ramp value for ELTRs
+                        if (slope > 0.99f) // rising saw
+                        { 
+                            FPhase = sync ? -1 : FPhase + 2*T + buffer[i]*FMLevel;
+                            if (FPhase > 1.0f - T) //transition
+                            {
+                                sample = FPhase - (FPhase / T) + (1.0f / T) - 1.0f;
+                                FPhase -= 2.0f;
+                            }
+                            else
+                            {
+                                sample = FPhase;
+                            }
+                        }
+                        else if (slope < 0.01f) // falling saw
+                        { 	
+                            FPhase = sync ? -1 : FPhase + 2*T + buffer[i]*FMLevel;                            
+                            if (FPhase > 1.0f - T) //transition
+                            {
+                                sample = -FPhase + (FPhase / T) - (1.0f / T) + 1.0f;
+                                FPhase -= 2.0f;
+                            }
+                            else
+                            {
+                                sample = -FPhase;
+                            }
+                        }
+                        else //triangle
+                        { 	
+                            if(FTriangleUp) //counting up
+                            {
+                            	FPhase = FPhase + 2*A*T;
+                            	if (FPhase > 1 - A*T)
+                            	{
+                            		//transitionregion
+                            		sample = a2 * (FPhase * FPhase) + a1 * FPhase + a0;
+                            		FPhase = 1 + (FPhase - 1) * BoverA;
+                            		FTriangleUp = false;
+                            	}
+                            	else //linearregion
+                            	{
+                            		sample = FPhase;
+                            	}
+                            }
+                            else //counting down
+                            {
+                            	FPhase = FPhase + 2*B*T;
+                            	if (FPhase < -1 - B*T)
+                            	{
+                            		//transitionregion
+                            		sample = b2 * (FPhase * FPhase) + b1 * FPhase + b0;
+                            		FPhase = -1 + (FPhase + 1) * AoverB;
+                            		FTriangleUp = true;
+                            	}
+                            	else //linearregion
+                            	{
+                            		sample = FPhase;
+                            	}
+                            }
+                        }
                         
-                        buffer[i] = out1*Gain;
+                        buffer[i] = sample*Gain;
                     }
                     break;
                 case WaveFormSelection.Square:
                     break;
             }
-
-            FLastFMInc = fmInc;					// previous FM value for delta correction
-            // out1 = dcblock(out1); 	// for later use
-
         }
 
         private void OscBasic(float[] buffer, int count)
         {
-            var increment = Frequency / SampleRate;
             switch (WaveForm)
             {
                 case WaveFormSelection.Sine:
-                    var incrementSin = TwoPi * increment;
+                    var incrementSin = TwoPi * T;
                     for (int i = 0; i < count; i++)
                     {
                         // Sinus Generator
@@ -162,7 +271,7 @@ namespace VVVV.Audio
                 case WaveFormSelection.Triangle:
                     for (int i = 0; i < count; i++)
                     {
-                        FPhase = FPhase + 2.0f * increment;
+                        FPhase = FPhase + 2 * T;
                         buffer[i] = FPhase < 1.0f ? -Gain + (2 * Gain) * FPhase : 3 * Gain - (2 * Gain) * FPhase;
 
                         if (FPhase >= 2.0f)
@@ -172,7 +281,7 @@ namespace VVVV.Audio
                 case WaveFormSelection.Square:
                     for (int i = 0; i < count; i++)
                     {
-                        FPhase = FPhase + 2.0f * increment;
+                        FPhase = FPhase + 2 * T;
                         buffer[i] = FPhase < 1.0f ? Gain : -Gain;
 
                         if (FPhase >= 2.0f)
@@ -183,19 +292,14 @@ namespace VVVV.Audio
 
                     for (int i = 0; i < count; i++)
                     {
-                        FPhase = FPhase + 2.0f * increment;
-                        if (FPhase > 1.0f - increment)
+                        FPhase = FPhase + 2 * T;
+                        if (FPhase > 1.0f)
                         {
-                            buffer[i] = Gain * (FPhase - (FPhase / increment) + (1.0f / increment) - 1.0f);
                             FPhase -= 2.0f;
                         }
-                        else
-                        {
-                            buffer[i] = Gain * FPhase;
-                        }
+
+                        buffer[i] = Gain * FPhase;
                     }
-                    break;
-                default:
                     break;
             }
         }

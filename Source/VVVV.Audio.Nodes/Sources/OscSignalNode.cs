@@ -33,8 +33,8 @@ namespace VVVV.Nodes
 		[Input("FM")]
 		public IDiffSpread<AudioSignal> FFMInput;
 		
-		[Input("PTR")]
-		public IDiffSpread<bool> FPTR;
+		[Input("EPTR")]
+		public IDiffSpread<bool> FEPTR;
 		
 		[Input("Gain", DefaultValue = 0.1)]
 		public IDiffSpread<float> Gain;
@@ -45,7 +45,7 @@ namespace VVVV.Nodes
 			instance.Gain = Gain[i];
 			instance.Frequency = Frequency[i];
 			instance.Slope = FSlope[i];
-			instance.PTR = FPTR[i];
+			instance.PTR = FEPTR[i];
 			instance.Input = FFMInput[i];
 			instance.FMLevel = FFMLevel[i];
 		}

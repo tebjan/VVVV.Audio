@@ -16,7 +16,7 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {	
     
-	[PluginInfo(Name = "FFT", Category = "VAudio", Version = "Sink", Help = "Calculates the FFT of an audio buffer", Tags = "Spectrum, Frequencies")]
+	[PluginInfo(Name = "FFT", Category = "VAudio", Version = "Sink", Help = "Calculates the FFT of an audio signal", Tags = "Spectrum, Frequencies")]
 	public class FFTOutNode : GenericAudioSinkNodeWithOutputs<FFTOutSignal, double[]>
 	{
 	    [Input("Window Function")]
@@ -28,8 +28,8 @@ namespace VVVV.Nodes
 		[Output("Output")]
 		ISpread<ISpread<double>> FFFTOut;
 
-		[Output("Output Complex")]
-		ISpread<ISpread<double>> FFFTOutComplex;
+//		[Output("Output Complex")]
+//		ISpread<ISpread<double>> FFFTOutComplex;
 		
 		uint UpperPow2(uint v)
 		{
@@ -47,7 +47,7 @@ namespace VVVV.Nodes
         {
             if (instance != null)
             {
-                var spreadComplex = FFFTOutComplex[i];
+//                var spreadComplex = FFFTOutComplex[i];
                 var spread = FFFTOut[i];
                 double[] val = null;
                 instance.GetLatestValue(out val);
@@ -58,10 +58,10 @@ namespace VVVV.Nodes
                         spread = new Spread<double>(val.Length);
                     }
                     
-                    if (spreadComplex == null)
-                    {
-                        spreadComplex = new Spread<double>(val.Length);
-                    }
+//                    if (spreadComplex == null)
+//                    {
+//                        spreadComplex = new Spread<double>(val.Length);
+//                    }
                     
                     var halfSize = val.Length / 2;
                     spread.SliceCount = halfSize;
@@ -75,20 +75,20 @@ namespace VVVV.Nodes
                         spread[n] = Math.Sqrt(real * real + imag * imag);
                     }
 
-                    spreadComplex.SliceCount = val.Length;
-                    spreadComplex.AssignFrom(val);
+//                    spreadComplex.SliceCount = val.Length;
+//                    spreadComplex.AssignFrom(val);
                 }
             }
             else
             {
-                FFFTOutComplex[i].SliceCount = 0;
+                FFFTOut[i].SliceCount = 0;
             }
         }
 
         protected override void SetOutputSliceCount(int sliceCount)
         {
             FFFTOut.SliceCount = sliceCount;
-            FFFTOutComplex.SliceCount = sliceCount;
+//            FFFTOutComplex.SliceCount = sliceCount;
         }
 
         protected override FFTOutSignal GetInstance(int i)
