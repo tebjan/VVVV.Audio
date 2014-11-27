@@ -58,7 +58,7 @@ namespace VVVV.Audio
 		public int BufferSize;
 
 		double[] FFFTBuffer = new double[1];
-		public double[] FFTOut = new double[1];
+		public double[] FFTOut = new double[2];
 		double[] FWindow = new double[1];
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)

@@ -163,7 +163,8 @@ namespace VVVV.Nodes
 	{
     	[Import]
     	protected IIOFactory FIOFactory;
-		//[Output("Audio Out", Order = -10)]
+		
+    	//[Output("Audio Out", Order = -10)]
 		public Pin<AudioSignal> FOutputSignals;
 
 		public override void OnImportsSatisfied()

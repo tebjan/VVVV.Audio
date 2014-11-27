@@ -1,6 +1,8 @@
 ﻿#region usings
 using System;
 
+using System.Collections.Generic;
+using System.Reflection;
 using NAudio.Wave;
 #endregion usings
 
@@ -83,15 +85,32 @@ namespace VVVV.Audio
 	/// </summary>
 	public abstract class AudioSignal : AudioSignalBase, ISampleProvider, ICanCopyBuffer
 	{
-	    static AudioSignal()
-	    {
-	        ParameterDescription = new SignalParameterDescription();
-	    }
-	    
-	    public static readonly SignalParameterDescription ParameterDescription;
+	    public readonly List<SigParamBase> InParams = new List<SigParamBase>();
+	    public readonly List<SigParamBase> OutParams = new List<SigParamBase>();
 		
 		public AudioSignal()
 	    {
+		    //find all params
+		    var flags = BindingFlags.Instance | BindingFlags.Public;
+			var fields = this.GetType().GetFields(flags);
+			
+			foreach (var fi in fields)
+			{
+				if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
+				{
+				    var param = (SigParamBase)fi.GetValue(this);
+				    
+				    if(param.IsOutput)
+				    {
+				        OutParams.Add(param);
+				    }
+				    else
+				    {
+				        InParams.Add(param);
+				    }
+				}
+			}
+		    
 			AudioService.Engine.Settings.SampleRateChanged += Engine_SampleRateChanged;
             AudioService.Engine.Settings.BufferSizeChanged += Engine_BufferSizeChanged;
 			Engine_SampleRateChanged(null, null);

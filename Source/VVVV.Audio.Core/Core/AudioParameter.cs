@@ -11,39 +11,10 @@ using System.Collections.Generic;
 
 namespace VVVV.Audio
 {
-    /// <summary>
-    /// Name and type of an audio signal parameter
-    /// </summary>
-    public class SignalParameterDecriptor
+  
+    public abstract class SigParamBase
     {
-        public SignalParameterDecriptor(string name, Type type, bool isOutput = false)
-        {
-            Name = name;
-            Type = type;
-            IsOutput = false;
-        }
-        
-        public readonly string Name;
-        public readonly Type Type;
-        public readonly bool IsOutput;
-    }
-    
-    public class SignalParameterDescription : List<SignalParameterDecriptor>
-    {
-        public void AddInputParam(string name, Type type)
-        {
-            this.Add(new SignalParameterDecriptor(name, type));
-        }
-        
-        public void AddOutputParam(string name, Type type)
-        {
-            this.Add(new SignalParameterDecriptor(name, type, true));
-        }
-    }
-    
-    public abstract class AbstractSignalParameter
-    {
-        public AbstractSignalParameter(string name, bool isOutput = false)
+        public SigParamBase(string name, bool isOutput = false)
         {
             Name = name;
             IsOutput = isOutput;
@@ -51,12 +22,18 @@ namespace VVVV.Audio
         
         public readonly string Name;
         public readonly bool IsOutput;
+        
+        public abstract Type GetValueType();
+
+        public abstract object GetValue();
+
+        public abstract void SetValue(object value);
     }
     
     /// <summary>
     /// A parameter of an AudioSignal
     /// </summary>
-    public class SigParam<T> : AbstractSignalParameter
+    public class SigParam<T> : SigParamBase
     {
         public SigParam(string name, bool isOutput = false)
             : this(name, default(T), isOutput)
@@ -77,9 +54,25 @@ namespace VVVV.Audio
             get;
             set;
         }
+        
+        public override object GetValue()
+        {
+            return Value;
+        }
+
+        public override void SetValue(object value)
+        {
+            Value = (T)value;
+        }
+
+        public override Type GetValueType()
+        {
+            return typeof(T);
+        }
+
     }
     
-    public class SigParamDiff<T> : AbstractSignalParameter
+    public class SigParamDiff<T> : SigParamBase
     {
         public SigParamDiff(string name, bool isOutput = false)
             : this(name, default(T), null, isOutput)
@@ -115,13 +108,28 @@ namespace VVVV.Audio
         }
         
         public Action<T> ValueChanged;
+        
+        public override object GetValue()
+        {
+            return Value;
+        }
+
+        public override void SetValue(object value)
+        {
+            Value = (T)value;
+        }
+        
+        public override Type GetValueType()
+        {
+            return typeof(T);
+        }
     }
     
 
     /// <summary>
     /// A parameter of an AudioSignal
     /// </summary>
-    public class SigParamSec<T> : AbstractSignalParameter
+    public class SigParamSec<T> : SigParamBase
     {
         public SigParamSec(string name, bool isOutput = false)
             : this(name, default(T), isOutput)
@@ -156,7 +164,7 @@ namespace VVVV.Audio
 		private T FValueToPass;
 		private T FLastValue;
 		
-        public bool GetLatestValue(out T value)
+        bool GetLatestValue(out T value)
 		{
 			var success = false;
 			FReading = true;
@@ -175,7 +183,7 @@ namespace VVVV.Audio
 			return success;
 		}
 		
-		protected bool SetLatestValue(T newValue)
+		bool SetLatestValue(T newValue)
 		{
 			var success = false;
 			FWriting = true;
@@ -191,27 +199,20 @@ namespace VVVV.Audio
 			FWriting = false;
 			return success;
 		}
+		
+		public override object GetValue()
+        {
+            return Value;
+        }
+		
+		public override void SetValue(object value)
+        {
+		    Value = (T)value;
+        }
+		
+		public override Type GetValueType()
+		{
+		    return typeof(T);
+		}
     }
-    
-    
-    
-//    /// <summary>
-//    /// Audio Signal Parameter
-//    /// </summary>
-//    public class AudioSignalParameter : SignalParameter
-//    {
-//        public override Type Type 
-//        { 
-//            get
-//            {
-//                return typeof(AudioSignal);
-//            }
-//        }
-//        
-//        public AudioSignal Value
-//        {
-//            get;
-//            set;
-//        }
-//    }
 }

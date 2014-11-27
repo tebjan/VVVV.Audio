@@ -102,11 +102,6 @@
             The input signal
             </summary>
         </member>
-        <member name="T:VVVV.Audio.SignalParameterDecriptor">
-            <summary>
-            Name and type of an audio signal parameter
-            </summary>
-        </member>
         <member name="T:VVVV.Audio.SigParam`1">
             <summary>
             A parameter of an AudioSignal

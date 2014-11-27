@@ -29,7 +29,7 @@ namespace VVVV.Nodes
             if (instance != null)
             {
                 var spread = FBufferOut[i];
-                float[] buffer = null;
+                float[] buffer = instance.BufferOut;
                 if (buffer != null)
                 {
                     if (spread == null)

@@ -14,10 +14,11 @@ namespace VVVV.Audio
         Sawtooth
     }
     
-	public class OscSignal : AudioSignalInput
+	public class OscSignal : AudioSignal
 	{	    
 	    public OscSignal()
 	    {
+	        //get param change events
 	        Frequency.ValueChanged = CalcFrequencyConsts;
 	        Slope.ValueChanged = CalcTriangleCoefficients;
 	    }
@@ -28,22 +29,19 @@ namespace VVVV.Audio
 	        CalcFrequencyConsts(Frequency.Value);
 	    }
 
-        public SigParamDiff<float> Frequency = new SigParamDiff<float>("Frequency", 440);
-        public SigParamDiff<float> Slope = new SigParamDiff<float>("Symmetry", 0.5f);
-
+	    public SigParamDiff<float> Frequency = new SigParamDiff<float>("Frequency", 440);
+	    public SigParam<WaveFormSelection> WaveForm = new SigParam<WaveFormSelection>("Wave Form");
+	    public SigParamDiff<float> Slope = new SigParamDiff<float>("Symmetry", 0.5f);
+	    public SigParam<bool> UseEPTR = new SigParam<bool>("Use EPTR");
+	    public SigParam<AudioSignal> FMInput = new SigParam<AudioSignal>("FM");
+	    public SigParam<float> FMLevel = new SigParam<float>("FM Level");
 		public SigParam<float> Gain = new SigParam<float>("Gain");
-		public SigParam<float> FMLevel = new SigParam<float>("FM Level");
-		public SigParam<bool> UseEPTR = new SigParam<bool>("Use EPTR");
-		
-		public SigParam<WaveFormSelection> WaveForm = new SigParam<WaveFormSelection>("Wave Form");
 
-		private const float TwoPi = (float)(Math.PI * 2);
-
+		const float TwoPi = (float)(Math.PI * 2);
 		float FPhase = -1;
-		
-
-
         float T; 
+        
+        // time step and triangle params
         void CalcFrequencyConsts(float freq)
         {
             T = freq / SampleRate;
@@ -85,8 +83,6 @@ namespace VVVV.Audio
             tmp = B*T + 1;
             b0 = -(tmp*tmp) * rezDenomB;
         }
-        
-        
 
         private void OscEPTR(float[] buffer, int count)
         {
@@ -105,8 +101,8 @@ namespace VVVV.Audio
                 case WaveFormSelection.Triangle:
                     
                     //get FM wave
-                    if(FInput != null)
-                        FInput.Read(buffer, 0, count);
+                    if(FMInput.Value != null)
+                        FMInput.Value.Read(buffer, 0, count);
                     else
                         buffer.ReadSilence(0, count);
                     
@@ -185,37 +181,45 @@ namespace VVVV.Audio
 
         private void OscBasic(float[] buffer, int count)
         {
+            //get FM wave into buffer
+            if(FMInput.Value != null)
+                FMInput.Value.Read(buffer, 0, count);
+            else
+                buffer.ReadSilence(0, count);
+            
+            var t2 = 2*T;
+            var slope = (float)VMath.Clamp(Slope.Value, 0.01, 0.99);
             switch (WaveForm.Value)
             {
                 case WaveFormSelection.Sine:
-                    var incrementSin = TwoPi * T;
                     for (int i = 0; i < count; i++)
                     {
-                        // Sinus Generator
-                        buffer[i] = Gain.Value * (float)Math.Sin(FPhase);
-                        FPhase += incrementSin;
-                        if (FPhase > TwoPi)
-                            FPhase -= TwoPi;
-                        else
-                            if (FPhase < 0)
-                                FPhase += TwoPi;
+                        buffer[i] = Gain.Value * (float)Math.Sin(FPhase*Math.PI);
+                        
+                        FPhase += t2 + buffer[i]*FMLevel.Value;
+                        
+                        if (FPhase > 1)
+                            FPhase -= 2;
+
                     }
                     break;
                 case WaveFormSelection.Triangle:
                     for (int i = 0; i < count; i++)
                     {
-                        FPhase = FPhase + 2 * T;
-                        buffer[i] = FPhase < 1.0f ? -Gain.Value + (2 * Gain.Value) * FPhase : 3 * Gain.Value - (2 * Gain.Value) * FPhase;
+                        buffer[i] =  Gain.Value * (FPhase < slope ? (2/slope) * FPhase - 1 : 1 - (2/(1-slope)) * (FPhase-slope));
+                        
+                        FPhase += t2 + buffer[i]*FMLevel.Value;
 
-                        if (FPhase >= 2.0f)
-                            FPhase -= 2.0f;
+                        if (FPhase >= 1)
+                            FPhase -= 2f;
                     }
                     break;
                 case WaveFormSelection.Square:
                     for (int i = 0; i < count; i++)
                     {
-                        FPhase = FPhase + 2 * T;
-                        buffer[i] = FPhase < 1.0f ? Gain.Value : -Gain.Value;
+                        buffer[i] = FPhase < 2*slope ? Gain.Value : -Gain.Value;
+                        
+                        FPhase += t2 + buffer[i]*FMLevel.Value;
 
                         if (FPhase >= 2.0f)
                             FPhase -= 2.0f;
@@ -225,13 +229,14 @@ namespace VVVV.Audio
 
                     for (int i = 0; i < count; i++)
                     {
-                        FPhase = FPhase + 2 * T;
+                        buffer[i] = Gain.Value * FPhase;
+                        
+                        FPhase += t2 + buffer[i]*FMLevel.Value;
+                        
                         if (FPhase > 1.0f)
                         {
                             FPhase -= 2.0f;
                         }
-
-                        buffer[i] = Gain.Value * FPhase;
                     }
                     break;
             }
