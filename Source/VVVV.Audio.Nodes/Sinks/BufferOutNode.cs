@@ -18,7 +18,7 @@ namespace VVVV.Nodes
 	
 	
 	[PluginInfo(Name = "GetBuffer", Category = "VAudio", Version = "Sink", Help = "Returns a complete buffer", Tags = "Scope, Samples")]
-    public class BufferOutNode : GenericAudioSinkNodeWithOutputs<BufferOutSignal, float[]>
+    public class BufferOutNode : GenericAudioSinkNode<BufferOutSignal>
 	{
 		
 		[Output("Buffer")]
@@ -30,7 +30,6 @@ namespace VVVV.Nodes
             {
                 var spread = FBufferOut[i];
                 float[] buffer = null;
-                instance.GetLatestValue(out buffer);
                 if (buffer != null)
                 {
                     if (spread == null)

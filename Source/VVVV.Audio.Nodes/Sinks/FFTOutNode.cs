@@ -17,7 +17,7 @@ namespace VVVV.Nodes
 {	
     
 	[PluginInfo(Name = "FFT", Category = "VAudio", Version = "Sink", Help = "Calculates the FFT of an audio signal", Tags = "Spectrum, Frequencies")]
-	public class FFTOutNode : GenericAudioSinkNodeWithOutputs<FFTOutSignal, double[]>
+	public class FFTOutNode : GenericAudioSinkNode<FFTOutSignal>
 	{
 	    [Input("Window Function")]
 		public IDiffSpread<WindowFunction> FWindowFuncIn;
@@ -49,8 +49,7 @@ namespace VVVV.Nodes
             {
 //                var spreadComplex = FFFTOutComplex[i];
                 var spread = FFFTOut[i];
-                double[] val = null;
-                instance.GetLatestValue(out val);
+                double[] val = instance.FFTOut;
                 if (val != null)
                 {
                     if(spread == null)

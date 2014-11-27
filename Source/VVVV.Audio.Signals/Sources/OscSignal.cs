@@ -1,5 +1,6 @@
 ﻿#region usings
 using System;
+using System.Collections.Generic;
 using VVVV.PluginInterfaces.V2;
 using VVVV.Utils.VMath;
 #endregion
@@ -14,116 +15,46 @@ namespace VVVV.Audio
     }
     
 	public class OscSignal : AudioSignalInput
-	{
-		public OscSignal(float frequency, float gain)
-		{
-			Frequency = frequency;
-			Gain = gain;
-		}
+	{	    
+	    public OscSignal()
+	    {
+	        Frequency.ValueChanged = CalcFrequencyConsts;
+	        Slope.ValueChanged = CalcTriangleCoefficients;
+	    }
+	    
+	    protected override void Engine_SampleRateChanged(object sender, EventArgs e)
+	    {
+	        base.Engine_SampleRateChanged(sender, e);
+	        CalcFrequencyConsts(Frequency.Value);
+	    }
 
-		public float Gain = 0.1f;
-		
-		public float FMLevel;
+        public SigParamDiff<float> Frequency = new SigParamDiff<float>("Frequency", 440);
+        public SigParamDiff<float> Slope = new SigParamDiff<float>("Symmetry", 0.5f);
 
-		public bool PTR;
+		public SigParam<float> Gain = new SigParam<float>("Gain");
+		public SigParam<float> FMLevel = new SigParam<float>("FM Level");
+		public SigParam<bool> UseEPTR = new SigParam<bool>("Use EPTR");
 		
-		public WaveFormSelection WaveForm;
+		public SigParam<WaveFormSelection> WaveForm = new SigParam<WaveFormSelection>("Wave Form");
 
 		private const float TwoPi = (float)(Math.PI * 2);
 
 		float FPhase = -1;
-
-		protected override void FillBuffer(float[] buffer, int offset, int count)
-		{
-		    //OscBasic(buffer, count);
-		    
-		    if(PTR)
-		        OscEPTR(buffer, count);
-		    else
-		        OscBasic(buffer, count);
-		            
-//			PerfCounter.Start("Sine");
-		            
-//			PerfCounter.Stop("Sine");
-		}
 		
-        protected override void Engine_SampleRateChanged(object sender, EventArgs e)
-        {
-            base.Engine_SampleRateChanged(sender, e);
-            CalcFrequencyConsts(FFrequency);
-        }
 
-		/// <summary>
-		/// Calcualtes an asymmetric triangle wave
-		/// </summary>
-		/// <param name="phase">Position in wave, 0..1</param>
-		/// <param name="slope">Slope, 0..1, 0.5 is symmetric triangle</param>
-		/// <returns></returns>
-        private float Triangle(float phase, float slope = 0.5f)
-        {
-        	return phase < slope ? (2/slope) * phase - 1 : 1 - (2/(1-slope)) * (phase-slope);
-        }
-
-        private float Wrap(float x, float min = -1.0f, float max = 1.0f)
-        {
-            var range = max - min;
-
-            if (x > max)
-                return x - range;
-
-            if (x < min)
-                return x + range;
-
-            return x;
-        }
 
         float T; 
-        float FFrequency;
-        public float Frequency 
-        {
-            get 
-            {
-                return FFrequency;
-            }
-            set 
-            {
-                if(FFrequency != value)
-                {
-                    FFrequency = value;
-                    CalcFrequencyConsts(value);
-                }
-            }
-        }
-
         void CalcFrequencyConsts(float freq)
         {
             T = freq / SampleRate;
-            CalcTriangleCoefficients(FSlope, T);
+            CalcTriangleCoefficients(Slope.Value);
         }
-        
-        float FSlope;
-        public float Slope
-        {
-            get
-            {
-                return FSlope;
-            }
-            
-            set
-            {
-                if(FSlope != value)
-                {
-                    FSlope = value;
-                    CalcTriangleCoefficients(value, T);
-                }
-            }
-        }
-        
+
         //triangle precalculated values
         bool FTriangleUp = true;
         float A, B, AoverB, BoverA, a2, a1, a0, b2, b1, b0;
 
-        void CalcTriangleCoefficients(float slope, float T)
+        void CalcTriangleCoefficients(float slope)
         {
             //triangle magnitudes
             var slopeClamp = (float)VMath.Clamp(slope, 0.01, 0.99);
@@ -154,19 +85,21 @@ namespace VVVV.Audio
             tmp = B*T + 1;
             b0 = -(tmp*tmp) * rezDenomB;
         }
+        
+        
 
         private void OscEPTR(float[] buffer, int count)
         {
             bool sync = false;
-            var slope = FSlope;
+            var slope = Slope.Value;
             
-            switch (WaveForm)
+            switch (WaveForm.Value)
             {
                 case WaveFormSelection.Sine:
                     break;
                 
                 case WaveFormSelection.Sawtooth: 
-                    slope = Wrap(slope + 0.5f, 0, 1);
+                    slope = AudioUtils.Wrap(slope + 0.5f, 0, 1);
                     goto case WaveFormSelection.Triangle;
                     
                 case WaveFormSelection.Triangle:
@@ -184,7 +117,7 @@ namespace VVVV.Audio
 
                         if (slope >= 0.99f) // rising saw
                         { 
-                            FPhase = sync ? -1 : FPhase + 2*T + buffer[i]*FMLevel;
+                            FPhase = sync ? -1 : FPhase + 2*T + buffer[i]*FMLevel.Value;
                             if (FPhase > 1.0f - T) //transition
                             {
                                 sample = FPhase - (FPhase / T) + (1.0f / T) - 1.0f;
@@ -197,7 +130,7 @@ namespace VVVV.Audio
                         }
                         else if (slope <= 0.01f) // falling saw
                         { 	
-                            FPhase = sync ? -1 : FPhase + 2*T + buffer[i]*FMLevel;                            
+                            FPhase = sync ? -1 : FPhase + 2*T + buffer[i]*FMLevel.Value;                            
                             if (FPhase > 1.0f - T) //transition
                             {
                                 sample = -FPhase + (FPhase / T) - (1.0f / T) + 1.0f;
@@ -242,7 +175,7 @@ namespace VVVV.Audio
                             }
                         }
                         
-                        buffer[i] = sample*Gain;
+                        buffer[i] = sample*Gain.Value;
                     }
                     break;
                 case WaveFormSelection.Square:
@@ -252,14 +185,14 @@ namespace VVVV.Audio
 
         private void OscBasic(float[] buffer, int count)
         {
-            switch (WaveForm)
+            switch (WaveForm.Value)
             {
                 case WaveFormSelection.Sine:
                     var incrementSin = TwoPi * T;
                     for (int i = 0; i < count; i++)
                     {
                         // Sinus Generator
-                        buffer[i] = Gain * (float)Math.Sin(FPhase);
+                        buffer[i] = Gain.Value * (float)Math.Sin(FPhase);
                         FPhase += incrementSin;
                         if (FPhase > TwoPi)
                             FPhase -= TwoPi;
@@ -272,7 +205,7 @@ namespace VVVV.Audio
                     for (int i = 0; i < count; i++)
                     {
                         FPhase = FPhase + 2 * T;
-                        buffer[i] = FPhase < 1.0f ? -Gain + (2 * Gain) * FPhase : 3 * Gain - (2 * Gain) * FPhase;
+                        buffer[i] = FPhase < 1.0f ? -Gain.Value + (2 * Gain.Value) * FPhase : 3 * Gain.Value - (2 * Gain.Value) * FPhase;
 
                         if (FPhase >= 2.0f)
                             FPhase -= 2.0f;
@@ -282,7 +215,7 @@ namespace VVVV.Audio
                     for (int i = 0; i < count; i++)
                     {
                         FPhase = FPhase + 2 * T;
-                        buffer[i] = FPhase < 1.0f ? Gain : -Gain;
+                        buffer[i] = FPhase < 1.0f ? Gain.Value : -Gain.Value;
 
                         if (FPhase >= 2.0f)
                             FPhase -= 2.0f;
@@ -298,10 +231,24 @@ namespace VVVV.Audio
                             FPhase -= 2.0f;
                         }
 
-                        buffer[i] = Gain * FPhase;
+                        buffer[i] = Gain.Value * FPhase;
                     }
                     break;
             }
+        }
+        
+        protected override void FillBuffer(float[] buffer, int offset, int count)
+        {
+            //OscBasic(buffer, count);
+            
+            if(UseEPTR.Value)
+                OscEPTR(buffer, count);
+            else
+                OscBasic(buffer, count);
+            
+//			PerfCounter.Start("Sine");
+            
+//			PerfCounter.Stop("Sine");
         }
 	}
 	

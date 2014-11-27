@@ -12,7 +12,7 @@ namespace VVVV.Audio
         BlackmannHarris
     }
     
-	public class FFTOutSignal : SinkSignal<double[]>
+	public class FFTOutSignal : SinkSignal
 	{
 		protected LomontFFT FFFT = new LomontFFT();
 		protected CircularBuffer FRingBuffer = new CircularBuffer(512);
@@ -58,7 +58,7 @@ namespace VVVV.Audio
 		public int BufferSize;
 
 		double[] FFFTBuffer = new double[1];
-		double[] FOutBuffer = new double[1];
+		public double[] FFTOut = new double[1];
 		double[] FWindow = new double[1];
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
@@ -76,18 +76,13 @@ namespace VVVV.Audio
 				if (FFFTBuffer.Length != fftSize)
 				{
 					FFFTBuffer = new double[fftSize];
-					FOutBuffer = new double[fftSize];
+					FFTOut = new double[fftSize];
 					FWindow = AudioUtils.CreateWindowDouble(fftSize, WindowFunc);
 				}
 			
 				FRingBuffer.ReadDoubleWindowed(FFFTBuffer, FWindow, 0, fftSize);
 				FFFT.RealFFT(FFFTBuffer, true);
-				Array.Copy(FFFTBuffer, FOutBuffer, fftSize);
-				this.SetLatestValue(FOutBuffer);
-			}
-			else 
-			{
-				this.SetLatestValue(new double[1]);
+				Array.Copy(FFFTBuffer, FFTOut, fftSize);
 			}
 		}
 	}

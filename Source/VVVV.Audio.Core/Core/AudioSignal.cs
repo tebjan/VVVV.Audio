@@ -83,6 +83,12 @@ namespace VVVV.Audio
 	/// </summary>
 	public abstract class AudioSignal : AudioSignalBase, ISampleProvider, ICanCopyBuffer
 	{
+	    static AudioSignal()
+	    {
+	        ParameterDescription = new SignalParameterDescription();
+	    }
+	    
+	    public static readonly SignalParameterDescription ParameterDescription;
 		
 		public AudioSignal()
 	    {

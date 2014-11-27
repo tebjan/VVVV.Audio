@@ -62,6 +62,7 @@
     <Compile Include="Core\AudioEngine.cs" />
     <Compile Include="Core\AudioEngineTimer.cs" />
     <Compile Include="Core\AudioSignal.cs" />
+    <Compile Include="Core\AudioParameter.cs" />
     <Compile Include="Core\MasterWaveProvider.cs" />
     <Compile Include="Core\MultiChannelSignal.cs" />
     <Compile Include="Core\SinkSignal.cs" />

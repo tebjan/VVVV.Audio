@@ -5,7 +5,7 @@ using NAudio.Wave.SampleProviders;
 #endregion
 namespace VVVV.Audio
 {
-	public class WaveRecorderSignal : SinkSignal<int>
+	public class WaveRecorderSignal : SinkSignal
 	{
 		WaveFileWriter FWriter;
 

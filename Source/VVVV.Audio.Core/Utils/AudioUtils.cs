@@ -78,6 +78,30 @@ namespace VVVV.Audio
 			
             return z;
 		}
+		
+		public static float Wrap(float x, float min = -1.0f, float max = 1.0f)
+		{
+		    var range = max - min;
+
+		    if (x > max)
+		        return x - range;
+
+		    if (x < min)
+		        return x + range;
+
+		    return x;
+		}
+		
+	    /// <summary>
+		/// Calcualtes an asymmetric triangle wave
+		/// </summary>
+		/// <param name="phase">Position in wave, 0..1</param>
+		/// <param name="slope">Slope, 0..1, 0.5 is symmetric triangle</param>
+		/// <returns></returns>
+        public static float Triangle(float phase, float slope = 0.5f)
+        {
+        	return phase < slope ? (2/slope) * phase - 1 : 1 - (2/(1-slope)) * (phase-slope);
+        }
 
         public static float[] CreateWindowFloat(int size, WindowFunction windowType)
         {

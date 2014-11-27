@@ -16,9 +16,9 @@ using VVVV.Utils.VMath;
 
 namespace VVVV.Nodes
 {
-	public abstract class CommonAudioNodeBase : IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification
-	{		
-		protected List<IDiffSpread> FDiffInputs = new List<IDiffSpread>();
+    public abstract class AudioNodeBase<TSignal> : IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification where TSignal : AudioSignal
+    {
+        protected List<IDiffSpread> FDiffInputs = new List<IDiffSpread>();
 		
 		protected AudioEngine FEngine;
 		public virtual void OnImportsSatisfied()
@@ -40,12 +40,8 @@ namespace VVVV.Nodes
 				}
 			}
 		}
-		
-
-		//called when data for any output pin is requested
-		public abstract void Evaluate(int SpreadMax);
-		
-		/// <summary>
+        
+        /// <summary>
 		/// Should return whether new parameters need to be set on the audio signals
 		/// </summary>
 		/// <returns></returns>
@@ -58,15 +54,7 @@ namespace VVVV.Nodes
 			
 			return false;
 		}
-		
-		//dispose stuff?
-		public virtual void Dispose()
-		{
-		}
-	}
-
-    public abstract class AudioNodeBase<TSignal> : CommonAudioNodeBase where TSignal : AudioSignal
-    {
+        
         //for subclasses
         protected int CalculatedSpreadMax
         {
@@ -76,16 +64,18 @@ namespace VVVV.Nodes
 
         protected abstract ISpread<AudioSignal> GetSignalSpread();
 
-        public override void Evaluate(int SpreadMax)
+        public virtual void Evaluate(int SpreadMax)
         {
+            
+            var signalSpread = GetSignalSpread();
             CalculatedSpreadMax = GetSpreadMax(SpreadMax);
-            GetSignalSpread().Resize(CalculatedSpreadMax, GetInstance, x => { if(x != null) x.Dispose(); } );
+            signalSpread.Resize(CalculatedSpreadMax, GetInstance, x => { if(x != null) x.Dispose(); } );
 
             if (AnyInputChanged())
             {
                 for (int i = 0; i < CalculatedSpreadMax; i++)
                 {
-                    var audioSignal = GetSignalSpread()[i];
+                    var audioSignal = signalSpread[i];
 
                     if (audioSignal == null)
                         audioSignal = GetInstance(i);
@@ -93,6 +83,17 @@ namespace VVVV.Nodes
                     if (audioSignal is TSignal)
                         SetParameters(i, audioSignal as TSignal);
                 }
+            }
+   
+            SetOutputSliceCount(CalculatedSpreadMax);
+            
+            for(int i=0; i<CalculatedSpreadMax; i++)
+            {
+                var audioSignal = signalSpread[i];
+                
+                var tSignal = audioSignal as TSignal;
+                if(tSignal != null)
+                    SetOutputs(i, tSignal);
             }
         }
 
@@ -119,12 +120,30 @@ namespace VVVV.Nodes
         /// <param name="i">Current index of the output signal spread</param>
         /// <param name="instance">Curretn instance</param>
         protected abstract void SetParameters(int i, TSignal instance);
+        
+        		/// <summary>
+		/// Set the output pins of the node
+		/// </summary>
+		/// <param name="i">Current slice index</param>
+		/// <param name="instance">Current instance</param>
+		protected virtual void SetOutputs(int i, TSignal instance) {}
+		
+		/// <summary>
+		/// In this method the slicecount of the output pins should be set
+		/// </summary>
+		/// <param name="sliceCount"></param>
+		protected virtual void SetOutputSliceCount(int sliceCount) {}
+		
+		//dispose stuff?
+		public virtual void Dispose()
+		{
+		}
     }
 
     /// <summary>
     /// Base class for audio sink nodes
     /// </summary>
-    public abstract class GenericAudioSinkNode<TSignal, TValue> : AudioNodeBase<TSignal> where TSignal : SinkSignal<TValue>
+    public abstract class GenericAudioSinkNode<TSignal> : AudioNodeBase<TSignal> where TSignal : SinkSignal
     {
         [Input("Input", Order = -10)]
         public IDiffSpread<AudioSignal> FInputs;
@@ -135,40 +154,6 @@ namespace VVVV.Nodes
         {
             return FSignals;
         }
-    }
-
-    /// <summary>
-    /// Base class for audio sink nodes with outputs
-    /// </summary>
-    public abstract class GenericAudioSinkNodeWithOutputs<TSignal, TValue> : GenericAudioSinkNode<TSignal, TValue> where TSignal : SinkSignal<TValue>
-    {
-        public override void Evaluate(int SpreadMax)
-        {
-            base.Evaluate(SpreadMax);
-
-            SetOutputSliceCount(CalculatedSpreadMax);
-
-            for (int i = 0; i < CalculatedSpreadMax; i++)
-            {
-                var audioSignal = FSignals[i];
-
-                if (audioSignal is TSignal)
-                    SetOutputs(i, audioSignal as TSignal);
-            }
-        }
-
-        /// <summary>
-        /// Set the output pins of the node
-        /// </summary>
-        /// <param name="i">Current slice index</param>
-        /// <param name="instance">Current instance</param>
-        protected abstract void SetOutputs(int i, TSignal instance);
-
-        /// <summary>
-        /// In this method the slicecount of the output pins should be set
-        /// </summary>
-        /// <param name="sliceCount"></param>
-        protected abstract void SetOutputSliceCount(int sliceCount);
     }
 
     /// <summary>
@@ -185,9 +170,7 @@ namespace VVVV.Nodes
 		{
 			
 			base.OnImportsSatisfied();
-			
-			
-			
+
 			var outputAttribute = new OutputAttribute("Audio Out")
 			{
 				Order = -10,
@@ -232,58 +215,6 @@ namespace VVVV.Nodes
     }
 	
 	/// <summary>
-	/// Base class for audio filter nodes 
-	/// </summary>
-    public abstract class GenericAudioFilterNode<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : AudioSignalInput
-	{
-		[Input("Input", Order = -10)]
-		public IDiffSpread<AudioSignal> FInputs;
-	}
-	
-	/// <summary>
-	/// Audio source node with output pins
-	/// </summary>
-    public abstract class GenericAudioSourceNodeWithOutputs<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : AudioSignal
-	{
-		public override void Evaluate(int SpreadMax)
-		{
-			base.Evaluate(SpreadMax);
-			
-			SetOutputSliceCount(CalculatedSpreadMax);
-			
-			for(int i=0; i<CalculatedSpreadMax; i++)
-			{
-				var audioSignal = FOutputSignals[i];
-				
-				if(audioSignal is TSignal)
-					SetOutputs(i, audioSignal as TSignal);
-			}
-		}
-		
-		/// <summary>
-		/// Set the output pins of the node
-		/// </summary>
-		/// <param name="i">Current slice index</param>
-		/// <param name="instance">Current instance</param>
-		protected abstract void SetOutputs(int i, TSignal instance);
-		
-		/// <summary>
-		/// In this method the slicecount of the output pins should be set
-		/// </summary>
-		/// <param name="sliceCount"></param>
-		protected abstract void SetOutputSliceCount(int sliceCount);
-	}
-
-    /// <summary>
-    /// Base class for audio filter nodes which have value output pins
-    /// </summary>
-    public abstract class GenericAudioFilterNodeWithOutputs<TSignal> : GenericAudioSourceNodeWithOutputs<TSignal> where TSignal : AudioSignalInput
-    {
-        [Input("Input", Order = -10)]
-        public IDiffSpread<AudioSignal> FInputs;
-    }	
-	
-	/// <summary>
 	/// Audio node base class with multichannel signals and automatic instance handling
 	/// </summary>
     public abstract class GenericMultiAudioSourceNode<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : MultiChannelSignal
@@ -311,8 +242,9 @@ namespace VVVV.Nodes
 					if(audioSignal == null) 
 						audioSignal = GetInstance(i);
 					
-					if(audioSignal is TSignal)
-						SetParameters(i, audioSignal as TSignal);
+                    var tSignal = audioSignal as TSignal;
+					if(tSignal != null)
+                        SetParameters(i, tSignal);
 				}
 				
 				var outCount = 0;
@@ -337,17 +269,6 @@ namespace VVVV.Nodes
 					}
 				}
 			}
-		}
-	}
-	
-	/// <summary>
-    /// Audio node base class with multichannel signals and automatic instance handling and value outputs
-	/// </summary>
-	public abstract class GenericMultiAudioSourceNodeWithOutputs<TSignal> : GenericMultiAudioSourceNode<TSignal> where TSignal : MultiChannelSignal
-	{
-		public override void Evaluate(int SpreadMax)
-		{
-			base.Evaluate(SpreadMax);
 			
 			SetOutputSliceCount(CalculatedSpreadMax);
 			
@@ -355,25 +276,13 @@ namespace VVVV.Nodes
 			{
 				var audioSignal = FInternalSignals[i];
 				
-				if(audioSignal is TSignal)
-					SetOutputs(i, audioSignal as TSignal);
+                var tSignal = audioSignal as TSignal;
+				if(tSignal != null)
+                    SetOutputs(i, tSignal);
 			}
 		}
 		
-		/// <summary>
-		/// Set the output pins of the node
-		/// </summary>
-		/// <param name="i">Current slice index</param>
-		/// <param name="instance">Current instance</param>
-		protected abstract void SetOutputs(int i, TSignal instance);
-		
-		/// <summary>
-		/// In this method the slicecount of the output pins should be set
-		/// </summary>
-		/// <param name="sliceCount"></param>
-		protected abstract void SetOutputSliceCount(int sliceCount);
 	}
-	
 	
 }
 

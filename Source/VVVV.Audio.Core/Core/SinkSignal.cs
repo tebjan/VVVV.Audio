@@ -17,52 +17,11 @@ namespace VVVV.Audio
 	/// <summary>
 	/// Base class for all sink signals which have no audio output
 	/// </summary>
-	public class SinkSignal<TValue> : AudioSignalInput, IAudioSink
+	public class SinkSignal : AudioSignalInput, IAudioSink
 	{
 		public SinkSignal()
 		{
 			AudioService.AddSink(this);
-		}
-		
-		private volatile bool FReading;
-		private volatile bool FWriting;
-		private TValue FValueToPass;
-		private TValue FLastValue;
-		
-		public bool GetLatestValue(out TValue value)
-		{
-			var success = false;
-			FReading = true;
-			if (!FWriting)
-			{
-				FLastValue = FValueToPass;
-				success = true;
-			}
-			else
-			{
-				System.Diagnostics.Debug.WriteLine("Could not read");
-			}
-			
-			value = FLastValue;
-			FReading = false;
-			return success;
-		}
-		
-		protected bool SetLatestValue(TValue newValue)
-		{
-			var success = false;
-			FWriting = true;
-			if (!FReading)
-			{
-				FValueToPass = newValue;
-				success = true;
-			}
-			else
-			{
-				System.Diagnostics.Debug.WriteLine("Could not write");
-			}
-			FWriting = false;
-			return success;
 		}
 		
 		protected float[] FInternalBuffer;
