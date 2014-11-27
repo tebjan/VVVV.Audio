@@ -69,7 +69,7 @@ namespace VVVV.Nodes
             
             var signalSpread = GetSignalSpread();
             CalculatedSpreadMax = GetSpreadMax(SpreadMax);
-            signalSpread.Resize(CalculatedSpreadMax, GetInstance, x => { if(x != null) x.Dispose(); } );
+            signalSpread.Resize(CalculatedSpreadMax, GetInstance, DisposeInstance);
 
             if (AnyInputChanged())
             {
@@ -80,8 +80,9 @@ namespace VVVV.Nodes
                     if (audioSignal == null)
                         audioSignal = GetInstance(i);
 
-                    if (audioSignal is TSignal)
-                        SetParameters(i, audioSignal as TSignal);
+                    var tSignal = audioSignal as TSignal;
+                    if (tSignal != null)
+                        SetParameters(i, tSignal);
                 }
             }
    
@@ -113,6 +114,17 @@ namespace VVVV.Nodes
         /// <param name="i">The current slice index of the output signal</param>
         /// <returns>New instnace of the audio signal class</returns>
         protected abstract TSignal GetInstance(int i);
+        
+        /// <summary>
+        /// Overwrite in sub class to handle the disposal of instances,
+        /// don't forget to call base.DisposeInstance(instance)
+        /// </summary>
+        /// <param name="instance">Instance signal instance to dipose</param>
+        protected virtual void DisposeInstance(AudioSignal instance)
+        {
+            if(instance != null)
+                instance.Dispose();
+        }
 
         /// <summary>
         /// This should set the parameters of the given audio signal class

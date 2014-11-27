@@ -96,17 +96,17 @@ namespace VVVV.Nodes
 
         protected override TSignal GetInstance(int i)
 		{
-            var sig = new TSignal();
+            var instance = new TSignal();
 
             //assign pin relation
             var flags = BindingFlags.Instance | BindingFlags.Public;
-			var fields = sig.GetType().GetFields(flags);
+			var fields = instance.GetType().GetFields(flags);
 			
 			foreach (var fi in fields)
 			{
 				if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
 				{
-				    var param = (SigParamBase)fi.GetValue(sig);
+				    var param = (SigParamBase)fi.GetValue(instance);
 				    
 				    if(param.IsOutput)
 				    {
@@ -119,7 +119,33 @@ namespace VVVV.Nodes
 				}
 			}
             
-			return sig;
+			return instance;
 		}
+        
+        protected override void DisposeInstance(AudioSignal instance)
+        {
+            //remove pin relation
+            var flags = BindingFlags.Instance | BindingFlags.Public;
+			var fields = instance.GetType().GetFields(flags);
+			
+			foreach (var fi in fields)
+			{
+				if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
+				{
+				    var param = (SigParamBase)fi.GetValue(instance);
+				    
+				    if(param.IsOutput)
+				    {
+				        FOutputPinRelation.Remove(param);
+				    }
+				    else
+				    {
+				        FInputPinRelation.Remove(param);
+				    }
+				}
+			}
+			
+            base.DisposeInstance(instance);
+        }
 	}
 }
