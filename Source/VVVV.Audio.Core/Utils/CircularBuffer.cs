@@ -40,6 +40,7 @@ namespace VVVV.Audio
                 {
                     FSize = value;
                     Buffer = new float[value];
+                    FWritePos = -1;
                 }
             }
         }

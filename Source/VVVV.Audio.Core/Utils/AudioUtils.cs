@@ -49,6 +49,36 @@ namespace VVVV.Audio
 			}
 		}
 		
+		public static void ResampleMax(float[] source, float[] dest, int outCount)
+		{
+		    
+		    var samples = source.Length;
+		    
+		    if(samples > outCount)
+		    {
+    			int blockSize = (int)(samples / outCount);
+    			
+    			for (int slice = 0; slice < outCount; slice++)
+    			{
+    			    //do the min/max
+    			    var maxValue = 0.0f;
+    			    var minValue = 0.0f;
+    			    var offset = slice * blockSize;
+    			    for (int i = 0; i < blockSize; i++)
+    			    {  
+    			        maxValue = Math.Max(maxValue, source[i+offset]);
+    			        minValue = Math.Min(minValue, source[i+offset]);
+    			    }
+    			    
+    			    dest[slice] = maxValue > -minValue ? maxValue : minValue;
+    			}
+		    }
+		    else if(samples == outCount)
+		    {
+		        Array.Copy(source, dest, outCount);
+		    }
+		}
+		
 		public static IEnumerable<T> Circular<T>(this IEnumerable<T> coll)
 		{
 		    while(true)

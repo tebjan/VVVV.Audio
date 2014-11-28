@@ -5,7 +5,7 @@ namespace VVVV.Audio
 {
 	public class BufferOutSignal : SinkSignal
 	{
-	    CircularBuffer Buffer = new CircularBuffer(512);
+	    public CircularBuffer Buffer = new CircularBuffer(512);
 	    
 		public BufferOutSignal(AudioSignal input)
 		{

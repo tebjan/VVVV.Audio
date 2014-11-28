@@ -24,6 +24,13 @@
             <param name="i">The current slice index of the output signal</param>
             <returns>New instnace of the audio signal class</returns>
         </member>
+        <member name="M:VVVV.Nodes.AudioNodeBase`1.DisposeInstance(VVVV.Audio.AudioSignal)">
+            <summary>
+            Overwrite in sub class to handle the disposal of instances,
+            don't forget to call base.DisposeInstance(instance)
+            </summary>
+            <param name="instance">Instance signal instance to dipose</param>
+        </member>
         <member name="M:VVVV.Nodes.AudioNodeBase`1.SetParameters(System.Int32,`0)">
             <summary>
             This should set the parameters of the given audio signal class

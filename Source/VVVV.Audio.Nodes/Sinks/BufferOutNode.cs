@@ -17,9 +17,14 @@ namespace VVVV.Nodes
 {
 	
 	
-	[PluginInfo(Name = "GetBuffer", Category = "VAudio", Version = "Sink", Help = "Returns a complete buffer", Tags = "Scope, Samples")]
+	[PluginInfo(Name = "GetBuffer", Category = "VAudio", Version = "Sink", Help = "Returns the last N samples rescaled to M values", Tags = "Scope, Samples")]
     public class BufferOutNode : GenericAudioSinkNode<BufferOutSignal>
 	{
+		[Input("Buffer Size", DefaultValue = 512)]
+		public IDiffSpread<int> FSize;
+		
+		[Input("Spread Count", DefaultValue = 512)]
+		public IDiffSpread<int> FSpreadCount;
 		
 		[Output("Buffer")]
 		public ISpread<ISpread<float>> FBufferOut;
@@ -29,16 +34,9 @@ namespace VVVV.Nodes
             if (instance != null)
             {
                 var spread = FBufferOut[i];
-                float[] buffer = instance.BufferOut;
-                if (buffer != null)
-                {
-                    if (spread == null)
-                    {
-                        spread = new Spread<float>(buffer.Length);
-                    }
-                    spread.SliceCount = buffer.Length;
-                    spread.AssignFrom(buffer);
-                }
+                spread.SliceCount = FSpreadCount[i];
+                AudioUtils.ResampleMax(instance.BufferOut, spread.Stream.Buffer, spread.SliceCount);
+                FBufferOut[i] = spread;
             }
             else
             {
@@ -59,6 +57,7 @@ namespace VVVV.Nodes
         protected override void SetParameters(int i, BufferOutSignal instance)
         {
             instance.Input = FInputs[i];
+            instance.Buffer.Size = FSize[i];
         }
     }
 }

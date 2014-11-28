@@ -49,12 +49,12 @@ namespace VVVV.Nodes
             {
 //                var spreadComplex = FFFTOutComplex[i];
                 var spread = FFFTOut[i];
-                double[] val = instance.FFTOut;
-                if (val != null)
+                double[] fftData = instance.FFTOut;
+                if (fftData != null)
                 {
                     if(spread == null)
                     {
-                        spread = new Spread<double>(val.Length);
+                        spread = new Spread<double>(fftData.Length);
                     }
                     
 //                    if (spreadComplex == null)
@@ -62,16 +62,16 @@ namespace VVVV.Nodes
 //                        spreadComplex = new Spread<double>(val.Length);
 //                    }
                     
-                    var halfSize = val.Length / 2;
+                    var halfSize = fftData.Length / 2;
                     spread.SliceCount = halfSize;
                     spread[0] = 0;
                     
                     var nn = 2;
                     for (int n = 1; n < halfSize; n++) 
                     {
-                        var real = val[nn++];
-                        var imag = val[nn++];
-                        spread[n] = Math.Sqrt(real * real + imag * imag);
+                        var real = fftData[nn++];
+                        var imag = fftData[nn++];
+                        spread[n] = Decibels.LinearToDecibels(Math.Sqrt(real * real + imag * imag)) / 120 + 1;
                     }
 
 //                    spreadComplex.SliceCount = val.Length;
