@@ -42,7 +42,8 @@ namespace VVVV.Nodes
 		    v++;
 		    return v;
 		}
-
+        
+		readonly float Min150dB = (float)Decibels.DecibelsToLinear(-150);
         protected override void SetOutputs(int i, FFTOutSignal instance)
         {
             if (instance != null)
@@ -71,7 +72,7 @@ namespace VVVV.Nodes
                     {
                         var real = fftData[nn++];
                         var imag = fftData[nn++];
-                        spread[n] = Decibels.LinearToDecibels(Math.Sqrt(real * real + imag * imag)) / 120 + 1;
+                        spread[n] = Decibels.LinearToDecibels(Math.Max(Math.Sqrt(real * real + imag * imag), Min150dB)) / 150 + 1;
                     }
 
 //                    spreadComplex.SliceCount = val.Length;
