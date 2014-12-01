@@ -13,8 +13,44 @@ using VVVV.Audio;
 
 namespace VVVV.Nodes
 {
+	public class TestSignal : AudioSignal
+	{
+		public SigParam<AudioSignal> FInput = new SigParam<AudioSignal>("Input");
+		public SigParam<float> Gain = new SigParam<float>("Gain");
+		
+		protected override void FillBuffer(float[] buffer, int offset, int count)
+		{
+			//get input
+			if(FInput.Value != null)
+				FInput.Value.Read(buffer, offset, count);
+			else
+				buffer.ReadSilence(offset, count);
+			
+			for(int i=offset; i<count; i++)
+			{
+				buffer[i] *= Gain.Value;
+			}
+		}
+	}
+	
+	#region PluginInfo
+	[PluginInfo(Name = "Gain", Category = "VAudio", Help = "Volume", Tags = "")]
+	#endregion PluginInfo
+	public class VAudioTesterNode : AutoAudioSignalNode<TestSignal>
+	{
+		//this is awesome
+	}
+	
 	public class TestOscSignal : AudioSignal
 	{
+		public SigParamDiff<float> Frequency = new SigParamDiff<float>("Frequency", 440);
+	    public SigParam<WaveFormSelection> WaveForm = new SigParam<WaveFormSelection>("Wave Form");
+	    public SigParamDiff<float> Slope = new SigParamDiff<float>("Symmetry", 0.5f);
+	    public SigParam<bool> UseEPTR = new SigParam<bool>("Use EPTR");
+	    public SigParam<AudioSignal> FMInput = new SigParam<AudioSignal>("FM");
+	    public SigParam<float> FMLevel = new SigParam<float>("FM Level");
+		public SigParam<float> Gain = new SigParam<float>("Gain");
+		
 		public TestOscSignal()
 	    {
 	        //get param change events
@@ -27,14 +63,6 @@ namespace VVVV.Nodes
 	        base.Engine_SampleRateChanged(sender, e);
 	        CalcFrequencyConsts(Frequency.Value);
 	    }
-
-	    public SigParamDiff<float> Frequency = new SigParamDiff<float>("Frequency", 440);
-	    public SigParam<WaveFormSelection> WaveForm = new SigParam<WaveFormSelection>("Wave Form");
-	    public SigParamDiff<float> Slope = new SigParamDiff<float>("Symmetry", 0.5f);
-	    public SigParam<bool> UseEPTR = new SigParam<bool>("Use EPTR");
-	    public SigParam<AudioSignal> FMInput = new SigParam<AudioSignal>("FM");
-	    public SigParam<float> FMLevel = new SigParam<float>("FM Level");
-		public SigParam<float> Gain = new SigParam<float>("Gain");
 
 		const float TwoPi = (float)(Math.PI * 2);
 		const float HalfPi = (float)(Math.PI * 0.5);
@@ -84,11 +112,11 @@ namespace VVVV.Nodes
             b0 = -(tmp*tmp) * rezDenomB;
         }
 		
+		// from http://www.yofiel.com/software/cycling-74-patches/antialiased-oscillators
 		float eptr(float ramp, float regionSize, float slope)
 		{
 			slope *= 0.5f;
-		
-			//Buffer buf("eptr");         // loads eptr buffer from Max
+			
 			//d2 = 8192  / d1;            // buffer transition coefficient;
 			var d2 = TwoPi *.213332 / regionSize; // transcendental coefficient;
 			var slopeMin = 1-slope;                  // inverted duty cycle
@@ -211,48 +239,41 @@ namespace VVVV.Nodes
                     }
             	break;
             	case WaveFormSelection.Square:
-            	//per sample loop
-            	for (int i = 0; i < count; i++)
-            	{
-            		// The ramp works in the range -1~+1, to prevent phase inversion
-            		// by negative wraps from FM signals
-            		FPhase = sync ? -1 : FPhase + t2 + FMBuffer[i]*FMLevel.Value;
-            		if(FPhase > 1.0f)
-            			FPhase -= 2.0f;
-            		//z0 = r1;
-            		// In case FM present, a new inc is interpolated from phase history
-            		//z1=inc;
-            		//z2=z1;
-            		//z3=z2;
-            		//z4=z3;
-            		//inc2 = interp(inc,z1,z2,z3,z4,mode="spline");
-            		/* *************************************************************/
-            		/* Main
-					/* *************************************************************/
-            		var r2 = FPhase *0.5f + 0.5f;       // ramp rescaled to 0-1 for EPTR calcs
-            		//            	if (inc2<.125){      // if Fc<sr/16 (2756Hz @441000 sr)
-            		var d1 = t2 * 2;   // width of phase transition region (4*fc/sr)
-            		buffer[i] = eptr(r2, 2*t2, slope) * Gain.Value;
-            		//            	} else {                // adding 3x oversampling at higher freqs
-            		//            		t0 = delta(r2);
-            		//            		if (t0>0){ t2 = r2 -t0 *.6666667;                     //z-2
-            		//            			t1 = r2 -t0 *.3333333;             //z-1
-            		//            		} else {   t2 =wrap(zt *.3333333 +zr, 0, 1);          //z-2
-            		//            			t1 =wrap(zt *.6666667 +zr, 0, 1);          //z-1
-            		//            		}
-            		//            		zt = t0;               // ramp and delta history for interp
-            		//            		zr = r2;
-            		//            		d1  = inc2;            // shrink transition region
-            		//            		t2 =eptr(t2, d1, w1);
-            		//            		t1 =eptr(t1, d1, w1);
-            		//            		t0 =eptr(r2, d1, w1);
-            		//
-            		//            		if      (t2==t1 &amp;&amp; t1==t0)                   out1 = t0;
-            		//            		else if (t2!=-1 &amp;&amp; t1==-1 &amp;&amp; t0!=-1) out1 = -1;
-            		//            		else if (t2!=1  &amp;&amp; t1==1  &amp;&amp; t0!=1)  out1 =  1;
-            		//            		else out1 = (t2 + t1 + t0) * .33333333;
-            		//            	}
-            	}
+            	
+	            	//per sample loop
+	            	for (int i = 0; i < count; i++)
+	            	{
+	            		//from http://www.yofiel.com/software/cycling-74-patches/antialiased-oscillators
+	            		// The ramp works in the range -1~+1, to prevent phase inversion
+	            		// by negative wraps from FM signals
+	            		FPhase = sync ? -1 : FPhase + t2 + FMBuffer[i]*FMLevel.Value;
+	            		if(FPhase > 1.0f)
+	            			FPhase -= 2.0f;
+	
+	            		var r2 = FPhase *0.5f + 0.5f;       // ramp rescaled to 0-1 for EPTR calcs
+	            		//            	if (inc2<.125){      // if Fc<sr/16 (2756Hz @441000 sr)
+	            		var d1 = t2 * 2;   // width of phase transition region (4*fc/sr)
+	            		buffer[i] = eptr(r2, 2*t2, slope) * Gain.Value;
+	            		//            	} else {                // adding 3x oversampling at higher freqs
+	            		//            		t0 = delta(r2);
+	            		//            		if (t0>0){ t2 = r2 -t0 *.6666667;                     //z-2
+	            		//            			t1 = r2 -t0 *.3333333;             //z-1
+	            		//            		} else {   t2 =wrap(zt *.3333333 +zr, 0, 1);          //z-2
+	            		//            			t1 =wrap(zt *.6666667 +zr, 0, 1);          //z-1
+	            		//            		}
+	            		//            		zt = t0;               // ramp and delta history for interp
+	            		//            		zr = r2;
+	            		//            		d1  = inc2;            // shrink transition region
+	            		//            		t2 =eptr(t2, d1, w1);
+	            		//            		t1 =eptr(t1, d1, w1);
+	            		//            		t0 =eptr(r2, d1, w1);
+	            		//
+	            		//            		if      (t2==t1 &amp;&amp; t1==t0)                   out1 = t0;
+	            		//            		else if (t2!=-1 &amp;&amp; t1==-1 &amp;&amp; t0!=-1) out1 = -1;
+	            		//            		else if (t2!=1  &amp;&amp; t1==1  &amp;&amp; t0!=1)  out1 =  1;
+	            		//            		else out1 = (t2 + t1 + t0) * .33333333;
+	            		//            	}
+	            	}
             	break;
             }
         }

@@ -90,7 +90,8 @@ namespace VVVV.Audio
 
 		public ResampleSignal(double srcRate, double dstRate, AudioSignal input, double reqTransBand = 3)
 		{
-			FInput = input;
+			InputSignal.Value = input;
+			InputSignal.ValueChanged = InputWasSet;
 			SetupConverter(srcRate, dstRate, reqTransBand);
 		}
 
@@ -101,7 +102,7 @@ namespace VVVV.Audio
 			if (FConverter == null || FConverter.SourcRate != srcRate || FConverter.DestinationRate != dstRate) {
 				FConverter = new R8BrainSampleRateConverter(srcRate, dstRate, 4096, reqTransBand, R8BrainResamplerResolution.R8Brain24);
 				FPullBuffer = new ResamplerPullBuffer(FConverter);
-				FPullBuffer.Input = FInput;
+				FPullBuffer.Input = InputSignal.Value;
 			}
 		}
 
@@ -128,7 +129,7 @@ namespace VVVV.Audio
 		}
 
 		//set new input for the pull buffer
-		protected override void InputWasSet(AudioSignal newInput)
+		protected void InputWasSet(AudioSignal newInput)
 		{
 			FPullBuffer.Input = newInput;
 		}

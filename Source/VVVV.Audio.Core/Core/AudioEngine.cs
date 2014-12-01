@@ -19,6 +19,7 @@ namespace VVVV.Audio
 		//the driver wrapper
 		public AsioOut AsioOut;
 		
+		//singleton pattern
 		private static AudioEngine SInstance;
 		public static AudioEngine Instance
 		{

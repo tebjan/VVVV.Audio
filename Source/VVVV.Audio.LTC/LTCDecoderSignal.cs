@@ -11,7 +11,7 @@ namespace VVVV.Audio
 
 		public LTCDecoderSignal(AudioSignal input)
 		{
-			FInput = input;
+			InputSignal = input;
 			FDecoder = new Decoder(AudioEngine.Instance.Settings.SampleRate, 25, 2);
 		}
 
@@ -26,8 +26,8 @@ namespace VVVV.Audio
 		public Timecode Timecode;
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (FInput != null) {
-				FInput.Read(buffer, offset, count);
+			if (InputSignal != null) {
+				InputSignal.Read(buffer, offset, count);
 				FDecoder.Write(buffer, count, 0);
 				if (FDecoder.GetQueueLength() > 0)
 					Timecode = FDecoder.Read().getTimecode();

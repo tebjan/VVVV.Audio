@@ -12,16 +12,19 @@ using System.Collections.Generic;
 namespace VVVV.Audio
 {
   
+    /// <summary>
+    /// Representation of input and output data for AudioSignals
+    /// </summary>
     public abstract class SigParamBase
     {
-        public SigParamBase(string name, bool isOutput = false)
+        public readonly string Name;
+        public readonly bool IsOutput;
+        
+        protected SigParamBase(string name, bool isOutput = false)
         {
             Name = name;
             IsOutput = isOutput;
         }
-        
-        public readonly string Name;
-        public readonly bool IsOutput;
         
         public abstract Type GetValueType();
 
@@ -31,64 +34,85 @@ namespace VVVV.Audio
     }
     
     /// <summary>
-    /// A parameter of an AudioSignal
+    /// Helper for generic params
     /// </summary>
-    public class SigParam<T> : SigParamBase
+    public abstract class SigParamBaseGeneric<T> : SigParamBase
     {
-        public SigParam(string name, bool isOutput = false)
+        public readonly T InitialValue;
+        
+        protected SigParamBaseGeneric(string name, bool isOutput = false)
             : this(name, default(T), isOutput)
         {
         }
         
-        public SigParam(string name, T initValue, bool isOutput = false)
+        protected SigParamBaseGeneric(string name, T initValue, bool isOutput = false)
             : base(name, isOutput)
         {
             InitialValue = initValue;
-            Value = initValue;
         }
         
-        public readonly T InitialValue;
-        
-        public T Value
-        {
-            get;
-            set;
-        }
+        //internal value field
+        protected T FValue;
         
         public override object GetValue()
         {
-            return Value;
+            return FValue;
         }
-
-        public override void SetValue(object value)
-        {
-            Value = (T)value;
-        }
-
+        
         public override Type GetValueType()
         {
             return typeof(T);
         }
-
+        
+        public override void SetValue(object value)
+        {
+            FValue = (T)value;
+        }
     }
     
-    public class SigParamDiff<T> : SigParamBase
+    /// <summary>
+    /// A parameter of an AudioSignal
+    /// </summary>
+    public class SigParam<T> : SigParamBaseGeneric<T>
     {
+        public SigParam(string name, bool isOutput = false)
+            : base(name, isOutput)
+        {
+        }
+        
+        public SigParam(string name, T initValue, bool isOutput = false)
+            : base(name, initValue, isOutput)
+        {
+            
+        }
+
+        public T Value 
+        {
+            get { return FValue; }
+            set { FValue = value; }
+        }
+    }
+    
+    /// <summary>
+    /// Signal parameter which detects changes
+    /// </summary>
+    public class SigParamDiff<T> : SigParamBaseGeneric<T>
+    {
+        //callback for value changes
+        public Action<T> ValueChanged;
+        
         public SigParamDiff(string name, bool isOutput = false)
-            : this(name, default(T), null, isOutput)
+            : base(name, isOutput)
         {
         }
         
         public SigParamDiff(string name, T initValue, Action<T> valueChanged = null, bool isOutput = false)
-            : base(name, isOutput)
+            : base(name, initValue, isOutput)
         {
-            InitialValue = initValue;
             Value = initValue;
             ValueChanged = valueChanged;
         }
-        
-        public readonly T InitialValue;
-        
+
         private T FValue;
         public T Value
         {
@@ -106,22 +130,33 @@ namespace VVVV.Audio
                 }
             }
         }
-        
-        public Action<T> ValueChanged;
-        
-        public override object GetValue()
-        {
-            return Value;
-        }
 
         public override void SetValue(object value)
         {
             Value = (T)value;
         }
-        
-        public override Type GetValueType()
+    }
+    
+    public class SigParamAudio : SigParamDiff<AudioSignal>
+    {
+        public SigParamAudio(string name, bool isOutput = false)
+            : base(name, isOutput)
         {
-            return typeof(T);
+        }
+        
+        /// <summary>
+        /// Safe read method of the internal audio signal.
+        /// Reads silence if the internal audio signal is not set.
+        /// </summary>
+        /// <param name="buffer">The buffer to fill</param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        public void Read(float[] buffer, int offset, int count)
+        {
+            if(FValue != null)
+                FValue.Read(buffer, offset, count);
+            else
+                buffer.ReadSilence(offset, count);
         }
     }
     
@@ -129,22 +164,19 @@ namespace VVVV.Audio
     /// <summary>
     /// A parameter of an AudioSignal
     /// </summary>
-    public class SigParamSec<T> : SigParamBase
+    public class SigParamSec<T> : SigParamBaseGeneric<T>
     {
         public SigParamSec(string name, bool isOutput = false)
-            : this(name, default(T), isOutput)
+            : base(name, default(T), isOutput)
         {
         }
         
         public SigParamSec(string name, T initValue, bool isOutput = false)
-            : base(name, isOutput)
+            : base(name, initValue, isOutput)
         {
-            InitialValue = initValue;
             Value = initValue;
         }
-        
-        public readonly T InitialValue;
-        
+
         public T Value
         {
             get
@@ -209,10 +241,5 @@ namespace VVVV.Audio
         {
 		    Value = (T)value;
         }
-		
-		public override Type GetValueType()
-		{
-		    return typeof(T);
-		}
     }
 }

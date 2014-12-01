@@ -56,7 +56,7 @@ namespace VVVV.Nodes
 
         protected override void SetParameters(int i, BufferOutSignal instance)
         {
-            instance.Input = FInputs[i];
+            instance.InputSignal.Value = FInputs[i];
             instance.Buffer.Size = FSize[i];
         }
     }

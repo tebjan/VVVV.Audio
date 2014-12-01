@@ -9,7 +9,7 @@ namespace VVVV.Audio
 	    
 		public BufferOutSignal(AudioSignal input)
 		{
-			FInput = input;
+			InputSignal.Value = input;
 		}
 		
 		public float[] BufferOut = new float[1];
@@ -19,9 +19,9 @@ namespace VVVV.Audio
 		    if(BufferOut.Length != Buffer.Size)
 		        BufferOut = new float[Buffer.Size];
 		    
-			if (FInput != null) 
+			if (InputSignal != null) 
 			{
-				FInput.Read(buffer, offset, count);
+				InputSignal.Read(buffer, offset, count);
 				Buffer.Write(buffer, offset, count);
 				Buffer.Read(BufferOut, 0, Buffer.Size);
 			}

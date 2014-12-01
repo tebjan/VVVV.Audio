@@ -11,6 +11,7 @@ namespace VVVV.Audio
 
 		public WaveRecorderSignal()
 		{
+		    InputSignal.ValueChanged = InputWasSet;
 		}
 
 		private string FFileName;
@@ -38,7 +39,7 @@ namespace VVVV.Audio
 
 		SampleToWaveProvider16 FWave16Provider;
 
-		protected override void InputWasSet(AudioSignal newInput)
+		protected void InputWasSet(AudioSignal newInput)
 		{
 			FWave16Provider = new SampleToWaveProvider16(newInput);
 		}
@@ -51,7 +52,7 @@ namespace VVVV.Audio
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (Write && FInput != null && FWriter != null) {
+			if (Write && InputSignal != null && FWriter != null) {
 				var byteCount = count * 2;
 				if (FByteBuffer.Length < byteCount)
 					FByteBuffer = new byte[byteCount];

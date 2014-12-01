@@ -1,0 +1,89 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug33.5.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\Oscillators.v4p" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\Oscillators.v4p" systemname="Oscillators">
+   <BOUNDS height="12510" left="4425" top="2565" type="Window" width="15345">
+   </BOUNDS>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="260" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="10305" top="7890" width="1935" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="10305" top="7890" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" values="|ASIO4ALL v2|">
+   </PIN>
+   </NODE>
+   <PACK Name="testPack" Version="0.1.0">
+   </PACK>
+   <NODE systemname="OSCTester (VAudio)" filename="%VVVV%\packs\VVVV.Audio\girlpower\plugins\VAudioOSCTester\VAudioOSCTester.csproj" nodename="OSCTester (VAudio)" componentmode="Hidden" id="261">
+   <BOUNDS type="Node" left="5010" top="3975" width="1140" height="270">
+   </BOUNDS>
+   <PIN pinname="Frequency" slicecount="1" values="1000">
+   </PIN>
+   <PIN pinname="Gain" slicecount="1" values="0.12">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Gain (VAudio)" filename="%VVVV%\packs\VVVV.Audio\girlpower\plugins\VAudioOSCTester\VAudioOSCTester.csproj" nodename="Gain (VAudio)" componentmode="Hidden" id="262">
+   <BOUNDS type="Node" left="7170" top="4635" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   <PACK Name="addonpack" Version="33.3.0">
+   </PACK>
+   <NODE systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioOut (VAudio)" componentmode="Hidden" id="263">
+   <BOUNDS type="Node" left="6375" top="6375" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="264" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="8685" top="6270" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="8685" top="6270" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Play">
+   </PIN>
+   </NODE>
+   <NODE systemname="AudioEngine (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioEngine (VAudio)" componentmode="Hidden" id="245">
+   <BOUNDS type="Node" left="9195" top="8325" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Play" slicecount="1" visible="1" values="1">
+   </PIN>
+   <PIN pinname="Driver">
+   </PIN>
+   <PIN pinname="Control Panel" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="260" srcpinname="Output Enum" dstnodeid="245" dstpinname="Driver">
+   </LINK>
+   <LINK srcnodeid="264" srcpinname="Y Output Value" dstnodeid="245" dstpinname="Play">
+   </LINK>
+   <NODE systemname="Osc (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Osc (VAudio Source)" componentmode="Hidden" id="265">
+   <BOUNDS type="Node" left="4845" top="5175" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Frequency" slicecount="1" values="442.17">
+   </PIN>
+   <PIN pinname="Gain" slicecount="1" values="0.1">
+   </PIN>
+   <PIN pinname="FM Level" slicecount="1" values="0.12">
+   </PIN>
+   <PIN pinname="FM" visible="1">
+   </PIN>
+   <PIN pinname="Use EPTR" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="265" srcpinname="Audio Out" dstnodeid="263" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="261" srcpinname="Audio Out" dstnodeid="265" dstpinname="FM">
+   </LINK>
+   </PATCH>

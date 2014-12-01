@@ -7,16 +7,16 @@ namespace VVVV.Audio
 	{
 		public LevelMeterSignal(AudioSignal input)
 		{
-			FInput = input;
+			InputSignal.Value = input;
 		}
 		
 		public double Max;
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (FInput != null) 
+			if (InputSignal != null) 
 			{
-				FInput.Read(buffer, offset, count);
+				InputSignal.Read(buffer, offset, count);
 				var max = 0.0;
 				for (int i = offset; i < count; i++) 
 				{

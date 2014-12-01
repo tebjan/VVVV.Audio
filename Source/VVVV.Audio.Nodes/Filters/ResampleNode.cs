@@ -42,7 +42,7 @@ namespace VVVV.Nodes
 		
 		protected override void SetParameters(int i, ResampleSignal instance)
 		{
-			instance.Input = FInputs[i];
+			instance.InputSignal.Value = FInputs[i];
 			instance.DestinationRateIsEngineRate = FDstIsEngineRateIn[i];
 			instance.SetupConverter(FSrcRateIn[i], FDstRateIn[i], FReqTransBandIn[i]);
 		}

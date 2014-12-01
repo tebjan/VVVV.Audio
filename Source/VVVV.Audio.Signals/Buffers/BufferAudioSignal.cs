@@ -9,6 +9,8 @@ namespace VVVV.Audio
 	/// </summary>
 	public abstract class BufferAudioSignal : AudioSignalInput
 	{
+	    
+	    
 		public BufferAudioSignal(string bufferKey)
 		{
 			FBufferKey = bufferKey;

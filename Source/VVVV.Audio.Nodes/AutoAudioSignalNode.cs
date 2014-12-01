@@ -99,25 +99,17 @@ namespace VVVV.Nodes
             var instance = new TSignal();
 
             //assign pin relation
-            var flags = BindingFlags.Instance | BindingFlags.Public;
-			var fields = instance.GetType().GetFields(flags);
-			
-			foreach (var fi in fields)
-			{
-				if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
-				{
-				    var param = (SigParamBase)fi.GetValue(instance);
-				    
-				    if(param.IsOutput)
-				    {
-				        FOutputPinRelation[param] = FOutputPins[param.Name];
-				    }
-				    else
-				    {
-				        FInputPinRelation[param] = FInputPins[param.Name];
-				    }
-				}
-			}
+            foreach (var param in AudioSignal.GetParams(instance))
+            {
+                if(param.IsOutput)
+                {
+                    FOutputPinRelation[param] = FOutputPins[param.Name];
+                }
+                else
+                {
+                    FInputPinRelation[param] = FInputPins[param.Name];
+                }
+            }
             
 			return instance;
 		}
@@ -125,26 +117,18 @@ namespace VVVV.Nodes
         protected override void DisposeInstance(AudioSignal instance)
         {
             //remove pin relation
-            var flags = BindingFlags.Instance | BindingFlags.Public;
-			var fields = instance.GetType().GetFields(flags);
-			
-			foreach (var fi in fields)
-			{
-				if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
-				{
-				    var param = (SigParamBase)fi.GetValue(instance);
-				    
-				    if(param.IsOutput)
-				    {
-				        FOutputPinRelation.Remove(param);
-				    }
-				    else
-				    {
-				        FInputPinRelation.Remove(param);
-				    }
-				}
-			}
-			
+            foreach (var param in AudioSignal.GetParams(instance))
+            {
+                if(param.IsOutput)
+                {
+                    FOutputPinRelation.Remove(param);
+                }
+                else
+                {
+                    FInputPinRelation.Remove(param);
+                }
+            }
+            
             base.DisposeInstance(instance);
         }
 	}

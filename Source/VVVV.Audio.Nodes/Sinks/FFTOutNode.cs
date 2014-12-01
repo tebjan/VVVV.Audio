@@ -98,7 +98,7 @@ namespace VVVV.Nodes
 
         protected override void SetParameters(int i, FFTOutSignal instance)
         {
-            instance.Input = FInputs[i];
+            instance.InputSignal.Value = FInputs[i];
             instance.Size = (int)UpperPow2((uint)FSize[i]);
             instance.WindowFunc = FWindowFuncIn[i];
         }

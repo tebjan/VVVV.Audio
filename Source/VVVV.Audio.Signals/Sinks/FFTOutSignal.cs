@@ -63,7 +63,7 @@ namespace VVVV.Audio
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (FInput != null) 
+			if (InputSignal != null) 
 			{
 			    FSource.Read(buffer, offset, count);
 			    

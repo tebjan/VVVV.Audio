@@ -16,8 +16,6 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {
 	
-	
-	
 	[PluginInfo(Name = "Writer", Category = "VAudio", Version = "Sink", Help = "Records audio to disk", Tags = "file, wave, record")]
 	public class WaveWriterNode : GenericAudioSinkNode<WaveRecorderSignal>
 	{
@@ -48,7 +46,7 @@ namespace VVVV.Nodes
 
         protected override void SetParameters(int i, WaveRecorderSignal instance)
         {
-            instance.Input = FInputs[i];
+            instance.InputSignal.Value = FInputs[i];
             instance.Filename = FNameIn[i];
             instance.Write = FWriteIn[i];
         }

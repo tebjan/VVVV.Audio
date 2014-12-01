@@ -53,6 +53,27 @@
             <param name="offset">Write offset for the buffer</param>
             <param name="count">Count of samples need</param>
         </member>
+        <member name="M:VVVV.Audio.AudioSignal.GetParams(VVVV.Audio.AudioSignal)">
+            <summary>
+            Finds all signal parameters by reflection and returns them.
+            </summary>
+            <param name="instance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioSignal.GetInputParams(VVVV.Audio.AudioSignal)">
+            <summary>
+            Finds all input signal parameters by reflection and returns them.
+            </summary>
+            <param name="instance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioSignal.GetOutputParams(VVVV.Audio.AudioSignal)">
+            <summary>
+            Finds all output signal parameters by reflection and returns them.
+            </summary>
+            <param name="instance"></param>
+            <returns></returns>
+        </member>
         <member name="M:VVVV.Audio.AudioEngine.ChangeDriverSettings(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Initializes the Audio Driver if necessary
@@ -86,26 +107,34 @@
             TODO: find better life time management
             </summary>
         </member>
-        <member name="T:VVVV.Audio.AudioSignalInput">
+        <member name="T:VVVV.Audio.SigParamBase">
             <summary>
-            Base class for audio signals with input
+            Representation of input and output data for AudioSignals
             </summary>
         </member>
-        <member name="M:VVVV.Audio.AudioSignalInput.InputWasSet(VVVV.Audio.AudioSignal)">
+        <member name="T:VVVV.Audio.SigParamBaseGeneric`1">
             <summary>
-            Override in sub class to know when the input has changed
-            </summary>
-            <param name="newInput"></param>
-        </member>
-        <member name="P:VVVV.Audio.AudioSignalInput.Input">
-            <summary>
-            The input signal
+            Helper for generic params
             </summary>
         </member>
         <member name="T:VVVV.Audio.SigParam`1">
             <summary>
             A parameter of an AudioSignal
             </summary>
+        </member>
+        <member name="T:VVVV.Audio.SigParamDiff`1">
+            <summary>
+            Signal parameter which detects changes
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.SigParamAudio.Read(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Safe read method of the internal audio signal.
+            Reads silence if the internal audio signal is not set.
+            </summary>
+            <param name="buffer">The buffer to fill</param>
+            <param name="offset"></param>
+            <param name="count"></param>
         </member>
         <member name="T:VVVV.Audio.SigParamSec`1">
             <summary>
