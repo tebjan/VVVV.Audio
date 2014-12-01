@@ -113,7 +113,6 @@ namespace VVVV.Audio
             ValueChanged = valueChanged;
         }
 
-        private T FValue;
         public T Value
         {
             get
@@ -122,11 +121,15 @@ namespace VVVV.Audio
             }
             set
             {
-                if(!FValue.Equals(value))
+                if(value != null && !value.Equals(FValue))
                 {
                     FValue = value;
                     if(ValueChanged != null)
                         ValueChanged(value);
+                }
+                else if(value == null && FValue != null)
+                {
+                    FValue = default(T);
                 }
             }
         }

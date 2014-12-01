@@ -15,17 +15,13 @@ namespace VVVV.Nodes
 {
 	public class TestSignal : AudioSignal
 	{
-		public SigParam<AudioSignal> FInput = new SigParam<AudioSignal>("Input");
-		public SigParam<float> Gain = new SigParam<float>("Gain");
+		public SigParamAudio FInput = new SigParamAudio("Input");
+		public SigParam<float> Gain = new SigParam<float>("Gain", 0.5f);
 		
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			//get input
-			if(FInput.Value != null)
-				FInput.Value.Read(buffer, offset, count);
-			else
-				buffer.ReadSilence(offset, count);
-			
+			FInput.Read(buffer, offset, count);
+
 			for(int i=offset; i<count; i++)
 			{
 				buffer[i] *= Gain.Value;

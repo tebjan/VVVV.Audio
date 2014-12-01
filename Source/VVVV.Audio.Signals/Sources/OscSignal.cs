@@ -314,18 +314,18 @@ namespace VVVV.Audio
         
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
-        	//FM
-        	if(FMLevel.Value > 0)
-        	{
-        		if(FMBuffer.Length < count)
-        		{
-        			FMBuffer = new float[count];
-        		}
-        		
-        		//get FM wave
-        		FMInput.Read(FMBuffer, offset, count);
-        	}
-        	
+            //FM
+            if(FMBuffer.Length < count)
+            {
+                FMBuffer = new float[count];
+            }
+            
+            if(FMLevel.Value > 0)
+            {
+                //get FM wave
+                FMInput.Read(FMBuffer, offset, count);
+            }
+            
             if(UseEPTR.Value)
                 OscEPTR(buffer, count);
             else

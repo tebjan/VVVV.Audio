@@ -25,6 +25,9 @@ namespace VVVV.Nodes
 	    [Input("Buffer Size", DefaultValue = 256)]
 		public IDiffSpread<int> FSize;
 		
+		[Input("dB Range", DefaultValue = 120)]
+		public IDiffSpread<float> FdBRange;
+		
 		[Output("Output")]
 		ISpread<ISpread<double>> FFFTOut;
 
@@ -43,7 +46,7 @@ namespace VVVV.Nodes
 		    return v;
 		}
         
-		readonly float Min150dB = (float)Decibels.DecibelsToLinear(-150);
+		float FMindB = (float)Decibels.DecibelsToLinear(-120);
         protected override void SetOutputs(int i, FFTOutSignal instance)
         {
             if (instance != null)
@@ -72,7 +75,7 @@ namespace VVVV.Nodes
                     {
                         var real = fftData[nn++];
                         var imag = fftData[nn++];
-                        spread[n] = Decibels.LinearToDecibels(Math.Max(Math.Sqrt(real * real + imag * imag), Min150dB)) / 150 + 1;
+                        spread[n] = Decibels.LinearToDecibels(Math.Max(Math.Sqrt(real * real + imag * imag), FMindB)) / FdBRange[i] + 1;
                     }
 
 //                    spreadComplex.SliceCount = val.Length;
@@ -101,6 +104,7 @@ namespace VVVV.Nodes
             instance.InputSignal.Value = FInputs[i];
             instance.Size = (int)UpperPow2((uint)FSize[i]);
             instance.WindowFunc = FWindowFuncIn[i];
+            FMindB = (float)Decibels.DecibelsToLinear(-FdBRange[i]);
         }
     }
 }

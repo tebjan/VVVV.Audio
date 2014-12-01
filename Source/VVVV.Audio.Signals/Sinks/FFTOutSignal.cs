@@ -19,7 +19,7 @@ namespace VVVV.Audio
 
 		public FFTOutSignal(AudioSignal input)
 		{
-			FSource = input;
+			InputSignal.Value = input;
 		}
 
 		public int Size 
@@ -51,10 +51,7 @@ namespace VVVV.Audio
                 }
             }
         }
-        
-        
-		AudioSignal FSource;
-		
+
 		public int BufferSize;
 
 		double[] FFFTBuffer = new double[1];
@@ -63,9 +60,9 @@ namespace VVVV.Audio
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (InputSignal != null) 
+			if (InputSignal.Value != null) 
 			{
-			    FSource.Read(buffer, offset, count);
+			    InputSignal.Read(buffer, offset, count);
 			    
 			    //write to buffer
 			    FRingBuffer.Write(buffer, offset, count);

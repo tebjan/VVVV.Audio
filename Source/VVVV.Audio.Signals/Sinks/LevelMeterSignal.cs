@@ -14,7 +14,7 @@ namespace VVVV.Audio
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (InputSignal != null) 
+			if (InputSignal.Value != null) 
 			{
 				InputSignal.Read(buffer, offset, count);
 				var max = 0.0;

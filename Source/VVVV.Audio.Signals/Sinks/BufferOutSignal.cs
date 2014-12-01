@@ -19,7 +19,7 @@ namespace VVVV.Audio
 		    if(BufferOut.Length != Buffer.Size)
 		        BufferOut = new float[Buffer.Size];
 		    
-			if (InputSignal != null) 
+			if (InputSignal.Value != null) 
 			{
 				InputSignal.Read(buffer, offset, count);
 				Buffer.Write(buffer, offset, count);

@@ -28,6 +28,8 @@ namespace VVVV.Nodes
 		
 		[Output("Level")]
 		public ISpread<double> FLevelOut;
+		
+		readonly float Min150dB = (float)Decibels.DecibelsToLinear(-150);
 
         protected override void SetOutputs(int i, LevelMeterSignal instance)
         {
@@ -36,7 +38,7 @@ namespace VVVV.Nodes
                 var smooth = FSmoothing[i];
                 var level = FLevelOut[i] * smooth + instance.Max * (1 - smooth);
                 FLevelOut[i] = level;
-                FLeveldBsOut[i] = Decibels.LinearToDecibels(level);
+                FLeveldBsOut[i] = Decibels.LinearToDecibels(Math.Max(level, Min150dB));
             }
             else
             {

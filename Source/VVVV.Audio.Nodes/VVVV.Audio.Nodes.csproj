@@ -70,6 +70,7 @@
     </Reference>
     <Reference Include="VVVV.Nodes.Generic">
       <HintPath>..\packages\VVVV.Nodes.Generic.33.4.0-develop-494\build\net40\lib\x86\VVVV.Nodes.Generic.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.PluginInterfaces">
       <HintPath>..\packages\VVVV.PluginInterfaces.33.4.0-develop-494\build\net40\lib\x86\VVVV.PluginInterfaces.dll</HintPath>

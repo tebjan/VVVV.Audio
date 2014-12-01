@@ -26,7 +26,7 @@ namespace VVVV.Audio
 		public Timecode Timecode;
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (InputSignal != null) {
+			if (InputSignal.Value != null) {
 				InputSignal.Read(buffer, offset, count);
 				FDecoder.Write(buffer, count, 0);
 				if (FDecoder.GetQueueLength() > 0)

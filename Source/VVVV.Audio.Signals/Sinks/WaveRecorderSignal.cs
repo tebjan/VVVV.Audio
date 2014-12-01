@@ -52,7 +52,7 @@ namespace VVVV.Audio
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (Write && InputSignal != null && FWriter != null) {
+			if (Write && InputSignal.Value != null && FWriter != null) {
 				var byteCount = count * 2;
 				if (FByteBuffer.Length < byteCount)
 					FByteBuffer = new byte[byteCount];
