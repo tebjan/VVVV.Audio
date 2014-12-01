@@ -50,7 +50,7 @@ namespace VVVV.Nodes
 
         protected override void SetParameters(int i, LTCDecoderSignal instance)
         {
-            instance.Input = FInputs[i];
+            instance.InputSignal.Value = FInputs[i];
         }
     }
 }

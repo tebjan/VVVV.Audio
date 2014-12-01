@@ -11,7 +11,7 @@ namespace VVVV.Audio
 
 		public LTCDecoderSignal(AudioSignal input)
 		{
-			InputSignal = input;
+			InputSignal.Value = input;
 			FDecoder = new Decoder(AudioEngine.Instance.Settings.SampleRate, 25, 2);
 		}
 

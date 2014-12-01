@@ -2,6 +2,7 @@
 using System;
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using NAudio.Wave;
 using VVVV.Audio;
@@ -86,31 +87,14 @@ namespace VVVV.Audio
     /// </summary>
     public abstract class AudioSignal : AudioSignalBase, ISampleProvider, ICanCopyBuffer
     {
-        public readonly List<SigParamBase> InParams = new List<SigParamBase>();
-        public readonly List<SigParamBase> OutParams = new List<SigParamBase>();
+        public readonly SigParamBase[] InParams;
+        public readonly SigParamBase[] OutParams;
         
         public AudioSignal()
         {
             //find all params
-            var flags = BindingFlags.Instance | BindingFlags.Public;
-            var fields = this.GetType().GetFields(flags);
-            
-            foreach (var fi in fields)
-            {
-                if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
-                {
-                    var param = (SigParamBase)fi.GetValue(this);
-                    
-                    if(param.IsOutput)
-                    {
-                        OutParams.Add(param);
-                    }
-                    else
-                    {
-                        InParams.Add(param);
-                    }
-                }
-            }
+            InParams = AudioSignal.GetInputParams(this).ToArray();
+            OutParams = AudioSignal.GetOutputParams(this).ToArray();
             
             AudioService.Engine.Settings.SampleRateChanged += Engine_SampleRateChanged;
             AudioService.Engine.Settings.BufferSizeChanged += Engine_BufferSizeChanged;
