@@ -14,6 +14,115 @@ using NAudio;
 
 namespace VVVV.Audio
 {
+    
+    /// <summary>
+    /// Simple wrapper around a float array
+    /// </summary>
+    public class CircularBuffer
+    {
+        int FSize;
+        float[] Buffer;
+        
+        public CircularBuffer(int size)
+        {
+            Size = size;
+        }
+        
+        public int Size 
+        {
+            get 
+            {
+                return FSize; 
+            }
+            set 
+            { 
+                if(FSize != value)
+                {
+                    FSize = value;
+                    Buffer = new float[value];
+                    FWritePos = -1;
+                }
+            }
+        }
+        
+        
+        int FWritePos = -1;
+        /// <summary>
+        /// Writes new data after the latest ones
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        public void Write(float[] data, int offset, int count)
+	    {
+            for (int i = 0; i < count; i++) 
+            {
+                FWritePos++;
+                if(FWritePos >= FSize)
+                    FWritePos = 0;
+                
+                Buffer[FWritePos] = data[i+offset];
+            }
+        }
+        
+        /// <summary>
+        /// Starts reading right after the last write position, which is the oldest value
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        public void Read(float[] data, int offset, int count)
+        {
+            var readPos = FWritePos;
+            for (int i = 0; i < count; i++) 
+            {
+                readPos++;
+                if(readPos >= FSize)
+                    readPos = 0;
+                
+                data[i+offset] = Buffer[readPos];
+            }
+        }
+        
+        /// <summary>
+        /// Starts reading right after the last write position, which is the oldest value
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        public void ReadDouble(double[] data, int offset, int count)
+        {
+            var readPos = FWritePos;
+            for (int i = 0; i < count; i++) 
+            {
+                readPos++;
+                if(readPos >= FSize)
+                    readPos = 0;
+                
+                data[i+offset] = Buffer[readPos];
+            }
+        }
+        
+        /// <summary>
+        /// Starts reading right after the last write position, which is the oldest value
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        public void ReadDoubleWindowed(double[] data, double[] window, int offset, int count)
+        {
+            var readPos = FWritePos;
+            for (int i = 0; i < count; i++) 
+            {
+                readPos++;
+                if(readPos >= FSize)
+                    readPos = 0;
+                
+                data[i+offset] = Buffer[readPos] * window[i+offset];
+            }
+        }
+    }
+    
 	/// <summary>
 	/// A very basic circular buffer implementation
 	/// </summary>

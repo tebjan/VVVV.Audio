@@ -62,3 +62,7 @@ nodes/plugins/VVVV.Audio.Nodes.xml
 nodes/plugins/VVVV.Audio.VST.xml
 core/VVVV.Audio.Core.xml
 core/VVVV.Audio.Signals.xml
+bugs/
+Patches/
+nodes/plugins/VVVV.Nodes.Generic.xml
+VVVV.Audio*.zip

@@ -3,8 +3,10 @@ using System;
 using System.ComponentModel.Composition;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
+using VVVV.PluginInterfaces.V2.NonGeneric;
 using VVVV.Utils.VColor;
 using VVVV.Utils.VMath;
 using VVVV.Audio;
@@ -14,26 +16,11 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-
-	[PluginInfo(Name = "Sine", Category = "VAudio", Version = "Source", Help = "Creates a sine wave", AutoEvaluate = true, Tags = "Wave")]
-	public class SineSignalNode : GenericAudioSourceNode<SineSignal>
+	
+	[PluginInfo(Name = "Osc", Category = "VAudio", Version = "Source", Help = "Creates an audio wave", AutoEvaluate = true, Tags = "Sine, Triangle, Square, Sawtooth, Wave")]
+	public class Osc2SignalNode : AutoAudioSignalNode<OscSignal>
 	{
-		[Input("Frequency", DefaultValue = 440)]
-		public IDiffSpread<float> Frequency;
-		
-		[Input("Gain", DefaultValue = 0.1)]
-		public IDiffSpread<float> Gain;
-		
-		protected override void SetParameters(int i, SineSignal instance)
-		{
-			instance.Gain = Gain[i];
-			instance.Frequency = Frequency[i];
-		}
-
-        protected override SineSignal GetInstance(int i)
-		{
-			return new SineSignal(Frequency[i], Gain[i]);
-		}
+	    
 	}
 	
 	

@@ -10,7 +10,7 @@ namespace VVVV.Audio
 		public BufferWriterSignal(AudioSignal input, string bufferKey, int previewSize) : base(bufferKey)
 		{
 			AudioService.AddSink(this);
-			FInput = input;
+			InputSignal.Value = input;
 			PreviewSize = previewSize;
 			if (input == null)
 				throw new ArgumentNullException("Input of BufferWriterSignal construcor is null");
@@ -27,7 +27,7 @@ namespace VVVV.Audio
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			if (DoRead) {
-				FInput.Read(buffer, offset, count);
+				InputSignal.Read(buffer, offset, count);
 				if (WritePosition >= FBufferSize)
 					WritePosition %= FBufferSize;
 				var copyCount = Math.Min(FBufferSize - WritePosition, count);

@@ -1,0 +1,533 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VVVV.Audio.Core</name>
+    </assembly>
+    <members>
+        <member name="T:VVVV.Audio.AudioSignal">
+            <summary>
+            Base class for signals which just generate audio
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.AudioSignalBase">
+            <summary>
+            General base class for all audio signals
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioSignalBase.TakeOwnership(System.Object)">
+            <summary>
+            If a class wants to call buffers not synced to the engine,
+            it can register itself with this method
+            </summary>
+            <param name="newOwner"></param>
+        </member>
+        <member name="M:VVVV.Audio.AudioSignalBase.ReleaseOwnership(System.Object)">
+            <summary>
+            Sets the sync owner back to the engine
+            </summary>
+            <param name="currentOwner">The owner which wants to be released</param>
+        </member>
+        <member name="M:VVVV.Audio.AudioSignalBase.Reset(System.Object)">
+            <summary>
+            Tells the signal that this frame is over and it should calculate a new buffer
+            </summary>
+            <param name="owner"></param>
+        </member>
+        <member name="T:VVVV.Audio.ICanCopyBuffer">
+            <summary>
+            Interface which provides buffer copy of the output.
+            This is needed when multiple signals have the output as input,
+            so the stream does not advance during frames.
+            </summary>
+        </member>
+        <member name="F:VVVV.Audio.AudioSignal.SampleRate">
+            <summary>
+            Current sample rate as set by the engine
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioSignal.FillBuffer(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            This method should be overwritten in the sub class to do the actual processing work
+            </summary>
+            <param name="buffer">The buffer to fill</param>
+            <param name="offset">Write offset for the buffer</param>
+            <param name="count">Count of samples need</param>
+        </member>
+        <member name="M:VVVV.Audio.AudioSignal.GetParams(VVVV.Audio.AudioSignal)">
+            <summary>
+            Finds all signal parameters by reflection and returns them.
+            </summary>
+            <param name="instance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioSignal.GetInputParams(VVVV.Audio.AudioSignal)">
+            <summary>
+            Finds all input signal parameters by reflection and returns them.
+            </summary>
+            <param name="instance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioSignal.GetOutputParams(VVVV.Audio.AudioSignal)">
+            <summary>
+            Finds all output signal parameters by reflection and returns them.
+            </summary>
+            <param name="instance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioEngine.ChangeDriverSettings(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes the Audio Driver if necessary
+            </summary>
+            <param name="driverName"></param>
+            <param name="sampleRate"></param>
+            <param name="inputChannels"></param>
+            <param name="inputChannelOffset"></param>
+            <param name="outputChannels"></param>
+            <param name="outputChannelOffset"></param>
+        </member>
+        <member name="M:VVVV.Audio.AudioEngine.GetInputBuffers(System.Single[][],NAudio.Wave.AsioAudioAvailableEventArgs)">
+            <summary>
+            Converts all the recorded audio into a buffer of 32 bit floating point samples
+            </summary>
+            <samples>The samples as 32 bit floating point, interleaved</samples>
+        </member>
+        <member name="P:VVVV.Audio.AudioEngine.InputBuffers">
+            <summary>
+            the buffers from the audio input
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.AudioEngine.NeedsReset">
+            <summary>
+            If this is true the engine driver should be reset
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.AudioService">
+            <summary>
+            Static and naive access to the AudioEngine
+            TODO: find better life time management
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.SigParamBase">
+            <summary>
+            Representation of input and output data for AudioSignals
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.SigParamBaseGeneric`1">
+            <summary>
+            Helper for generic params
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.SigParam`1">
+            <summary>
+            A parameter of an AudioSignal
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.SigParamDiff`1">
+            <summary>
+            Signal parameter which detects changes
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.SigParamAudio.Read(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Safe read method of the internal audio signal.
+            Reads silence if the internal audio signal is not set.
+            </summary>
+            <param name="buffer">The buffer to fill</param>
+            <param name="offset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="T:VVVV.Audio.SigParamSec`1">
+            <summary>
+            A parameter of an AudioSignal
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.MasterChannel">
+            <summary>
+            A combination of audio signal and the driver output channel number
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.MasterWaveProvider">
+            <summary>
+            Helper class for when you need to convert back to an IWaveProvider from
+            an ISampleProvider. Keeps it as IEEE float
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.MasterWaveProvider.#ctor(NAudio.Wave.WaveFormat,System.Action{System.Int32})">
+            <summary>
+            Initializes a new instance of the WaveProviderFloatToWaveProvider class
+            </summary>
+            <param name="source">Source wave provider</param>
+        </member>
+        <member name="F:VVVV.Audio.MasterWaveProvider.FMixerBuffer">
+            <summary>
+            Reads from this provider
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.MasterWaveProvider.WaveFormat">
+            <summary>
+            The waveformat of this WaveProvider (same as the source)
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.MultiChannelSignal">
+            <summary>
+            Processes multiple audio signals
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.MultiChannelSignal.FillBuffers(System.Single[][],System.Int32,System.Int32)">
+            <summary>
+            Does the actual work
+            </summary>
+            <param name="buffers"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="T:VVVV.Audio.IAudioSink">
+            <summary>
+            Interface which the audio engine will call for each buffer after its registered
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.SinkSignal">
+            <summary>
+            Base class for all sink signals which have no audio output
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.AudioUtils">
+            <summary>
+            Audio helpers, all audio samples are considered float32 in the range [-1..1]
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioUtils.Zmod(System.Int32,System.Int32)">
+            <summary>
+            Modulo function with the property, that the remainder of a division z / d
+            and z &lt; 0 is positive. For example: zmod(-2, 30) = 28.
+            </summary>
+            <param name="z"></param>
+            <param name="d"></param>
+            <returns>Remainder of division z / d.</returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioUtils.Triangle(System.Single,System.Single)">
+            <summary>
+            Calcualtes an asymmetric triangle wave
+            </summary>
+            <param name="phase">Position in wave, 0..1</param>
+            <param name="slope">Slope, 0..1, 0.5 is symmetric triangle</param>
+            <returns></returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioUtils.HammingWindow(System.Int32,System.Int32)">
+            <summary>
+            Applies a Hamming Window
+            </summary>
+            <param name="n">Index into frame</param>
+            <param name="frameSize">Frame size (e.g. 1024)</param>
+            <returns>Multiplier for Hamming window</returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioUtils.HannWindow(System.Int32,System.Int32)">
+            <summary>
+            Applies a Hann Window
+            </summary>
+            <param name="n">Index into frame</param>
+            <param name="frameSize">Frame size (e.g. 1024)</param>
+            <returns>Multiplier for Hann window</returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioUtils.BlackmannHarrisWindow(System.Int32,System.Int32)">
+            <summary>
+            Applies a Blackman-Harris Window
+            </summary>
+            <param name="n">Index into frame</param>
+            <param name="frameSize">Frame size (e.g. 1024)</param>
+            <returns>Multiplier for Blackmann-Harris window</returns>
+        </member>
+        <member name="P:VVVV.Audio.CircularArray`1.Item(System.Int32)">
+            <summary>
+            Cirular indexer using zmod
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.CircularBuffer">
+            <summary>
+            Simple wrapper around a float array
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.CircularBuffer.Write(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Writes new data after the latest ones
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:VVVV.Audio.CircularBuffer.Read(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Starts reading right after the last write position, which is the oldest value
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:VVVV.Audio.CircularBuffer.ReadDouble(System.Double[],System.Int32,System.Int32)">
+            <summary>
+            Starts reading right after the last write position, which is the oldest value
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:VVVV.Audio.CircularBuffer.ReadDoubleWindowed(System.Double[],System.Double[],System.Int32,System.Int32)">
+            <summary>
+            Starts reading right after the last write position, which is the oldest value
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="T:VVVV.Audio.CircularPullBuffer">
+            <summary>
+            A very basic circular buffer implementation
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.CircularPullBuffer.#ctor(System.Int32)">
+            <summary>
+            Create a new circular buffer
+            </summary>
+            <param name="size">Max buffer size in samples</param>
+        </member>
+        <member name="M:VVVV.Audio.CircularPullBuffer.Write(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Write data to the buffer
+            </summary>
+            <param name="data">Data to write</param>
+            <param name="offset">Offset into data</param>
+            <param name="count">Number of bytes to write</param>
+            <returns>number of bytes written</returns>
+        </member>
+        <member name="M:VVVV.Audio.CircularPullBuffer.Pull(System.Int32)">
+            <summary>
+            Pulls a specified amount of samples from the input.
+            </summary>
+            <param name="count"></param>
+        </member>
+        <member name="M:VVVV.Audio.CircularPullBuffer.Read(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Read from the buffer
+            </summary>
+            <param name="data">Buffer to read into</param>
+            <param name="offset">Offset into read buffer</param>
+            <param name="count">Bytes to read</param>
+            <returns>Number of bytes actually read</returns>
+        </member>
+        <member name="M:VVVV.Audio.CircularPullBuffer.Reset">
+            <summary>
+            Resets the buffer
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.CircularPullBuffer.Advance(System.Int32)">
+            <summary>
+            Advances the buffer, discarding bytes
+            </summary>
+            <param name="count">Bytes to advance</param>
+        </member>
+        <member name="P:VVVV.Audio.CircularPullBuffer.PullCount">
+            <summary>
+            The amount of data to be pulled
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.CircularPullBuffer.MaxLength">
+            <summary>
+            Maximum length of this circular buffer
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.CircularPullBuffer.Count">
+            <summary>
+            Number of bytes currently stored in the circular buffer
+            </summary>
+        </member>
+        <member name="T:Lomont.LomontFFT">
+            <summary>                                                                                                
+            Represent a class that performs real or complex valued Fast Fourier                                      
+            Transforms. Instantiate it and use the FFT or TableFFT methods to                                        
+            compute complex to complex FFTs. Use FFTReal for real to complex                                         
+            FFTs which are much faster than standard complex to complex FFTs.                                        
+            Properties A and B allow selecting various FFT sign and scaling                                          
+            conventions.                                                                                             
+            </summary>                                                                                               
+        </member>
+        <member name="M:Lomont.LomontFFT.FFT(System.Double[],System.Boolean)">
+            <summary>                                                                                            
+            Compute the forward or inverse Fourier Transform of data, with                                       
+            data containing complex valued data as alternating real and                                          
+            imaginary parts. The length must be a power of 2. The data is                                        
+            modified in place.                                                                                   
+            </summary>                                                                                           
+            <param name="data">The complex data stored as alternating real                                       
+            and imaginary parts</param>                                                                          
+            <param name="forward">true for a forward transform, false for                                        
+            inverse transform</param>                                                                            
+        </member>
+        <member name="M:Lomont.LomontFFT.TableFFT(System.Double[],System.Boolean)">
+            <summary>                                                                                            
+            Compute the forward or inverse Fourier Transform of data, with data                                  
+            containing complex valued data as alternating real and imaginary                                     
+            parts. The length must be a power of 2. This method caches values                                    
+            and should be slightly faster on than the FFT method for repeated uses.                              
+            It is also slightly more accurate. Data is transformed in place.                                     
+            </summary>                                                                                           
+            <param name="data">The complex data stored as alternating real                                       
+            and imaginary parts</param>                                                                          
+            <param name="forward">true for a forward transform, false for                                        
+            inverse transform</param>                                                                            
+        </member>
+        <member name="M:Lomont.LomontFFT.RealFFT(System.Double[],System.Boolean)">
+            <summary>                                                                                            
+            Compute the forward or inverse Fourier Transform of data, with                                       
+            data containing real valued data only. The output is complex                                         
+            valued after the first two entries, stored in alternating real                                       
+            and imaginary parts. The first two returned entries are the real                                     
+            parts of the first and last value from the conjugate symmetric                                       
+            output, which are necessarily real. The length must be a power                                       
+            of 2.                                                                                                
+            </summary>                                                                                           
+            <param name="data">The complex data stored as alternating real                                       
+            and imaginary parts</param>                                                                          
+            <param name="forward">true for a forward transform, false for                                        
+            inverse transform</param>                                                                            
+        </member>
+        <member name="M:Lomont.LomontFFT.Scale(System.Double[],System.Int32,System.Boolean)">
+            <summary>                                                                                            
+            Scale data using n samples for forward and inverse transforms as needed                              
+            </summary>                                                                                           
+            <param name="data"></param>                                                                          
+            <param name="n"></param>                                                                             
+            <param name="forward"></param>                                                                       
+        </member>
+        <member name="M:Lomont.LomontFFT.Initialize(System.Int32)">
+            <summary>                                                                                            
+            Call this with the size before using the TableFFT version                                            
+            Fills in tables for speed. Done automatically in TableFFT                                            
+            </summary>                                                                                           
+            <param name="size">The size of the FFT in samples</param>                                            
+        </member>
+        <member name="M:Lomont.LomontFFT.Reverse(System.Double[],System.Int32)">
+            <summary>                                                                                            
+            Swap data indices whenever index i has binary                                                        
+            digits reversed from index j, where data is                                                          
+            two doubles per index.                                                                               
+            </summary>                                                                                           
+            <param name="data"></param>                                                                          
+            <param name="n"></param>                                                                             
+        </member>
+        <member name="F:Lomont.LomontFFT.cosTable">
+            <summary>                                                                                            
+            Pre-computed sine/cosine tables for speed                                                            
+            </summary>                                                                                           
+        </member>
+        <member name="P:Lomont.LomontFFT.A">
+            <summary>                                                                                            
+            Determine how scaling works on the forward and inverse transforms.                                   
+            For size N=2^n transforms, the forward transform gets divided by                                     
+            N^((1-a)/2) and the inverse gets divided by N^((1+a)/2). Common                                      
+            values for (A,B) are                                                                                 
+                ( 0, 1)  - default                                                                               
+                (-1, 1)  - data processing                                                                       
+                ( 1,-1)  - signal processing                                                                     
+            Usual values for A are 1, 0, or -1                                                                   
+            </summary>                                                                                           
+        </member>
+        <member name="P:Lomont.LomontFFT.B">
+            <summary>                                                                                            
+            Determine how phase works on the forward and inverse transforms.                                     
+            For size N=2^n transforms, the forward transform uses an                                             
+            exp(B*2*pi/N) term and the inverse uses an exp(-B*2*pi/N) term.                                      
+            Common values for (A,B) are                                                                          
+                ( 0, 1)  - default                                                                               
+                (-1, 1)  - data processing                                                                       
+                ( 1,-1)  - signal processing                                                                     
+            Abs(B) should be relatively prime to N.                                                              
+            Setting B=-1 effectively corresponds to conjugating both input and                                   
+            output data.                                                                                         
+            Usual values for B are 1 or -1.                                                                      
+            </summary>                                                                                           
+        </member>
+        <member name="T:VVVV.Audio.AudioFileReaderVVVV">
+            <summary>
+            AudioFileReader simplifies opening an audio file in NAudio
+            Simply pass in the filename, and it will attempt to open the
+            file and set up a conversion path that turns into PCM IEEE float.
+            ACM codecs will be used for conversion.
+            It provides a volume property and implements both WaveStream and
+            ISampleProvider, making it possibly the only stage in your audio
+            pipeline necessary for simple playback scenarios
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of AudioFileReader
+            </summary>
+            <param name="fileName">The file to open</param>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.CreateReaderStream(System.String,System.Boolean)">
+            <summary>
+            Creates the reader stream, supporting all filetypes in the core NAudio library,
+            and ensuring we are in PCM format
+            </summary>
+            <param name="fileName">File Name</param>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads from this wave stream
+            </summary>
+            <param name="buffer">Audio buffer</param>
+            <param name="offset">Offset into buffer</param>
+            <param name="count">Number of bytes required</param>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.Read(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Reads audio from this sample provider
+            </summary>
+            <param name="buffer">Sample buffer</param>
+            <param name="offset">Offset into sample buffer</param>
+            <param name="count">Number of samples required</param>
+            <returns>Number of samples read</returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.SourceToDest(System.Int64)">
+            <summary>
+            Helper to convert source to dest bytes
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.DestToSource(System.Int64)">
+            <summary>
+            Helper to convert dest to source bytes
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.Dispose(System.Boolean)">
+            <summary>
+            Disposes this AudioFileReader
+            </summary>
+            <param name="disposing">True if called from Dispose</param>
+        </member>
+        <member name="P:VVVV.Audio.AudioFileReaderVVVV.WaveFormat">
+            <summary>
+            WaveFormat of this stream
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.AudioFileReaderVVVV.Length">
+            <summary>
+            Length of this stream (in bytes)
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.AudioFileReaderVVVV.Position">
+            <summary>
+            Position of this stream (in bytes)
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.AudioFileReaderVVVV.Volume">
+            <summary>
+            Gets or Sets the Volume of this AudioFileReader. 1.0f is full volume
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.WaveProviderToWaveStream.Length">
+            <summary>
+            Don't know the real length of the source, just return a big number
+            </summary>
+        </member>
+    </members>
+</doc>

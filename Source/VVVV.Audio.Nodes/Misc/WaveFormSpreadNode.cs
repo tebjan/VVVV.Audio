@@ -22,7 +22,7 @@ namespace VVVV.Nodes
 	#region PluginInfo
 	[PluginInfo(Name = "WaveForm", Category = "Spreads", Help = "Gets a block max representation of an audio file", Tags = "VAudio")]
 	#endregion PluginInfo
-	public class WaveFormSpreadNode : GenericMultiAudioSourceNodeWithOutputs<WaveFormSignal>
+	public class WaveFormSpreadNode : GenericMultiAudioSourceNode<WaveFormSignal>
 	{
 		#region fields & pins
 		[Input("Start Time")]

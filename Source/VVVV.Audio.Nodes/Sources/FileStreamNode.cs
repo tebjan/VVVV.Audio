@@ -18,7 +18,7 @@ namespace VVVV.Nodes
 	#region PluginInfo
 	[PluginInfo(Name = "FileStream", Category = "VAudio", Help = "Plays Back sound files", Tags = "wav, mp3, aiff", Author = "tonfilm, beyon")]
 	#endregion PluginInfo
-	public class FileStreamNode : GenericMultiAudioSourceNodeWithOutputs<FileStreamSignal>
+	public class FileStreamNode : GenericMultiAudioSourceNode<FileStreamSignal>
 	{
 		#region fields & pins
 		[Input("Play")]

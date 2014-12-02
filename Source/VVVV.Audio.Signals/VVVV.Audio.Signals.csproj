@@ -18,6 +18,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\core\VVVV.Audio.Signals.xml</DocumentationFile>
+    <OutputPath>..\..\core\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -27,7 +28,6 @@
     <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>bin\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -35,7 +35,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>..\..\core\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>PdbOnly</DebugType>
     <Optimize>True</Optimize>
@@ -83,7 +82,7 @@
     <Compile Include="Sinks\WaveRecorderSignal.cs" />
     <Compile Include="Sources\AudioInSignal.cs" />
     <Compile Include="Sources\FileStreamSignal.cs" />
-    <Compile Include="Sources\SineSignal.cs" />
+    <Compile Include="Sources\OscSignal.cs" />
     <Compile Include="Sources\WaveTableSignal.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -16,15 +16,6 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {
 	
-	
-	public enum WavetableWindowFunction
-	{
-		None,
-		Hamming,
-		Hann,
-		BlackmannHarris
-	}
-	
 	#region PluginInfo
 	[PluginInfo(Name = "WaveTable", Category = "VAudio", Version = "Source", Help = "Generates an audio signal from a wave table", Tags = "LUT, Synthesis", AutoEvaluate = true)]
 	#endregion PluginInfo
@@ -38,7 +29,7 @@ namespace VVVV.Nodes
 		public IDiffSpread<float> FFreqIn;
 		
 		[Input("Window Function")]
-		public IDiffSpread<WavetableWindowFunction> FWindowFuncIn;
+		public IDiffSpread<WindowFunction> FWindowFuncIn;
 		
 		[Input("Delay Amount", DefaultValue = 0)]
 		public IDiffSpread<float> FDelayAmountIn;
@@ -79,29 +70,7 @@ namespace VVVV.Nodes
 				//setup new window
 				if(FWindowFuncIn.IsChanged || created)
 				{
-					Func<int, int, double> window;
-					
-					switch (FWindowFuncIn[i])
-					{
-						case WavetableWindowFunction.Hamming:
-							window = AudioUtils.HammingWindow;
-							break;
-						case WavetableWindowFunction.Hann:
-							window = AudioUtils.HannWindow;
-							break;
-						case WavetableWindowFunction.BlackmannHarris:
-							window = AudioUtils.BlackmannHarrisWindow;
-							break;
-						default:
-							window = (j, k) => { return 1; };
-							break;
-					}
-					
-					FWindow = new float[instance.LUTBuffer.Length];
-					for (int j = 0; j < FWindow.Length; j++) 
-					{
-						FWindow[j] = (float)window(j, FWindow.Length);
-					}
+					FWindow = AudioUtils.CreateWindowFloat(instance.LUTBuffer.Length, FWindowFuncIn[i]);
 				}
 				
 				//FLogger.Log(LogType.Debug, "LUT");

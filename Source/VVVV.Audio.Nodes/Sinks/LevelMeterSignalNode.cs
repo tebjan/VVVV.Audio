@@ -18,7 +18,7 @@ namespace VVVV.Nodes
 	
 	
 	[PluginInfo(Name = "Meter", Category = "VAudio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Meter, dB, Level")]
-	public class LevelMeterSignalNode : GenericAudioSinkNodeWithOutputs<LevelMeterSignal, double>
+	public class LevelMeterSignalNode : GenericAudioSinkNode<LevelMeterSignal>
 	{		
 		[Input("Smoothing")]
 		public IDiffSpread<double> FSmoothing;
@@ -28,17 +28,17 @@ namespace VVVV.Nodes
 		
 		[Output("Level")]
 		public ISpread<double> FLevelOut;
+		
+		readonly float Min150dB = (float)Decibels.DecibelsToLinear(-150);
 
         protected override void SetOutputs(int i, LevelMeterSignal instance)
         {
             if (instance != null)
             {
-                var val = 0.0;
-                instance.GetLatestValue(out val);
                 var smooth = FSmoothing[i];
-                var level = FLevelOut[i] * smooth + val * (1 - smooth);
+                var level = FLevelOut[i] * smooth + instance.Max * (1 - smooth);
                 FLevelOut[i] = level;
-                FLeveldBsOut[i] = Decibels.LinearToDecibels(level);
+                FLeveldBsOut[i] = Decibels.LinearToDecibels(Math.Max(level, Min150dB));
             }
             else
             {
@@ -60,7 +60,7 @@ namespace VVVV.Nodes
 
         protected override void SetParameters(int i, LevelMeterSignal instance)
         {
-            instance.Input = FInputs[i];
+            instance.InputSignal.Value = FInputs[i];
         }
     }
 }

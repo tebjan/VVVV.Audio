@@ -20,7 +20,7 @@ namespace VVVV.Nodes
 {
 	
 	[PluginInfo(Name = "LTCDecoder", Category = "VAudio", Version = "Sink", Help = "Decodes LTC audio signals", Tags = "timecode, SMPTE, synchronization")]
-	public class LTCDecoderSignalNode : GenericAudioSinkNodeWithOutputs<LTCDecoderSignal, Timecode>
+	public class LTCDecoderSignalNode : GenericAudioSinkNode<LTCDecoderSignal>
 	{		
 		
 		[Output("Timecode")]
@@ -30,9 +30,7 @@ namespace VVVV.Nodes
         {
             if (instance != null)
             {
-                Timecode val;
-                instance.GetLatestValue(out val);
-                FTimecodeOut[i] = val;
+                FTimecodeOut[i] = instance.Timecode;
             }
             else
             {
@@ -52,7 +50,7 @@ namespace VVVV.Nodes
 
         protected override void SetParameters(int i, LTCDecoderSignal instance)
         {
-            instance.Input = FInputs[i];
+            instance.InputSignal.Value = FInputs[i];
         }
     }
 }

@@ -5,13 +5,13 @@ using LTCSharp;
 #endregion
 namespace VVVV.Audio
 {
-	public class LTCDecoderSignal : SinkSignal<Timecode>
+	public class LTCDecoderSignal : SinkSignal
 	{
 		LTCSharp.Decoder FDecoder;
 
 		public LTCDecoderSignal(AudioSignal input)
 		{
-			FInput = input;
+			InputSignal.Value = input;
 			FDecoder = new Decoder(AudioEngine.Instance.Settings.SampleRate, 25, 2);
 		}
 
@@ -23,13 +23,14 @@ namespace VVVV.Audio
 			FDecoder = new Decoder(AudioEngine.Instance.Settings.SampleRate, 25, 2);
 		}
 
+		public Timecode Timecode;
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (FInput != null) {
-				FInput.Read(buffer, offset, count);
+			if (InputSignal.Value != null) {
+				InputSignal.Read(buffer, offset, count);
 				FDecoder.Write(buffer, count, 0);
 				if (FDecoder.GetQueueLength() > 0)
-					this.SetLatestValue(FDecoder.Read().getTimecode());
+					Timecode = FDecoder.Read().getTimecode();
 			}
 		}
 	}

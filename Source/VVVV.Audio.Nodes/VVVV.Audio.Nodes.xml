@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VVVV.Audio.Nodes</name>
+    </assembly>
+    <members>
+        <member name="M:VVVV.Nodes.AudioNodeBase`1.AnyInputChanged">
+            <summary>
+            Should return whether new parameters need to be set on the audio signals
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VVVV.Nodes.AudioNodeBase`1.GetSpreadMax(System.Int32)">
+            <summary>
+            Override this in subclass if you want to set the number of output signals manually
+            </summary>
+            <param name="originalSpreadMax"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VVVV.Nodes.AudioNodeBase`1.GetInstance(System.Int32)">
+            <summary>
+            This should return a new instance of the desired audio signal class
+            </summary>
+            <param name="i">The current slice index of the output signal</param>
+            <returns>New instnace of the audio signal class</returns>
+        </member>
+        <member name="M:VVVV.Nodes.AudioNodeBase`1.DisposeInstance(VVVV.Audio.AudioSignal)">
+            <summary>
+            Overwrite in sub class to handle the disposal of instances,
+            don't forget to call base.DisposeInstance(instance)
+            </summary>
+            <param name="instance">Instance signal instance to dipose</param>
+        </member>
+        <member name="M:VVVV.Nodes.AudioNodeBase`1.SetParameters(System.Int32,`0)">
+            <summary>
+            This should set the parameters of the given audio signal class
+            </summary>
+            <param name="i">Current index of the output signal spread</param>
+            <param name="instance">Curretn instance</param>
+        </member>
+        <member name="M:VVVV.Nodes.AudioNodeBase`1.SetOutputs(System.Int32,`0)">
+            <summary>
+            Set the output pins of the node
+            </summary>
+            <param name="i">Current slice index</param>
+            <param name="instance">Current instance</param>
+        </member>
+        <member name="M:VVVV.Nodes.AudioNodeBase`1.SetOutputSliceCount(System.Int32)">
+            <summary>
+            In this method the slicecount of the output pins should be set
+            </summary>
+            <param name="sliceCount"></param>
+        </member>
+        <member name="T:VVVV.Nodes.GenericAudioSinkNode`1">
+            <summary>
+            Base class for audio sink nodes
+            </summary>
+        </member>
+        <member name="T:VVVV.Nodes.GenericAudioSourceNode`1">
+            <summary>
+            Audio source nodes
+            </summary>
+        </member>
+        <member name="T:VVVV.Nodes.GenericMultiAudioSourceNode`1">
+            <summary>
+            Audio node base class with multichannel signals and automatic instance handling
+            </summary>
+        </member>
+        <member name="T:VVVV.Nodes.ResampleNode">
+            <summary>
+            Description of ResampleFilter.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -20,8 +20,11 @@ namespace VVVV.Nodes
 	/// Description of ResampleFilter.
 	/// </summary>
 	[PluginInfo(Name = "Resample", Category = "VAudio", Version = "Filter", Help = "Resamples the input signal to any output sample rate", AutoEvaluate = true, Tags = "sample rate, converter")]
-	public class ResampleNode : GenericAudioFilterNodeWithOutputs<ResampleSignal>
+	public class ResampleNode : GenericAudioSourceNode<ResampleSignal>
 	{
+	    [Input("Input")]
+		public IDiffSpread<AudioSignal> FInputs;
+	    
 		[Input("Source Rate", DefaultValue = 44100, StepSize = 100)]
 		public IDiffSpread<double> FSrcRateIn;
 		
@@ -39,7 +42,7 @@ namespace VVVV.Nodes
 		
 		protected override void SetParameters(int i, ResampleSignal instance)
 		{
-			instance.Input = FInputs[i];
+			instance.InputSignal.Value = FInputs[i];
 			instance.DestinationRateIsEngineRate = FDstIsEngineRateIn[i];
 			instance.SetupConverter(FSrcRateIn[i], FDstRateIn[i], FReqTransBandIn[i]);
 		}

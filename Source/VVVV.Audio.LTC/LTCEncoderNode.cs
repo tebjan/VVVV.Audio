@@ -17,7 +17,7 @@ namespace VVVV.Nodes
 {
 
 	[PluginInfo(Name = "LTCEncoder", Category = "VAudio", Version = "Source", Help = "Creates a LTC audio signal", AutoEvaluate = true, Tags = "Wave")]
-	public class LTCEncoderSignalNode : GenericAudioSourceNodeWithOutputs<LTCEncoderSignal>
+	public class LTCEncoderSignalNode : GenericAudioSourceNode<LTCEncoderSignal>
 	{
 		[Input("Play")]
 		public IDiffSpread<bool> FPlayIn;
