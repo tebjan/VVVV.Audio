@@ -178,7 +178,7 @@ namespace VVVV.Audio
                         { 	
                             if(FTriangleUp) //counting up
                             {
-                            	FPhase = FPhase + t2*A;
+                            	FPhase = sync ? -1 : FPhase + t2*A + FMBuffer[i]*FMLevel.Value;
                             	if (FPhase > 1 - A*T)
                             	{
                             		//transitionregion
@@ -193,7 +193,7 @@ namespace VVVV.Audio
                             }
                             else //counting down
                             {
-                            	FPhase = FPhase + t2*B;
+                            	FPhase = sync ? -1 : FPhase + t2*B + FMBuffer[i]*FMLevel.Value;
                             	if (FPhase < -1 - B*T)
                             	{
                             		//transitionregion

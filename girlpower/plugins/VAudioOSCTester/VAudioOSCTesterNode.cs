@@ -171,7 +171,7 @@ namespace VVVV.Nodes
                     {
                         float sample;
 
-                        if (slope >= 0.99f) // rising saw
+                        if (slope >= 0.99f) // rising sa
                         { 
                             FPhase = sync ? -1 : FPhase + t2 + FMBuffer[i]*FMLevel.Value;
                             if (FPhase > 1.0f - T) //transition
