@@ -33,7 +33,7 @@ namespace VVVV.Nodes
             var tempSig = new TSignal();
             
             var t = tempSig.GetType();
-            var flags = BindingFlags.Instance | BindingFlags.Public;
+            var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
 			//Retrieve all FieldInfos
 			var fields = t.GetFields(flags);

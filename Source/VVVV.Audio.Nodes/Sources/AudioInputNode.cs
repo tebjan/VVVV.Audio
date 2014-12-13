@@ -33,7 +33,7 @@ namespace VVVV.Nodes
 		bool FFirstFrame = true;
 		public void Evaluate(int SpreadMax)
 		{
-			if(OutBuffer.SliceCount != FEngine.InputBuffers.Length)
+			if(FEngine.InputBuffers != null && OutBuffer.SliceCount != FEngine.InputBuffers.Length)
 			{
 				var channels = FEngine.InputBuffers.Length;
 				OutBuffer.SliceCount = channels;

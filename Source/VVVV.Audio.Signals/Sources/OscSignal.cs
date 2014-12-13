@@ -14,22 +14,22 @@ namespace VVVV.Audio
         Sawtooth
     }
     
-    public enum WaveGenerationMethod
+    public enum AntiAliasingAlgorithm
     {
-        Naive,
+        None,
         PolyBLEP,
         EPTR
     }
     
     public class OscSignal : AudioSignal
     {
-        public SigParamDiff<float> Frequency = new SigParamDiff<float>("Frequency", 440);
-        public SigParam<WaveFormSelection> WaveForm = new SigParam<WaveFormSelection>("Wave Form");
-        public SigParamDiff<double> Slope = new SigParamDiff<double>("Symmetry", 0.5f);
-        public SigParam<WaveGenerationMethod> AntiAliasingMethod = new SigParam<WaveGenerationMethod>("Anti-Aliasing Method", WaveGenerationMethod.PolyBLEP);
-        public SigParamAudio FMInput = new SigParamAudio("FM");
-        public SigParam<float> FMLevel = new SigParam<float>("FM Level");
-        public SigParam<float> Gain = new SigParam<float>("Gain");
+        SigParamDiff<float> Frequency = new SigParamDiff<float>("Frequency", 440);
+        SigParam<WaveFormSelection> WaveForm = new SigParam<WaveFormSelection>("Wave Form");
+        SigParamDiff<double> Slope = new SigParamDiff<double>("Symmetry", 0.5f);
+        SigParam<AntiAliasingAlgorithm> AntiAliasingMethod = new SigParam<AntiAliasingAlgorithm>("Anti-Aliasing Method", AntiAliasingAlgorithm.PolyBLEP);
+        SigParamAudio FMInput = new SigParamAudio("FM");
+        SigParam<float> FMLevel = new SigParam<float>("FM Level");
+        SigParam<float> Gain = new SigParam<float>("Gain");
         
         public OscSignal()
         {
@@ -60,13 +60,13 @@ namespace VVVV.Audio
             
             switch (AntiAliasingMethod.Value)
             {
-                case WaveGenerationMethod.Naive:
+                case AntiAliasingAlgorithm.None:
                     OscBasic(buffer, count);
                     break;
-                case WaveGenerationMethod.PolyBLEP:
+                case AntiAliasingAlgorithm.PolyBLEP:
                     OscPolyBLEP(buffer, count);
                     break;
-                case WaveGenerationMethod.EPTR:
+                case AntiAliasingAlgorithm.EPTR:
                     OscEPTR(buffer, count);
                     break;
             }
@@ -369,10 +369,26 @@ namespace VVVV.Audio
                 case WaveFormSelection.Square:
                     for (int i = 0; i < count; i++)
                     {
-                        FPhase += T;
-                        FPhase -= Math.Floor(FPhase);
-                        var naiveSaw = FPhase * 2 - 1;
-                        buffer[i] = (float)((naiveSaw - PolyBLEPSquare(FPhase, T)) * Gain.Value);
+                       // Start with naive PW square.
+                       double sample;
+                       
+                       sample = FPhase < slope ? 1 : -1;
+                    
+                       // Correct rising discontinuity.
+                       sample = sample + PolyBLEPSquare(FPhase, T);
+                    
+                       // Correct falling discontinuity.
+                       double phase2 = FPhase + 1 - slope;
+                       phase2 = phase2 - Math.Floor(phase2);
+                       sample = sample - PolyBLEPSquare(phase2, T);
+                    
+                       // Increment phase for next sample.
+                       FPhase += T;
+                       FPhase -= Math.Floor(FPhase);
+                    
+                       // Output current sample.
+                       buffer[i] = (float)(sample * Gain.Value);
+                        
                     }
                     break;
                 case WaveFormSelection.Sawtooth:

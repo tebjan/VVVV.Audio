@@ -187,7 +187,7 @@ namespace VVVV.Audio
         /// <returns></returns>
         public static IEnumerable<SigParamBase> GetParams(AudioSignal instance)
         {
-            var flags = BindingFlags.Instance | BindingFlags.Public;
+            var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 			var fields = instance.GetType().GetFields(flags);
 			
 			foreach (var fi in fields)
@@ -206,7 +206,7 @@ namespace VVVV.Audio
         /// <returns></returns>
         public static IEnumerable<SigParamBase> GetInputParams(AudioSignal instance)
         {
-            var flags = BindingFlags.Instance | BindingFlags.Public;
+            var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 			var fields = instance.GetType().GetFields(flags);
 			
 			foreach (var fi in fields)
@@ -230,7 +230,7 @@ namespace VVVV.Audio
         /// <returns></returns>
         public static IEnumerable<SigParamBase> GetOutputParams(AudioSignal instance)
         {
-            var flags = BindingFlags.Instance | BindingFlags.Public;
+            var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 			var fields = instance.GetType().GetFields(flags);
 			
             foreach (var fi in fields)
