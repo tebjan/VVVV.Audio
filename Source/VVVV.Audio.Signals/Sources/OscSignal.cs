@@ -75,7 +75,7 @@ namespace VVVV.Audio
 
         const double TwoPi = (Math.PI * 2);
         const double HalfPi = (Math.PI * 0.5);
-        double FPhase = -1;
+        double FPhase = 0;
         double T;
         
         // time step and triangle params
