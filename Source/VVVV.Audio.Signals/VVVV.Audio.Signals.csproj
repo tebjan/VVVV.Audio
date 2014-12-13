@@ -80,6 +80,7 @@
     <Compile Include="Sinks\FFTOutSignal.cs" />
     <Compile Include="Sinks\LevelMeterSignal.cs" />
     <Compile Include="Sinks\WaveRecorderSignal.cs" />
+    <Compile Include="Sources\ADSRSignal.cs" />
     <Compile Include="Sources\AudioInSignal.cs" />
     <Compile Include="Sources\FileStreamSignal.cs" />
     <Compile Include="Sources\OscSignal.cs" />

@@ -30,6 +30,8 @@ namespace VVVV.Audio
 
         public abstract object GetValue();
 
+        public abstract object GetDefaultValue();
+        
         public abstract void SetValue(object value);
     }
     
@@ -57,6 +59,11 @@ namespace VVVV.Audio
         public override object GetValue()
         {
             return FValue;
+        }
+        
+        public override object GetDefaultValue()
+        {
+            return InitialValue;
         }
         
         public override Type GetValueType()
@@ -163,9 +170,17 @@ namespace VVVV.Audio
         }
     }
     
+    public class SigParamBang : SigParam<bool>
+    {
+        public SigParamBang(string name, bool isOutput = false)
+            : base(name, isOutput)
+        {
+        }
+    }
+    
 
     /// <summary>
-    /// A parameter of an AudioSignal
+    /// A secured out parameter
     /// </summary>
     public class SigParamSec<T> : SigParamBaseGeneric<T>
     {

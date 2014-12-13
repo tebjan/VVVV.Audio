@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug33.5.dtd" >
    <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\Oscillators.v4p" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\Oscillators.v4p" systemname="Oscillators" scrollx="30" scrolly="0">
-   <BOUNDS height="18000" left="5175" top="0" type="Window" width="23625">
+   <BOUNDS height="18000" left="8160" top="540" type="Window" width="23625">
    </BOUNDS>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="260" systemname="IOBox (Enumerations)">
    <BOUNDS type="Box" left="11325" top="570" width="1935" height="240">
@@ -15,7 +15,7 @@
    <PACK Name="addonpack" Version="33.3.0">
    </PACK>
    <NODE systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioOut (VAudio)" componentmode="Hidden" id="263">
-   <BOUNDS type="Node" left="2235" top="2295" width="100" height="100">
+   <BOUNDS type="Node" left="1425" top="3105" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
@@ -359,7 +359,7 @@
    <LINK srcnodeid="327" srcpinname="XYZ" dstnodeid="323" dstpinname="VerticesXYZ">
    </LINK>
    <NODE systemname="Reverse (VAudio Bin)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Reverse (VAudio Bin)" componentmode="Hidden" id="328">
-   <BOUNDS type="Node" left="3135" top="2205" width="100" height="100">
+   <BOUNDS type="Node" left="3135" top="2370" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
@@ -383,8 +383,6 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="331" srcpinname="Output Enum" dstnodeid="265" dstpinname="Anti-Aliasing Method">
-   </LINK>
-   <LINK srcnodeid="265" srcpinname="Audio Out" dstnodeid="263" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="323" srcpinname="Layer" dstnodeid="273" dstpinname="Layer 4">
    </LINK>
@@ -472,6 +470,50 @@
    </NODE>
    <LINK srcnodeid="345" srcpinname="Y Output Value" dstnodeid="340" dstpinname="Input 1">
    </LINK>
-   <LINK srcnodeid="265" srcpinname="Audio Out" dstnodeid="328" dstpinname="Input">
+   <NODE systemname="ADSR (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="ADSR (VAudio Source)" componentmode="Hidden" id="346">
+   <BOUNDS type="Node" left="1890" top="1770" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Start" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Stop" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Current Stage" visible="1">
+   </PIN>
+   <PIN pinname="Sustain" slicecount="1" values="0.54">
+   </PIN>
+   <PIN pinname="Release" slicecount="1" values="0.5">
+   </PIN>
+   <PIN pinname="Attack" slicecount="1" values="0.001">
+   </PIN>
+   <PIN pinname="Decay" slicecount="1" values="0.86">
+   </PIN>
+   </NODE>
+   <NODE systemname="Multiply (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Multiply (VAudio)" componentmode="Hidden" id="347">
+   <BOUNDS type="Node" left="2235" top="2250" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="265" srcpinname="Audio Out" dstnodeid="347" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="346" srcpinname="Audio Out" dstnodeid="347" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="347" srcpinname="Audio Out" dstnodeid="263" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="347" srcpinname="Audio Out" dstnodeid="328" dstpinname="Input">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="348" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="2550" top="2790" width="1590" height="270">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2550" top="2790" width="0" height="0">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="346" srcpinname="Current Stage" dstnodeid="348" dstpinname="Input Enum">
    </LINK>
    </PATCH>

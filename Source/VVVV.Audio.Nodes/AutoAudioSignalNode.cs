@@ -49,6 +49,34 @@ namespace VVVV.Nodes
 				    {
 				        var ia = new InputAttribute(param.Name);
 				        var spreadType = typeof(IDiffSpread<>).MakeGenericType(valType);
+				        
+				        if(valType == typeof(double))
+				        {
+				            ia.DefaultValue = (double)param.GetDefaultValue();
+				        }
+				        else if(valType == typeof(float))
+				        {
+				            ia.DefaultValue = (float)param.GetDefaultValue();
+				        }
+				        else if(valType == typeof(int))
+				        {
+				            ia.DefaultValue = (int)param.GetDefaultValue();
+				        }
+				        else if(valType == typeof(long))
+				        {
+				            ia.DefaultValue = (long)param.GetDefaultValue();
+				        }
+				        else if(typeof(Enum).IsAssignableFrom(valType))
+				        {
+				            ia.DefaultEnumEntry = param.GetDefaultValue().ToString();
+				        }
+				        else
+				        {
+				            if(param is SigParamBang)
+				            {
+				                ia.IsBang = true;
+				            }
+				        }
 
 				        var inPin = (IDiffSpread)FIOFactory.CreateIO(spreadType, ia);
 				        FInputPins[param.Name] = inPin;

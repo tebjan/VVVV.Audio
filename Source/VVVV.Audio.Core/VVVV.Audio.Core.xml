@@ -138,7 +138,7 @@
         </member>
         <member name="T:VVVV.Audio.SigParamSec`1">
             <summary>
-            A parameter of an AudioSignal
+            A secured out parameter
             </summary>
         </member>
         <member name="T:VVVV.Audio.MasterChannel">

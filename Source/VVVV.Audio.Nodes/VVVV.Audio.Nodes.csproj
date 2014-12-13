@@ -106,6 +106,7 @@
     <Compile Include="Sinks\FFTOutNode.cs" />
     <Compile Include="Sinks\LevelMeterSignalNode.cs" />
     <Compile Include="Sinks\WaveRecorderNode.cs" />
+    <Compile Include="Sources\ADSRNode.cs" />
     <Compile Include="Sources\AudioInputNode.cs" />
     <Compile Include="Sources\FileStreamNode.cs" />
     <Compile Include="Sources\OscSignalNode.cs" />

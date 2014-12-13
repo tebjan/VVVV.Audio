@@ -20,11 +20,14 @@ namespace VVVV.Audio
 
 		double FFrequency;
 
-		public double Frequency {
-			get {
+		public double Frequency 
+		{
+			get 
+			{
 				return FFrequency;
 			}
-			set {
+			set 
+			{
 				FFrequency = value;
 			}
 		}
@@ -35,7 +38,8 @@ namespace VVVV.Audio
 
 		private float[] LUT;
 
-		public float[] LUTBuffer {
+		public float[] LUTBuffer 
+		{
 			get;
 			private set;
 		}
@@ -53,11 +57,14 @@ namespace VVVV.Audio
 
 		float fDlyTime = 0.25f;
 
-		public float DelayTime {
-			get {
+		public float DelayTime 
+		{
+			get 
+			{
 				return fDlyTime;
 			}
-			set {
+			set 
+			{
 				fDlyTime = (float)VMath.Clamp(value, 0.0, 1.0);
 			}
 		}
@@ -74,9 +81,12 @@ namespace VVVV.Audio
 		{
 			var luts = LUT.Length;
 			var Delta = (float)(FFrequency * luts / WaveFormat.SampleRate);
-			fixed (float* lut = LUT) {
-				fixed (float* outBuff = buffer) {
-					for (int n = 0; n < count; n++) {
+			fixed (float* lut = LUT) 
+			{
+				fixed (float* outBuff = buffer) 
+				{
+					for (int n = 0; n < count; n++) 
+					{
 						if (i >= DlyBufferSize)
 							i = 0;
 						j = i - (int)(fDlyTime * MaxDlyTime);

@@ -29,7 +29,7 @@ namespace VVVV.Audio
         SigParam<AntiAliasingAlgorithm> AntiAliasingMethod = new SigParam<AntiAliasingAlgorithm>("Anti-Aliasing Method", AntiAliasingAlgorithm.PolyBLEP);
         SigParamAudio FMInput = new SigParamAudio("FM");
         SigParam<float> FMLevel = new SigParam<float>("FM Level");
-        SigParam<float> Gain = new SigParam<float>("Gain");
+        SigParam<float> Gain = new SigParam<float>("Gain", 0.1f);
         
         public OscSignal()
         {
