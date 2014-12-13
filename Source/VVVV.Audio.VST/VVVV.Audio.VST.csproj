@@ -20,6 +20,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\nodes\plugins\VVVV.Audio.VST.xml</DocumentationFile>
     <OutputPath>..\..\nodes\plugins\</OutputPath>
+    <NuGetPackageImportStamp>055cced1</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -71,7 +72,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="VVVV.Core">
-      <HintPath>..\packages\VVVV.Core.33.4.0-develop-494\lib\net40\VVVV.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\VVVV.Core.33.5.0-develop-534\lib\net40\VVVV.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.PluginInterfaces">
@@ -79,23 +80,29 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Utils">
-      <HintPath>..\packages\VVVV.Utils.33.4.0-develop-494\lib\net40\VVVV.Utils.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\VVVV.Utils.33.5.0-develop-534\lib\net40\VVVV.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.UtilsIL">
-      <HintPath>..\packages\VVVV.UtilsIL.33.4.0-develop-494\lib\net40\VVVV.UtilsIL.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\VVVV.UtilsIL.33.5.0-develop-534\lib\net40\VVVV.UtilsIL.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HostCommandStub.cs" />
-    <Compile Include="PluginInfoForm.cs" />
+    <Compile Include="PluginInfoForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="PluginInfoForm.Designer.cs">
       <DependentUpon>PluginInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VSTHostNode.cs" />
-    <Compile Include="VstPluginControl.cs" />
+    <Compile Include="VSTHostNode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VstPluginControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="VstPluginControl.Designer.cs">
       <DependentUpon>VstPluginControl.cs</DependentUpon>
     </Compile>
@@ -132,4 +139,15 @@
   <Import Project="..\packages\VVVV.PluginInterfaces.33.4.0-develop-494\build\net40\VVVV.PluginInterfaces.targets" Condition="Exists('..\packages\VVVV.PluginInterfaces.33.4.0-develop-494\build\net40\VVVV.PluginInterfaces.targets')" />
   <Import Project="..\packages\VVVV.Utils3rdParty.33.4.0-develop-494\build\net40\VVVV.Utils3rdParty.targets" Condition="Exists('..\packages\VVVV.Utils3rdParty.33.4.0-develop-494\build\net40\VVVV.Utils3rdParty.targets')" />
   <Import Project="..\packages\VVVV.Hosting.33.4.0-develop-494\build\net40\VVVV.Hosting.targets" Condition="Exists('..\packages\VVVV.Hosting.33.4.0-develop-494\build\net40\VVVV.Hosting.targets')" />
+  <Import Project="..\..\..\..\..\packages\VVVV.PluginInterfaces.33.5.0-develop-534\build\net40\VVVV.PluginInterfaces.targets" Condition="Exists('..\..\..\..\..\packages\VVVV.PluginInterfaces.33.5.0-develop-534\build\net40\VVVV.PluginInterfaces.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\..\packages\VVVV.PluginInterfaces.33.5.0-develop-534\build\net40\VVVV.PluginInterfaces.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\packages\VVVV.PluginInterfaces.33.5.0-develop-534\build\net40\VVVV.PluginInterfaces.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\packages\VVVV.Utils3rdParty.33.5.0-develop-534\build\net40\VVVV.Utils3rdParty.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\packages\VVVV.Utils3rdParty.33.5.0-develop-534\build\net40\VVVV.Utils3rdParty.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\packages\VVVV.Hosting.33.5.0-develop-534\build\net40\VVVV.Hosting.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\packages\VVVV.Hosting.33.5.0-develop-534\build\net40\VVVV.Hosting.targets'))" />
+  </Target>
+  <Import Project="..\..\..\..\..\packages\VVVV.Utils3rdParty.33.5.0-develop-534\build\net40\VVVV.Utils3rdParty.targets" Condition="Exists('..\..\..\..\..\packages\VVVV.Utils3rdParty.33.5.0-develop-534\build\net40\VVVV.Utils3rdParty.targets')" />
+  <Import Project="..\..\..\..\..\packages\VVVV.Hosting.33.5.0-develop-534\build\net40\VVVV.Hosting.targets" Condition="Exists('..\..\..\..\..\packages\VVVV.Hosting.33.5.0-develop-534\build\net40\VVVV.Hosting.targets')" />
 </Project>

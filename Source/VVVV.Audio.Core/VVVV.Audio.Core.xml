@@ -213,6 +213,14 @@
             <param name="slope">Slope, 0..1, 0.5 is symmetric triangle</param>
             <returns></returns>
         </member>
+        <member name="M:VVVV.Audio.AudioUtils.Triangle(System.Double,System.Double)">
+            <summary>
+            Calcualtes an asymmetric triangle wave
+            </summary>
+            <param name="phase">Position in wave, 0..1</param>
+            <param name="slope">Slope, 0..1, 0.5 is symmetric triangle</param>
+            <returns></returns>
+        </member>
         <member name="M:VVVV.Audio.AudioUtils.HammingWindow(System.Int32,System.Int32)">
             <summary>
             Applies a Hamming Window

@@ -61,7 +61,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Utils">
-      <HintPath>..\packages\VVVV.Utils.33.4.0-develop-494\lib\net40\VVVV.Utils.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\VVVV.Utils.33.5.0-develop-534\lib\net40\VVVV.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -85,14 +85,7 @@
     <Compile Include="Sources\OscSignal.cs" />
     <Compile Include="Sources\WaveTableSignal.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Buffers" />
-    <Folder Include="Filters" />
-    <Folder Include="Misc" />
-    <Folder Include="Routing" />
-    <Folder Include="Sinks" />
-    <Folder Include="Sources" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\VVVV.Audio.Core\VVVV.Audio.Core.csproj">
       <Project>{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}</Project>

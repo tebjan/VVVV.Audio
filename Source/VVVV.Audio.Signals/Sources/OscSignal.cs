@@ -14,12 +14,19 @@ namespace VVVV.Audio
         Sawtooth
     }
     
+    public enum WaveGenerationMethod
+    {
+        Naive,
+        PolyBLEP,
+        EPTR
+    }
+    
     public class OscSignal : AudioSignal
     {
         public SigParamDiff<float> Frequency = new SigParamDiff<float>("Frequency", 440);
         public SigParam<WaveFormSelection> WaveForm = new SigParam<WaveFormSelection>("Wave Form");
-        public SigParamDiff<float> Slope = new SigParamDiff<float>("Symmetry", 0.5f);
-        public SigParam<bool> UseEPTR = new SigParam<bool>("Use EPTR");
+        public SigParamDiff<double> Slope = new SigParamDiff<double>("Symmetry", 0.5f);
+        public SigParam<WaveGenerationMethod> AntiAliasingMethod = new SigParam<WaveGenerationMethod>("Anti-Aliasing Method", WaveGenerationMethod.PolyBLEP);
         public SigParamAudio FMInput = new SigParamAudio("FM");
         public SigParam<float> FMLevel = new SigParam<float>("FM Level");
         public SigParam<float> Gain = new SigParam<float>("Gain");
@@ -37,10 +44,39 @@ namespace VVVV.Audio
             CalcFrequencyConsts(Frequency.Value);
         }
 
-        const float TwoPi = (float)(Math.PI * 2);
-        const float HalfPi = (float)(Math.PI * 0.5);
-        float FPhase = -1;
-        float T;
+        protected override void FillBuffer(float[] buffer, int offset, int count)
+        {
+            //FM
+            if(FMBuffer.Length < count)
+            {
+                FMBuffer = new float[count];
+            }
+            
+            if(FMLevel.Value > 0)
+            {
+                //get FM wave
+                FMInput.Read(FMBuffer, offset, count);
+            }
+            
+            switch (AntiAliasingMethod.Value)
+            {
+                case WaveGenerationMethod.Naive:
+                    OscBasic(buffer, count);
+                    break;
+                case WaveGenerationMethod.PolyBLEP:
+                    OscPolyBLEP(buffer, count);
+                    break;
+                case WaveGenerationMethod.EPTR:
+                    OscEPTR(buffer, count);
+                    break;
+            }
+
+        }
+
+        const double TwoPi = (Math.PI * 2);
+        const double HalfPi = (Math.PI * 0.5);
+        double FPhase = -1;
+        double T;
         
         // time step and triangle params
         void CalcFrequencyConsts(float freq)
@@ -51,12 +87,12 @@ namespace VVVV.Audio
 
         //triangle precalculated values
         bool FTriangleUp = true;
-        float A, B, AoverB, BoverA, a2, a1, a0, b2, b1, b0;
+        double A, B, AoverB, BoverA, a2, a1, a0, b2, b1, b0;
 
-        void CalcTriangleCoefficients(float slope)
+        void CalcTriangleCoefficients(double slope)
         {
             //triangle magnitudes
-            var slopeClamp = (float)VMath.Clamp(slope, 0.01, 0.99);
+            var slopeClamp = VMath.Clamp(slope, 0.01, 0.99);
             A = 1/slopeClamp;
             B = -1/(1-slopeClamp);
             AoverB = A / B;
@@ -86,21 +122,21 @@ namespace VVVV.Audio
         }
         
         // from http://www.yofiel.com/software/cycling-74-patches/antialiased-oscillators
-        float eptr(float ramp, float regionSize, float slope)
+        double EPTR(double ramp, double regionSize, double slope)
         {
             slope *= 0.5f;
             
             //d2 = 8192  / d1;            // buffer transition coefficient;
             var d2 = TwoPi *.213332 / regionSize; // transcendental coefficient;
             var slopeMin = 1-slope;                  // inverted duty cycle
-            var e0= 0.0f; // pi5  = pi *.5;
+            var e0= 0.0; // pi5  = pi *.5;
             
             if (ramp <=  slope - regionSize)        // fixed low region at start
                 return -1;
             else if (ramp < slope + regionSize)
             {   // rising region
                 //e0 = peek(buf, d2*(ramp -w1 +regionSize), 0);
-                e0 = (float)Math.Tanh(4 * Math.Sin(d2 * (ramp -slope +regionSize) - HalfPi));
+                e0 = Math.Tanh(4 * Math.Sin(d2 * (ramp -slope +regionSize) - HalfPi));
                 return e0;
             }
             else if (ramp <= slopeMin - regionSize)    // middle fixed hi region
@@ -108,13 +144,13 @@ namespace VVVV.Audio
             else if (ramp < slopeMin + regionSize)
             {     // falling region
                 //e0 = peek(buf,d2*(ramp -slopeMin +regionSize), 0);
-                e0 = (float)Math.Tanh(4 * Math.Sin(d2*(ramp -slopeMin +regionSize) + HalfPi));
+                e0 = Math.Tanh(4 * Math.Sin(d2*(ramp -slopeMin +regionSize) + HalfPi));
                 return e0;
             }
             
             else return -1;             // fixed low region at end
         }
-        
+         
         float[] FMBuffer = new float[1];
         private void OscEPTR(float[] buffer, int count)
         {
@@ -127,7 +163,7 @@ namespace VVVV.Audio
                 case WaveFormSelection.Sine:
                     for (int i = 0; i < count; i++)
                     {
-                        buffer[i] = Gain.Value * (float)Math.Sin(FPhase*Math.PI);
+                        buffer[i] = (float)(Gain.Value * Math.Sin(FPhase*Math.PI));
                         
                         FPhase += t2 + FMBuffer[i]*FMLevel.Value;
                         
@@ -146,7 +182,7 @@ namespace VVVV.Audio
                     //per sample loop
                     for (int i = 0; i < count; i++)
                     {
-                        float sample;
+                        double sample;
 
                         if (slope >= 0.99f) // rising saw
                         {
@@ -208,7 +244,7 @@ namespace VVVV.Audio
                             }
                         }
                         
-                        buffer[i] = sample*Gain.Value;
+                        buffer[i] = (float)(sample*Gain.Value);
                     }
                     break;
                 case WaveFormSelection.Square:
@@ -220,13 +256,13 @@ namespace VVVV.Audio
                         // The ramp works in the range -1~+1, to prevent phase inversion
                         // by negative wraps from FM signals
                         FPhase = sync ? -1 : FPhase + t2 + FMBuffer[i]*FMLevel.Value;
-                        if(FPhase > 1.0f)
-                            FPhase -= 2.0f;
+                        if(FPhase > 1.0)
+                            FPhase -= 2.0;
                         
-                        var r2 = FPhase *0.5f + 0.5f;       // ramp rescaled to 0-1 for EPTR calcs
+                        var r2 = FPhase *0.5 + 0.5;       // ramp rescaled to 0-1 for EPTR calcs
                         //            	if (inc2<.125){      // if Fc<sr/16 (2756Hz @441000 sr)
                         var d1 = t2 * 2;   // width of phase transition region (4*fc/sr)
-                        buffer[i] = eptr(r2, 2*t2, slope) * Gain.Value;
+                        buffer[i] = (float)(EPTR(r2, 2*t2, slope) * Gain.Value);
                         //            	} else {                // adding 3x oversampling at higher freqs
                         //            		t0 = delta(r2);
                         //            		if (t0>0){ t2 = r2 -t0 *.6666667;                     //z-2
@@ -250,18 +286,66 @@ namespace VVVV.Audio
                     break;
             }
         }
+        
+        double PolyBLEPSquare(double t, double dt)
+        {
+            // 0 <= t < 1
+            if (t < dt)
+            {
+                t = t/dt - 1;
+                return -t*t;
+            }
+            
+            // -1 < t < 0
+            else if (t > 1 - dt)
+            {
+                t = (t - 1)/dt + 1;
+                return t*t;
+            }
+            
+            // 0 otherwise
+            else
+            {
+                return 0;
+            }
+        }
+        
+        double PolyBLEPSaw(double t, double dt)
+        {
+            // 0 <= t < 1
+            if (t < dt)
+            {
+                t /= dt;
+                // 2 * (t - t^2/2 - 0.5)
+                return t+t - t*t - 1;
+            }
 
-        private void OscBasic(float[] buffer, int count)
+            // -1 < t < 0
+            else if (t > 1 - dt)
+            {
+                t = (t - 1) / dt;
+                // 2 * (t^2/2 + t + 0.5)
+                return t*t + t+t + 1;
+            }
+
+            // 0 otherwise
+            else
+            {
+                return 0;
+            }
+        }
+
+        private void OscPolyBLEP(float[] buffer, int count)
         {
 
             var t2 = 2*T;
-            var slope = (float)VMath.Clamp(Slope.Value, 0.01, 0.99);
+            var slope = VMath.Clamp(Slope.Value, 0.01, 0.99);
             switch (WaveForm.Value)
             {
                 case WaveFormSelection.Sine:
                     for (int i = 0; i < count; i++)
                     {
-                        buffer[i] = Gain.Value * (float)Math.Sin(FPhase*Math.PI);
+                        buffer[i] = (float)(Gain.Value * Math.Sin(FPhase*Math.PI));
                         
                         FPhase += t2 + FMBuffer[i]*FMLevel.Value;
                         
@@ -274,9 +358,60 @@ namespace VVVV.Audio
                     for (int i = 0; i < count; i++)
                     {
                         var phase = FPhase*0.5f + 0.5f;
-                        //buffer[i] =  Gain.Value * (phase < slope ? (2/slope) * phase - 1 : 1 - (2/(1-slope)) * (phase-slope));
+                        buffer[i] =  (float)(Gain.Value * AudioUtils.Triangle(phase, slope));
                         
-                        buffer[i] =  Gain.Value * AudioUtils.Triangle(phase, slope);
+                        FPhase += t2 + FMBuffer[i]*FMLevel.Value;
+
+                        if (FPhase >= 1)
+                            FPhase -= 2f;
+                    }
+                    break;
+                case WaveFormSelection.Square:
+                    for (int i = 0; i < count; i++)
+                    {
+                        FPhase += T;
+                        FPhase -= Math.Floor(FPhase);
+                        var naiveSaw = FPhase * 2 - 1;
+                        buffer[i] = (float)((naiveSaw - PolyBLEPSquare(FPhase, T)) * Gain.Value);
+                    }
+                    break;
+                case WaveFormSelection.Sawtooth:
+                    for (int i = 0; i < count; i++)
+                    {
+                        FPhase += T;
+                        FPhase -= Math.Floor(FPhase);
+                        var naiveSaw = FPhase * 2 - 1;
+                        buffer[i] = (float)((naiveSaw - PolyBLEPSaw(FPhase, T)) * Gain.Value);
+                    }
+                    break;
+            }
+        }
+        
+        private void OscBasic(float[] buffer, int count)
+        {
+
+            var t2 = 2*T;
+            var slope = VMath.Clamp(Slope.Value, 0.01, 0.99);
+            switch (WaveForm.Value)
+            {
+                case WaveFormSelection.Sine:
+                    for (int i = 0; i < count; i++)
+                    {
+                        buffer[i] = (float)(Gain.Value * Math.Sin(FPhase*Math.PI));
+                        
+                        FPhase += t2 + FMBuffer[i]*FMLevel.Value;
+                        
+                        if (FPhase > 1)
+                            FPhase -= 2;
+
+                    }
+                    break;
+                case WaveFormSelection.Triangle:
+                    for (int i = 0; i < count; i++)
+                    {
+                        var phase = FPhase*0.5f + 0.5f;
+
+                        buffer[i] =  (float)(Gain.Value * AudioUtils.Triangle(phase, slope));
                         
                         FPhase += t2 + FMBuffer[i]*FMLevel.Value;
 
@@ -294,12 +429,12 @@ namespace VVVV.Audio
                         if (FPhase >= 2.0f)
                             FPhase -= 2.0f;
                     }
+                   
                     break;
                 case WaveFormSelection.Sawtooth:
-
                     for (int i = 0; i < count; i++)
                     {
-                        buffer[i] = Gain.Value * FPhase;
+                        buffer[i] = (float)(Gain.Value * FPhase);
                         
                         FPhase += t2 + FMBuffer[i]*FMLevel.Value;
                         
@@ -307,30 +442,12 @@ namespace VVVV.Audio
                         {
                             FPhase -= 2.0f;
                         }
+
                     }
                     break;
             }
         }
         
-        protected override void FillBuffer(float[] buffer, int offset, int count)
-        {
-            //FM
-            if(FMBuffer.Length < count)
-            {
-                FMBuffer = new float[count];
-            }
-            
-            if(FMLevel.Value > 0)
-            {
-                //get FM wave
-                FMInput.Read(FMBuffer, offset, count);
-            }
-            
-            if(UseEPTR.Value)
-                OscEPTR(buffer, count);
-            else
-                OscBasic(buffer, count);
-        }
     }
     
     public class MultiSineSignal : AudioSignal

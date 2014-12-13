@@ -122,6 +122,19 @@ namespace VVVV.Audio
 		    return x;
 		}
 		
+		public static double Wrap(double x, double min = -1.0, double max = 1.0)
+		{
+		    var range = max - min;
+
+		    if (x > max)
+		        return x - range;
+
+		    if (x < min)
+		        return x + range;
+
+		    return x;
+		}
+		
 	    /// <summary>
 		/// Calcualtes an asymmetric triangle wave
 		/// </summary>
@@ -129,6 +142,17 @@ namespace VVVV.Audio
 		/// <param name="slope">Slope, 0..1, 0.5 is symmetric triangle</param>
 		/// <returns></returns>
         public static float Triangle(float phase, float slope = 0.5f)
+        {
+        	return phase < slope ? (2/slope) * phase - 1 : 1 - (2/(1-slope)) * (phase-slope);
+        }
+        
+        /// <summary>
+		/// Calcualtes an asymmetric triangle wave
+		/// </summary>
+		/// <param name="phase">Position in wave, 0..1</param>
+		/// <param name="slope">Slope, 0..1, 0.5 is symmetric triangle</param>
+		/// <returns></returns>
+        public static double Triangle(double phase, double slope = 0.5)
         {
         	return phase < slope ? (2/slope) * phase - 1 : 1 - (2/(1-slope)) * (phase-slope);
         }

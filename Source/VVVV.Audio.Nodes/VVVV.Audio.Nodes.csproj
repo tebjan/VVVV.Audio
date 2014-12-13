@@ -20,6 +20,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <OutputPath>..\..\nodes\plugins\</OutputPath>
+    <NuGetPackageImportStamp>e15b1893</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -65,7 +66,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="VVVV.Core">
-      <HintPath>..\packages\VVVV.Core.33.4.0-develop-494\lib\net40\VVVV.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\VVVV.Core.33.5.0-develop-534\lib\net40\VVVV.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Nodes.Generic">
@@ -77,11 +78,11 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Utils">
-      <HintPath>..\packages\VVVV.Utils.33.4.0-develop-494\lib\net40\VVVV.Utils.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\VVVV.Utils.33.5.0-develop-534\lib\net40\VVVV.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.UtilsIL">
-      <HintPath>..\packages\VVVV.UtilsIL.33.4.0-develop-494\lib\net40\VVVV.UtilsIL.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\VVVV.UtilsIL.33.5.0-develop-534\lib\net40\VVVV.UtilsIL.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -110,14 +111,7 @@
     <Compile Include="Sources\OscSignalNode.cs" />
     <Compile Include="Sources\WaveTableNode.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Buffers" />
-    <Folder Include="Filters" />
-    <Folder Include="Misc" />
-    <Folder Include="Routing" />
-    <Folder Include="Sinks" />
-    <Folder Include="Sources" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
@@ -139,4 +133,17 @@
   <Import Project="..\packages\VVVV.Utils3rdParty.33.4.0-develop-494\build\net40\VVVV.Utils3rdParty.targets" Condition="Exists('..\packages\VVVV.Utils3rdParty.33.4.0-develop-494\build\net40\VVVV.Utils3rdParty.targets')" />
   <Import Project="..\packages\VVVV.Hosting.33.4.0-develop-494\build\net40\VVVV.Hosting.targets" Condition="Exists('..\packages\VVVV.Hosting.33.4.0-develop-494\build\net40\VVVV.Hosting.targets')" />
   <Import Project="..\packages\VVVV.Nodes.Generic.33.4.0-develop-494\build\net40\VVVV.Nodes.Generic.targets" Condition="Exists('..\packages\VVVV.Nodes.Generic.33.4.0-develop-494\build\net40\VVVV.Nodes.Generic.targets')" />
+  <Import Project="..\..\..\..\..\packages\VVVV.PluginInterfaces.33.5.0-develop-534\build\net40\VVVV.PluginInterfaces.targets" Condition="Exists('..\..\..\..\..\packages\VVVV.PluginInterfaces.33.5.0-develop-534\build\net40\VVVV.PluginInterfaces.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\..\packages\VVVV.PluginInterfaces.33.5.0-develop-534\build\net40\VVVV.PluginInterfaces.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\packages\VVVV.PluginInterfaces.33.5.0-develop-534\build\net40\VVVV.PluginInterfaces.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\packages\VVVV.Nodes.Generic.33.5.0-develop-534\build\net40\VVVV.Nodes.Generic.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\packages\VVVV.Nodes.Generic.33.5.0-develop-534\build\net40\VVVV.Nodes.Generic.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\packages\VVVV.Utils3rdParty.33.5.0-develop-534\build\net40\VVVV.Utils3rdParty.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\packages\VVVV.Utils3rdParty.33.5.0-develop-534\build\net40\VVVV.Utils3rdParty.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\packages\VVVV.Hosting.33.5.0-develop-534\build\net40\VVVV.Hosting.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\packages\VVVV.Hosting.33.5.0-develop-534\build\net40\VVVV.Hosting.targets'))" />
+  </Target>
+  <Import Project="..\..\..\..\..\packages\VVVV.Nodes.Generic.33.5.0-develop-534\build\net40\VVVV.Nodes.Generic.targets" Condition="Exists('..\..\..\..\..\packages\VVVV.Nodes.Generic.33.5.0-develop-534\build\net40\VVVV.Nodes.Generic.targets')" />
+  <Import Project="..\..\..\..\..\packages\VVVV.Utils3rdParty.33.5.0-develop-534\build\net40\VVVV.Utils3rdParty.targets" Condition="Exists('..\..\..\..\..\packages\VVVV.Utils3rdParty.33.5.0-develop-534\build\net40\VVVV.Utils3rdParty.targets')" />
+  <Import Project="..\..\..\..\..\packages\VVVV.Hosting.33.5.0-develop-534\build\net40\VVVV.Hosting.targets" Condition="Exists('..\..\..\..\..\packages\VVVV.Hosting.33.5.0-develop-534\build\net40\VVVV.Hosting.targets')" />
 </Project>
