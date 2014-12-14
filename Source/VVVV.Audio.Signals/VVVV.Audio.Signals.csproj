@@ -69,7 +69,7 @@
     <Compile Include="Buffers\BufferAudioSignal.cs" />
     <Compile Include="Buffers\BufferReaderSignal.cs" />
     <Compile Include="Buffers\BufferWriterSignal.cs" />
-    <Compile Include="Filters\MoogLowpassSignal.cs" />
+    <Compile Include="Filters\AnalogModelingFilterSignal.cs" />
     <Compile Include="Filters\R8BrainSampleRateConverter.cs" />
     <Compile Include="Filters\ResampleSignal.cs" />
     <Compile Include="Misc\WaveFormSignal.cs" />

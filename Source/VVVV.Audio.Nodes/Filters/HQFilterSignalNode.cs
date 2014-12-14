@@ -17,8 +17,8 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {
 	
-	[PluginInfo(Name = "Moog", Category = "VAudio", Version = "Filter", Help = "24dB Moog style lowpass filter", AutoEvaluate = true, Tags = "Sine, Triangle, Square, Sawtooth, Wave")]
-	public class MoogLowpassSignalNode : AutoAudioSignalNode<MoogLowpassSignal>
+	[PluginInfo(Name = "Filter", Category = "VAudio", Version = "Filter", Help = "Analog modeling filter", AutoEvaluate = true, Tags = "Moog, Zero Delay")]
+	public class AnalogModelingFilterSignalNode : AutoAudioSignalNode<AnalogModelingFilterSignal>
 	{
 	    
 	}

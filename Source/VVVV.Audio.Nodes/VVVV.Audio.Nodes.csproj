@@ -93,7 +93,7 @@
     <Compile Include="Buffers\BufferWriterNode.cs" />
     <Compile Include="Buffers\CreateBufferNode.cs" />
     <Compile Include="AutoAudioSignalNode.cs" />
-    <Compile Include="Filters\MoogFilterNode.cs" />
+    <Compile Include="Filters\HQFilterSignalNode.cs" />
     <Compile Include="Filters\ResampleNode.cs" />
     <Compile Include="Misc\Lin2dBNodes.cs" />
     <Compile Include="Misc\WaveFormSpreadNode.cs" />
