@@ -25,17 +25,19 @@ namespace VVVV.Audio
     
     public class AnalogModelingFilterSignal : AudioSignal
     {
-        SigParamAudio FInput = new SigParamAudio("Input");
-        SigParamDiff<float> Frequency = new SigParamDiff<float>("Cutoff", 10000);
-        SigParamDiff<float> Resonance = new SigParamDiff<float>("Resonance");
+        SigParamAudio Input = new SigParamAudio("Input");
+        SigParamAudio Frequency = new SigParamAudio("Frequency");
+        SigParamAudio Resonance = new SigParamAudio("Resonance");
+        SigParamDiff<float> FrequencyOffset = new SigParamDiff<float>("Cutoff Offset");
+        SigParamDiff<float> ResonanceOffset = new SigParamDiff<float>("Resonance Offset");
         SigParam<int> OutSelect = new SigParam<int>("Pole Count", 4);
         SigParam<AnalogModelingFilterAlgorithm> Algorithm = new SigParam<AnalogModelingFilterAlgorithm>("Filter Algorithm");
         SigParam<AnalogModelingFilterType> FilterType = new SigParam<AnalogModelingFilterType>("Filter Type");
         
 
-        float FCutoff = 10000;
+        float FCutoffOffset;
 
-        float FResonance;
+        float FResonanceOffset;
 
         float y1, y2, y3, y4;
 
@@ -52,20 +54,27 @@ namespace VVVV.Audio
 		public AnalogModelingFilterSignal()
 		{
 			Init();
-			Frequency.ValueChanged = SetCutoff;
-			Resonance.ValueChanged = SetRes;
+			FrequencyOffset.ValueChanged = SetCutoff;
+			ResonanceOffset.ValueChanged = SetRes;
 		}
 		
 		float[] FInputBuffer = new float[1];
+		float[] FFreqBuffer = new float[1];
+		float[] FResoBuffer = new float[1];
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			if (FInputBuffer.Length < count) 
 			{
 				FInputBuffer = new float[count];
+				FFreqBuffer = new float[count];
+				FResoBuffer = new float[count];
 			}
 			
-			FInput.Read(FInputBuffer, offset, count);
+			
+			Input.Read(FInputBuffer, offset, count);
+			Frequency.Read(FFreqBuffer, offset, count);
+			Resonance.Read(FResoBuffer, offset, count);
 			
 			switch (Algorithm.Value) 
 			{
@@ -102,11 +111,11 @@ namespace VVVV.Audio
 		}
 		
 		double Ff, Fr;
-		void CalcTransistorCoeffs()
+		void CalcTransistorCoeffs(float cutoff, float resonance)
 		{
 		    // tuning and feedbacc
-		    Ff = Math.Tan(Math.PI * (Math.Min(FCutoff, SampleRate * 0.45))/SampleRate);
-		    Fr = (80.0/9.0) * FResonance;
+		    Ff = Math.Tan(Math.PI * (VMath.Clamp(cutoff + FCutoffOffset, 15, SampleRate * 0.45))/SampleRate);
+		    Fr = (80.0/9.0) * (resonance + FResonanceOffset);
 		}
 
 		// cutoff as normalized frequency (eg 0.5 = Nyquist)
@@ -115,6 +124,8 @@ namespace VVVV.Audio
 		{
 		    for(int n = 0; n < nsamples; ++n)
 		    {
+		        CalcTransistorCoeffs(FFreqBuffer[n] * (SampleRate *0.5f), FResoBuffer[n]);
+		        
 		        // input with half delay, for non-linearities
 		        double ih = 0.5 * (FInputBuffer[n] + zi);
 		        zi = FInputBuffer[n];
@@ -189,39 +200,33 @@ namespace VVVV.Audio
 		{
 			// initialize values
 			y1 = y2 = y3 = y4 = oldx = oldy1 = oldy2 = oldy3 = 0;
-			CalcCoeffs2();
-			CalcTransistorCoeffs();
 		}
 		
 		void SetCutoff(float c)
 		{
-		    FCutoff = (float)Math.Max(c, 15);
-		    CalcCoeffs2();
-		    CalcTransistorCoeffs();
+		    FCutoffOffset = c;
 		}
 
 		void SetRes(float r)
 		{
-		    FResonance = r * 0.5f;
-		    CalcCoeffs2();
-		    CalcTransistorCoeffs();
+		    FResonanceOffset = r * 0.5f;
 		}
 
 		void CalcCoeffs()
 		{
-		    var f = (float)Math.Min(FCutoff, SampleRate * 0.34);
+		    var f = (float)Math.Min(FCutoffOffset, SampleRate * 0.34);
 		    f = (f + f) / SampleRate;
 		    //[0 - 1]
 		    p = f * (1.8f - 0.8f * f);
 		    k = p + p - 1.0f;
 			var t = (1.0f - p) * 1.386249f;
 			var t2 = 12.0f + t * t;
-			FResoCoeff = FResonance * (t2 + 6.0f * t) / (t2 - 6.0f * t);
+			FResoCoeff = FResonanceOffset * (t2 + 6.0f * t) / (t2 - 6.0f * t);
 		}
 
-		void CalcCoeffs2()
+		void CalcCoeffs2(float cutoff, float resonance)
 		{
-			var f = (float)Math.Min(FCutoff, SampleRate * 0.34);
+			var f = (float)VMath.Clamp(cutoff + FCutoffOffset, 15, SampleRate * 0.25);
 		    f = (f + f) / SampleRate;
 			//[0 - 1]
 			// empirical tuning
@@ -231,13 +236,17 @@ namespace VVVV.Audio
 			k = 2.0f * (float)Math.Sin(f * Math.PI * 0.5f) - 1.0f;
 			var t1 = (1.0f - p) * 1.386249f;
 			var t2 = 12.0f + t1 * t1;
-			FResoCoeff = FResonance * (t2 + 6.0f * t1) / (t2 - 6.0f * t1);
+			FResoCoeff = (resonance + FResonanceOffset) * (t2 + 6.0f * t1) / (t2 - 6.0f * t1);
 		}
 		
 		void MoogLadder(float[] buffer, int offset, int count)
 		{
 		    for (int i = 0; i < count; i++)
 		    {
+		        
+		        //calc coeffs
+		        CalcCoeffs2(FFreqBuffer[i] * (SampleRate *0.5f), FResoBuffer[i]);
+		        
 		        // process input
 		        var x = FInputBuffer[i] - FResoCoeff * y4;
 		        //Four cascaded onepole filters (bilinear transform)

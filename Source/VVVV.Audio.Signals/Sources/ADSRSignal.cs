@@ -24,6 +24,8 @@ namespace VVVV.Audio
         SigParam<float> Sustain = new SigParam<float>("Sustain", 0.1f);
         SigParam<float> Slope = new SigParam<float>("Slope", 0.0f);
         SigParam<float> Release = new SigParam<float>("Release", 0.5f);
+        SigParam<float> Min = new SigParam<float>("Min", 0.0f);
+        SigParam<float> Max = new SigParam<float>("Max", 1.0f);
         
         //output
         SigParam<int> CurrentStage = new SigParam<int>("Current Stage", true);
@@ -114,7 +116,7 @@ namespace VVVV.Audio
                     FCurrentSampleIndex++;
                 }
                 
-                buffer[i] = (float)FCurrentLevel;
+                buffer[i] = (float)(FCurrentLevel * (Max.Value - Min.Value) + Min.Value);
             }
         }
     }
