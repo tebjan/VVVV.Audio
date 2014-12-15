@@ -147,6 +147,7 @@ namespace VVVV.Audio
 		{
 			CancelCurrentTask();
 			FAudioFile.Dispose();
+            FCtsSource.Dispose();
 			base.Dispose();
 		}
 	}

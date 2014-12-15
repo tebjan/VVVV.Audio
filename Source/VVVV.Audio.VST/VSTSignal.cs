@@ -460,6 +460,9 @@ namespace VVVV.Audio.VST
                 FInputMgr.Dispose();
                 FOutputMgr.Dispose();
             }
+
+            if (InfoForm != null)
+                InfoForm.Dispose();
 			
 			base.Dispose();
 		}
