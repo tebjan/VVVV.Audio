@@ -71,7 +71,7 @@
     <Compile Include="Utils\BufferWiseResampler.cs" />
     <Compile Include="Utils\CircularArray.cs" />
     <Compile Include="Utils\CircularBuffer.cs" />
-    <Compile Include="Utils\FFT.cs" />
+    <Compile Include="Utils\LomontFFT.cs" />
     <Compile Include="Utils\NAudio\AudioFileReaderVVVV.cs" />
     <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
   </ItemGroup>
