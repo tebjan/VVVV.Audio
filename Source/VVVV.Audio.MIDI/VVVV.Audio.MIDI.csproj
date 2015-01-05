@@ -2,34 +2,23 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <Import Project="..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.props" Condition="Exists('..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.props')" />
   <PropertyGroup>
-    <ProjectGuid>{A174A8D1-9154-4EF9-8E35-79F0D85165F7}</ProjectGuid>
+    <ProjectGuid>{737AD730-2A7F-4F83-8EEB-25253006D957}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
-    <RootNamespace>VVVV.Audio.VST</RootNamespace>
-    <AssemblyName>VVVV.Audio.VST</AssemblyName>
+    <RootNamespace>VVVV.Audio.MIDI</RootNamespace>
+    <AssemblyName>VVVV.Audio.MIDI</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
+    <NuGetPackageImportStamp>30926715</NuGetPackageImportStamp>
     <TargetFrameworkProfile />
-    <NoWin32Manifest>False</NoWin32Manifest>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <NoStdLib>False</NoStdLib>
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\nodes\plugins\VVVV.Audio.VST.xml</DocumentationFile>
-    <OutputPath>..\..\nodes\plugins\</OutputPath>
-    <NuGetPackageImportStamp>f2456193</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <BaseAddress>4194304</BaseAddress>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -37,87 +26,62 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
-    <DebugType>PdbOnly</DebugType>
+    <DebugType>None</DebugType>
     <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\nodes\plugins\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>..\..\nodes\plugins\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jacobi.Vst.Core">
-      <HintPath>..\Dependencies\x86\Jacobi.Vst.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Jacobi.Vst.Framework">
-      <HintPath>..\Dependencies\x86\Jacobi.Vst.Framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Jacobi.Vst.Interop">
-      <HintPath>..\Dependencies\x86\Jacobi.Vst.Interop.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="NAudio">
       <HintPath>..\Dependencies\AnyCPU\NAudio\NAudio.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Sanford.Multimedia.Midi">
+      <HintPath>..\Dependencies\AnyCPU\SanfordMidi\Sanford.Multimedia.Midi.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition.CodePlex, Version=4.1.2.0, Culture=neutral, PublicKeyToken=13e5ffd4e05db186, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="System.ComponentModel.Composition.CodePlex">
       <HintPath>..\packages\VVVV.System.ComponentModel.Composition.Codeplex.2.5.0\lib\net40\System.ComponentModel.Composition.CodePlex.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Linq" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="VVVV.Core, Version=33.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="VVVV.Core">
       <HintPath>..\packages\VVVV.Core.33.3.0\lib\net40\VVVV.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VVVV.Nodes.Generic">
+      <HintPath>..\packages\VVVV.Nodes.Generic.33.3.0\build\net40\lib\x86\VVVV.Nodes.Generic.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.PluginInterfaces">
       <HintPath>..\packages\VVVV.PluginInterfaces.33.3.0\build\net40\lib\x86\VVVV.PluginInterfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VVVV.Utils, Version=33.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="VVVV.Utils">
       <HintPath>..\packages\VVVV.Utils.33.3.0\lib\net40\VVVV.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HostCommandStub.cs" />
-    <Compile Include="PluginInfoForm.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PluginInfoForm.Designer.cs">
-      <DependentUpon>PluginInfoForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Nodes\MidiClipNode.cs" />
+    <Compile Include="Nodes\MidiInNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VSTHostNode.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="VstPluginControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="VstPluginControl.Designer.cs">
-      <DependentUpon>VstPluginControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VSTSignal.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="PluginInfoForm.resx">
-      <DependentUpon>PluginInfoForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VSTHostNode.resx">
-      <DependentUpon>VSTHostNode.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VstPluginControl.resx">
-      <DependentUpon>VstPluginControl.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="Core\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VVVV.Audio.Core\VVVV.Audio.Core.csproj">
@@ -125,14 +89,11 @@
       <Name>VVVV.Audio.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\VVVV.Audio.Signals\VVVV.Audio.Signals.csproj">
-      <Project>{135530F1-FE32-41AB-9029-2A5D8FF13263}</Project>
-      <Name>VVVV.Audio.Signals</Name>
+    <ProjectReference Include="..\VVVV.Audio.Nodes\VVVV.Audio.Nodes.csproj">
+      <Project>{B856AC71-61D0-4906-A04A-1BEB32AD5967}</Project>
+      <Name>VVVV.Audio.Nodes</Name>
       <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

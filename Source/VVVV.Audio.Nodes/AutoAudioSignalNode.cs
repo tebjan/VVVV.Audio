@@ -15,6 +15,11 @@ using VVVV.PluginInterfaces.V2.NonGeneric;
 
 namespace VVVV.Nodes
 {
+    public class AutoAudioMultiSignalNode<TMultiSignal> : AutoAudioSignalNode<TMultiSignal> where TMultiSignal : MultiChannelSignal, new()
+    {
+        
+    }
+    
     public class AutoAudioSignalNode<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : AudioSignal, new()
 	{
 	    //static pin storage
@@ -66,6 +71,14 @@ namespace VVVV.Nodes
 				        {
 				            ia.DefaultValue = (long)param.GetDefaultValue();
 				        }
+				        else if(valType == typeof(float[]))
+				        {
+				            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<float>));
+				        }
+				        else if(valType == typeof(double[]))
+				        {
+				            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<double>));
+				        }
 				        else if(typeof(Enum).IsAssignableFrom(valType))
 				        {
 				            ia.DefaultEnumEntry = param.GetDefaultValue().ToString();
@@ -100,9 +113,46 @@ namespace VVVV.Nodes
 		{
             foreach (var param in instance.InParams) 
             {
-                param.SetValue(FInputPinRelation[param][i]);
+                var inputValue = FInputPinRelation[param][i];
+                object val = null;
+                
+                var floatSpread = inputValue as ISpread<float>;
+                if(floatSpread != null)
+                {
+                    var arr = new float[floatSpread.SliceCount];
+                    Array.Copy(floatSpread.Stream.Buffer, arr, floatSpread.SliceCount);
+                    val = arr;
+                }
+                else
+                {
+                    var doubleSpread = inputValue as ISpread<double>;
+                    if(floatSpread != null)
+                    {
+                        var arr = new double[floatSpread.SliceCount];
+                        Array.Copy(floatSpread.Stream.Buffer, arr, floatSpread.SliceCount);
+                        val = arr;
+                    }
+                    else
+                    {
+                        val = inputValue;
+                    }
+                }
+                
+                param.SetValue(val);
             }
 		}
+		
+        protected override int GetSpreadMax(int originalSpreadMax)
+        {
+            var original = base.GetSpreadMax(originalSpreadMax);
+            var result = 0;
+            foreach(var inPin in FInputPins.Values)
+            {
+                result = Math.Max(result, inPin.SliceCount);
+            }
+            
+            return Math.Min(result, original);
+        }
 		
         protected override void SetOutputSliceCount(int sliceCount)
         {

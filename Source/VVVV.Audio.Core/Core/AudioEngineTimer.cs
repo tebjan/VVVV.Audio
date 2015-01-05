@@ -7,7 +7,6 @@ namespace VVVV.Audio
 {
 	public class AudioEngineTimer
 	{
-		protected int FSampleRate;
 		protected long FSamplePosition = 0;
 		public AudioEngineTimer(int sampleRate)
 		{
@@ -15,6 +14,7 @@ namespace VVVV.Audio
 			BPM = 120;
 		}
 		
+		protected double[] FBeatBuffer = new double[1];
 		public void Progress(int samplesCount)
 		{
 			FSamplePosition += samplesCount;
@@ -29,8 +29,45 @@ namespace VVVV.Audio
 			
 			FTime = FSamplePosition/(double)FSampleRate;
 			FBeat = FTime * FTimeToBPM;
+			
+			FillBeatBuffer(samplesCount);
+			
 		}
 		
+		public void FillBeatBuffer(int samplesCount)
+		{
+		    //time buffers
+			var sampleToBeat = FTimeToBPM/FSampleRate;
+			
+			if(FBeatBuffer.Length != samplesCount)
+			    FBeatBuffer = new double[samplesCount];
+			
+			for (int i = 0; i < samplesCount; i++)
+			{
+			    if(Loop && FLoopSampleLength > 0)
+			    {
+			        FBeatBuffer[i] = ((FSamplePosition + i) % FLoopSampleLength) * sampleToBeat;
+			    }
+			    else
+			    {
+			        FBeatBuffer[i] = (FSamplePosition + i) * sampleToBeat;
+			    }
+			}
+		}
+
+		protected int FSampleRate;
+        public int SampleRate 
+        {
+            get
+            {
+                return FSampleRate;
+            }
+            set
+            {
+                FSampleRate = value;
+            }
+        }
+
 		public long BufferStart
 		{
 			get
@@ -63,6 +100,14 @@ namespace VVVV.Audio
 				FTime = FBeat * FBPMToTime;
 				FSamplePosition = (long)Math.Round(FTime * FSampleRate);
 			}
+		}
+		
+		public double[] BeatBuffer
+		{
+		    get
+		    {
+		        return FBeatBuffer;
+		    }
 		}
 		
 		double FBPM;

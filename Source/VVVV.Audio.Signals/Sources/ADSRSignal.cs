@@ -18,7 +18,7 @@ namespace VVVV.Audio
         }
         
         //inputs
-        SigParamDiff<bool> Enable = new SigParamDiff<bool>("Enable");
+        SigParamAudio Enable = new SigParamAudio("Enable");
         SigParam<float> Attack = new SigParam<float>("Attack", 0.1f);
         SigParam<float> Decay = new SigParam<float>("Decay", 0.1f);
         SigParam<float> Sustain = new SigParam<float>("Sustain", 0.1f);
@@ -32,15 +32,6 @@ namespace VVVV.Audio
         
         public ADSRSignal()
         {
-            Enable.ValueChanged = EnableChanged;
-        }
-        
-        void EnableChanged(bool newVal)
-        {
-            if(newVal)
-                EnterStage(EnvelopStage.Attack);
-            else
-                EnterStage(EnvelopStage.Release);
         }
         
         double CalcExpCoeff(double levelBegin, double levelEnd, double releaseTime) 
@@ -95,11 +86,36 @@ namespace VVVV.Audio
                     break;
             }
         }
-
+        
+        float[] FEnableBuffer = new float[1];
+        float FLastEnabled;
+        float FEnabledLevel;
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
+            if (FEnableBuffer.Length < count) 
+			{
+				FEnableBuffer = new float[count];
+            }
+            
+            Enable.Read(FEnableBuffer, offset, count);
+            
+            
             for(int i=0; i < count; i++)
             {
+                var enabled = FEnableBuffer[i];
+                if(enabled != FLastEnabled)
+                {
+                    if(enabled > 0)
+                    {
+                        EnterStage(EnvelopStage.Attack);
+                        FEnabledLevel = enabled;
+                    }
+                    else
+                    {
+                        EnterStage(EnvelopStage.Release);
+                    }
+                }
+                
                 if(FCurrentStage == EnvelopStage.Sustain)
                 {
                     FCurrentLevel *= FMultiplier;
@@ -116,7 +132,9 @@ namespace VVVV.Audio
                     FCurrentSampleIndex++;
                 }
                 
-                buffer[i] = (float)(FCurrentLevel * (Max.Value - Min.Value) + Min.Value);
+                buffer[i] = (float)(FCurrentLevel * FEnabledLevel * (Max.Value - Min.Value) + Min.Value);
+                
+                FLastEnabled = enabled;
             }
         }
     }

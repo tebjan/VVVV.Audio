@@ -23,7 +23,8 @@ namespace VVVV.Audio
     
     public class OscSignal : AudioSignal
     {
-        SigParamDiff<float> Frequency = new SigParamDiff<float>("Frequency", 440);
+        SigParamAudio Frequency = new SigParamAudio("Frequency");
+        SigParamDiff<float> FrequencyOffset = new SigParamDiff<float>("Frequency Offset", 440);
         SigParam<WaveFormSelection> WaveForm = new SigParam<WaveFormSelection>("Wave Form");
         SigParamDiff<double> Slope = new SigParamDiff<double>("Symmetry", 0.5f);
         SigParam<AntiAliasingAlgorithm> AntiAliasingMethod = new SigParam<AntiAliasingAlgorithm>("Anti-Aliasing Method", AntiAliasingAlgorithm.PolyBLEP);
@@ -34,23 +35,28 @@ namespace VVVV.Audio
         public OscSignal()
         {
             //get param change events
-            Frequency.ValueChanged = CalcFrequencyConsts;
+            FrequencyOffset.ValueChanged = CalcFrequencyConsts;
             Slope.ValueChanged = CalcTriangleCoefficients;
         }
         
         protected override void Engine_SampleRateChanged(object sender, EventArgs e)
         {
             base.Engine_SampleRateChanged(sender, e);
-            CalcFrequencyConsts(Frequency.Value);
+            CalcFrequencyConsts(FrequencyOffset.Value);
         }
 
+        float[] FreqBuffer = new float[1];
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
             //FM
-            if(FMBuffer.Length < count)
+            if(FMBuffer.Length < buffer.Length)
             {
                 FMBuffer = new float[count];
+                FreqBuffer = new float[count];
             }
+            
+            //read frequencies
+            Frequency.Read(FreqBuffer, offset, count);
             
             if(FMLevel.Value > 0)
             {
@@ -345,6 +351,7 @@ namespace VVVV.Audio
                 case WaveFormSelection.Sine:
                     for (int i = 0; i < count; i++)
                     {
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
                         buffer[i] = (float)(Gain.Value * Math.Sin(FPhase*Math.PI));
                         
                         FPhase += t2 + FMBuffer[i]*FMLevel.Value;
@@ -357,6 +364,7 @@ namespace VVVV.Audio
                 case WaveFormSelection.Triangle:
                     for (int i = 0; i < count; i++)
                     {
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
                         var phase = FPhase*0.5f + 0.5f;
                         buffer[i] =  (float)(Gain.Value * AudioUtils.Triangle(phase, slope));
                         
@@ -369,6 +377,7 @@ namespace VVVV.Audio
                 case WaveFormSelection.Square:
                     for (int i = 0; i < count; i++)
                     {
+                       CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
                        // Start with naive PW square.
                        double sample;
                        
@@ -394,6 +403,7 @@ namespace VVVV.Audio
                 case WaveFormSelection.Sawtooth:
                     for (int i = 0; i < count; i++)
                     {
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
                         FPhase += T;
                         FPhase -= Math.Floor(FPhase);
                         var naiveSaw = FPhase * 2 - 1;

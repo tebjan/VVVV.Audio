@@ -136,11 +136,6 @@
             <param name="offset"></param>
             <param name="count"></param>
         </member>
-        <member name="T:VVVV.Audio.SigParamSec`1">
-            <summary>
-            A secured out parameter
-            </summary>
-        </member>
         <member name="T:VVVV.Audio.MasterChannel">
             <summary>
             A combination of audio signal and the driver output channel number

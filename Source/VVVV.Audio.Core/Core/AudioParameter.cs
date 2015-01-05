@@ -179,85 +179,85 @@ namespace VVVV.Audio
     }
     
 
-    /// <summary>
-    /// A secured out parameter
-    /// </summary>
-    public class SigParamSec<T> : SigParamBaseGeneric<T>
-    {
-        public SigParamSec(string name, bool isOutput = false)
-            : base(name, default(T), isOutput)
-        {
-        }
+    ///// <summary>
+    ///// A secured out parameter
+    ///// </summary>
+    //public class SigParamSec<T> : SigParamBaseGeneric<T>
+    //{
+    //    public SigParamSec(string name, bool isOutput = false)
+    //        : base(name, default(T), isOutput)
+    //    {
+    //    }
         
-        public SigParamSec(string name, T initValue, bool isOutput = false)
-            : base(name, initValue, isOutput)
-        {
-            Value = initValue;
-        }
+    //    public SigParamSec(string name, T initValue, bool isOutput = false)
+    //        : base(name, initValue, isOutput)
+    //    {
+    //        Value = initValue;
+    //    }
 
-        public T Value
-        {
-            get
-            {
-                T ret;
-                GetLatestValue(out ret);
-                return ret;
-            }
-            set
-            {
-                SetLatestValue(value);
-            }
-        }
+    //    public T Value
+    //    {
+    //        get
+    //        {
+    //            T ret;
+    //            GetLatestValue(out ret);
+    //            return ret;
+    //        }
+    //        set
+    //        {
+    //            SetLatestValue(value);
+    //        }
+    //    }
         
-        private volatile bool FReading;
-		private volatile bool FWriting;
-		private T FValueToPass;
-		private T FLastValue;
+    //    private volatile bool FReading;
+    //    private volatile bool FWriting;
+    //    private T FValueToPass;
+    //    private T FLastValue;
 		
-        bool GetLatestValue(out T value)
-		{
-			var success = false;
-			FReading = true;
-			if (!FWriting)
-			{
-				FLastValue = FValueToPass;
-				success = true;
-			}
-			else
-			{
-				System.Diagnostics.Debug.WriteLine("Could not read");
-			}
+    //    bool GetLatestValue(out T value)
+    //    {
+    //        var success = false;
+    //        FReading = true;
+    //        if (!FWriting)
+    //        {
+    //            FLastValue = FValueToPass;
+    //            success = true;
+    //        }
+    //        else
+    //        {
+    //            System.Diagnostics.Debug.WriteLine("Could not read");
+    //        }
 			
-			value = FLastValue;
-			FReading = false;
-			return success;
-		}
+    //        value = FLastValue;
+    //        FReading = false;
+    //        return success;
+    //    }
 		
-		bool SetLatestValue(T newValue)
-		{
-			var success = false;
-			FWriting = true;
-			if (!FReading)
-			{
-				FValueToPass = newValue;
-				success = true;
-			}
-			else
-			{
-				System.Diagnostics.Debug.WriteLine("Could not write");
-			}
-			FWriting = false;
-			return success;
-		}
+    //    bool SetLatestValue(T newValue)
+    //    {
+    //        var success = false;
+    //        FWriting = true;
+    //        if (!FReading)
+    //        {
+    //            FValueToPass = newValue;
+    //            success = true;
+    //        }
+    //        else
+    //        {
+    //            System.Diagnostics.Debug.WriteLine("Could not write");
+    //        }
+    //        FWriting = false;
+    //        return success;
+    //    }
 		
-		public override object GetValue()
-        {
-            return Value;
-        }
+    //    public override object GetValue()
+    //    {
+    //        return Value;
+    //    }
 		
-		public override void SetValue(object value)
-        {
-		    Value = (T)value;
-        }
-    }
+    //    public override void SetValue(object value)
+    //    {
+    //        Value = (T)value;
+    //    }
+    //}
 }
