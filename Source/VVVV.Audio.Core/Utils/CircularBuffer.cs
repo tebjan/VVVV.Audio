@@ -38,13 +38,14 @@ namespace VVVV.Audio
             { 
                 if(FSize != value)
                 {
-                    FSize = value;
                     Buffer = new float[value];
+                    FSize = value;
                     FWritePos = -1;
                 }
             }
         }
         
+        public Action<float[]> BufferFilled;
         
         int FWritePos = -1;
         /// <summary>
@@ -59,7 +60,11 @@ namespace VVVV.Audio
             {
                 FWritePos++;
                 if(FWritePos >= FSize)
+                {
                     FWritePos = 0;
+                    if(BufferFilled != null)
+                        BufferFilled(Buffer);
+                }
                 
                 Buffer[FWritePos] = data[i+offset];
             }

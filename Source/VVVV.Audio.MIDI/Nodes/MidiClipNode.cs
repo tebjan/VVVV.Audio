@@ -159,6 +159,8 @@ namespace VVVV.Nodes
         {
             if(Times.Value != null && Values.Value != null && Length.Value > 0)
                 FSequence = new ValueSequence(Times.Value, Values.Value, Length.Value, AudioService.Engine);
+            else
+                FSequence = null;
         }
 
         protected double LoopTimer;
