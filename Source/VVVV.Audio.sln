@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio 2012
+# SharpDevelop 5.0
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Core", "VVVV.Audio.Core\VVVV.Audio.Core.csproj", "{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}"
@@ -57,12 +58,12 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A174A8D1-9154-4EF9-8E35-79F0D85165F7} = {16CEF1A9-4AEA-4569-BD17-970FA51D4A42}
 		{5C7C0E59-C368-412C-9D10-8E63F6E44D94} = {16CEF1A9-4AEA-4569-BD17-970FA51D4A42}
 		{737AD730-2A7F-4F83-8EEB-25253006D957} = {16CEF1A9-4AEA-4569-BD17-970FA51D4A42}
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

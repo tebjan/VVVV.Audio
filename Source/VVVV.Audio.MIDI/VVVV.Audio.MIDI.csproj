@@ -73,7 +73,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Nodes\MidiClipNode.cs" />
     <Compile Include="Nodes\MidiInNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

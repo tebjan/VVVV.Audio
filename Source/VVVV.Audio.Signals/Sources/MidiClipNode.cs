@@ -10,7 +10,6 @@ using System;
 using System.Linq;
 using VVVV.PluginInterfaces.V2;
 using VVVV.Audio;
-using Sanford.Multimedia.Midi;
 
 namespace VVVV.Nodes
 {
@@ -121,7 +120,7 @@ namespace VVVV.Nodes
         }
     }
     
-    public class MidiClipSignal : AudioSignal
+    public class ValueSequenceSignal : AudioSignal
     {
         //inputs
         SigParamDiff<float> Length = new SigParamDiff<float>("Length", 4);
@@ -132,7 +131,7 @@ namespace VVVV.Nodes
         //output
         SigParam<double> Position = new SigParam<double>("Position", true);
         
-        public MidiClipSignal()
+        public ValueSequenceSignal()
         {
             Times.ValueChanged = TimesChanged;
             Values.ValueChanged = ValuesChanged;
@@ -174,9 +173,5 @@ namespace VVVV.Nodes
             }
         }
     }
-    
-    [PluginInfo(Name = "Clip", Category = "VAudio", Version = "Source", Help = "Generates a sequence of values", Tags = "Sequencer", Author = "tonfilm")]
-    public class MidiClipNode : AutoAudioSignalNode<MidiClipSignal>
-    {
-    }
+
 }
