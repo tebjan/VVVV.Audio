@@ -4,38 +4,16 @@
    </BOUNDS>
    <PACK Name="addonpack" Version="33.3.0">
    </PACK>
-   <NODE systemname="Clip (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.MIDI.dll" nodename="Clip (VAudio Source)" componentmode="Hidden" id="3">
-   <BOUNDS type="Node" left="4755" top="3900" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Audio Out" visible="1">
-   </PIN>
-   <PIN pinname="Position" visible="1">
-   </PIN>
-   <PIN pinname="Length" slicecount="1" visible="1" values="4">
-   </PIN>
-   <PIN pinname="Times" visible="1" slicecount="4" values="0.5,1,2,3">
-   </PIN>
-   <PIN pinname="Values" visible="1" slicecount="4" values="0,0,0,1">
-   </PIN>
-   <PIN pinname="Values Bin Size" slicecount="1" values="8">
-   </PIN>
-   <PIN pinname="Times Bin Size" slicecount="1" visible="1" values="8">
-   </PIN>
-   <PIN pinname="Is Bang" slicecount="1" values="0">
-   </PIN>
-   </NODE>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="2">
    <BOUNDS type="Node" left="10350" top="7575" width="100" height="100">
    </BOUNDS>
    <BOUNDS type="Box" left="10350" top="7575" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" visible="1">
+   <PIN pinname="Y Input Value" visible="1" slicecount="1" values="0">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Position">
    </PIN>
    </NODE>
-   <LINK srcnodeid="3" srcpinname="Position" dstnodeid="2" dstpinname="Y Input Value">
-   </LINK>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="0">
    <BOUNDS type="Node" left="5100" top="915" width="100" height="100">
    </BOUNDS>
@@ -54,8 +32,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="Times">
    </PIN>
    </NODE>
-   <LINK srcnodeid="0" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Times">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="5" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="2295" top="1455" width="795" height="240">
    </BOUNDS>
@@ -72,8 +48,6 @@
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="5" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Length">
-   </LINK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="8" systemname="IOBox (Node)">
    <BOUNDS type="Box" left="735" top="1320" width="795" height="240">
    </BOUNDS>
@@ -149,7 +123,7 @@
    <NODE systemname="Map (Value)" nodename="Map (Value)" componentmode="Hidden" id="13">
    <BOUNDS type="Node" left="1290" top="5400" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="0.5">
    </PIN>
    <PIN pinname="Destination Minimum" slicecount="1" values="-0.5">
    </PIN>
@@ -160,8 +134,6 @@
    <PIN pinname="Output" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="3" srcpinname="Position" dstnodeid="13" dstpinname="Input">
-   </LINK>
    <LINK srcnodeid="5" srcpinname="Y Output Value" dstnodeid="13" dstpinname="Source Maximum">
    </LINK>
    <LINK srcnodeid="13" srcpinname="Output" dstnodeid="7" dstpinname="TranslateX">
@@ -174,8 +146,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="|Audio Out|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="3" srcpinname="Audio Out" dstnodeid="14" dstpinname="Input Node">
-   </LINK>
    <NODE systemname="Count (Value)" nodename="Count (Value)" componentmode="Hidden" id="16">
    <BOUNDS type="Node" left="4095" top="2640" width="100" height="100">
    </BOUNDS>
@@ -185,8 +155,6 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="0" srcpinname="Y Output Value" dstnodeid="16" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="16" srcpinname="Count" dstnodeid="3" dstpinname="Times Bin Size">
    </LINK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="23" systemname="IOBox (Node)">
    <BOUNDS type="Box" left="7770" top="3105" width="795" height="240">
@@ -376,8 +344,6 @@
    <PIN pinname="Destination Maximum" slicecount="1" visible="1" values="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="37" srcpinname="Output" dstnodeid="3" dstpinname="Values">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="38" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="7635" top="705" width="795" height="240">
    </BOUNDS>
@@ -457,7 +423,7 @@
    </PIN>
    <PIN pinname="CountXY" visible="1" slicecount="2" values="1,1">
    </PIN>
-   <PIN pinname="Internal Value" slicecount="8" values="0.1409963034677,0.246611512057736,0.11283224784369,0.211406442527724,0.133955289561697,0.317021651117761,0.140996303467699,0.225488470339729">
+   <PIN pinname="Internal Value" slicecount="8" values="0.1409963034677,0.387431790177785,0.493046998767823,0.211406442527724,0.133955289561697,0.317021651117761,0.140996303467699,0.225488470339729">
    </PIN>
    <PIN pinname="Mouse" visible="1" slicecount="1" values="||">
    </PIN>
@@ -511,5 +477,39 @@
    <LINK srcnodeid="16" srcpinname="Count" dstnodeid="45" dstpinname="X">
    </LINK>
    <LINK srcnodeid="17" srcpinname="Value Output" dstnodeid="43" dstpinname="Input 1">
+   </LINK>
+   <NODE systemname="ValueSequence (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="ValueSequence (VAudio Source)" componentmode="Hidden" id="3">
+   <BOUNDS type="Node" left="4755" top="3900" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Position" visible="1">
+   </PIN>
+   <PIN pinname="Length" slicecount="1" visible="1" values="4">
+   </PIN>
+   <PIN pinname="Times" visible="1" slicecount="4" values="0.5,1,2,3">
+   </PIN>
+   <PIN pinname="Values" visible="1" slicecount="4" values="0,0,0,1">
+   </PIN>
+   <PIN pinname="Values Bin Size" slicecount="1" values="8">
+   </PIN>
+   <PIN pinname="Times Bin Size" slicecount="1" visible="1" values="8">
+   </PIN>
+   <PIN pinname="Is Bang" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="3" srcpinname="Position" dstnodeid="2" dstpinname="Y Input Value">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Times">
+   </LINK>
+   <LINK srcnodeid="5" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Length">
+   </LINK>
+   <LINK srcnodeid="3" srcpinname="Position" dstnodeid="13" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="3" srcpinname="Audio Out" dstnodeid="14" dstpinname="Input Node">
+   </LINK>
+   <LINK srcnodeid="16" srcpinname="Count" dstnodeid="3" dstpinname="Times Bin Size">
+   </LINK>
+   <LINK srcnodeid="37" srcpinname="Output" dstnodeid="3" dstpinname="Values">
    </LINK>
    </PATCH>

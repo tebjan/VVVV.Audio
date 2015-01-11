@@ -94,7 +94,7 @@
     <Compile Include="Sources\ADSRSignal.cs" />
     <Compile Include="Sources\AudioInSignal.cs" />
     <Compile Include="Sources\FileStreamSignal.cs" />
-    <Compile Include="Sources\MidiClipNode.cs" />
+    <Compile Include="Sources\ValueSequenceSignal.cs" />
     <Compile Include="Sources\OscSignal.cs" />
     <Compile Include="Sources\ValueToAudioSignal.cs" />
     <Compile Include="Sources\WaveTableSignal.cs" />

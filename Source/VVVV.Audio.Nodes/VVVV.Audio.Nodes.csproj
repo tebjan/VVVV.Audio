@@ -106,7 +106,7 @@
     <Compile Include="Sources\ADSRNode.cs" />
     <Compile Include="Sources\AudioInputNode.cs" />
     <Compile Include="Sources\FileStreamNode.cs" />
-    <Compile Include="Sources\MidiClipNode.cs" />
+    <Compile Include="Sources\ValueSequenceNode.cs" />
     <Compile Include="Sources\OscSignalNode.cs" />
     <Compile Include="Sources\ValueToAudioNode.cs" />
     <Compile Include="Sources\WaveTableNode.cs" />
