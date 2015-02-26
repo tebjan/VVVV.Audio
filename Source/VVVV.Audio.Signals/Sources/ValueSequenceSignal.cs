@@ -8,10 +8,8 @@
  
 using System;
 using System.Linq;
-using VVVV.PluginInterfaces.V2;
-using VVVV.Audio;
 
-namespace VVVV.Nodes
+namespace VVVV.Audio
 {
     public class ValueSequence
     {

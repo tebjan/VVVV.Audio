@@ -4,12 +4,13 @@
  * Date: 21.12.2014
  * Time: 20:49
  * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+ 
 using System;
 using VVVV.PluginInterfaces.V2;
 using Sanford.Multimedia.Midi;
 using System.ComponentModel.Composition;
+using VVVV.Audio.MIDI;
 
 namespace VVVV.Nodes
 {
@@ -20,6 +21,9 @@ namespace VVVV.Nodes
 
         [Input("Driver", EnumName = "VAudioMidiDevice", IsSingle = true)]
         IDiffSpread<EnumEntry> FDriverIn;
+        
+        [Output("Events", EnumName = "VAudioMidiDevice", IsSingle = true)]
+        ISpread<MidiEvents> FEventsOut;
 
         [ImportingConstructor]
         public MidiInNode()

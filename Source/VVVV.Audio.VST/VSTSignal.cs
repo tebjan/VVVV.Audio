@@ -12,6 +12,7 @@ using Jacobi.Vst.Framework;
 using Jacobi.Vst.Interop.Host;
 
 using VVVV.Audio;
+using VVVV.Audio.MIDI;
 using VVVV.Core.Logging;
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
@@ -356,6 +357,26 @@ namespace VVVV.Audio.VST
             }
         }
 
+        MidiEvents FMidiEventSource;
+        public void SetMidiEventSource(MidiEvents midiEvents)
+        {
+            if(FMidiEventSource != midiEvents)
+            {
+                if(FMidiEventSource != null)
+                    FMidiEventSource -= midiEvents_RawMessageReceived;
+                
+                FMidiEventSource = midiEvents;
+                
+                //receive midi events
+                FMidiEventSource.RawMessageReceived += FMidiEventSource_RawMessageReceived;
+            }
+        }
+
+        void FMidiEventSource_RawMessageReceived(object sender, RawMessageEventArgs e)
+        {
+            //SetMidiEvent(
+        }
+        
         //midi events
         public VstEventCollection MidiEvents = new VstEventCollection();
         private bool FCanEvents;
@@ -428,9 +449,9 @@ namespace VVVV.Audio.VST
                     MidiEvents.Clear();
                     FHasEvents = false;
                 }
+                
                 //process the shit
                 PluginContext.PluginCommandStub.ProcessReplacing(FInputBuffers, FOutputBuffers);
-
 
                 for (int i = 0; i < FOutputBuffers.Length; i++)
                 {

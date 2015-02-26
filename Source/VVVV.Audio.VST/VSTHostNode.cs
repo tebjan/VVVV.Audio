@@ -13,6 +13,7 @@ using Jacobi.Vst.Framework;
 using Jacobi.Vst.Interop.Host;
 
 using VVVV.Audio;
+using VVVV.Audio.MIDI;
 using VVVV.Audio.VST;
 using VVVV.Core.Logging;
 using VVVV.PluginInterfaces.V1;
@@ -41,17 +42,8 @@ namespace VVVV.Nodes
 		[Input("Input", BinSize = 2)]
 		public IDiffSpread<ISpread<AudioSignal>> FInputSignals;
 
-        [Input("Do Send Midi", IsBang = true)]
-        public ISpread<bool> FSendMidiIn;
-
         [Input("Midi Message")]
-        public IDiffSpread<int> FMsgIn;
-
-        [Input("Midi Data 1")]
-        public IDiffSpread<int> FData1In;
-
-        [Input("Midi Data 2")]
-        public IDiffSpread<int> FData2In;
+        public IDiffSpread<MidiEvents> FMidiEventsIn;
 		
 		[Input("Filename", StringType = StringType.Filename, FileMask="VST Plugin (*.dll, *.vst3)|*.dll;*.vst3")]
 		public IDiffSpread<string> FFilename;
@@ -331,12 +323,9 @@ namespace VVVV.Nodes
                     }
                     instance.PluginContext.PluginCommandStub.SetParameter(item.ParamIndex, (float)val);
                 }
-	        }
-
-            if (FSendMidiIn[i])
-            {
-                instance.SetMidiEvent((byte)FMsgIn[i], (byte)FData1In[i], (byte)FData2In[i]);
             }
+
+            instance.SetMidiEventSource(FMidiEventsIn[i]);
         }
 		
 		/// <summary>
@@ -360,9 +349,10 @@ namespace VVVV.Nodes
             	var midiEventCount = 0;
             	foreach (var evt in events)
             	{
-            		if(evt is VstMidiEvent)
+                    var vstMidiEvent = evt as VstMidiEvent;
+            		if(vstMidiEvent != null)
             		{
-            			var midiEvent = evt as VstMidiEvent;
+            			var midiEvent = vstMidiEvent;
             			FMsgOut.Add(midiEvent.Data[0]);
             			FData1Out.Add(midiEvent.Data[1]);
             			FData2Out.Add(midiEvent.Data[2]);
