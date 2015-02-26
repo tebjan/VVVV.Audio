@@ -85,15 +85,28 @@ namespace VVVV.Nodes.Nodes.VST
         }
 
         //open editor
+        protected bool FIsInfoDisplay;
         private void EditButton_Click(object sender, EventArgs e)
         {
-            SetEditor();
+            if(FIsInfoDisplay)
+            {
+                SetEditor();
+                EditButton.Text = "Info";
+            }
+            else
+            {
+                SetInfo();
+                EditButton.Text = "Editor";
+            }
+            
+            FIsInfoDisplay = !FIsInfoDisplay;
+
         }
 
         //open info
-        private void InfoButton_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
-            SetInfo();
+            SelectedSignal.NeedsSave = true;
         }
 
         private VstPluginContext OpenContext;
