@@ -54,10 +54,11 @@ namespace VVVV.Audio
 
 		protected override void FillBuffers(float[][] buffer, int offset, int sampleCount)
 		{
+		    if(FAudioFile == null) return;
 			var channels = FAudioFile.WaveFormat.Channels;
 			var blockAlign = FAudioFile.OriginalFileFormat.BlockAlign;
 			int samplesToRead;
-			if (Speed == 1.0)
+			if (Speed == 1.0) 
 			{
 				samplesToRead = sampleCount * channels;
 			}
@@ -80,7 +81,7 @@ namespace VVVV.Audio
 			}
 			FFileBuffer = BufferHelpers.Ensure(FFileBuffer, samplesToRead);
 			int samplesRead = 0;
-			if (FPlay) 
+			if (FPlay && samplesToRead > 0) 
 			{
 				samplesRead = FAudioFile.Read(FFileBuffer, offset * channels, samplesToRead);
 				if (samplesRead == 0) 
@@ -96,19 +97,17 @@ namespace VVVV.Audio
 						samplesRead = FFileBuffer.ReadSilence(offset * channels, samplesToRead);
 					}
 				}
-				else 
-				{
-					if (FLoop && FAudioFile.CurrentTime >= LoopEndTime) 
+					if (FLoop && FAudioFile.CurrentTime >= LoopEndTime)
 					{
 						FAudioFile.CurrentTime = LoopStartTime;
 						FRunToEndBeforeLooping = false;
 						//bytesread = FAudioFile.Read(FFileBuffer, offset*channels, samplesToRead);  		
 					}
 				}
-				if (Speed == 1.0)
+				if (Speed == 1.0) 
 				{
 					//copy to output buffers
-					for (int i = 0; i < channels; i++) 
+					for (int i = 0; i < channels; i++)
 					{
 						for (int j = 0; j < sampleCount; j++) 
 						{
@@ -122,7 +121,7 @@ namespace VVVV.Audio
 				}
 			}
 			else//silence
-			{
+			 {
 				for (int i = 0; i < channels; i++) 
 				{
 					buffer[i].ReadSilence(offset, sampleCount);
@@ -132,7 +131,6 @@ namespace VVVV.Audio
 
 		public override void Dispose()
 		{
-			FAudioFile.Dispose();
 			base.Dispose();
 		}
 	}

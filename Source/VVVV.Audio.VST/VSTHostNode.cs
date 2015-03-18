@@ -190,7 +190,7 @@ namespace VVVV.Nodes
         protected ISpread<VSTSignal> FInternalSignals = new Spread<VSTSignal>();
 
         //throttle counter for the gui updates
-        int FFrameDivider = 0;
+        int FFrameDivider = 3;
 
         public void Evaluate(int SpreadMax)
         {
