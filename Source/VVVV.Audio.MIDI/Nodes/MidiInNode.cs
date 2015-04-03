@@ -22,14 +22,18 @@ namespace VVVV.Nodes
         [Input("Driver", EnumName = "VAudioMidiDevice", IsSingle = true)]
         IDiffSpread<EnumEntry> FDriverIn;
         
-        [Output("Events", EnumName = "VAudioMidiDevice", IsSingle = true)]
+        [Output("Events", IsSingle = true)]
         ISpread<MidiEvents> FEventsOut;
 
         [ImportingConstructor]
         public MidiInNode()
 		{
-
-			var drivers = GetDriverNames();
+            RefreshDrivers();			
+		}
+        
+        void RefreshDrivers()
+        {
+            var drivers = GetDriverNames();
 			
 			if (drivers.Length > 0)
 			{
@@ -37,10 +41,10 @@ namespace VVVV.Nodes
 			}
 			else
 			{
-				drivers = new string[]{"No ASIO!? -> go download ASIO4All"};
+				drivers = new string[]{"No ASIO!? -> go download ASIO4ALL"};
 				EnumManager.UpdateEnum("VAudioMidiDevice", drivers[0], drivers);
 			}
-		}
+        }
 
         private string[] GetDriverNames()
         {
@@ -58,7 +62,29 @@ namespace VVVV.Nodes
 
         public void Evaluate(int SpreadMax)
         {
-            throw new NotImplementedException();
+            
+            if(FDriverIn.IsChanged)
+            {
+                FEventsOut.SliceCount = SpreadMax;
+                for (int i = 0; i < SpreadMax; i++) 
+                {
+                    var oldDevice = FEventsOut[i];
+                    var newDeviceID = FDriverIn[i].Index;
+                    
+                    if(oldDevice == null)
+                    {
+                        FEventsOut[i] = InputDeviceMidiEvents.FromDeviceID(newDeviceID);
+                    }
+                    else
+                    {
+                        if(oldDevice.DeviceID != newDeviceID)
+                        {
+                            FEventsOut[i] = InputDeviceMidiEvents.FromDeviceID(newDeviceID);
+                            oldDevice.Dispose();
+                        }
+                    }
+                }
+            }
         }
     }
 }

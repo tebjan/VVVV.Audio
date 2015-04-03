@@ -96,7 +96,7 @@ namespace VVVV.Audio
 					{
 						samplesRead = FFileBuffer.ReadSilence(offset * channels, samplesToRead);
 					}
-				}
+				
 					if (FLoop && FAudioFile.CurrentTime >= LoopEndTime)
 					{
 						FAudioFile.CurrentTime = LoopStartTime;

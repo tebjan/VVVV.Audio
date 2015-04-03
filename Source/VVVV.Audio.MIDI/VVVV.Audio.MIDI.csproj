@@ -44,9 +44,6 @@
       <HintPath>..\Dependencies\AnyCPU\NAudio\NAudio.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Sanford.Multimedia.Midi">
-      <HintPath>..\Dependencies\AnyCPU\SanfordMidi\Sanford.Multimedia.Midi.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition.CodePlex">
       <HintPath>..\packages\VVVV.System.ComponentModel.Composition.Codeplex.2.5.0\lib\net40\System.ComponentModel.Composition.CodePlex.dll</HintPath>
@@ -73,8 +70,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\MidiSignal.cs" />
+    <Compile Include="Core\InputDeviceMidiEvents.cs" />
+    <Compile Include="Core\ManualMidiEvents.cs" />
+    <Compile Include="Core\MergeMidiEvents.cs" />
+    <Compile Include="Core\MidiEvents.cs" />
     <Compile Include="Nodes\MidiInNode.cs" />
+    <Compile Include="Nodes\MidiMergeNode.cs" />
+    <Compile Include="Nodes\MidiRawNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +86,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\Sanford.Multimedia.Midi\Midi\Sanford.Multimedia.Midi.csproj">
+      <Project>{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}</Project>
+      <Name>Sanford.Multimedia.Midi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VVVV.Audio.Core\VVVV.Audio.Core.csproj">
       <Project>{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}</Project>
       <Name>VVVV.Audio.Core</Name>

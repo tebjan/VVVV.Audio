@@ -11,6 +11,7 @@ using Jacobi.Vst.Core;
 using Jacobi.Vst.Framework;
 using Jacobi.Vst.Interop.Host;
 
+using Sanford.Multimedia.Midi;
 using VVVV.Audio;
 using VVVV.Audio.MIDI;
 using VVVV.Core.Logging;
@@ -363,29 +364,32 @@ namespace VVVV.Audio.VST
             if(FMidiEventSource != midiEvents)
             {
                 if(FMidiEventSource != null)
-                    FMidiEventSource -= midiEvents_RawMessageReceived;
+                    FMidiEventSource.RawMessageReceived -= FMidiEventSource_RawMessageReceived;
                 
                 FMidiEventSource = midiEvents;
                 
-                //receive midi events
-                FMidiEventSource.RawMessageReceived += FMidiEventSource_RawMessageReceived;
+                if(FMidiEventSource != null)
+                {
+                    //receive midi events
+                    FMidiEventSource.RawMessageReceived += FMidiEventSource_RawMessageReceived;
+                }
             }
         }
 
         void FMidiEventSource_RawMessageReceived(object sender, RawMessageEventArgs e)
         {
-            //SetMidiEvent(
+            SetMidiEvent(e.DeltaFrames, e.Message);
         }
         
         //midi events
         public VstEventCollection MidiEvents = new VstEventCollection();
         private bool FCanEvents;
         private bool FHasEvents;
-        public void SetMidiEvent(byte msg, byte data1, byte data2)
+        public void SetMidiEvent(int deltaFrames, byte[] msg)
         {
             if (FCanEvents)
             {
-                VstEvent evt = new VstMidiEvent(0, 0, 0, new byte[] { msg, data1, data2 }, 0, 0);
+                VstEvent evt = new VstMidiEvent(deltaFrames, 0, 0, msg, 0, 0);
                 MidiEvents.Add(evt);
                 FHasEvents = true;
             }

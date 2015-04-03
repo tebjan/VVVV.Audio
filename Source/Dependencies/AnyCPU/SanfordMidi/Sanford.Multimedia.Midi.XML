@@ -353,6 +353,13 @@
             Gets a message that describes the current exception.
             </summary>
         </member>
+        <member name="F:Sanford.Multimedia.Midi.MidiEventArgsBase.DeltaFrames">
+            <summary>
+            Delta samples when the event should be processed in the next audio buffer.
+            Leave at 0 for realtime input to play as fast as possible.
+            Set to the desired sample in the next buffer if you play a midi sequence synchronized to the audio callback
+            </summary>
+        </member>
         <member name="T:Sanford.Multimedia.Midi.KeySignatureBuilder">
             <summary>
             Builds key signature MetaMessages.
