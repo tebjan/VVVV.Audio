@@ -77,10 +77,13 @@
     <Compile Include="Nodes\MidiInNode.cs" />
     <Compile Include="Nodes\MidiMergeNode.cs" />
     <Compile Include="Nodes\MidiRawNode.cs" />
+    <Compile Include="Nodes\MidiSequenceNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Signals\MidiSequenceSignal.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
+    <Folder Include="Signals" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

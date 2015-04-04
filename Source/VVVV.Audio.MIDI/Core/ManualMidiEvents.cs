@@ -30,13 +30,24 @@ namespace VVVV.Audio.MIDI
         public void Dispose()
         {
         }
-
+        
         public void SendRawMessage(byte status, byte data1, byte data2)
         {
             var handler = RawMessageReceived;
             if(handler != null)
             {
                 handler(this, new RawMessageEventArgs(status, data1, data2));
+            }
+        } 
+
+        public void SendRawMessage(int sampleOffset, byte status, byte data1, byte data2)
+        {
+            var handler = RawMessageReceived;
+            if(handler != null)
+            {
+                var args = new RawMessageEventArgs(status, data1, data2);
+                args.DeltaFrames = sampleOffset;
+                handler(this, args);
             }
         }   
 

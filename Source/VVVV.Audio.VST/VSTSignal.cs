@@ -212,6 +212,8 @@ namespace VVVV.Audio.VST
         #region Save plugin state
         public string GetSaveString()
         {
+            Debug.WriteLine("Saving state: " + PluginContext.PluginCommandStub.GetEffectName());
+            
             byte[] chunk = null;
             if(PluginContext.PluginInfo.Flags.HasFlag(VstPluginFlags.ProgramChunks))
             {
@@ -246,6 +248,8 @@ namespace VVVV.Audio.VST
         public void LoadFromSafeString(string safeString)
         {
             //safeString.LastIndexOf('|');
+            
+            Debug.WriteLine("Loading state: " + PluginContext.PluginCommandStub.GetEffectName());
 
             if (string.IsNullOrWhiteSpace(safeString) || PluginContext == null) return;
 

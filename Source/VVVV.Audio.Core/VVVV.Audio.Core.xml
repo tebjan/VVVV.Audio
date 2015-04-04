@@ -178,12 +178,24 @@
         </member>
         <member name="T:VVVV.Audio.IAudioSink">
             <summary>
-            Interface which the audio engine will call for each buffer after its registered
+            Interface which the audio engine will call for each buffer when registered
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.INotifyProcess">
+            <summary>
+            Interface which the audio engine will call before the audio buffer will be processed.
+            This should be used to do event stuff and automation which prepares for the next buffer.
+            The Read method will be called in the normal buffer process
             </summary>
         </member>
         <member name="T:VVVV.Audio.SinkSignal">
             <summary>
-            Base class for all sink signals which have no audio output
+            Base class for all sink signals which have audio input but no audio output
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.NotifyProccessSinkSignal">
+            <summary>
+            Base class for all sink signals which have audio input but no audio output
             </summary>
         </member>
         <member name="T:VVVV.Audio.AudioUtils">

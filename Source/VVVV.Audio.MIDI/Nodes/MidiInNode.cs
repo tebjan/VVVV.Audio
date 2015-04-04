@@ -16,7 +16,7 @@ namespace VVVV.Nodes
 {
     
     [PluginInfo(Name = "MidiIn", Category = "VAudio", Version = "Source", Help = "Opens a Midi driver and outputs its events", Tags = "", Author = "tonfilm")]
-    public class MidiInNode : IPluginEvaluate
+    public class MidiInNode : IPluginEvaluate, IDisposable
     {
 
         [Input("Driver", EnumName = "VAudioMidiDevice", IsSingle = true)]
@@ -86,5 +86,16 @@ namespace VVVV.Nodes
                 }
             }
         }
+
+
+        public void Dispose()
+        {
+            foreach (var element in FEventsOut) 
+            {
+                if(element != null)
+                    element.Dispose();
+            }
+        }
+
     }
 }

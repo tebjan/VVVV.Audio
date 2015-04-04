@@ -33,6 +33,7 @@ namespace VVVV.Audio
 		private object FSourceLock =  new object();
 		private List<MasterChannel> FSources = new List<MasterChannel>();
 		private List<IAudioSink> FSinks = new List<IAudioSink>();
+		private List<INotifyProcess> FNotifys = new List<INotifyProcess>();
 		private Action<int> FReadingFinished;
 		
 		/// <summary>
@@ -69,17 +70,31 @@ namespace VVVV.Audio
 			lock(FSourceLock)
 			{
 				if(!FSinks.Contains(sink))
+				{
 					FSinks.Add(sink);
+					
+					var notifyProcess = sink as INotifyProcess;
+					if(notifyProcess != null)
+					{
+					    FNotifys.Add(notifyProcess);
+					}
+				}
                 System.Diagnostics.Debug.WriteLine("Sink Count: " + FSinks.Count);
+                System.Diagnostics.Debug.WriteLine("Notify Process Count: " + FNotifys.Count);
 			}
 		}
 		
 		public void RemoveSink(IAudioSink sink)
 		{
-			lock(FSourceLock)
-			{
-				FSinks.Remove(sink);
-			}
+		    lock(FSourceLock)
+		    {
+		        FSinks.Remove(sink);
+		        var notifyProcess = sink as INotifyProcess;
+		        if(notifyProcess != null)
+		        {
+		            FNotifys.Remove(notifyProcess);
+		        }
+		    }
 		}
 
 		
@@ -101,15 +116,30 @@ namespace VVVV.Audio
 			//empty buffer
 			wb.Clear();
 			
-			//lock(FSources)
+			lock(FSourceLock)
 			{
-				//evaluate the sinks,
-				//e.g. buffer writers should write first to have the latest data in the buffer storage
-				for (int i = 0; i < FSinks.Count; i++)
+			    //first notify to prepare for buffer
+			    foreach(var notify in FNotifys)
 				{
 					try
 					{
-						FSinks[i].Read(offset / 4, samplesNeeded);
+						notify.NotifyProcess(samplesNeeded);
+					}
+					catch (Exception e)
+					{
+						System.Diagnostics.Debug.WriteLine(e.Message);
+						System.Diagnostics.Debug.WriteLine(e.Source);
+						System.Diagnostics.Debug.WriteLine(e.StackTrace);
+					}
+				}
+			    
+				//evaluate the sinks,
+				//e.g. buffer writers should write first to have the latest data in the buffer storage
+				foreach(var sink in FSinks) 
+				{
+					try
+					{
+						sink.Read(offset / 4, samplesNeeded);
 					}
 					catch (Exception e)
 					{
@@ -119,7 +149,7 @@ namespace VVVV.Audio
 					}
 				}
 					
-					//evaluate the inputs
+				//evaluate the inputs
                 var inputCount = FSources.Count;
                 for (int i = 0; i < inputCount; i++)
                 {

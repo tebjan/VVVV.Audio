@@ -48,7 +48,16 @@ namespace VVVV.Audio.VST
         public Jacobi.Vst.Core.VstCanDoResult CanDo(string cando)
         {
             RaisePluginCalled("CanDo(" + cando + ")");
+            if(cando == "supportShell") return VstCanDoResult.No;
             if(cando == "shellCategory") return VstCanDoResult.No;
+            if(cando == "sendVstEvents") return VstCanDoResult.Yes;
+            if(cando == "sendVstMidiEvent") return VstCanDoResult.Yes;
+            if(cando == "sendVstTimeInfo") return VstCanDoResult.Yes;
+            if(cando == "receiveVstEvents") return VstCanDoResult.Yes;
+            if(cando == "receiveVstMidiEvent") return VstCanDoResult.Yes;
+            if(cando == "receiveVstTimeInfo") return VstCanDoResult.Yes;
+            if(cando == "acceptIOChanges") return VstCanDoResult.Yes;
+           
             return Jacobi.Vst.Core.VstCanDoResult.Unknown;
         }
 
