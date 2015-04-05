@@ -75,6 +75,10 @@ namespace VVVV.Nodes
 				        {
 				            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<float>));
 				        }
+				        else if(valType == typeof(int[]))
+				        {
+				            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<int>));
+				        }
 				        else if(valType == typeof(double[]))
 				        {
 				            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<double>));
@@ -126,15 +130,25 @@ namespace VVVV.Nodes
                 else
                 {
                     var doubleSpread = inputValue as ISpread<double>;
-                    if(floatSpread != null)
+                    if(doubleSpread != null)
                     {
-                        var arr = new double[floatSpread.SliceCount];
-                        Array.Copy(floatSpread.Stream.Buffer, arr, floatSpread.SliceCount);
+                        var arr = new double[doubleSpread.SliceCount];
+                        Array.Copy(doubleSpread.Stream.Buffer, arr, doubleSpread.SliceCount);
                         val = arr;
                     }
                     else
                     {
-                        val = inputValue;
+                        var intSpread = inputValue as ISpread<int>;
+                        if(intSpread != null)
+                        {
+                            var arr = new int[intSpread.SliceCount];
+                            Array.Copy(intSpread.Stream.Buffer, arr, intSpread.SliceCount);
+                            val = arr;
+                        }
+                        else
+                        {
+                            val = inputValue;
+                        }
                     }
                 }
                 

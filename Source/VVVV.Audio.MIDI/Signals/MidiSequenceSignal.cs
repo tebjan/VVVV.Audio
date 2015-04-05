@@ -11,6 +11,83 @@ using System.Linq;
 
 namespace VVVV.Audio.MIDI
 {
+    public class TimeArrayIterator
+    {
+        readonly float[] FTimes;
+        int FIndex = 0;
+        readonly double FLength;
+        public int Index { get { return FIndex; } }
+        
+        public TimeArrayIterator(float[] times, double length)
+        {
+            FTimes = times;
+            FLength = length;
+        }
+        
+        /// <summary>
+        /// Move the index to the time just before the input time
+        /// </summary>
+        /// <param name="currentTime"></param>
+        public void Init(double currentTime)
+        {
+            var i = 0;
+            foreach (var time in FTimes) 
+            {
+                if(time > currentTime)
+                {
+                    break;
+                }
+                i++;
+            }
+            
+            if(i >= FTimes.Length)
+            {
+                i = 0;
+            }
+            
+            FIndex = i;
+        }
+        
+        /// <summary>
+        /// Returns the next time value
+        /// </summary>
+        /// <returns></returns>
+        public float NextTime()
+        {
+            FIndex++;
+            if(FIndex >= FTimes.Length)
+            {
+                FIndex = FTimes.Length-1;
+            }
+            
+            return FTimes[FIndex];
+        }
+        
+        public bool Finished 
+        {
+            get
+            {
+                return FIndex == FTimes.Length-1;
+            }
+        }
+        
+        public void Reset()
+        {
+            FIndex = 0;
+        }
+
+        /// <summary>
+        /// True if the current index time is lower than the input time
+        /// </summary>
+        /// <param name="endTime"></param>
+        /// <returns></returns>
+        public bool HasTime(double endTime)
+        {
+            return FTimes[FIndex] < endTime && !Finished;           
+        }
+
+    }
+    
     public struct MidiNoteData
     {
         public byte NoteNumber;
@@ -19,8 +96,12 @@ namespace VVVV.Audio.MIDI
     
     public class MidiSequence
     {
-        float[] FTimes;
-        MidiNoteData[] FValues;
+        float[] FStartTimes;
+        float[] FEndTimes;
+        TimeArrayIterator FOns;
+        TimeArrayIterator FOffs;
+        MidiNoteData[] FNoteOns;
+        MidiNoteData[] FNoteOffs;
         readonly double FLength;
         int FCount;
         
@@ -34,22 +115,23 @@ namespace VVVV.Audio.MIDI
         
         ManualMidiEvents FEventSender;
         AudioEngine FEngine;
-        public MidiSequence(float[] times, float[] notes, float[] lengths, float[] velocities, double length, ManualMidiEvents eventSender, AudioEngine engine)
+        public MidiSequence(float[] times, int[] notes, float[] lengths, float[] velocities, double length, ManualMidiEvents eventSender, AudioEngine engine)
         {
             FEventSender = eventSender;
             
             //double length for on and off events
-            FTimes = new float[times.Length * 2];
-            FCount = FTimes.Length;
+            FStartTimes = new float[times.Length];
+            FEndTimes = new float[times.Length];
+            FCount = FStartTimes.Length;
             FEngine = engine;
-            FValues = new MidiNoteData[FCount];
+            FNoteOns = new MidiNoteData[FCount];
+            FNoteOffs = new MidiNoteData[FCount];
             
-            var i = 0;
             var j = 0;
             foreach (var time in times)
             {
-                FTimes[i] = Math.Max(time, 0);
-                FTimes[i+1] = FTimes[i] + Math.Max(lengths[j % lengths.Length], 0.00000520833f);
+                FStartTimes[j] = Math.Max(time, 0);
+                FEndTimes[j] = FStartTimes[j] + Math.Max(lengths[j % lengths.Length], 0.00000520833f);
                 
                 var noteOn = new MidiNoteData() { 
                     NoteNumber = (byte)notes[j % notes.Length], 
@@ -61,90 +143,104 @@ namespace VVVV.Audio.MIDI
                     Velocity = (byte)0
                 };
                 
-                FValues[i] = noteOn;
-                FValues[i+1] = noteOff;
+                FNoteOns[j] = noteOn;
+                FNoteOffs[j] = noteOff;
                 
-                i += 2;
                 j++;
             }
             
-            
-            Array.Sort(FTimes, FValues);
-            FLength = Math.Max(length, 0);
-            
-            //set state
-            Next(FEngine.Timer.Beat % FLength);
+            FLength = Math.Max(length, 0.0000001);
         }
         
-        int FIndex;
-        double FNextValueTime;
-        MidiNoteData FCurrentValue;
-        
-        void Next(double clipTime)
+        /// <summary>
+        /// Sets the sequence to the current beat
+        /// </summary>
+        public void Init(double currentBeat)
         {
-            var beatToSamples = (60.0/FEngine.Timer.BPM) * FEngine.Settings.SampleRate;
-            FCurrentSampleIndex = 0;
+            Array.Sort(FStartTimes, FNoteOns);
+            Array.Sort(FEndTimes, FNoteOffs);
             
-            // find next value index
-            var nextTime = FNextValueTime;
-            var valueIndex = Math.Max(FIndex - 1, 0);
-            var subtractLength = false;
-            while(nextTime <= clipTime)
-            {
-                FIndex++;
-                if(FIndex >= FCount)
-                {
-                    FIndex = 0;
-                    valueIndex = Math.Max(FCount - 1, 0);
-                    nextTime = FTimes[FIndex] + FLength;
-                    subtractLength = true;
-                }
-                else
-                {
-                    nextTime = FTimes[FIndex];
-                    valueIndex = Math.Max(FIndex - 1, 0);
-                    subtractLength = false;
-                }
-            }
+            FOns = new TimeArrayIterator(FStartTimes, FLength);
+            FOffs = new TimeArrayIterator(FEndTimes, FLength);
             
-            FCurrentValue = FValues[valueIndex];
+            var currentSeqTime = currentBeat % FLength;
             
-            FNextValueSampleIndex = (int)((nextTime - clipTime) * beatToSamples);
-
-            if(subtractLength)
-                FNextValueTime = nextTime - FLength;
-            else
-                FNextValueTime = nextTime;
+            FOns.Init(currentSeqTime);
+            FOffs.Init(currentSeqTime);
+            
+            FLastEndBeat = currentBeat;
         }
-
+        
         public double Position 
         {
             get;
             protected set;
         }
         
-        int FCurrentSampleIndex;
-        int FNextValueSampleIndex;
-        public void Read(double[] time, int count)
+        double FLastEndBeat;
+        void NextEvents(double endBeat)
+        {
+            //if the sequence wrapps, the times have to wrap too
+            if(endBeat < FLastEndBeat)
+            {
+                while(!FOffs.Finished)
+                {
+                    var noteOff = FNoteOffs[FOffs.Index];
+                    FEventSender.SendRawMessage(0, (byte)144, noteOff.NoteNumber, noteOff.Velocity);
+                    var time = FOffs.NextTime();
+                }
+                
+                while(!FOns.Finished)
+                {
+                    var noteOn = FNoteOns[FOns.Index];
+                    FEventSender.SendRawMessage(0, (byte)144, noteOn.NoteNumber, noteOn.Velocity);
+                    var time = FOns.NextTime();
+                }
+                
+                FOffs.Reset();
+                FOns.Reset();
+            }
+
+            while(FOffs.HasTime(endBeat))
+            {
+                var noteOff = FNoteOffs[FOffs.Index];
+                FEventSender.SendRawMessage(0, (byte)144, noteOff.NoteNumber, noteOff.Velocity);
+                var time = FOffs.NextTime();
+            }
+            
+            while(FOns.HasTime(endBeat))
+            {
+                var noteOn = FNoteOns[FOns.Index];
+                FEventSender.SendRawMessage(0, (byte)144, noteOn.NoteNumber, noteOn.Velocity);
+                var time = FOns.NextTime();
+            }
+
+            
+            FLastEndBeat = endBeat;
+        }
+        
+        public void Read(double[] beatBuffer, int count)
         {
             if(FCount > 0)
             {
-                for(int i=0; i < count; i++)
-                {
-                    var clipTime = time[i] % FLength;
-                    
-                    if (FCurrentSampleIndex >= FNextValueSampleIndex)
-                    {
-                        Next(clipTime);
-                        FEventSender.SendRawMessage(i, 144, FCurrentValue.NoteNumber, FCurrentValue.Velocity);
-                        
-                    }
-                    
-                    Position = clipTime;
-                    
-                    //inc counter
-                    FCurrentSampleIndex++;
-                }
+//                for(int i=0; i < count; i++)
+//                {
+//                    var clipTime = time[i] % FLength;
+//
+//                    if (FCurrentSampleIndex >= FNextValueSampleIndex)
+//                    {
+//                        Next(clipTime);
+//                        FEventSender.SendRawMessage(i, 144, FCurrentValue.NoteNumber, FCurrentValue.Velocity);
+//
+//                    }
+//
+//                    Position = clipTime;
+//
+//                    //inc counter
+//                    FCurrentSampleIndex++;
+//                }
+                
+                NextEvents(beatBuffer[beatBuffer.Length - 1] % FLength);
             }
         }
     }
@@ -195,7 +291,7 @@ namespace VVVV.Audio.MIDI
             BuildSequence();
         }
 
-        void ValuesChanged(float[] obj)
+        void ValuesChanged(int[] obj)
         {
             BuildSequence();
         }
@@ -204,6 +300,7 @@ namespace VVVV.Audio.MIDI
         void BuildSequence()
         {
             if(Times.Value != null && Values.Value != null && Lengths.Value != null && Velocities.Value != null && Length.Value > 0)
+            {
                 FSequence = new MidiSequence(Times.Value, 
                                              Values.Value, 
                                              Lengths.Value, 
@@ -211,17 +308,29 @@ namespace VVVV.Audio.MIDI
                                              Length.Value, 
                                              MidiEvents.Value as ManualMidiEvents, 
                                              AudioService.Engine);
+                
+                FNeedsInit = true;
+            }
             else
                 FSequence = null;
         }
+        bool FNeedsInit;
 
         public override void NotifyProcess(int count)
         {
             var seq = FSequence;
+            
             if(seq != null)
             {
+                if(FNeedsInit)
+                {
+                    seq.Init(AudioService.Engine.Timer.Beat);
+                }
+                
                 seq.Read(AudioService.Engine.Timer.BeatBuffer, count);
                 Position.Value = FSequence.Position;
+                
+                FNeedsInit = false;
             }
         }
     }
