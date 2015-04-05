@@ -154,10 +154,11 @@ namespace VVVV.Audio.MIDI
         //inputs
         SigParamDiff<float> Length = new SigParamDiff<float>("Length", 4);
         SigParamDiff<float[]> Times = new SigParamDiff<float[]>("Times");
-        SigParamDiff<float[]> Values = new SigParamDiff<float[]>("Values");
+        SigParamDiff<int[]> Values = new SigParamDiff<int[]>("Notes");
         SigParamDiff<float[]> Velocities = new SigParamDiff<float[]>("Velocities");
         SigParamDiff<float[]> Lengths = new SigParamDiff<float[]>("Lengths");
-        //SigParam<bool> EventType = new SigParam<bool>("Is Bang");
+        SigParam<int> Channel = new SigParam<int>("Channel");
+        //SigParam<bool> EventType = new SigParam<bool>("Is Bang",);
         
         //output
         SigParam<MidiEvents> MidiEvents = new SigParam<MidiEvents>("Events", true);

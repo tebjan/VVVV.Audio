@@ -31,13 +31,13 @@
             System.Windows.Forms.GroupBox groupBox1;
             System.Windows.Forms.GroupBox groupBox2;
             this.PluginPropertyListVw = new System.Windows.Forms.ListView();
-            this.PropertyNameHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.PropertyValueHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PropertyNameHdr = new System.Windows.Forms.ColumnHeader();
+            this.PropertyValueHdr = new System.Windows.Forms.ColumnHeader();
             this.PluginParameterListVw = new System.Windows.Forms.ListView();
-            this.ParameterNameHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ParameterValueHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ParameterLabelHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ParameterShortLabelHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ParameterNameHdr = new System.Windows.Forms.ColumnHeader();
+            this.ParameterValueHdr = new System.Windows.Forms.ColumnHeader();
+            this.ParameterLabelHdr = new System.Windows.Forms.ColumnHeader();
+            this.ParameterShortLabelHdr = new System.Windows.Forms.ColumnHeader();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             groupBox1 = new System.Windows.Forms.GroupBox();
             groupBox2 = new System.Windows.Forms.GroupBox();
@@ -96,13 +96,13 @@
             groupBox2.Size = new System.Drawing.Size(625, 230);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Programs && Parameters";
+            groupBox2.Text = "Parameters";
             // 
             // PluginParameterListVw
             // 
-            this.PluginParameterListVw.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.PluginParameterListVw.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PluginParameterListVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ParameterNameHdr,
             this.ParameterValueHdr,

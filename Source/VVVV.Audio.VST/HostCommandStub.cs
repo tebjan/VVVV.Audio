@@ -45,7 +45,7 @@ namespace VVVV.Audio.VST
         }
 
         /// <inheritdoc />
-        public Jacobi.Vst.Core.VstCanDoResult CanDo(string cando)
+        public VstCanDoResult CanDo(string cando)
         {
             RaisePluginCalled("CanDo(" + cando + ")");
             if(cando == "supportShell") return VstCanDoResult.No;
@@ -62,7 +62,7 @@ namespace VVVV.Audio.VST
         }
 
         /// <inheritdoc />
-        public bool CloseFileSelector(Jacobi.Vst.Core.VstFileSelect fileSelect)
+        public bool CloseFileSelector(VstFileSelect fileSelect)
         {
             RaisePluginCalled("CloseFileSelector(" + fileSelect.Command + ")");
             return false;
@@ -83,14 +83,14 @@ namespace VVVV.Audio.VST
         public Jacobi.Vst.Core.VstAutomationStates GetAutomationState()
         {
             RaisePluginCalled("GetAutomationState()");
-            return Jacobi.Vst.Core.VstAutomationStates.Off;
+            return Jacobi.Vst.Core.VstAutomationStates.ReadWrite;
         }
 
         /// <inheritdoc />
         public int GetBlockSize()
         {
             RaisePluginCalled("GetBlockSize()");
-            return 1024;
+            return AudioService.Engine.Settings.BufferSize;
         }
 
         /// <inheritdoc />
@@ -108,10 +108,10 @@ namespace VVVV.Audio.VST
         }
 
         /// <inheritdoc />
-        public Jacobi.Vst.Core.VstHostLanguage GetLanguage()
+        public VstHostLanguage GetLanguage()
         {
             RaisePluginCalled("GetLanguage()");
-            return Jacobi.Vst.Core.VstHostLanguage.NotSupported;
+            return VstHostLanguage.English;
         }
 
         /// <inheritdoc />
@@ -122,17 +122,17 @@ namespace VVVV.Audio.VST
         }
 
         /// <inheritdoc />
-        public Jacobi.Vst.Core.VstProcessLevels GetProcessLevel()
+        public VstProcessLevels GetProcessLevel()
         {
             //RaisePluginCalled("GetProcessLevel()");
-            return Jacobi.Vst.Core.VstProcessLevels.Realtime;
+            return VstProcessLevels.Realtime;
         }
 
         /// <inheritdoc />
         public string GetProductString()
         {
             RaisePluginCalled("GetProductString()");
-            return "VST.NET";
+            return "VVVV";
         }
 
         /// <inheritdoc />
@@ -143,7 +143,7 @@ namespace VVVV.Audio.VST
         }
 
         /// <inheritdoc />
-        public Jacobi.Vst.Core.VstTimeInfo GetTimeInfo(Jacobi.Vst.Core.VstTimeInfoFlags filterFlags)
+        public VstTimeInfo GetTimeInfo(VstTimeInfoFlags filterFlags)
         {
             //RaisePluginCalled("GetTimeInfo(" + filterFlags + ")");
 
@@ -154,7 +154,7 @@ namespace VVVV.Audio.VST
         public string GetVendorString()
         {
             RaisePluginCalled("GetVendorString()");
-            return "vvvv";
+            return "vvvv group";
         }
 
         /// <inheritdoc />
@@ -172,7 +172,7 @@ namespace VVVV.Audio.VST
         }
 
         /// <inheritdoc />
-        public bool OpenFileSelector(Jacobi.Vst.Core.VstFileSelect fileSelect)
+        public bool OpenFileSelector(VstFileSelect fileSelect)
         {
             RaisePluginCalled("OpenFileSelector(" + fileSelect.Command + ")");
             return false;

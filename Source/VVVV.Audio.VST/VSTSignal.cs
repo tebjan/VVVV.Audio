@@ -249,9 +249,8 @@ namespace VVVV.Audio.VST
         {
             //safeString.LastIndexOf('|');
             
-            Debug.WriteLine("Loading state: " + PluginContext.PluginCommandStub.GetEffectName());
-
             if (string.IsNullOrWhiteSpace(safeString) || PluginContext == null) return;
+            Debug.WriteLine("Loading state: " + PluginContext.PluginCommandStub.GetEffectName());
 
             if (PluginContext.PluginInfo.Flags.HasFlag(VstPluginFlags.ProgramChunks))
             {
@@ -298,7 +297,7 @@ namespace VVVV.Audio.VST
 			try
 			{
 				HostCommandStub hostCmdStub = new HostCommandStub();
-				hostCmdStub.PluginCalled += new EventHandler<PluginCalledEventArgs>(HostCmdStub_PluginCalled);
+                hostCmdStub.PluginCalled += HostCmdStub_PluginCalled;
                 hostCmdStub.RaiseSave = SetNeedsSafe;
 				
 				VstPluginContext ctx = VstPluginContext.Create(pluginPath, hostCmdStub);
