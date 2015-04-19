@@ -165,7 +165,7 @@ namespace VVVV.Audio.MIDI
                 i++;
             }
             
-            FLength = Math.Max(length, 0.0000001);
+            FLength = Math.Max(Math.Abs(length), 0.00000520833f);
         }
         
         /// <summary>
@@ -240,7 +240,7 @@ namespace VVVV.Audio.MIDI
     {
         //inputs
         SigParamDiff<float> Length = new SigParamDiff<float>("Length", 4);
-        SigParamDiff<float[]> Times = new SigParamDiff<float[]>("Times");
+        SigParamDiff<float[]> Times = new SigParamDiff<float[]>("Positions");
         SigParamDiff<int[]> Values = new SigParamDiff<int[]>("Notes");
         SigParamDiff<float[]> Velocities = new SigParamDiff<float[]>("Velocities");
         SigParamDiff<float[]> Lengths = new SigParamDiff<float[]>("Lengths");

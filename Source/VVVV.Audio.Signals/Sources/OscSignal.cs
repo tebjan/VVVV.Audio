@@ -340,6 +340,24 @@ namespace VVVV.Audio
                 return 0;
             }
         }
+        
+        double PolyBLAMP(double t, double dt)
+        {
+            if (t < dt)
+            {
+                t = t/dt - 1;
+                return (double)-1/3 * t*t*t;
+            }
+            else if (t > 1 - dt)
+            {
+                t = (t - 1)/dt + 1;
+                return (double)1/3 * t*t*t;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
         private void OscPolyBLEP(float[] buffer, int count)
         {
@@ -366,12 +384,36 @@ namespace VVVV.Audio
                     {
                         CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
                         var phase = FPhase*0.5f + 0.5f;
-                        buffer[i] =  (float)(Gain.Value * AudioUtils.Triangle(phase, slope));
+                        //var sample = AudioUtils.Triangle(phase, slope);
+                        
+                        // Start with naive triangle.
+                        double sample = 4 * phase;
+                        if (sample >= 3)
+                        {
+                            sample = sample - 4;
+                        }
+                        else if (sample > 1)
+                        {
+                            sample = 2 - sample;
+                        }
+                        
+                        // Correct falling discontinuity.
+                        double scale = 4 * T;
+                        double phase2 = phase + 0.25;
+                        phase2 = phase2 - Math.Floor(phase2);
+                        sample = sample + scale * PolyBLAMP(phase2, T);
+
+                        // Correct rising discontinuity.
+                        phase2 = phase2 + 0.5;
+                        phase2 = phase2 - Math.Floor(phase2);
+                        sample = sample - scale * PolyBLAMP(phase2, T);
                         
                         FPhase += t2 + FMBuffer[i]*FMLevel.Value;
 
                         if (FPhase >= 1)
                             FPhase -= 2f;
+                        
+                        buffer[i] = (float)(Gain.Value * sample);
                     }
                     break;
                 case WaveFormSelection.Square:
@@ -404,10 +446,12 @@ namespace VVVV.Audio
                     for (int i = 0; i < count; i++)
                     {
                         CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
-                        FPhase += T;
-                        FPhase -= Math.Floor(FPhase);
+                       
                         var naiveSaw = FPhase * 2 - 1;
                         buffer[i] = (float)((naiveSaw - PolyBLEPSaw(FPhase, T)) * Gain.Value);
+                        
+                        FPhase += T;
+                        FPhase -= Math.Floor(FPhase);
                     }
                     break;
             }

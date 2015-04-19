@@ -39,7 +39,7 @@ namespace VVVV.Audio
             }
             
             Array.Sort(FTimes, FValues);
-            FLength = Math.Max(length, 0);
+            FLength = Math.Max(Math.Abs(length), 0.00000520833f);
             
             //set state
             Next(FEngine.Timer.Beat % FLength);
@@ -122,9 +122,9 @@ namespace VVVV.Audio
     {
         //inputs
         SigParamDiff<float> Length = new SigParamDiff<float>("Length", 4);
-        SigParamDiff<float[]> Times = new SigParamDiff<float[]>("Times");
+        SigParamDiff<float[]> Times = new SigParamDiff<float[]>("Positions");
         SigParamDiff<float[]> Values = new SigParamDiff<float[]>("Values");
-        SigParam<bool> EventType = new SigParam<bool>("Is Bang");
+        //SigParam<bool> EventType = new SigParam<bool>("Is Bang");
         
         //output
         SigParam<double> Position = new SigParam<double>("Position", true);
