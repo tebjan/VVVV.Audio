@@ -63,17 +63,8 @@ namespace VVVV.Nodes
         [Output("Output Channels")]
         public ISpread<int> FOutChannelsOut;
         
-        [Output("Midi Message")]
-        public ISpread<int> FMsgOut;
-
-        [Output("Midi Data 1")]
-        public ISpread<int> FData1Out;
-
-        [Output("Midi Data 2")]
-        public ISpread<int> FData2Out;
-		
-        [Output("Midi Bin Size")]
-        public ISpread<int> FMidiBinSizeOut;
+        [Output("Midi Events")]
+        public ISpread<MidiEvents> FMidiEventsOut;
         
 		IHDEHost FHDEHost;
 
@@ -341,27 +332,10 @@ namespace VVVV.Nodes
                 instance.NeedsSave = false;
             }
             
-            if(instance.MidiOutEvents != null)
+            //assign event sender?
+            if(instance.MidiEventSender != FMidiEventsOut[i])
             {
-            	var events = instance.MidiOutEvents;
-            	instance.MidiOutEvents = null;
-            	
-            	var midiEventCount = 0;
-            	foreach (var evt in events)
-            	{
-                    var vstMidiEvent = evt as VstMidiEvent;
-            		if(vstMidiEvent != null)
-            		{
-            			var midiEvent = vstMidiEvent;
-            			FMsgOut.Add(midiEvent.Data[0]);
-            			FData1Out.Add(midiEvent.Data[1]);
-            			FData2Out.Add(midiEvent.Data[2]);
-            			midiEventCount++;
-            		}
-            		   
-            	}
-				
-            	FMidiBinSizeOut.Add(midiEventCount);
+                FMidiEventsOut[i] = instance.MidiEventSender;
             }
 
 		}
@@ -376,10 +350,7 @@ namespace VVVV.Nodes
             FLatencyOut.SliceCount = sliceCount;
             FInChannelsOut.SliceCount = sliceCount;
             FOutChannelsOut.SliceCount = sliceCount;
-            FMsgOut.SliceCount = 0;
-            FData1Out.SliceCount = 0;
-            FData2Out.SliceCount = 0;
-            FMidiBinSizeOut.SliceCount = 0;
+            FMidiEventsOut.SliceCount = sliceCount;
 		}
 
 		#endregion

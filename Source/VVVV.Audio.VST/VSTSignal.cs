@@ -325,17 +325,13 @@ namespace VVVV.Audio.VST
 			return null;
 		}
 		
-		public VstEventCollection MidiOutEvents;
-		
+		//midi out
 		void ReceiveEvents(VstEvent[] events)
 		{
-			if(events.Length > 0)
-			{
-				if(MidiOutEvents == null)
-					MidiOutEvents = new VstEventCollection(events);
-				else
-					MidiOutEvents.AddRange(events);
-			}
+            foreach (var evt in events) 
+            {
+                MidiEventSender.SendRawMessage(evt.DeltaFrames, evt.Data[0], evt.Data[1], evt.Data[2]);
+            }
 		}
 
         //format changes
@@ -361,6 +357,7 @@ namespace VVVV.Audio.VST
             }
         }
 
+        #region midi in
         MidiEvents FMidiEventSource;
         public void SetMidiEventSource(MidiEvents midiEvents)
         {
@@ -382,7 +379,7 @@ namespace VVVV.Audio.VST
         void FMidiEventSource_RawMessageReceived(object sender, RawMessageEventArgs e)
         {
             SetMidiEvent(e.DeltaFrames, e.Message);
-        }
+        }      
         
         //midi events
         public VstEventCollection MidiEvents = new VstEventCollection();
@@ -397,6 +394,12 @@ namespace VVVV.Audio.VST
                 FHasEvents = true;
             }
         }
+        #endregion
+        
+        #region midi out
+        public ManualMidiEvents MidiEventSender = new ManualMidiEvents();
+        
+        #endregion
 		
         //unmanaged buffers
 		VstAudioBufferManager FInputMgr = new VstAudioBufferManager(2, 1);
@@ -457,9 +460,10 @@ namespace VVVV.Audio.VST
                     FHasEvents = false;
                 }
                 
-                //process the shit
+                //process audio
                 PluginContext.PluginCommandStub.ProcessReplacing(FInputBuffers, FOutputBuffers);
 
+                //copy buffers
                 for (int i = 0; i < FOutputBuffers.Length; i++)
                 {
                     for (int j = 0; j < count; j++)

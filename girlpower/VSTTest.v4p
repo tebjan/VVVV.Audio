@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug33.8.dtd" >
-   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\VSTTest.v4p" systemname="VSTTest" filename="C:\Dev\vvvv\VVVV.Audio\Patches\VSTTest.v4p" scrollx="0" scrolly="0">
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\VSTTest.v4p" systemname="VSTTest" filename="C:\Dev\vvvv\VVVV.Audio\Patches\VSTTest.v4p" scrollx="285" scrolly="0">
    <BOUNDS type="Window" left="210" top="285" width="8145" height="10005">
    </BOUNDS>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="1" systemname="IOBox (Value Advanced)">
@@ -220,12 +220,6 @@
    </NODE>
    <LINK srcnodeid="13" srcpinname="Output String" dstnodeid="12" dstpinname="Filename">
    </LINK>
-   <NODE systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioOut (VAudio)" componentmode="Hidden" id="7">
-   <BOUNDS type="Node" left="1140" top="10725" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1" slicecount="1" values="||">
-   </PIN>
-   </NODE>
    <NODE systemname="Meter (VAudio Sink)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Meter (VAudio Sink)" componentmode="Hidden" id="52">
    <BOUNDS type="Node" left="2280" top="10095" width="100" height="100">
    </BOUNDS>
@@ -501,6 +495,8 @@
    </PIN>
    <PIN pinname="Length" slicecount="1" values="1">
    </PIN>
+   <PIN pinname="Notes" visible="1">
+   </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="94" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="7305" top="2655" width="795" height="240">
@@ -530,6 +526,8 @@
    <PIN pinname="Vector Size" slicecount="1" values="2">
    </PIN>
    <PIN pinname="Default" slicecount="1" values="|0, 0|">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="96" srcpinname="Y Output Value" dstnodeid="93" dstpinname="Values">
@@ -593,11 +591,13 @@
    </PIN>
    <PIN pinname="Values" slicecount="1" visible="1" values="64">
    </PIN>
-   <PIN pinname="Velocities" slicecount="1" values="0.33">
+   <PIN pinname="Velocities" slicecount="1" values="0.47">
    </PIN>
    <PIN pinname="Lengths" slicecount="1" visible="1" values="1">
    </PIN>
    <PIN pinname="Length" slicecount="1" values="3">
+   </PIN>
+   <PIN pinname="Notes" slicecount="1" values="42">
    </PIN>
    </NODE>
    <NODE systemname="LinearSpread (Spreads)" nodename="LinearSpread (Spreads)" componentmode="Hidden" id="101">
@@ -623,7 +623,7 @@
    </BOUNDS>
    <PIN pinname="Values" visible="1" slicecount="1" values="36">
    </PIN>
-   <PIN pinname="Length" slicecount="1" values="1">
+   <PIN pinname="Length" slicecount="1" values="2">
    </PIN>
    <PIN pinname="Lengths" slicecount="1" visible="1" values="0.62">
    </PIN>
@@ -633,13 +633,15 @@
    </PIN>
    <PIN pinname="Times" visible="1" slicecount="1" values="0">
    </PIN>
+   <PIN pinname="Notes" visible="1">
+   </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="106" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="7320" top="4845" width="795" height="240">
    </BOUNDS>
    <BOUNDS type="Node" left="7320" top="4845" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.21">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.2">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -669,7 +671,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="5790" top="4020" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="2" visible="1" values="0,0.29">
+   <PIN pinname="Y Input Value" slicecount="2" visible="1" values="0.5,1">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -685,9 +687,9 @@
    <LINK srcnodeid="114" srcpinname="Y Output Value" dstnodeid="104" dstpinname="Times">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="115" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="6240" top="4590" width="795" height="480">
+   <BOUNDS type="Box" left="6075" top="4590" width="795" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="6240" top="4590" width="0" height="0">
+   <BOUNDS type="Node" left="6075" top="4590" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="2" visible="1" values="36,78">
    </PIN>
@@ -703,12 +705,12 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
    </NODE>
    <LINK srcnodeid="115" srcpinname="Y Output Value" dstnodeid="104" dstpinname="Values">
    </LINK>
    <LINK srcnodeid="93" srcpinname="Events" dstnodeid="84" dstpinname="Events 3">
-   </LINK>
-   <LINK srcnodeid="14" srcpinname="Output" dstnodeid="7" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="14" srcpinname="Output" dstnodeid="52" dstpinname="Input">
    </LINK>
@@ -762,12 +764,24 @@
    </NODE>
    <LINK srcnodeid="88" srcpinname="Audio Out" dstnodeid="117" dstpinname="Input 1">
    </LINK>
-   <LINK srcnodeid="84" srcpinname="Events" dstnodeid="88" dstpinname="Midi Message">
-   </LINK>
    <LINK srcnodeid="92" srcpinname="Y Output Value" dstnodeid="88" dstpinname="Parameter 0">
    </LINK>
    <LINK srcnodeid="88" srcpinname="Audio Out" dstnodeid="89" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="68" srcpinname="Output String" dstnodeid="88" dstpinname="Filename">
+   </LINK>
+   <NODE id="7" systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioOut (VAudio)" componentmode="Hidden">
+   <BOUNDS type="Node" left="1140" top="10725" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="14" srcpinname="Output" dstnodeid="7" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="96" srcpinname="Y Output Value" dstnodeid="93" dstpinname="Notes">
+   </LINK>
+   <LINK srcnodeid="115" srcpinname="Y Output Value" dstnodeid="104" dstpinname="Notes">
+   </LINK>
+   <LINK srcnodeid="104" srcpinname="Events" dstnodeid="88" dstpinname="Midi Message">
    </LINK>
    </PATCH>

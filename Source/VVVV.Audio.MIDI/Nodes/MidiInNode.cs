@@ -22,6 +22,9 @@ namespace VVVV.Nodes
         [Input("Driver", EnumName = "VAudioMidiDevice", IsSingle = true)]
         IDiffSpread<EnumEntry> FDriverIn;
         
+        [Input("Rescan", IsBang = true, IsSingle = true)]
+        ISpread<bool> FRescanIn;
+        
         [Output("Events", IsSingle = true)]
         ISpread<MidiEvents> FEventsOut;
 
@@ -41,7 +44,7 @@ namespace VVVV.Nodes
 			}
 			else
 			{
-				drivers = new string[]{"No ASIO!? -> go download ASIO4ALL"};
+				drivers = new string[]{"No Midi Devices Found"};
 				EnumManager.UpdateEnum("VAudioMidiDevice", drivers[0], drivers);
 			}
         }
@@ -62,6 +65,10 @@ namespace VVVV.Nodes
 
         public void Evaluate(int SpreadMax)
         {
+            if(FRescanIn[0])
+            {
+                RefreshDrivers();
+            }
             
             if(FDriverIn.IsChanged)
             {
