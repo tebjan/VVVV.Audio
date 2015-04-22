@@ -124,7 +124,7 @@ namespace VVVV.Audio
 		{
 		    for(int n = 0; n < nsamples; ++n)
 		    {
-		        CalcTransistorCoeffs(FFreqBuffer[n] * (SampleRate *0.5f), FResoBuffer[n]);
+		        CalcTransistorCoeffs(FFreqBuffer[n] * (SampleRate *0.5f), FResoBuffer[n] * 0.6667f);
 		        
 		        // input with half delay, for non-linearities
 		        double ih = 0.5 * (FInputBuffer[n] + zi);
@@ -209,7 +209,7 @@ namespace VVVV.Audio
 
 		void SetRes(float r)
 		{
-		    FResonanceOffset = r * 0.5f;
+		    FResonanceOffset = Math.Min(r, 20) * 0.5f;
 		}
 
 		void CalcCoeffs()
@@ -224,7 +224,7 @@ namespace VVVV.Audio
 			FResoCoeff = FResonanceOffset * (t2 + 6.0f * t) / (t2 - 6.0f * t);
 		}
 
-		void CalcCoeffs2(float cutoff, float resonance)
+		void CalcMoogCoeffs2(float cutoff, float resonance)
 		{
 			var f = (float)VMath.Clamp(cutoff + FCutoffOffset, 15, SampleRate * 0.25);
 		    f = (f + f) / SampleRate;
@@ -245,7 +245,7 @@ namespace VVVV.Audio
 		    {
 		        
 		        //calc coeffs
-		        CalcCoeffs2(FFreqBuffer[i] * (SampleRate *0.5f), FResoBuffer[i]);
+		        CalcMoogCoeffs2(FFreqBuffer[i] * (SampleRate *0.5f), FResoBuffer[i]);
 		        
 		        // process input
 		        var x = FInputBuffer[i] - FResoCoeff * y4;

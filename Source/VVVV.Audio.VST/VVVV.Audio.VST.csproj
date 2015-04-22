@@ -123,6 +123,7 @@
     <ProjectReference Include="..\..\..\..\..\..\..\Sanford.Multimedia.Midi\Midi\Sanford.Multimedia.Midi.csproj">
       <Project>{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}</Project>
       <Name>Sanford.Multimedia.Midi</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\VVVV.Audio.Core\VVVV.Audio.Core.csproj">
       <Project>{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}</Project>
