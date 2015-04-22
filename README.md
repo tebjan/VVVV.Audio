@@ -1,5 +1,6 @@
 [![Stories in Ready](https://badge.waffle.io/tebjan/vvvv.audio.png?label=ready&title=Ready)](https://waffle.io/tebjan/vvvv.audio)
-VVVV.Audio
+[![Stories in In Progress](https://badge.waffle.io/tebjan/vvvv.audio.png?label=in%20progress&title=In%20Progress)](https://waffle.io/tebjan/vvvv.audio)
+
 ==========
 
 Implementation of a modular audio engine for [vvvv](http://vvvv.org).
