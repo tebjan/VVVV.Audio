@@ -64,22 +64,22 @@ namespace VVVV.Audio
                     FMultiplier = 1.0;
                     break;
                 case EnvelopStage.Attack:
-                    FNextStageSampleIndex = (int)(Attack.Value * SampleRate);
+                    FNextStageSampleIndex = (int)(Math.Max(Attack.Value, 0.0f) * SampleRate);
                     FCurrentLevel = CMinimumLevel;
                     FMultiplier = CalcExpCoeff(FCurrentLevel, 1.0, FNextStageSampleIndex);
                     break;
                 case EnvelopStage.Decay:
                     FNextStageSampleIndex = (int)(Decay.Value * SampleRate);
                     FCurrentLevel = 1.0;
-                    FMultiplier = CalcExpCoeff(FCurrentLevel, Math.Max(Sustain.Value, CMinimumLevel), FNextStageSampleIndex);
+                    FMultiplier = CalcExpCoeff(FCurrentLevel, Math.Max(Math.Max(Sustain.Value, 0.0f), CMinimumLevel), FNextStageSampleIndex);
                     break;
                 case EnvelopStage.Sustain:
-                    FCurrentLevel = Sustain.Value;
+                    FCurrentLevel = Math.Max(Sustain.Value, 0.0f);
                     FNextStageSampleIndex = 0;
                     FMultiplier = 1 + Slope.Value * 0.0001;
                     break;
                 case EnvelopStage.Release:                    
-                    FNextStageSampleIndex = (int)(Release.Value * SampleRate);
+                    FNextStageSampleIndex = (int)(Math.Max(Release.Value, 0.0f) * SampleRate);
                     // We could go from ATTACK/DECAY to RELEASE,
                     // so we're not changing currentLevel here.
                     FMultiplier = CalcExpCoeff(FCurrentLevel, CMinimumLevel, FNextStageSampleIndex);
