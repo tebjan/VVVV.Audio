@@ -18,7 +18,7 @@ namespace VVVV.Audio
         }
         
         //inputs
-        SigParamAudio Enable = new SigParamAudio("Enable");
+        SigParamAudio Enable = new SigParamAudio("Trigger");
         SigParam<float> Attack = new SigParam<float>("Attack", 0.1f);
         SigParam<float> Decay = new SigParam<float>("Decay", 0.1f);
         SigParam<float> Sustain = new SigParam<float>("Sustain", 0.1f);
@@ -34,9 +34,9 @@ namespace VVVV.Audio
         {
         }
         
-        double CalcExpCoeff(double levelBegin, double levelEnd, double releaseTime) 
+        double CalcExpCoeff(double levelBegin, double levelEnd, int releaseTime) 
         {
-            return 1.0 + (Math.Log(levelEnd) - Math.Log(levelBegin)) / releaseTime;
+            return 1.0 + (Math.Log(levelEnd) - Math.Log(levelBegin)) / Math.Max(0, releaseTime);
         }
         
         int CalcExpSamples(double levelBegin, double levelEnd, double multiplier) 
@@ -49,7 +49,7 @@ namespace VVVV.Audio
         EnvelopStage FCurrentStage;
         int FCurrentSampleIndex;
         int FNextStageSampleIndex;
-        const double CMinimumLevel = 0.001;
+        const double CMinimumLevel = 0.0001;
         void EnterStage(EnvelopStage newStage) 
         {
             FCurrentStage = newStage;
@@ -74,9 +74,9 @@ namespace VVVV.Audio
                     FMultiplier = CalcExpCoeff(FCurrentLevel, Math.Max(Math.Max(Sustain.Value, 0.0f), CMinimumLevel), FNextStageSampleIndex);
                     break;
                 case EnvelopStage.Sustain:
-                    FCurrentLevel = Math.Max(Sustain.Value, 0.0f);
-                    FNextStageSampleIndex = 0;
+                    FCurrentLevel = Sustain.Value;
                     FMultiplier = 1 + Slope.Value * 0.0001;
+                    FNextStageSampleIndex = 0;
                     break;
                 case EnvelopStage.Release:                    
                     FNextStageSampleIndex = (int)(Math.Max(Release.Value, 0.0f) * SampleRate);
@@ -105,16 +105,17 @@ namespace VVVV.Audio
                 var enabled = FEnableBuffer[i];
                 if(enabled != FLastEnabled)
                 {
-                    if(enabled > 0)
+                    if(enabled > 0 && FLastEnabled <= 0.0f)
                     {
                         EnterStage(EnvelopStage.Attack);
                         FEnabledLevel = enabled;
                     }
-                    else
+                    else if (enabled <= 0.0f)
                     {
                         EnterStage(EnvelopStage.Release);
                     }
                 }
+                
                 
                 if(FCurrentStage == EnvelopStage.Sustain)
                 {

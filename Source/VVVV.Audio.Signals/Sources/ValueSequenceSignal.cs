@@ -17,6 +17,8 @@ namespace VVVV.Audio
         float[] FValues;
         readonly double FLength;
         int FCount;
+        bool FIsBang;
+        
         public int Count
         {
             get
@@ -26,12 +28,13 @@ namespace VVVV.Audio
         }
         
         AudioEngine FEngine;
-        public ValueSequence(float[] times, float[] values, double length, AudioEngine engine)
+        public ValueSequence(float[] times, float[] values, double length, bool isBang, AudioEngine engine)
         {
             FTimes = times;
             FCount = FTimes.Length;
             FEngine = engine;
             FValues = new float[FCount];
+            FIsBang = isBang;
             
             for(int i=0; i<FCount; i++)
             {
@@ -59,7 +62,7 @@ namespace VVVV.Audio
             var valueIndex = Math.Max(FIndex - 1, 0);
             bool subtractLength = false;
             while(nextTime <= clipTime)
-            {
+            { 
                 FIndex++;
                 if(FIndex >= FCount)
                 {
@@ -101,13 +104,20 @@ namespace VVVV.Audio
                 for(int i=0; i < count; i++)
                 {
                     var clipTime = time[i] % FLength;
-                    
+
                     if (FCurrentSampleIndex >= FNextValueSampleIndex)
                     {
                         Next(clipTime);
+                        if(FIsBang)
+                            buffer[i] = 1;
+                    }
+                    else if (FIsBang)
+                    {
+                        buffer[i] = 0;
                     }
                     
-                    buffer[i] = FCurrentValue;
+                    if(!FIsBang)
+                        buffer[i] = FCurrentValue;
                     
                     Position = clipTime;
                     
@@ -124,7 +134,7 @@ namespace VVVV.Audio
         SigParamDiff<float> Length = new SigParamDiff<float>("Length", 4);
         SigParamDiff<float[]> Times = new SigParamDiff<float[]>("Positions");
         SigParamDiff<float[]> Values = new SigParamDiff<float[]>("Values");
-        //SigParam<bool> EventType = new SigParam<bool>("Is Bang");
+        SigParamDiff<bool> IsBang = new SigParamDiff<bool>("Is Bang");
         
         //output
         SigParam<double> Position = new SigParam<double>("Position", true);
@@ -134,6 +144,7 @@ namespace VVVV.Audio
             Times.ValueChanged = TimesChanged;
             Values.ValueChanged = ValuesChanged;
             Length.ValueChanged = LengthChanged;
+            IsBang.ValueChanged = IsBangChanged;
         }
 
         void LengthChanged(float obj)
@@ -151,11 +162,16 @@ namespace VVVV.Audio
             BuildSequence();
         }
         
+        void IsBangChanged(bool obj)
+        {
+            BuildSequence();
+        }
+        
         ValueSequence FSequence = null;
         void BuildSequence()
         {
             if(Times.Value != null && Values.Value != null && Length.Value > 0)
-                FSequence = new ValueSequence(Times.Value, Values.Value, Length.Value, AudioService.Engine);
+                FSequence = new ValueSequence(Times.Value, Values.Value, Length.Value, IsBang.Value, AudioService.Engine);
             else
                 FSequence = null;
         }
