@@ -87,6 +87,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AudioSignalOperator.cs" />
     <Compile Include="Routing\MatrixMixerSignal.cs" />
+    <Compile Include="Sinks\AudioToValueSignal.cs" />
     <Compile Include="Sinks\BufferOutSignal.cs" />
     <Compile Include="Sinks\FFTOutSignal.cs" />
     <Compile Include="Sinks\LevelMeterSignal.cs" />

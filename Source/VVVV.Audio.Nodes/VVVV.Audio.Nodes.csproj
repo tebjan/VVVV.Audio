@@ -98,6 +98,7 @@
     <Compile Include="Routing\EqualsNodesAudioSignal.cs" />
     <Compile Include="Routing\MatrixMixerNode.cs" />
     <Compile Include="Routing\SignalOperationNodes.cs" />
+    <Compile Include="Sinks\AudioToValueNode.cs" />
     <Compile Include="Sinks\AudioOutNode.cs" />
     <Compile Include="Sinks\BufferOutNode.cs" />
     <Compile Include="Sinks\FFTOutNode.cs" />

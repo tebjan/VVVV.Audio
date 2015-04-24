@@ -15,9 +15,8 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	
-	
-	[PluginInfo(Name = "Meter", Category = "VAudio", Version = "Sink", Help = "Calculates the max dBs", Tags = "A2V, Meter, dB, Level")]
+
+	[PluginInfo(Name = "Meter", Category = "VAudio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Meter, dB, Level")]
 	public class LevelMeterSignalNode : GenericAudioSinkNode<LevelMeterSignal>
 	{		
 		[Input("Smoothing")]
