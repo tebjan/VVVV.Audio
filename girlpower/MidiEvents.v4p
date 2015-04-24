@@ -1,11 +1,11 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug33.8.dtd" >
-   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\MidiEvents.v4p" systemname="MidiEvents" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\MidiEvents.v4p" scrollx="0" scrolly="-360">
-   <BOUNDS type="Window" left="9900" top="6000" width="9000" height="6000">
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\MidiEvents.v4p" systemname="MidiEvents" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\MidiEvents.v4p" scrollx="0" scrolly="0">
+   <BOUNDS type="Window" left="9900" top="6000" width="10290" height="10575">
    </BOUNDS>
    <PACK Name="addonpack" Version="33.8.0">
    </PACK>
    <NODE systemname="AudioEngine (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioEngine (VAudio)" componentmode="Hidden" id="4">
-   <BOUNDS type="Node" left="5640" top="3870" width="100" height="100">
+   <BOUNDS type="Node" left="7005" top="8085" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Driver" slicecount="1" values="|ASIO4ALL v2|">
    </PIN>
@@ -13,29 +13,19 @@
    </PIN>
    <PIN pinname="Time" visible="1">
    </PIN>
+   <PIN pinname="BPM" slicecount="1" values="107">
+   </PIN>
    </NODE>
    <NODE systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioOut (VAudio)" componentmode="Hidden" id="5">
-   <BOUNDS type="Node" left="2445" top="3615" width="100" height="100">
+   <BOUNDS type="Node" left="3540" top="6585" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
-   <NODE systemname="Osc (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Osc (VAudio Source)" componentmode="Hidden" id="6">
-   <BOUNDS type="Node" left="2430" top="2580" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Audio Out" visible="1">
-   </PIN>
-   <PIN pinname="Wave Form" slicecount="1" visible="1" values="PinkNoise">
-   </PIN>
-   <PIN pinname="Gain" slicecount="1" values="0.26">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="6" srcpinname="Audio Out" dstnodeid="5" dstpinname="Input">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="7" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="5580" top="2205" width="480" height="480">
+   <BOUNDS type="Box" left="7020" top="7365" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="5580" top="2205" width="0" height="0">
+   <BOUNDS type="Node" left="7020" top="7365" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
    </PIN>
@@ -53,9 +43,9 @@
    <LINK srcnodeid="7" srcpinname="Y Output Value" dstnodeid="4" dstpinname="Play">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="8" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="5640" top="4875" width="795" height="240">
+   <BOUNDS type="Box" left="7020" top="8565" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="5640" top="4875" width="0" height="0">
+   <BOUNDS type="Node" left="7020" top="8565" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -64,36 +54,188 @@
    </NODE>
    <LINK srcnodeid="4" srcpinname="Time" dstnodeid="8" dstpinname="Y Input Value">
    </LINK>
-   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="9" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Box" left="2715" top="1710" width="1590" height="270">
+   <NODE systemname="Note2Freq (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\modules\Note2Freq (VAudio).v4p" nodename="Note2Freq (VAudio)" componentmode="Hidden" id="15">
+   <BOUNDS type="Node" left="3810" top="2115" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Node" left="2715" top="1710" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" visible="1" values="PinkNoise">
+   <PIN pinname="Frequency" visible="1">
+   </PIN>
+   <PIN pinname="Note Number" slicecount="1" values="40" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="9" srcpinname="Output Enum" dstnodeid="6" dstpinname="Wave Form">
-   </LINK>
-   <NODE systemname="Meter (VAudio Sink)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Meter (VAudio Sink)" componentmode="Hidden" id="10">
-   <BOUNDS type="Node" left="3330" top="2925" width="100" height="100">
+   <NODE systemname="Select (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Select (VAudio)" componentmode="Hidden" id="20">
+   <BOUNDS type="Node" left="3540" top="6000" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="Level" visible="1">
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Select" slicecount="1" values="2">
    </PIN>
    </NODE>
-   <LINK srcnodeid="6" srcpinname="Audio Out" dstnodeid="10" dstpinname="Input">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="11" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="3810" top="3930" width="795" height="240">
+   <NODE systemname="TriggerSequence (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\modules\TriggerSequence (VAudio Source).v4p" nodename="TriggerSequence (VAudio Source)" componentmode="Hidden" id="65">
+   <BOUNDS type="Node" left="731" top="420" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Node" left="3810" top="3930" width="0" height="0">
+   <BOUNDS type="Box" left="0" top="0" width="5970" height="7705">
+   </BOUNDS>
+   <BOUNDS type="Window" left="3195" top="3480" width="8970" height="10230">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Position" visible="1">
+   </PIN>
+   <PIN pinname="Length" slicecount="1" values="0.25">
+   </PIN>
+   <PIN pinname="Duration To Next" slicecount="1" values="0.78">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="66" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="2070" top="975" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2070" top="975" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    </NODE>
-   <LINK srcnodeid="10" srcpinname="Level" dstnodeid="11" dstpinname="Y Input Value">
+   <LINK srcnodeid="65" srcpinname="Position" dstnodeid="66" dstpinname="Y Input Value">
+   </LINK>
+   <LINK srcnodeid="20" srcpinname="Output" dstnodeid="5" dstpinname="Input">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="73" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="4545" top="3720" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4545" top="3720" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1.52">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="MonoSynth (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\modules\MonoSynth (VAudio).v4p" nodename="%VVVV%\packs\VVVV.Audio\nodes\modules\MonoSynth (VAudio).v4p" componentmode="Hidden" id="74">
+   <BOUNDS type="Node" left="3531" top="5308" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="15" top="316" width="8725" height="9985">
+   </BOUNDS>
+   <BOUNDS type="Window" left="5895" top="5040" width="17010" height="11490">
+   </BOUNDS>
+   <PIN pinname="Frequency" visible="1">
+   </PIN>
+   <PIN pinname="Frequency Offset" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Osc 2 Detune" visible="1">
+   </PIN>
+   <PIN pinname="Osc 2 Detune Offset" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Filter Freq" visible="1">
+   </PIN>
+   <PIN pinname="Resonance" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="65" srcpinname="Audio Out" dstnodeid="74" dstpinname="Trigger">
+   </LINK>
+   <LINK srcnodeid="74" srcpinname="Audio Out" dstnodeid="20" dstpinname="Input">
+   </LINK>
+   <NODE systemname="V2A (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="V2A (VAudio Source)" componentmode="Hidden" id="75">
+   <BOUNDS type="Node" left="3795" top="4320" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Value" visible="1">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="15" srcpinname="Frequency" dstnodeid="75" dstpinname="Value">
+   </LINK>
+   <LINK srcnodeid="75" srcpinname="Audio Out" dstnodeid="74" dstpinname="Frequency">
+   </LINK>
+   <NODE systemname="V2A (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="V2A (VAudio Source)" componentmode="Hidden" id="76">
+   <BOUNDS type="Node" left="4545" top="4365" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Value" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="73" srcpinname="Y Output Value" dstnodeid="76" dstpinname="Value">
+   </LINK>
+   <LINK srcnodeid="76" srcpinname="Audio Out" dstnodeid="74" dstpinname="Osc 2 Detune">
+   </LINK>
+   <NODE systemname="Map (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\modules\Map (VAudio).v4p" nodename="%VVVV%\packs\VVVV.Audio\nodes\modules\Map (VAudio).v4p" componentmode="Hidden" id="78">
+   <BOUNDS type="Node" left="5837" top="3025" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3215" top="875" width="5245" height="4300">
+   </BOUNDS>
+   <BOUNDS type="Window" left="2430" top="5595" width="8880" height="8055">
+   </BOUNDS>
+   <PIN pinname="Audio In" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Destination Minimum" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Destination Maximum" slicecount="1" values="0.13">
+   </PIN>
+   </NODE>
+   <NODE id="77" systemname="LFO (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\modules\LFO (VAudio).v4p" nodename="LFO (VAudio)" componentmode="Hidden">
+   <PIN pinname="Period" slicecount="1" values="1.5">
+   </PIN>
+   <PIN pinname="Wave Form" slicecount="1" values="Sine">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <BOUNDS type="Node" left="5835" top="2370" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="77" srcpinname="Audio Out" dstnodeid="78" dstpinname="Audio In">
+   </LINK>
+   <LINK srcnodeid="78" srcpinname="Audio Out" dstnodeid="74" dstpinname="Filter Frequency">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="80" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="6015" top="3810" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="6015" top="3810" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.17">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Reso">
+   </PIN>
+   </NODE>
+   <NODE systemname="V2A (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="V2A (VAudio Source)" componentmode="Hidden" id="79">
+   <BOUNDS type="Node" left="6015" top="4455" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Value" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="80" srcpinname="Y Output Value" dstnodeid="79" dstpinname="Value">
+   </LINK>
+   <LINK srcnodeid="79" srcpinname="Audio Out" dstnodeid="74" dstpinname="Resonance">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="81" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="3795" top="1380" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3795" top="1380" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="38">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="81" srcpinname="Y Output Value" dstnodeid="15" dstpinname="Note Number">
    </LINK>
    </PATCH>
