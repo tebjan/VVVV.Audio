@@ -94,6 +94,7 @@ namespace VVVV.Audio.VST
 
         public string[] ProgramNames = new string[0];
 
+        bool FIsSynth;
         protected void Load(string filename)
         {
             if (File.Exists(filename))
@@ -107,7 +108,8 @@ namespace VVVV.Audio.VST
                 PluginContext.PluginCommandStub.MainsChanged(true);
                 PluginContext.PluginCommandStub.SetSampleRate(WaveFormat.SampleRate);
                 PluginContext.PluginCommandStub.SetBlockSize(AudioService.Engine.Settings.BufferSize);
-
+                FIsSynth = PluginContext.PluginInfo.Flags.HasFlag(VstPluginFlags.IsSynth);
+                
                 PluginContext.PluginCommandStub.StartProcess();
 
                 FInputCount = PluginContext.PluginInfo.AudioInputCount;
@@ -424,8 +426,30 @@ namespace VVVV.Audio.VST
 		
         //process
         bool FDoProcess;
+
+        public bool Bypass 
+        {
+            get;
+            set;
+        }
+
 		protected override void FillBuffers(float[][] buffer, int offset, int count)
 		{
+		    
+		    if(Bypass) //effects just bypass
+		    {
+		        if(FIsSynth) //synths return silece
+		        {
+		            foreach(var buf in buffer)
+		            {
+		                buf.ReadSilence(offset, count);
+		            }
+		        }
+		        
+		        return;
+		    }
+		       
+		    
             if (PluginContext != null && FDoProcess)
             {
                 ManageBuffers(count);

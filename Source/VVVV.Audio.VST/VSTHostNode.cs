@@ -50,6 +50,9 @@ namespace VVVV.Nodes
 
         [Input("Auto Save", DefaultValue = 1)]
         public ISpread<bool> FAutosafeIn;
+        
+        [Input("Bypass", DefaultValue = 1)]
+        public ISpread<bool> FBypassIn;
 		
 		[Output("Audio Out", Order = -10)]
 		public Pin<AudioSignal> FOutputSignals;
@@ -317,6 +320,8 @@ namespace VVVV.Nodes
             }
 
             instance.SetMidiEventSource(FMidiEventsIn[i]);
+            
+            instance.Bypass = FBypassIn[i];
         }
 		
 		/// <summary>
