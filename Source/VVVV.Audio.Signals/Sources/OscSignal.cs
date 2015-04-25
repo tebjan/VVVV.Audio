@@ -145,14 +145,15 @@ namespace VVVV.Audio
 
         const double TwoPi = (Math.PI * 2);
         const double HalfPi = (Math.PI * 0.5);
-        double FPhase = 0;
+        double FPolyBLEPPhase = 0;
+        double FEPTRPhase = 0;
+        double FBasicPhase = 0;
         double T;
         
         // time step and triangle params
         void CalcFrequencyConsts(float freq)
         {
             T = freq / SampleRate;
-            CalcTriangleCoefficients(Slope.Value);
         }
 
         //triangle precalculated values
@@ -233,12 +234,13 @@ namespace VVVV.Audio
                 case WaveFormSelection.Sine:
                     for (int i = 0; i < count; i++)
                     {
-                        buffer[i] = (float)(Gain.Value * Math.Sin(FPhase*Math.PI));
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
+                        buffer[i] = (float)(Gain.Value * Math.Sin(FEPTRPhase*Math.PI));
                         
-                        FPhase += t2 + FMBuffer[i]*FMLevel.Value;
+                        FEPTRPhase += t2 + FMBuffer[i]*FMLevel.Value;
                         
-                        if (FPhase > 1)
-                            FPhase -= 2;
+                        if (FEPTRPhase > 1)
+                            FEPTRPhase -= 2;
 
                     }
                     break;
@@ -252,64 +254,66 @@ namespace VVVV.Audio
                     //per sample loop
                     for (int i = 0; i < count; i++)
                     {
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
+                        CalcTriangleCoefficients(Slope.Value);
                         double sample;
 
                         if (slope >= 0.99f) // rising saw
                         {
-                            FPhase = sync ? -1 : FPhase + t2 + FMBuffer[i]*FMLevel.Value;
-                            if (FPhase > 1.0f - T) //transition
+                            FEPTRPhase = sync ? -1 : FEPTRPhase + t2 + FMBuffer[i]*FMLevel.Value;
+                            if (FEPTRPhase > 1.0f - T) //transition
                             {
-                                sample = FPhase - (FPhase / T) + (1.0f / T) - 1.0f;
-                                FPhase -= 2.0f;
+                                sample = FEPTRPhase - (FEPTRPhase / T) + (1.0f / T) - 1.0f;
+                                FEPTRPhase -= 2.0f;
                             }
                             else
                             {
-                                sample = FPhase;
+                                sample = FEPTRPhase;
                             }
                         }
                         else if (slope <= 0.01f) // falling saw
                         {
-                            FPhase = sync ? -1 : FPhase + t2 + FMBuffer[i]*FMLevel.Value;
-                            if (FPhase > 1.0f - T) //transition
+                            FEPTRPhase = sync ? -1 : FEPTRPhase + t2 + FMBuffer[i]*FMLevel.Value;
+                            if (FEPTRPhase > 1.0f - T) //transition
                             {
-                                sample = -FPhase + (FPhase / T) - (1.0f / T) + 1.0f;
-                                FPhase -= 2.0f;
+                                sample = -FEPTRPhase + (FEPTRPhase / T) - (1.0f / T) + 1.0f;
+                                FEPTRPhase -= 2.0f;
                             }
                             else
                             {
-                                sample = -FPhase;
+                                sample = -FEPTRPhase;
                             }
                         }
                         else //triangle
                         {
                             if(FTriangleUp) //counting up
                             {
-                                FPhase = sync ? -1 : FPhase + t2*A + FMBuffer[i]*FMLevel.Value;
-                                if (FPhase > 1 - A*T)
+                                FEPTRPhase = sync ? -1 : FEPTRPhase + t2*A + FMBuffer[i]*FMLevel.Value;
+                                if (FEPTRPhase > 1 - A*T)
                                 {
                                     //transitionregion
-                                    sample = a2 * (FPhase * FPhase) + a1 * FPhase + a0;
-                                    FPhase = 1 + (FPhase - 1) * BoverA;
+                                    sample = a2 * (FEPTRPhase * FEPTRPhase) + a1 * FEPTRPhase + a0;
+                                    FEPTRPhase = 1 + (FEPTRPhase - 1) * BoverA;
                                     FTriangleUp = false;
                                 }
                                 else //linearregion
                                 {
-                                    sample = FPhase;
+                                    sample = FEPTRPhase;
                                 }
                             }
                             else //counting down
                             {
-                                FPhase = sync ? -1 : FPhase + t2*B + FMBuffer[i]*FMLevel.Value;
-                                if (FPhase < -1 - B*T)
+                                FEPTRPhase = sync ? -1 : FEPTRPhase + t2*B + FMBuffer[i]*FMLevel.Value;
+                                if (FEPTRPhase < -1 - B*T)
                                 {
                                     //transitionregion
-                                    sample = b2 * (FPhase * FPhase) + b1 * FPhase + b0;
-                                    FPhase = -1 + (FPhase + 1) * AoverB;
+                                    sample = b2 * (FEPTRPhase * FEPTRPhase) + b1 * FEPTRPhase + b0;
+                                    FEPTRPhase = -1 + (FEPTRPhase + 1) * AoverB;
                                     FTriangleUp = true;
                                 }
                                 else //linearregion
                                 {
-                                    sample = FPhase;
+                                    sample = FEPTRPhase;
                                 }
                             }
                         }
@@ -322,14 +326,15 @@ namespace VVVV.Audio
                     //per sample loop
                     for (int i = 0; i < count; i++)
                     {
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
                         //from http://www.yofiel.com/software/cycling-74-patches/antialiased-oscillators
                         // The ramp works in the range -1~+1, to prevent phase inversion
                         // by negative wraps from FM signals
-                        FPhase = sync ? -1 : FPhase + t2 + FMBuffer[i]*FMLevel.Value;
-                        if(FPhase > 1.0)
-                            FPhase -= 2.0;
+                        FEPTRPhase = sync ? -1 : FEPTRPhase + t2 + FMBuffer[i]*FMLevel.Value;
+                        if(FEPTRPhase > 1.0)
+                            FEPTRPhase -= 2.0;
                         
-                        var r2 = FPhase *0.5 + 0.5;       // ramp rescaled to 0-1 for EPTR calcs
+                        var r2 = FEPTRPhase *0.5 + 0.5;       // ramp rescaled to 0-1 for EPTR calcs
                         //            	if (inc2<.125){      // if Fc<sr/16 (2756Hz @441000 sr)
                         var d1 = t2 * 2;   // width of phase transition region (4*fc/sr)
                         buffer[i] = (float)(EPTR(r2, 2*t2, slope) * Gain.Value);
@@ -434,12 +439,12 @@ namespace VVVV.Audio
                     for (int i = 0; i < count; i++)
                     {
                         CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
-                        buffer[i] = (float)(Gain.Value * Math.Sin(FPhase*Math.PI));
+                        buffer[i] = (float)(Gain.Value * Math.Sin(FPolyBLEPPhase*Math.PI));
                         
-                        FPhase += t2 + FMBuffer[i]*FMLevel.Value;
+                        FPolyBLEPPhase += t2 + FMBuffer[i]*FMLevel.Value;
                         
-                        if (FPhase > 1)
-                            FPhase -= 2;
+                        if (FPolyBLEPPhase > 1)
+                            FPolyBLEPPhase -= 2;
 
                     }
                     break;
@@ -447,7 +452,7 @@ namespace VVVV.Audio
                     for (int i = 0; i < count; i++)
                     {
                         CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
-                        var phase = FPhase*0.5f + 0.5f;
+                        var phase = FPolyBLEPPhase*0.5f + 0.5f;
                         //var sample = AudioUtils.Triangle(phase, slope);
                         
                         // Start with naive triangle.
@@ -472,10 +477,10 @@ namespace VVVV.Audio
                         phase2 = phase2 - Math.Floor(phase2);
                         sample = sample - scale * PolyBLAMP(phase2, T);
                         
-                        FPhase += t2 + FMBuffer[i]*FMLevel.Value;
+                        FPolyBLEPPhase += t2 + FMBuffer[i]*FMLevel.Value;
 
-                        if (FPhase >= 1)
-                            FPhase -= 2f;
+                        if (FPolyBLEPPhase >= 1)
+                            FPolyBLEPPhase -= 2f;
                         
                         buffer[i] = (float)(Gain.Value * sample);
                     }
@@ -487,19 +492,19 @@ namespace VVVV.Audio
                        // Start with naive PW square.
                        double sample;
                        
-                       sample = FPhase < slope ? 1 : -1;
+                       sample = FPolyBLEPPhase < slope ? 1 : -1;
                     
                        // Correct rising discontinuity.
-                       sample = sample + PolyBLEPSquare(FPhase, T);
+                       sample = sample + PolyBLEPSquare(FPolyBLEPPhase, T);
                     
                        // Correct falling discontinuity.
-                       double phase2 = FPhase + 1 - slope;
+                       double phase2 = FPolyBLEPPhase + 1 - slope;
                        phase2 = phase2 - Math.Floor(phase2);
                        sample = sample - PolyBLEPSquare(phase2, T);
                     
                        // Increment phase for next sample.
-                       FPhase += T;
-                       FPhase -= Math.Floor(FPhase);
+                       FPolyBLEPPhase += T;
+                       FPolyBLEPPhase -= Math.Floor(FPolyBLEPPhase);
                     
                        // Output current sample.
                        buffer[i] = (float)(sample * Gain.Value);
@@ -511,11 +516,11 @@ namespace VVVV.Audio
                     {
                         CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
                        
-                        var naiveSaw = FPhase * 2 - 1;
-                        buffer[i] = (float)((naiveSaw - PolyBLEPSaw(FPhase, T)) * Gain.Value);
+                        var naiveSaw = FPolyBLEPPhase * 2 - 1;
+                        buffer[i] = (float)((naiveSaw - PolyBLEPSaw(FPolyBLEPPhase, T)) * Gain.Value);
                         
-                        FPhase += T;
-                        FPhase -= Math.Floor(FPhase);
+                        FPolyBLEPPhase += T;
+                        FPolyBLEPPhase -= Math.Floor(FPolyBLEPPhase);
                     }
                     break;
             }
@@ -531,50 +536,54 @@ namespace VVVV.Audio
                 case WaveFormSelection.Sine:
                     for (int i = 0; i < count; i++)
                     {
-                        buffer[i] = (float)(Gain.Value * Math.Sin(FPhase*Math.PI));
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
+                        buffer[i] = (float)(Gain.Value * Math.Sin(FBasicPhase*Math.PI));
                         
-                        FPhase += t2 + FMBuffer[i]*FMLevel.Value;
+                        FBasicPhase += t2 + FMBuffer[i]*FMLevel.Value;
                         
-                        if (FPhase > 1)
-                            FPhase -= 2;
+                        if (FBasicPhase > 1)
+                            FBasicPhase -= 2;
 
                     }
                     break;
                 case WaveFormSelection.Triangle:
                     for (int i = 0; i < count; i++)
                     {
-                        var phase = FPhase*0.5f + 0.5f;
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
+                        var phase = FBasicPhase*0.5f + 0.5f;
 
                         buffer[i] =  (float)(Gain.Value * AudioUtils.Triangle(phase, slope));
                         
-                        FPhase += t2 + FMBuffer[i]*FMLevel.Value;
+                        FBasicPhase += t2 + FMBuffer[i]*FMLevel.Value;
 
-                        if (FPhase >= 1)
-                            FPhase -= 2f;
+                        if (FBasicPhase >= 1)
+                            FBasicPhase -= 2f;
                     }
                     break;
                 case WaveFormSelection.Square:
                     for (int i = 0; i < count; i++)
                     {
-                        buffer[i] = FPhase < 2*slope ? Gain.Value : -Gain.Value;
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
+                        buffer[i] = FBasicPhase < 2*slope ? Gain.Value : -Gain.Value;
                         
-                        FPhase += t2 + FMBuffer[i]*FMLevel.Value;
+                        FBasicPhase += t2 + FMBuffer[i]*FMLevel.Value;
 
-                        if (FPhase >= 2.0f)
-                            FPhase -= 2.0f;
+                        if (FBasicPhase >= 2.0f)
+                            FBasicPhase -= 2.0f;
                     }
                    
                     break;
                 case WaveFormSelection.Sawtooth:
                     for (int i = 0; i < count; i++)
                     {
-                        buffer[i] = (float)(Gain.Value * FPhase);
+                        CalcFrequencyConsts(FreqBuffer[i] + FrequencyOffset.Value);
+                        buffer[i] = (float)(Gain.Value * FBasicPhase);
                         
-                        FPhase += t2 + FMBuffer[i]*FMLevel.Value;
+                        FBasicPhase += t2 + FMBuffer[i]*FMLevel.Value;
                         
-                        if (FPhase > 1.0f)
+                        if (FBasicPhase > 1.0f)
                         {
-                            FPhase -= 2.0f;
+                            FBasicPhase -= 2.0f;
                         }
 
                     }
