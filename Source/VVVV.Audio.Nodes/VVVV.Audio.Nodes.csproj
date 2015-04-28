@@ -89,8 +89,10 @@
     <Compile Include="Buffers\BufferWriterNode.cs" />
     <Compile Include="Buffers\CreateBufferNode.cs" />
     <Compile Include="AutoAudioSignalNode.cs" />
+    <Compile Include="Filters\OnePoleLowpassNode.cs" />
     <Compile Include="Filters\HQFilterSignalNode.cs" />
     <Compile Include="Filters\ResampleNode.cs" />
+    <Compile Include="Filters\WaveShaperNode.cs" />
     <Compile Include="Misc\Lin2dBNodes.cs" />
     <Compile Include="Misc\WaveFormSpreadNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

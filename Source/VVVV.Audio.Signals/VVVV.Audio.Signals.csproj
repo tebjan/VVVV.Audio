@@ -82,6 +82,8 @@
     <Compile Include="Filters\AnalogModelingFilterSignal.cs" />
     <Compile Include="Filters\R8BrainSampleRateConverter.cs" />
     <Compile Include="Filters\ResampleSignal.cs" />
+    <Compile Include="Filters\WaveShaperSignal.cs" />
+    <Compile Include="Filters\OnePoleLowPassSignal.cs" />
     <Compile Include="Misc\WaveFormSignal.cs" />
     <Compile Include="MultiChannelInputSignal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

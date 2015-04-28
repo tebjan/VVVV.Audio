@@ -49,10 +49,10 @@ namespace VVVV.Nodes
 		public IDiffSpread<string> FFilename;
 
         [Input("Auto Save", DefaultValue = 1)]
-        public ISpread<bool> FAutosafeIn;
+        public IDiffSpread<bool> FAutosafeIn;
         
-        [Input("Bypass", DefaultValue = 1)]
-        public ISpread<bool> FBypassIn;
+        [Input("Bypass")]
+        public IDiffSpread<bool> FBypassIn;
 		
 		[Output("Audio Out", Order = -10)]
 		public Pin<AudioSignal> FOutputSignals;

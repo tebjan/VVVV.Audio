@@ -445,6 +445,30 @@ namespace VVVV.Audio.VST
 		                buf.ReadSilence(offset, count);
 		            }
 		        }
+		        else
+		        {
+		            var minChannels = Math.Min(FInputCount, FOutputCount);    
+		            
+		            for (int b = 0; b < minChannels; b++)
+                    {
+                        var inSig = FInput[b];
+                        if (inSig != null)
+                        {
+                            //read input signals
+                            inSig.Read(buffer[b], offset, count);
+                        }
+                    }
+		            
+		            if(FOutputCount > FInputCount)
+		            {
+		                var remains = FOutputCount - FInputCount;
+		                for(int i = 0; i < remains; i++)
+		                {
+		                    buffer[i + minChannels - 1] = buffer[i % minChannels];
+		                }
+		            }
+		        }
+		            
 		        
 		        return;
 		    }

@@ -1,6 +1,6 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha33.8.dtd" >
-   <PATCH nodename="C:\documents\Google Drev\VAudio\Sune\Modules\TriggerSequence (VAudio Source).v4p" systemname="TriggerSequence (VAudio Source)" filename="C:\documents\Google Drev\VAudio\Sune\Modules\TriggerSequence (VAudio Source).v4p" scrollx="0" scrolly="0">
-   <BOUNDS type="Window" left="11160" top="3525" width="8970" height="10230">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug33.8.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\TriggerSequence (VAudio Source).v4p" systemname="TriggerSequence (VAudio Source)" filename="C:\documents\Google Drev\VAudio\Sune\Modules\TriggerSequence (VAudio Source).v4p" scrollx="0" scrolly="0">
+   <BOUNDS type="Window" left="3195" top="3480" width="8970" height="10230">
    </BOUNDS>
    <PACK Name="addonpack" Version="33.8.0">
    </PACK>
@@ -39,7 +39,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="4335" top="1035" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.99">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.78">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -81,7 +81,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="450" top="1065" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.25">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -231,5 +231,33 @@
    <LINK srcnodeid="5" srcpinname="Output" dstnodeid="18" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="18" srcpinname="Count" dstnodeid="0" dstpinname="Positions Bin Size">
+   </LINK>
+   <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="19">
+   <BOUNDS type="Node" left="3975" top="7470" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Position" dstnodeid="19" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="7" srcpinname="Y Output Value" dstnodeid="19" dstpinname="Input 2">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="20" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="4335" top="8100" width="705" height="270">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4335" top="8100" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Phase">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="19" srcpinname="Output" dstnodeid="20" dstpinname="Y Input Value">
    </LINK>
    </PATCH>

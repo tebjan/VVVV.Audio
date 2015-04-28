@@ -79,15 +79,15 @@
    </PIN>
    <PIN pinname="Current Stage" visible="1">
    </PIN>
-   <PIN pinname="Attack" slicecount="1" values="0.03" visible="1">
+   <PIN pinname="Attack" slicecount="1" visible="1" values="0.03">
    </PIN>
-   <PIN pinname="Decay" slicecount="1" values="0.08" visible="1">
+   <PIN pinname="Decay" slicecount="1" visible="1" values="0.08">
    </PIN>
-   <PIN pinname="Sustain" slicecount="1" values="0.11" visible="1">
+   <PIN pinname="Sustain" slicecount="1" visible="1" values="0.11">
    </PIN>
-   <PIN pinname="Release" slicecount="1" values="0.19" visible="1">
+   <PIN pinname="Release" slicecount="1" visible="1" values="0.19">
    </PIN>
-   <PIN pinname="Slope" slicecount="1" values="0" visible="1">
+   <PIN pinname="Slope" slicecount="1" visible="1" values="0">
    </PIN>
    <PIN pinname="Trigger" visible="1" slicecount="1" values="||">
    </PIN>
@@ -123,19 +123,19 @@
    </PIN>
    <PIN pinname="Current Stage" visible="1">
    </PIN>
-   <PIN pinname="Attack" slicecount="1" values="0.02" visible="1">
+   <PIN pinname="Attack" slicecount="1" visible="1" values="0.02">
    </PIN>
-   <PIN pinname="Decay" slicecount="1" values="0.01" visible="1">
+   <PIN pinname="Decay" slicecount="1" visible="1" values="0.01">
    </PIN>
-   <PIN pinname="Sustain" slicecount="1" values="0.02" visible="1">
+   <PIN pinname="Sustain" slicecount="1" visible="1" values="0.02">
    </PIN>
-   <PIN pinname="Release" slicecount="1" values="0.05" visible="1">
+   <PIN pinname="Release" slicecount="1" visible="1" values="0.05">
    </PIN>
-   <PIN pinname="Slope" slicecount="1" values="-2.19" visible="1">
+   <PIN pinname="Slope" slicecount="1" visible="1" values="-2.19">
    </PIN>
    <PIN pinname="Min" slicecount="1" values="0">
    </PIN>
-   <PIN pinname="Max" slicecount="1" values="0.58" visible="1">
+   <PIN pinname="Max" slicecount="1" visible="1" values="0.58">
    </PIN>
    <PIN pinname="Trigger" visible="1" slicecount="1" values="||">
    </PIN>

@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50debug33.8.dtd" >
-   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\MidiEvents.v4p" systemname="MidiEvents" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\MidiEvents.v4p" scrollx="765" scrolly="2085">
-   <BOUNDS type="Window" left="14820" top="5370" width="10365" height="8310">
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\MonoSynth (VAudio) help.v4p" systemname="MonoSynth (VAudio) help" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\MonoSynth (VAudio) help.v4p" scrollx="0" scrolly="570">
+   <BOUNDS type="Window" left="5895" top="4755" width="12855" height="9225">
    </BOUNDS>
    <PACK Name="addonpack" Version="33.8.0">
    </PACK>
@@ -65,7 +65,7 @@
    </PIN>
    </NODE>
    <NODE systemname="Select (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Select (VAudio)" componentmode="Hidden" id="20">
-   <BOUNDS type="Node" left="2850" top="7230" width="100" height="100">
+   <BOUNDS type="Node" left="2865" top="6375" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
@@ -149,10 +149,10 @@
    </PIN>
    <PIN pinname="Resonance" visible="1">
    </PIN>
-   <PIN pinname="Audio Out" visible="1">
-   </PIN>
    </NODE>
    <LINK srcnodeid="65" srcpinname="Audio Out" dstnodeid="74" dstpinname="Trigger">
+   </LINK>
+   <LINK srcnodeid="74" srcpinname="Audio Out" dstnodeid="20" dstpinname="Input">
    </LINK>
    <NODE systemname="V2A (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="V2A (VAudio Source)" componentmode="Hidden" id="75">
    <BOUNDS type="Node" left="3795" top="4320" width="100" height="100">
@@ -259,21 +259,5 @@
    </BOUNDS>
    </NODE>
    <LINK srcnodeid="20" srcpinname="Output" dstnodeid="5" dstpinname="Input">
-   </LINK>
-   <NODE systemname="WaveShaper (VAudio Filter)" nodename="WaveShaper (VAudio Filter)" componentmode="Hidden" id="83" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll">
-   <BOUNDS type="Node" left="2865" top="6405" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Audio Out" visible="1">
-   </PIN>
-   <PIN pinname="Curve" slicecount="1" values="TarrabiaDeJong">
-   </PIN>
-   <PIN pinname="Distortion" slicecount="1" values="0.01">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="74" srcpinname="Audio Out" dstnodeid="83" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="83" srcpinname="Audio Out" dstnodeid="20" dstpinname="Input">
    </LINK>
    </PATCH>

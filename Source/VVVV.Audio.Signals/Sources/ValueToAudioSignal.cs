@@ -15,7 +15,7 @@ namespace VVVV.Audio
     /// </summary>
     public class ValueToAudioSignal : AudioSignal
     {
-        SigParam<double> FValue = new SigParam<double>("Value");
+        SigParam<float> FValue = new SigParam<float>("Value");
         
         public ValueToAudioSignal()
         {
@@ -25,7 +25,7 @@ namespace VVVV.Audio
         {
             for (int i = 0; i < count; i++) 
             {
-                buffer[i] = (float)FValue.Value;
+                buffer[i] = FValue.Value;
             }
         }
     }

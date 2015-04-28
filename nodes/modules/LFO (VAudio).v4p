@@ -15,7 +15,7 @@
    </PIN>
    <PIN pinname="Waveform" visible="1">
    </PIN>
-   <PIN pinname="Anti-Aliasing Method" slicecount="1" values="PolyBLEP">
+   <PIN pinname="Anti-Aliasing Method" slicecount="1" values="None">
    </PIN>
    <PIN pinname="Symmetry" slicecount="1" values="0.5">
    </PIN>
