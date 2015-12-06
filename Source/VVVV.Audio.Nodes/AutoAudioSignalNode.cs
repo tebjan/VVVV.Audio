@@ -20,6 +20,14 @@ namespace VVVV.Nodes
         
     }
     
+    public class AutoAudioSinkSignalNode<TSinkSignal> : AutoAudioSignalNode<TSinkSignal> where TSinkSignal : SinkSignal, new()
+    {
+        protected override PinVisibility GetOutputVisiblilty()
+        {
+            return PinVisibility.False;
+        }
+    }
+    
     public class AutoAudioSignalNode<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : AudioSignal, new()
 	{
 	    //static pin storage

@@ -42,7 +42,7 @@ namespace VVVV.Nodes
 		[Input("Input", BinSize = 2)]
 		public IDiffSpread<ISpread<AudioSignal>> FInputSignals;
 
-        [Input("Midi Message")]
+        [Input("Midi Events")]
         public IDiffSpread<MidiEvents> FMidiEventsIn;
 		
 		[Input("Filename", StringType = StringType.Filename, FileMask="VST Plugin (*.dll, *.vst3)|*.dll;*.vst3")]

@@ -107,7 +107,7 @@ namespace VVVV.Nodes
             	instance.FAudioFile.Volume = FVolume[i];
             }
             
-            if(FPlay.IsChanged)
+            //if(FPlay.IsChanged)
             {
             	instance.FPlay = FPlay[i];
             }
@@ -151,7 +151,7 @@ namespace VVVV.Nodes
 				instance.FAudioFile.CurrentTime = TimeSpan.FromSeconds(FSeekPosition[i]);
 			}
 			
-			if(FSpeed.IsChanged)
+			//if(FSpeed.IsChanged)
 				instance.Speed = FSpeed[i];
 		}
 		

@@ -12,7 +12,8 @@ namespace VVVV.Audio
     public enum WaveShaperCurve
     {
         TarrabiaDeJong,
-        Watte
+        Watte,
+        WilliamK
     }
         
     
@@ -42,8 +43,12 @@ namespace VVVV.Audio
                 case WaveShaperCurve.Watte:
                     Watte(buffer, offset, count);
                     break;
+                case WaveShaperCurve.WilliamK:
+                    WilliamK(buffer, offset, count);
+                    break;
             }
         }
+        
                 
         void TarrabiaDeJong(float[] buffer, int offset, int count)
         {
@@ -70,6 +75,23 @@ namespace VVVV.Audio
                     buffer[i] = 1;
                 else
                     buffer[i] = (float)Math.Sin(z*x)*s;
+            }
+        }
+        
+        void WilliamK(float[] buffer, int offset, int count)
+        {
+            var drive = FDistortion.Value;
+            var a = 1 - (drive * 0.125f);
+
+            FAudioIn.Read(buffer, offset, count);
+            for (int i = 0; i < count; i++)
+            {
+                var input = buffer[i];
+                
+                if(input >= 0)
+                    buffer[i] = ((((float)Math.Sqrt(input) - input) * drive) + input) * a;
+                else
+                    buffer[i] = ((((float)-Math.Sqrt(-input) - input) * drive) + input) * a;
             }
         }
         

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
-  <Import Project="..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.props" Condition="Exists('..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.props')" />
+  <Import Project="..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.props" Condition="Exists('..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.props')" />
   <PropertyGroup>
     <ProjectGuid>{737AD730-2A7F-4F83-8EEB-25253006D957}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -9,9 +9,10 @@
     <OutputType>Library</OutputType>
     <RootNamespace>VVVV.Audio.MIDI</RootNamespace>
     <AssemblyName>VVVV.Audio.MIDI</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <NuGetPackageImportStamp>30926715</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
     <NoWin32Manifest>False</NoWin32Manifest>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
@@ -57,6 +58,10 @@
       <HintPath>..\Dependencies\AnyCPU\NAudio\NAudio.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Sanford.Multimedia.Midi, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sanford.Multimedia.Midi.6.0.0.1\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition.CodePlex">
       <HintPath>..\packages\VVVV.System.ComponentModel.Composition.Codeplex.2.5.0\lib\net40\System.ComponentModel.Composition.CodePlex.dll</HintPath>
@@ -66,35 +71,31 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net45\System.Reactive.PlatformServices.dll</HintPath>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VVVV.Core">
-      <HintPath>..\packages\VVVV.Core.33.3.0\lib\net40\VVVV.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="VVVV.Nodes.Generic">
-      <HintPath>..\packages\VVVV.Nodes.Generic.33.3.0\build\net40\lib\x86\VVVV.Nodes.Generic.dll</HintPath>
+    <Reference Include="VVVV.Core, Version=34.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VVVV.Core.34.101.0-develop-1390\lib\net46\VVVV.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.PluginInterfaces">
       <HintPath>..\packages\VVVV.PluginInterfaces.33.3.0\build\net40\lib\x86\VVVV.PluginInterfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VVVV.Utils">
-      <HintPath>..\packages\VVVV.Utils.33.3.0\lib\net40\VVVV.Utils.dll</HintPath>
+    <Reference Include="VVVV.Utils, Version=34.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VVVV.Utils.34.101.0-develop-1390\lib\net46\VVVV.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -111,19 +112,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Signals\MidiSequenceSignal.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Signals" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\Sanford.Multimedia.Midi\Midi\Sanford.Multimedia.Midi.csproj">
-      <Project>{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}</Project>
-      <Name>Sanford.Multimedia.Midi</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\VVVV.Audio.Core\VVVV.Audio.Core.csproj">
       <Project>{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}</Project>
       <Name>VVVV.Audio.Core</Name>
@@ -138,12 +132,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.props'))" />
-    <Error Condition="!Exists('..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets'))" />
-    <Error Condition="!Exists('..\packages\VVVV.PluginInterfaces.33.3.0\build\net40\VVVV.PluginInterfaces.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.PluginInterfaces.33.3.0\build\net40\VVVV.PluginInterfaces.targets'))" />
+    <Error Condition="!Exists('..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.props'))" />
+    <Error Condition="!Exists('..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.targets'))" />
+    <Error Condition="!Exists('..\packages\VVVV.PluginInterfaces.34.101.0-develop-1390\build\net46\VVVV.PluginInterfaces.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.PluginInterfaces.34.101.0-develop-1390\build\net46\VVVV.PluginInterfaces.targets'))" />
   </Target>
-  <Import Project="..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets" Condition="Exists('..\packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets')" />
-  <Import Project="..\packages\VVVV.PluginInterfaces.33.3.0\build\net40\VVVV.PluginInterfaces.targets" Condition="Exists('..\packages\VVVV.PluginInterfaces.33.3.0\build\net40\VVVV.PluginInterfaces.targets')" />
+  <Import Project="..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.targets" Condition="Exists('..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.targets')" />
+  <Import Project="..\packages\VVVV.PluginInterfaces.34.101.0-develop-1390\build\net46\VVVV.PluginInterfaces.targets" Condition="Exists('..\packages\VVVV.PluginInterfaces.34.101.0-develop-1390\build\net46\VVVV.PluginInterfaces.targets')" />
 </Project>

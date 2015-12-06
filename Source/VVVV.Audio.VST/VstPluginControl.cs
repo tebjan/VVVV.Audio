@@ -129,12 +129,20 @@ namespace VVVV.Nodes.Nodes.VST
 
         private bool HasEditor(VstPluginContext ctx)
         {
-            if (ctx.PluginInfo.Flags.HasFlag(VstPluginFlags.HasEditor))
-                return true;
+            //if (ctx.PluginInfo.Flags.HasFlag(VstPluginFlags.HasEditor))
+            //    return true;
 
-            var rect = new Rectangle();
-            ctx.PluginCommandStub.EditorGetRect(out rect);
-            return rect.Width > 0;
+            try
+            {
+                var rect = new Rectangle();
+                ctx.PluginCommandStub.EditorGetRect(out rect);
+                return rect.Width > 0;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
 
         void SetInfo()

@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta33.7.dtd" >
    <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\VSTSynth.v4p" systemname="VSTSynth" filename="C:\vvvv\vvvv_45beta31.2_x86\packs\AudioAlpha\girlpower\VSTSynth.v4p">
    <BOUNDS type="Window" left="1440" top="450" width="9015" height="10530">
    </BOUNDS>
@@ -125,9 +125,9 @@
    <LINK srcnodeid="74" srcpinname="Output" dstnodeid="73" dstpinname="Input 1">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="75" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="4545" top="4545" width="795" height="240">
+   <BOUNDS type="Box" left="5580" top="4500" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="4545" top="4545" width="0" height="0">
+   <BOUNDS type="Node" left="5580" top="4500" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.5">
    </PIN>
@@ -247,7 +247,7 @@
    </PIN>
    <PIN pinname="Safe Data" slicecount="1" values="zgANAD0AAABx9lcK2I1efLc92DpRPXdo3LBrGQQiLk6qh1p+aItzOWDYW2Xw8jQRznGveH33egu8G3A3rt/9SyMqFGNB7KcM88ZMY5T/iC+yuTcpYBalOgm2bnf3+oYEoOwkHNXWZVZGFb0EbvmNYZl4yisii0FMfJDQYUvW+iOM1KVO88wpU+YRNF4SoMlHg3sAAKwKQ22L/6x7cdy4Ss/GKX9nGJYmmJyILRcOugVTYWYQne/xAw8er28kFttivlxlOTozACu3kBEXIXO/amd1/35JbYYAZ2PADDrHkjMnC7MilmDjEPSURHEUelx2mpMDXuHKHB1Ix4onAQAAAP/+/wpTAHcAZQBlAHQAIABTAGkAbgBlAAAAAAABAAAAAAAAAFIAAAL//v8ABgAAAAEAAAAAAAAAQAAAAv/+/wAAAAAAAQAAAAIAAABuAAAC//7/AAYAAAABAAAAzNnqPgoAAAL//v8ABgAAAAEAAAChe4c/HQAAAv/+/wAGAAAAAQAAANO2J0AaAAAC//7/AAYAAAABAAAAuUSTPwgAAAL//v8ABgAAAAEAAAC9DbxAGQAAAv/+/wAGAAAAAQAAAC8XEUD///////7/AAYAAAABAAAArr1ywP///////v8AAQAAAAEAAAD//v8CNwA2AP///////v8ABgAAAAEAAACUguq////////+/wAGAAAAAQAAALLjtD////////7/AAYAAAABAAAAyL5DP////////v8ABgAAAAEAAACTG1PA///////+/wAGAAAAAQAAAFYrC8D///////7/AAYAAAABAAAAEsLWOv///////v8ABgAAAAEAAAAEkMo////////+/wAGAAAAAQAAAJ6KQL////////7/AAEAAAABAAAA//7/AjYANAD///////7/AAYAAAABAAAAAAAAgP///////v8ABgAAAAEAAAA9PRxG///////+/wAGAAAAAQAAAIQ97T////////7/AAYAAAABAAAAfnvCP////////v8ABgAAAAEAAAADJ7hAUwAAAv/+/wAGAAAAAQAAAAAAAAADAAAC//7/AAAAAAABAAAABAAAAEoAAAL//v8ABgAAAAEAAAAAAABBBwAAAv/+/wAAAAAAAQAAAAYAAABXAAAC//7/AAAAAAABAAAAAAAAABMAAAL//v8AAAAAAAEAAAAAAAAARgAAAv/+/wAAAAAAAQAAAAYAAABUAAAC//7/AAYAAAABAAAA91mZQEkAAAL//v8ABgAAAAEAAAAAACBBHgAAAv/+/wAAAAAAAQAAAAEAAABsAAAC//7/AAYAAAABAAAAAAAgQVYAAAL//v8AAAAAAAEAAAABAAAAGAAAAv/+/wAAAAAAAQAAAAQAAABbAAAC//7/AAYAAAABAAAAtDfzQCAAAAL//v8ABgAAAAEAAAAtk8k+UQAAAv/+/wAGAAAAAQAAAGu/7D8UAAAC//7/AAYAAAABAAAAAJbJu1UAAAL//v8AAAAAAAEAAAAIAAAASAAAAv/+/wAGAAAAAQAAAHu7XT9qAAAC//7/AAAAAAABAAAAAQAAAG8AAAL//v8ABgAAAAEAAAAOIxBBZgAAAv/+/wAGAAAAAQAAAAAAgD8cAAAC//7/AAYAAAABAAAAIBAIQW0AAAL//v8ABgAAAAEAAACniMpAWgAAAv/+/wAAAAAAAQAAAAEAAABnAAAC//7/AAYAAAABAAAAobkdQBUAAAL//v8ABgAAAAEAAACJQqE/awAAAv/+/wAAAAAAAQAAAAIAAAAbAAAC//7/AAAAAAABAAAABQAAAGkAAAL//v8ABgAAAAEAAADDVMBARwAAAv/+/wAAAAAAAQAAAAoAAABNAAAC//7/AAYAAAABAAAAQXOiQEwAAAL//v8ABgAAAAEAAACmfz9AHwAAAv/+/wAAAAAAAQAAAAAAAABQAAAC//7/AAYAAAABAAAAgLv4vEsAAAL//v8ABgAAAAEAAAD+fr9AaAAAAv/+/wA=">
    </PIN>
-   <PIN pinname="Midi Message" visible="1">
+   <PIN pinname="Midi Message" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Midi Data 1" visible="1">
    </PIN>
@@ -364,4 +364,16 @@
    </LINK>
    <LINK srcnodeid="66" srcpinname="Output String" dstnodeid="60" dstpinname="Filename">
    </LINK>
+   <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="82">
+   <BOUNDS type="Node" left="4695" top="5745" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4695" top="5745" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="7380" top="9390" width="17415" height="5010">
+   </BOUNDS>
+   </NODE>
+   <PACK Name="dx11" Version="33.0">
+   </PACK>
+   <PACK Name="addonpack" Version="33.7.0">
+   </PACK>
    </PATCH>

@@ -4,9 +4,44 @@
         <name>VVVV.Audio.Core</name>
     </assembly>
     <members>
-        <member name="T:VVVV.Audio.AudioSignal">
+        <member name="P:VVVV.Audio.AudioEngine.InputBuffers">
             <summary>
-            Base class for signals which just generate audio
+            the buffers from the audio input
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioEngine.ChangeDriverSettings(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes the Audio Driver if necessary
+            </summary>
+            <param name="driverName"></param>
+            <param name="sampleRate"></param>
+            <param name="inputChannels"></param>
+            <param name="inputChannelOffset"></param>
+            <param name="outputChannels"></param>
+            <param name="outputChannelOffset"></param>
+        </member>
+        <member name="P:VVVV.Audio.AudioEngine.NeedsReset">
+            <summary>
+            If this is true the engine driver should be reset
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioEngine.GetInputBuffers(System.Single[][],NAudio.Wave.AsioAudioAvailableEventArgs)">
+            <summary>
+            Converts all the recorded audio into a buffer of 32 bit floating point samples
+            </summary>
+            <samples>The samples as 32 bit floating point, interleaved</samples>
+        </member>
+        <member name="T:VVVV.Audio.AudioService">
+            <summary>
+            Static and naive access to the AudioEngine
+            TODO: find better life time management
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.ICanCopyBuffer">
+            <summary>
+            Interface which provides buffer copy of the output.
+            This is needed when multiple signals have the output as input,
+            so the stream does not advance during frames.
             </summary>
         </member>
         <member name="T:VVVV.Audio.AudioSignalBase">
@@ -33,11 +68,9 @@
             </summary>
             <param name="owner"></param>
         </member>
-        <member name="T:VVVV.Audio.ICanCopyBuffer">
+        <member name="T:VVVV.Audio.AudioSignal">
             <summary>
-            Interface which provides buffer copy of the output.
-            This is needed when multiple signals have the output as input,
-            so the stream does not advance during frames.
+            Base class for signals which just generate audio
             </summary>
         </member>
         <member name="F:VVVV.Audio.AudioSignal.SampleRate">
@@ -73,39 +106,6 @@
             </summary>
             <param name="instance"></param>
             <returns></returns>
-        </member>
-        <member name="M:VVVV.Audio.AudioEngine.ChangeDriverSettings(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Initializes the Audio Driver if necessary
-            </summary>
-            <param name="driverName"></param>
-            <param name="sampleRate"></param>
-            <param name="inputChannels"></param>
-            <param name="inputChannelOffset"></param>
-            <param name="outputChannels"></param>
-            <param name="outputChannelOffset"></param>
-        </member>
-        <member name="M:VVVV.Audio.AudioEngine.GetInputBuffers(System.Single[][],NAudio.Wave.AsioAudioAvailableEventArgs)">
-            <summary>
-            Converts all the recorded audio into a buffer of 32 bit floating point samples
-            </summary>
-            <samples>The samples as 32 bit floating point, interleaved</samples>
-        </member>
-        <member name="P:VVVV.Audio.AudioEngine.InputBuffers">
-            <summary>
-            the buffers from the audio input
-            </summary>
-        </member>
-        <member name="P:VVVV.Audio.AudioEngine.NeedsReset">
-            <summary>
-            If this is true the engine driver should be reset
-            </summary>
-        </member>
-        <member name="T:VVVV.Audio.AudioService">
-            <summary>
-            Static and naive access to the AudioEngine
-            TODO: find better life time management
-            </summary>
         </member>
         <member name="T:VVVV.Audio.SigParamBase">
             <summary>
@@ -314,6 +314,11 @@
             <param name="count">Number of bytes to write</param>
             <returns>number of bytes written</returns>
         </member>
+        <member name="P:VVVV.Audio.CircularPullBuffer.PullCount">
+            <summary>
+            The amount of data to be pulled
+            </summary>
+        </member>
         <member name="M:VVVV.Audio.CircularPullBuffer.Pull(System.Int32)">
             <summary>
             Pulls a specified amount of samples from the input.
@@ -329,6 +334,16 @@
             <param name="count">Bytes to read</param>
             <returns>Number of bytes actually read</returns>
         </member>
+        <member name="P:VVVV.Audio.CircularPullBuffer.MaxLength">
+            <summary>
+            Maximum length of this circular buffer
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.CircularPullBuffer.Count">
+            <summary>
+            Number of bytes currently stored in the circular buffer
+            </summary>
+        </member>
         <member name="M:VVVV.Audio.CircularPullBuffer.Reset">
             <summary>
             Resets the buffer
@@ -340,19 +355,87 @@
             </summary>
             <param name="count">Bytes to advance</param>
         </member>
-        <member name="P:VVVV.Audio.CircularPullBuffer.PullCount">
+        <member name="T:VVVV.Audio.AudioFileReaderVVVV">
             <summary>
-            The amount of data to be pulled
+            AudioFileReader simplifies opening an audio file in NAudio
+            Simply pass in the filename, and it will attempt to open the
+            file and set up a conversion path that turns into PCM IEEE float.
+            ACM codecs will be used for conversion.
+            It provides a volume property and implements both WaveStream and
+            ISampleProvider, making it possibly the only stage in your audio
+            pipeline necessary for simple playback scenarios
             </summary>
         </member>
-        <member name="P:VVVV.Audio.CircularPullBuffer.MaxLength">
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.#ctor(System.String)">
             <summary>
-            Maximum length of this circular buffer
+            Initializes a new instance of AudioFileReader
+            </summary>
+            <param name="fileName">The file to open</param>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.CreateReaderStream(System.String,System.Boolean)">
+            <summary>
+            Creates the reader stream, supporting all filetypes in the core NAudio library,
+            and ensuring we are in PCM format
+            </summary>
+            <param name="fileName">File Name</param>
+        </member>
+        <member name="P:VVVV.Audio.AudioFileReaderVVVV.WaveFormat">
+            <summary>
+            WaveFormat of this stream
             </summary>
         </member>
-        <member name="P:VVVV.Audio.CircularPullBuffer.Count">
+        <member name="P:VVVV.Audio.AudioFileReaderVVVV.Length">
             <summary>
-            Number of bytes currently stored in the circular buffer
+            Length of this stream (in bytes)
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.AudioFileReaderVVVV.Position">
+            <summary>
+            Position of this stream (in bytes)
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads from this wave stream
+            </summary>
+            <param name="buffer">Audio buffer</param>
+            <param name="offset">Offset into buffer</param>
+            <param name="count">Number of bytes required</param>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.Read(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Reads audio from this sample provider
+            </summary>
+            <param name="buffer">Sample buffer</param>
+            <param name="offset">Offset into sample buffer</param>
+            <param name="count">Number of samples required</param>
+            <returns>Number of samples read</returns>
+        </member>
+        <member name="P:VVVV.Audio.AudioFileReaderVVVV.Volume">
+            <summary>
+            Gets or Sets the Volume of this AudioFileReader. 1.0f is full volume
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.SourceToDest(System.Int64)">
+            <summary>
+            Helper to convert source to dest bytes
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.DestToSource(System.Int64)">
+            <summary>
+            Helper to convert dest to source bytes
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.AudioFileReaderVVVV.Dispose(System.Boolean)">
+            <summary>
+            Disposes this AudioFileReader
+            </summary>
+            <param name="disposing">True if called from Dispose</param>
+        </member>
+        <member name="P:VVVV.Audio.WaveProviderToWaveStream.Length">
+            <summary>
+            Don't know the real length of the source, just return a big number
             </summary>
         </member>
         <member name="T:Lomont.LomontFFT">
@@ -405,6 +488,33 @@
             <param name="forward">true for a forward transform, false for                                        
             inverse transform</param>                                                                            
         </member>
+        <member name="P:Lomont.LomontFFT.A">
+            <summary>                                                                                            
+            Determine how scaling works on the forward and inverse transforms.                                   
+            For size N=2^n transforms, the forward transform gets divided by                                     
+            N^((1-a)/2) and the inverse gets divided by N^((1+a)/2). Common                                      
+            values for (A,B) are                                                                                 
+                ( 0, 1)  - default                                                                               
+                (-1, 1)  - data processing                                                                       
+                ( 1,-1)  - signal processing                                                                     
+            Usual values for A are 1, 0, or -1                                                                   
+            </summary>                                                                                           
+        </member>
+        <member name="P:Lomont.LomontFFT.B">
+            <summary>                                                                                            
+            Determine how phase works on the forward and inverse transforms.                                     
+            For size N=2^n transforms, the forward transform uses an                                             
+            exp(B*2*pi/N) term and the inverse uses an exp(-B*2*pi/N) term.                                      
+            Common values for (A,B) are                                                                          
+                ( 0, 1)  - default                                                                               
+                (-1, 1)  - data processing                                                                       
+                ( 1,-1)  - signal processing                                                                     
+            Abs(B) should be relatively prime to N.                                                              
+            Setting B=-1 effectively corresponds to conjugating both input and                                   
+            output data.                                                                                         
+            Usual values for B are 1 or -1.                                                                      
+            </summary>                                                                                           
+        </member>
         <member name="M:Lomont.LomontFFT.Scale(System.Double[],System.Int32,System.Boolean)">
             <summary>                                                                                            
             Scale data using n samples for forward and inverse transforms as needed                              
@@ -433,116 +543,6 @@
             <summary>                                                                                            
             Pre-computed sine/cosine tables for speed                                                            
             </summary>                                                                                           
-        </member>
-        <member name="P:Lomont.LomontFFT.A">
-            <summary>                                                                                            
-            Determine how scaling works on the forward and inverse transforms.                                   
-            For size N=2^n transforms, the forward transform gets divided by                                     
-            N^((1-a)/2) and the inverse gets divided by N^((1+a)/2). Common                                      
-            values for (A,B) are                                                                                 
-                ( 0, 1)  - default                                                                               
-                (-1, 1)  - data processing                                                                       
-                ( 1,-1)  - signal processing                                                                     
-            Usual values for A are 1, 0, or -1                                                                   
-            </summary>                                                                                           
-        </member>
-        <member name="P:Lomont.LomontFFT.B">
-            <summary>                                                                                            
-            Determine how phase works on the forward and inverse transforms.                                     
-            For size N=2^n transforms, the forward transform uses an                                             
-            exp(B*2*pi/N) term and the inverse uses an exp(-B*2*pi/N) term.                                      
-            Common values for (A,B) are                                                                          
-                ( 0, 1)  - default                                                                               
-                (-1, 1)  - data processing                                                                       
-                ( 1,-1)  - signal processing                                                                     
-            Abs(B) should be relatively prime to N.                                                              
-            Setting B=-1 effectively corresponds to conjugating both input and                                   
-            output data.                                                                                         
-            Usual values for B are 1 or -1.                                                                      
-            </summary>                                                                                           
-        </member>
-        <member name="T:VVVV.Audio.AudioFileReaderVVVV">
-            <summary>
-            AudioFileReader simplifies opening an audio file in NAudio
-            Simply pass in the filename, and it will attempt to open the
-            file and set up a conversion path that turns into PCM IEEE float.
-            ACM codecs will be used for conversion.
-            It provides a volume property and implements both WaveStream and
-            ISampleProvider, making it possibly the only stage in your audio
-            pipeline necessary for simple playback scenarios
-            </summary>
-        </member>
-        <member name="M:VVVV.Audio.AudioFileReaderVVVV.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of AudioFileReader
-            </summary>
-            <param name="fileName">The file to open</param>
-        </member>
-        <member name="M:VVVV.Audio.AudioFileReaderVVVV.CreateReaderStream(System.String,System.Boolean)">
-            <summary>
-            Creates the reader stream, supporting all filetypes in the core NAudio library,
-            and ensuring we are in PCM format
-            </summary>
-            <param name="fileName">File Name</param>
-        </member>
-        <member name="M:VVVV.Audio.AudioFileReaderVVVV.Read(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            Reads from this wave stream
-            </summary>
-            <param name="buffer">Audio buffer</param>
-            <param name="offset">Offset into buffer</param>
-            <param name="count">Number of bytes required</param>
-            <returns>Number of bytes read</returns>
-        </member>
-        <member name="M:VVVV.Audio.AudioFileReaderVVVV.Read(System.Single[],System.Int32,System.Int32)">
-            <summary>
-            Reads audio from this sample provider
-            </summary>
-            <param name="buffer">Sample buffer</param>
-            <param name="offset">Offset into sample buffer</param>
-            <param name="count">Number of samples required</param>
-            <returns>Number of samples read</returns>
-        </member>
-        <member name="M:VVVV.Audio.AudioFileReaderVVVV.SourceToDest(System.Int64)">
-            <summary>
-            Helper to convert source to dest bytes
-            </summary>
-        </member>
-        <member name="M:VVVV.Audio.AudioFileReaderVVVV.DestToSource(System.Int64)">
-            <summary>
-            Helper to convert dest to source bytes
-            </summary>
-        </member>
-        <member name="M:VVVV.Audio.AudioFileReaderVVVV.Dispose(System.Boolean)">
-            <summary>
-            Disposes this AudioFileReader
-            </summary>
-            <param name="disposing">True if called from Dispose</param>
-        </member>
-        <member name="P:VVVV.Audio.AudioFileReaderVVVV.WaveFormat">
-            <summary>
-            WaveFormat of this stream
-            </summary>
-        </member>
-        <member name="P:VVVV.Audio.AudioFileReaderVVVV.Length">
-            <summary>
-            Length of this stream (in bytes)
-            </summary>
-        </member>
-        <member name="P:VVVV.Audio.AudioFileReaderVVVV.Position">
-            <summary>
-            Position of this stream (in bytes)
-            </summary>
-        </member>
-        <member name="P:VVVV.Audio.AudioFileReaderVVVV.Volume">
-            <summary>
-            Gets or Sets the Volume of this AudioFileReader. 1.0f is full volume
-            </summary>
-        </member>
-        <member name="P:VVVV.Audio.WaveProviderToWaveStream.Length">
-            <summary>
-            Don't know the real length of the source, just return a big number
-            </summary>
         </member>
     </members>
 </doc>

@@ -6,6 +6,7 @@
  * 
  */
 using System;
+using VVVV.Utils.VMath;
 
 namespace VVVV.Audio
 {
@@ -25,7 +26,7 @@ namespace VVVV.Audio
         
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
-            var alpha = FAlpha.Value;
+            var alpha = (float)VMath.Clamp(FAlpha.Value, 0, 1);
             FAudioIn.Read(buffer, offset, count);
             for (int i = 0; i < count; i++) 
             {

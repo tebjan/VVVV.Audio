@@ -68,3 +68,5 @@ nodes/plugins/VVVV.Nodes.Generic.xml
 VVVV.Audio*.zip
 nodes/plugins/Sanford.Multimedia.Midi.xml
 nodes/plugins/VVVV.Audio.MIDI.*
+core/VVVV.Audio.*.dll
+nodes/plugins/VVVV.Audio.*

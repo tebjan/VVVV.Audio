@@ -2,24 +2,24 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <Import Project="..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.props" Condition="Exists('..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.props')" />
   <PropertyGroup>
-    <ProjectGuid>{B856AC71-61D0-4906-A04A-1BEB32AD5967}</ProjectGuid>
+    <ProjectGuid>{A4AEA69C-44CA-4B91-B6B7-E5401A7595E6}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
-    <RootNamespace>VVVV.Audio.Nodes</RootNamespace>
-    <AssemblyName>VVVV.Audio.Nodes</AssemblyName>
+    <RootNamespace>VVVV.Audio.Gist</RootNamespace>
+    <AssemblyName>VVVV.Audio.Gist</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <TargetFrameworkProfile />
-    <NoWin32Manifest>False</NoWin32Manifest>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
-    <DocumentationFile>VVVV.Audio.Nodes.xml</DocumentationFile>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <OutputPath>..\..\nodes\plugins\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <OutputPath>..\..\nodes\plugins\</OutputPath>
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <DocumentationFile>..\..\nodes\plugins\VVVV.Audio.Gist.xml</DocumentationFile>
+    <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -36,8 +36,6 @@
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <StartAction>Program</StartAction>
-    <StartProgram>..\..\..\..\vvvv.exe</StartProgram>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>False</DebugSymbols>
@@ -46,10 +44,11 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <StartAction>Program</StartAction>
-    <StartProgram>..\..\..\..\vvvv.exe</StartProgram>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="NAudio">
       <HintPath>..\Dependencies\AnyCPU\NAudio\NAudio.dll</HintPath>
       <Private>False</Private>
@@ -57,6 +56,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition.CodePlex">
       <HintPath>..\packages\VVVV.System.ComponentModel.Composition.Codeplex.2.5.0\lib\net40\System.ComponentModel.Composition.CodePlex.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core">
@@ -86,12 +86,8 @@
       <HintPath>..\packages\VVVV.Core.34.101.0-develop-1390\lib\net46\VVVV.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VVVV.Nodes.Generic">
-      <HintPath>..\packages\VVVV.Nodes.Generic.33.3.0\build\net40\lib\x86\VVVV.Nodes.Generic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="VVVV.PluginInterfaces">
-      <HintPath>..\packages\VVVV.PluginInterfaces.33.3.0\build\net40\lib\x86\VVVV.PluginInterfaces.dll</HintPath>
+      <HintPath>..\packages\VVVV.PluginInterfaces.33.7.0\build\net40\lib\x86\VVVV.PluginInterfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Utils, Version=34.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -100,40 +96,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioEngineNode.cs" />
-    <Compile Include="AudioNodeBase.cs" />
-    <Compile Include="Buffers\BufferReaderNode.cs" />
-    <Compile Include="Buffers\BufferWriterNode.cs" />
-    <Compile Include="Buffers\CreateBufferNode.cs" />
-    <Compile Include="AutoAudioSignalNode.cs" />
-    <Compile Include="Filters\OnePoleLowpassNode.cs" />
-    <Compile Include="Filters\HQFilterSignalNode.cs" />
-    <Compile Include="Filters\ResampleNode.cs" />
-    <Compile Include="Filters\WaveShaperNode.cs" />
-    <Compile Include="Misc\Lin2dBNodes.cs" />
-    <Compile Include="Misc\WaveFormSpreadNode.cs" />
+    <Compile Include="Gist.cs" />
+    <Compile Include="GistNode.cs" />
+    <Compile Include="GistSignal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Routing\BasicNodesAudioSignal.cs" />
-    <Compile Include="Routing\EqualsNodesAudioSignal.cs" />
-    <Compile Include="Routing\MatrixMixerNode.cs" />
-    <Compile Include="Routing\SignalOperationNodes.cs" />
-    <Compile Include="Sinks\AudioToValueNode.cs" />
-    <Compile Include="Sinks\AudioOutNode.cs" />
-    <Compile Include="Sinks\BufferOutNode.cs" />
-    <Compile Include="Sinks\FFTOutNode.cs" />
-    <Compile Include="Sinks\LevelMeterSignalNode.cs" />
-    <Compile Include="Sinks\WaveRecorderNode.cs" />
-    <Compile Include="Sources\ADSRNode.cs" />
-    <Compile Include="Sources\AudioInputNode.cs" />
-    <Compile Include="Sources\FileStreamNode.cs" />
-    <Compile Include="Sources\ValueSequenceNode.cs" />
-    <Compile Include="Sources\OscSignalNode.cs" />
-    <Compile Include="Sources\ValueToAudioNode.cs" />
-    <Compile Include="Sources\WaveTableNode.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VVVV.Audio.Core\VVVV.Audio.Core.csproj">
@@ -141,11 +107,14 @@
       <Name>VVVV.Audio.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\VVVV.Audio.Signals\VVVV.Audio.Signals.csproj">
-      <Project>{135530F1-FE32-41AB-9029-2A5D8FF13263}</Project>
-      <Name>VVVV.Audio.Signals</Name>
+    <ProjectReference Include="..\VVVV.Audio.Nodes\VVVV.Audio.Nodes.csproj">
+      <Project>{B856AC71-61D0-4906-A04A-1BEB32AD5967}</Project>
+      <Name>VVVV.Audio.Nodes</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -155,9 +124,7 @@
     <Error Condition="!Exists('..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.props'))" />
     <Error Condition="!Exists('..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.targets'))" />
     <Error Condition="!Exists('..\packages\VVVV.PluginInterfaces.34.101.0-develop-1390\build\net46\VVVV.PluginInterfaces.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.PluginInterfaces.34.101.0-develop-1390\build\net46\VVVV.PluginInterfaces.targets'))" />
-    <Error Condition="!Exists('..\packages\VVVV.Nodes.Generic.34.101.0-develop-1390\build\net46\VVVV.Nodes.Generic.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VVVV.Nodes.Generic.34.101.0-develop-1390\build\net46\VVVV.Nodes.Generic.targets'))" />
   </Target>
   <Import Project="..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.targets" Condition="Exists('..\packages\VVVV.SlimDX.1.0.2\build\net40\VVVV.SlimDX.targets')" />
   <Import Project="..\packages\VVVV.PluginInterfaces.34.101.0-develop-1390\build\net46\VVVV.PluginInterfaces.targets" Condition="Exists('..\packages\VVVV.PluginInterfaces.34.101.0-develop-1390\build\net46\VVVV.PluginInterfaces.targets')" />
-  <Import Project="..\packages\VVVV.Nodes.Generic.34.101.0-develop-1390\build\net46\VVVV.Nodes.Generic.targets" Condition="Exists('..\packages\VVVV.Nodes.Generic.34.101.0-develop-1390\build\net46\VVVV.Nodes.Generic.targets')" />
 </Project>

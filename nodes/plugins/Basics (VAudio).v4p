@@ -1,0 +1,245 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha33.8.dtd" >
+   <PATCH nodename="C:\documents\Dropbox\_vvvv_patches\__NODE15\VAudio\audio\Examples\Basics (VAudio).v4p" systemname="Basics (VAudio)" filename="C:\documents\Dropbox\_vvvv_patches\__NODE15\VAudio\audio\Examples\Basics (VAudio).v4p">
+   <BOUNDS type="Window" left="5145" top="2400" width="7920" height="9645">
+   </BOUNDS>
+   <PACK Name="addonpack" Version="33.8.0">
+   </PACK>
+   <NODE systemname="AudioOut (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioOut (VAudio)" componentmode="Hidden" id="0">
+   <BOUNDS type="Node" left="510" top="6405" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="AudioEngine (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioEngine (VAudio)" componentmode="Hidden" id="1">
+   <BOUNDS type="Node" left="525" top="7935" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Play" visible="1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="2" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="525" top="7155" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="525" top="7155" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Play">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="2" srcpinname="Y Output Value" dstnodeid="1" dstpinname="Play">
+   </LINK>
+   <NODE systemname="Osc (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Osc (VAudio Source)" componentmode="Hidden" id="3">
+   <BOUNDS type="Node" left="765" top="3840" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Frequency" visible="1">
+   </PIN>
+   <PIN pinname="Wave Form" visible="1">
+   </PIN>
+   <PIN pinname="Waveform" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="StereoMixer (VAudio Filter)" filename="%VVVV%\packs\VVVV.Audio\nodes\modules\StereoMixer (VAudio Filter).v4p" nodename="StereoMixer (VAudio Filter)" componentmode="Hidden" id="4">
+   <BOUNDS type="Node" left="495" top="5625" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Output" dstnodeid="0" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Keyboard (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\modules\Keyboard (VAudio).v4p" nodename="Keyboard (VAudio)" componentmode="Hidden" id="5">
+   <BOUNDS type="Node" left="495" top="2025" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Frequency" visible="1">
+   </PIN>
+   <PIN pinname="Is Pressed" visible="1">
+   </PIN>
+   <PIN pinname="Window Keyboard" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <NODE systemname="V2A (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="V2A (VAudio Source)" componentmode="Hidden" id="6">
+   <BOUNDS type="Node" left="960" top="2895" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Value" visible="1">
+   </PIN>
+   <BOUNDS type="Box" left="960" top="2895">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="6" srcpinname="Audio Out" dstnodeid="3" dstpinname="Frequency">
+   </LINK>
+   <LINK srcnodeid="5" srcpinname="Frequency" dstnodeid="6" dstpinname="Value">
+   </LINK>
+   <NODE systemname="Multiply (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Multiply (VAudio)" componentmode="Hidden" id="7">
+   <BOUNDS type="Node" left="495" top="4635" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="3" srcpinname="Audio Out" dstnodeid="7" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="7" srcpinname="Audio Out" dstnodeid="4" dstpinname="Input">
+   </LINK>
+   <NODE systemname="V2A (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="V2A (VAudio Source)" componentmode="Hidden" id="8">
+   <BOUNDS type="Node" left="495" top="2895" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Audio Out" visible="1">
+   </PIN>
+   <PIN pinname="Value" visible="1" slicecount="1" values="0">
+   </PIN>
+   <BOUNDS type="Box" left="495" top="2895">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="5" srcpinname="Is Pressed" dstnodeid="8" dstpinname="Value">
+   </LINK>
+   <LINK srcnodeid="8" srcpinname="Audio Out" dstnodeid="7" dstpinname="Input 1">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="9" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2790" top="2040" width="2790" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2790" top="2040" width="2805" height="495">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt;-- Use your keyboard to make notes (one at a time)|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="10" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2790" top="2835" width="3765" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2790" top="2835" width="2745" height="540">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt;-- Use V2A (VAudio Source) to transform Values into audio signals|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="11" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2790" top="3840" width="705" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2790" top="3840" width="2700" height="540">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt;-- Osc oscillates at the frequency of the input with the Waveform chosen|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="12" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="1095" top="3405" width="960" height="270">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1095" top="3405" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" visible="1" values="Sawtooth">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Waveform">
+   </PIN>
+   <PIN pinname="Output Enum" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="12" srcpinname="Output Enum" dstnodeid="3" dstpinname="Wave Form">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="13" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2790" top="4590" width="5250" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2790" top="4590" width="3315" height="720">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt;-- * multiplies the audio from Osc by Keyboard&apos;s Is Pressed so i is only on while a key is pressed|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="14" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2790" top="5595" width="4965" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2790" top="5595" width="2970" height="555">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt;-- StereoMixer mix the audio so it is in both left and right channel|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="15" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2790" top="6450" width="3585" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2790" top="6450" width="3585" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt;-- AudioOut sends audio to your sound card|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="16" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="2790" top="7800" width="6120" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2790" top="7800" width="3375" height="510">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt;-- Audio Engine makes the audio run, it needs to be playing for any VAudio to work|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="17" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="690" top="450" width="3750" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="690" top="450" width="5145" height="975">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|Press the letters on your keyboard to make sounds|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   <PIN pinname="Size" slicecount="1" values="18">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="12" srcpinname="Output Enum" dstnodeid="3" dstpinname="Waveform">
+   </LINK>
+   </PATCH>
