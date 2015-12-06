@@ -29,13 +29,7 @@ namespace VVVV.Nodes
 		public IDiffSpread<float> FFreqIn;
 		
 		[Input("Window Function")]
-		public IDiffSpread<WindowFunction> FWindowFuncIn;
-		
-		[Input("Delay Amount", DefaultValue = 0)]
-		public IDiffSpread<float> FDelayAmountIn;
-		
-		[Input("Delay Time", DefaultValue = 0.5)]
-		public IDiffSpread<float> FDelayTimeIn;
+		public IDiffSpread<WindowFunction> FWindowFuncIn;	
 	
 		[Import()]
 		public ILogger FLogger;
@@ -48,10 +42,8 @@ namespace VVVV.Nodes
 		{
 			if(originalSpreadMax == 0) return 0;
 			var max = Math.Max(FTableIn.SliceCount, FFreqIn.SliceCount);
-			max = Math.Max(max, FWindowFuncIn.SliceCount);
-			max = Math.Max(max, FDelayAmountIn.SliceCount);
-			return Math.Max(max, FDelayTimeIn.SliceCount);
-		}
+			return max = Math.Max(max, FWindowFuncIn.SliceCount);
+        }
 		
 		protected override void SetParameters(int i, WaveTableSignal instance)
 		{
@@ -62,11 +54,17 @@ namespace VVVV.Nodes
 		{
 			
 			instance.Frequency = FFreqIn[i];
-			instance.DelayAmount = FDelayAmountIn[i];
-			instance.DelayTime = FDelayTimeIn[i];
-			
+		
 			if(FTableIn.IsChanged || FWindowFuncIn.IsChanged || created)
-			{	
+			{
+                var table = FTableIn[i];
+
+                if(table.SliceCount != instance.LUTBuffer.Length)
+                {
+                    instance.LUTBuffer = new float[table.SliceCount];
+                    FWindow = AudioUtils.CreateWindowFloat(instance.LUTBuffer.Length, FWindowFuncIn[i]);
+                }
+
 				//setup new window
 				if(FWindowFuncIn.IsChanged || created)
 				{

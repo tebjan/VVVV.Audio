@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug31.7.dtd" >
-   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\WaveForm.v4p" systemname="WaveForm" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\WaveForm.v4p">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50debug34.101.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\WaveForm (DX9 VAudio) help.v4p" systemname="WaveForm" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\girlpower\WaveForm.v4p">
    <BOUNDS type="Window" left="180" top="930" width="13980" height="8835">
    </BOUNDS>
    <NODE systemname="Renderer (EX9)" nodename="Renderer (EX9)" componentmode="InAWindow" id="3">
@@ -33,11 +33,11 @@
    <LINK srcnodeid="30" srcpinname="frames per second" dstnodeid="31" dstpinname="Y Input Value">
    </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="33" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="3690" top="2295" width="5025" height="300">
+   <BOUNDS type="Box" left="3765" top="2385" width="5025" height="300">
    </BOUNDS>
-   <BOUNDS type="Node" left="3690" top="2295" width="0" height="0">
+   <BOUNDS type="Node" left="3765" top="2385" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" values="..\..\..\lib\assets\sounds\vvvv5.1.wav">
+   <PIN pinname="Input String" slicecount="1" values="..\..\..\..\lib\assets\sounds\vvvv5.1.wav">
    </PIN>
    <PIN pinname="Default" slicecount="1" values="||">
    </PIN>
@@ -63,11 +63,9 @@
    </PIN>
    <PIN pinname="Convert to Mono" slicecount="1" values="0">
    </PIN>
-   <PIN pinname="Spread Count" slicecount="1" values="100">
+   <PIN pinname="Spread Count" slicecount="1" values="727" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="36" srcpinname="Layer" dstnodeid="3" dstpinname="Layers">
-   </LINK>
    <LINK srcnodeid="33" srcpinname="Output String" dstnodeid="36" dstpinname="Filename">
    </LINK>
    <NODE systemname="Scale (Transform Vector)" nodename="Scale (Transform Vector)" componentmode="Hidden" id="38">
@@ -109,9 +107,9 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="|Spread Count|">
    </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="40" srcpinname="Y Output Value" dstnodeid="36" dstpinname="Spread Count">
-   </LINK>
    <LINK srcnodeid="3" srcpinname="Actual Backbuffer Width" dstnodeid="40" dstpinname="Y Input Value">
    <LINKPOINT x="2895" y="6750">
    </LINKPOINT>
@@ -123,5 +121,37 @@
    </LINKPOINT>
    <LINKPOINT x="2880" y="1710">
    </LINKPOINT>
+   </LINK>
+   <NODE systemname="Exists (File)" nodename="Exists (File)" componentmode="Hidden" id="41">
+   <BOUNDS type="Node" left="4170" top="2805" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Filename" visible="1">
+   </PIN>
+   <PIN pinname="Exists" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="33" srcpinname="Output String" dstnodeid="41" dstpinname="Filename">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="42" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="4170" top="3150" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4170" top="3150" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="41" srcpinname="Exists" dstnodeid="42" dstpinname="Y Input Value">
+   </LINK>
+   <PACK Name="addonpack" Version="34.101.0">
+   </PACK>
+   <LINK srcnodeid="36" srcpinname="Layer" dstnodeid="3" dstpinname="Layers">
+   </LINK>
+   <LINK srcnodeid="40" srcpinname="Y Output Value" dstnodeid="36" dstpinname="Spread Count">
    </LINK>
    </PATCH>
