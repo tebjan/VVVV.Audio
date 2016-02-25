@@ -96,6 +96,11 @@ namespace VVVV.Audio.VST
             }
         }
 
+        internal void ChangeExposedState(int paramIndex, bool exposed)
+        {
+            PluginParameterListVw.Items[paramIndex].Checked = exposed;
+        }
+
         private void AddParameter(string paramName, string paramValue, string label, string shortLabel)
         {
             ListViewItem lvItem = new ListViewItem(paramName);
@@ -164,6 +169,15 @@ namespace VVVV.Audio.VST
 
                     MessageBox.Show(this, "The plugin has passed the audio unchanged to its outputs.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        public event ItemCheckEventHandler ParameterCheck;
+        private void PluginParameterListVw_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if(ParameterCheck != null)
+            {
+                ParameterCheck(this, e);
             }
         }
     }

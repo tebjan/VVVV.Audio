@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using VVVV.Audio.VST;
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Interop.Host;
+using System.Runtime.InteropServices;
 
 namespace VVVV.Nodes.Nodes.VST
 {
@@ -28,7 +29,6 @@ namespace VVVV.Nodes.Nodes.VST
 			//
 			InitializeComponent();
             Node = node;
-			
 			//
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
@@ -56,15 +56,29 @@ namespace VVVV.Nodes.Nodes.VST
                     {
                         FSelectedSignal.LastParamChangeInfo = null;
                         FSelectedSignal.PluginChanged = null;
+                        FSelectedSignal.InfoFormParameterCheck -= FSelectedSignal_InfoFormParameterCheck;
                     }
+
                     FSelectedSignal = value;
                     FSelectedSignal.LastParamChangeInfo = DisplayLastParam;
                     FSelectedSignal.PluginChanged = () => SetEditor(true);
+                    FSelectedSignal.InfoFormParameterCheck += FSelectedSignal_InfoFormParameterCheck;
                     LoadPrograms();
                     SetEditor();
                 }
             }
         }
+
+        private void FSelectedSignal_InfoFormParameterCheck(object sender, ItemCheckEventArgs e)
+        {
+            var expose = e.NewValue == CheckState.Checked;
+
+            if(expose)
+                Node.ExposePin(GetParamPinDefinitionString());
+            else
+                Node.RemovePin(GetParamPinDefinitionString());
+        }
+        
 
         private void DisplayLastParam(string value)
         {
@@ -110,6 +124,7 @@ namespace VVVV.Nodes.Nodes.VST
         }
 
         private VstPluginContext OpenContext;
+        private bool FHasEditor;
         void SetEditor(bool reset = false)
         {
             if (reset || OpenContext != FSelectedSignal.PluginContext)
@@ -119,13 +134,26 @@ namespace VVVV.Nodes.Nodes.VST
                 if (HasEditor(OpenContext))
                 {
                     OpenContext.PluginCommandStub.EditorOpen(PluginPanel.Handle);
+                    FHasEditor = true;
+                    if(FGenericUI != null)
+                    {
+                        PluginPanel.Controls.Remove(FGenericUI);
+                        FGenericUI.Dispose();
+                        FGenericUI = null;
+                    }
                 }
                 else
                 {
-                    //TODO: create basic gui
+                    FGenericUI = new GenericUI(OpenContext);
+                    FGenericUI.Dock = DockStyle.Fill;
+                    PluginPanel.Controls.Add(FGenericUI);
+                    FHasEditor = false;
                 }
             }
         }
+
+
+        public int EditorHandle => PluginPanel.Handle.ToInt32();
 
         private bool HasEditor(VstPluginContext ctx)
         {
@@ -172,6 +200,8 @@ namespace VVVV.Nodes.Nodes.VST
 
         //set the count to display
         int FLastCount = 0;
+        private GenericUI FGenericUI;
+
         internal void SetSliceCount(int count)
         {
             if (FLastCount != count)
@@ -181,7 +211,7 @@ namespace VVVV.Nodes.Nodes.VST
             }
         }
 
-        private string GetParamPinName()
+        private string GetParamPinDefinitionString()
         {
             var ctx = FSelectedSignal.PluginContext;
             var paramIndex = FSelectedSignal.ParamIndex;
@@ -192,12 +222,20 @@ namespace VVVV.Nodes.Nodes.VST
 
         private void ExposeButton_Click(object sender, EventArgs e)
         {
-            Node.ExposePin(GetParamPinName());
+            Node.ExposePin(GetParamPinDefinitionString());
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            Node.RemovePin(GetParamPinName());
+            Node.RemovePin(GetParamPinDefinitionString());
+        }
+
+        public void RefreshUI(int index)
+        {
+            if(FGenericUI != null)
+            {
+                FGenericUI.RefreshValue(index);
+            }
         }
     }
 }

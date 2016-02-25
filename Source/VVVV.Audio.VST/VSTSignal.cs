@@ -134,6 +134,7 @@ namespace VVVV.Audio.VST
                 InfoForm.PluginContext = PluginContext;
                 InfoForm.DataToForm();
                 InfoForm.Dock = DockStyle.Fill;
+                InfoForm.ParameterCheck += InfoForm_ParameterCheck;
 
                 GetPluginInfo();
                 GetProgramNames();
@@ -142,6 +143,19 @@ namespace VVVV.Audio.VST
                     PluginChanged();
 
                 FDoProcess = true;
+            }
+        }
+
+
+
+        public event ItemCheckEventHandler InfoFormParameterCheck;
+
+        private void InfoForm_ParameterCheck(object sender, ItemCheckEventArgs e)
+        {
+            this.ParamIndex = e.Index;
+            if (InfoFormParameterCheck != null)
+            {
+                InfoFormParameterCheck(this, e);
             }
         }
 
@@ -189,7 +203,7 @@ namespace VVVV.Audio.VST
         {
             NeedsSave = true;
             ParamIndex = index;
-            if (LastParamChangeInfo != null)
+            if (LastParamChangeInfo != null && PluginContext != null)
             {
                 string name = PluginContext.PluginCommandStub.GetParameterName(index);
                 string label = PluginContext.PluginCommandStub.GetParameterLabel(index);
@@ -276,6 +290,7 @@ namespace VVVV.Audio.VST
                 }
             }
         }
+
         #endregion
 
         private void HostCmdStub_PluginCalled(object sender, PluginCalledEventArgs e)
@@ -542,13 +557,18 @@ namespace VVVV.Audio.VST
             }
 
             if (InfoForm != null)
+            {
+                InfoForm.ParameterCheck -= InfoForm_ParameterCheck;
                 InfoForm.Dispose();
+            }
+
 			
 			base.Dispose();
 		}
 
 
         public bool NeedsSave { get; set; }
+        public int EditorHandle { get; internal set; }
     }
 }
 

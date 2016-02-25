@@ -49,7 +49,7 @@ namespace VVVV.Nodes
 		public IDiffSpread<string> FFilename;
 
         [Input("Auto Save", DefaultValue = 1)]
-        public IDiffSpread<bool> FAutosafeIn;
+        public IDiffSpread<bool> FAutosaveIn;
         
         [Input("Bypass")]
         public IDiffSpread<bool> FBypassIn;
@@ -65,7 +65,10 @@ namespace VVVV.Nodes
 
         [Output("Output Channels")]
         public ISpread<int> FOutChannelsOut;
-        
+
+        [Output("Editor Handle")]
+        public ISpread<int> FEditorHandleOut;
+
         [Output("Midi Events")]
         public ISpread<MidiEvents> FMidiEventsOut;
         
@@ -92,8 +95,8 @@ namespace VVVV.Nodes
             //add plugin control
 			FPluginControl = new VstPluginControl(this);
             FPluginControl.Dock = DockStyle.Fill;
-            this.Controls.Add(FPluginControl);
-			
+            FPluginControl.Parent = this;
+            this.Controls.Add(FPluginControl);	
 			
 			Rectangle wndRect = new Rectangle();
 			if (SelectedPluginContext != null)
@@ -130,7 +133,7 @@ namespace VVVV.Nodes
 			FEngine = AudioService.Engine;
             ParameterNamesConfig.SliceCount = 0;
 			
-			BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+			var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
 			//Retrieve all FieldInfos
 			var fields = GetType().GetFields(flags);
@@ -284,6 +287,11 @@ namespace VVVV.Nodes
                 FOutChannelsOut[i] = vst.PluginContext.PluginInfo.AudioOutputCount;
             }
 
+            foreach (var paramPin in FParamPins.Values)
+            {
+                UpdateExposedState(vst, paramPin, true);
+            }
+
             return vst;
         }
         
@@ -316,6 +324,7 @@ namespace VVVV.Nodes
                         Debug.WriteLine("0 val");
                     }
                     instance.PluginContext.PluginCommandStub.SetParameter(item.ParamIndex, (float)val);
+                    FPluginControl.RefreshUI(item.ParamIndex);
                 }
             }
 
@@ -331,7 +340,7 @@ namespace VVVV.Nodes
 		/// <param name="instance">Current instance</param>
 		protected void SetOutputs(int i, VSTSignal instance)
 		{
-            if (FAutosafeIn[i] && instance.NeedsSave)
+            if (FAutosaveIn[i] && instance.NeedsSave)
             {
                 FSafeConfig[i] = instance.GetSaveString();
                 instance.NeedsSave = false;
@@ -342,6 +351,8 @@ namespace VVVV.Nodes
             {
                 FMidiEventsOut[i] = instance.MidiEventSender;
             }
+
+            FEditorHandleOut[i] = FPluginControl.EditorHandle;
 
 		}
 		
@@ -389,7 +400,7 @@ namespace VVVV.Nodes
 
         #region pin handling
 
-        private class ParamPin
+        public class ParamPin
         {
             public IValueIn Pin
             {
@@ -430,15 +441,17 @@ namespace VVVV.Nodes
             }
         }
 
-        public void ExposePin(string paramName)
+        public void ExposePin(string paramPinDefinitionString)
         {
-            if(!ParameterNamesConfig.Contains(paramName))
-                ParameterNamesConfig.Add(paramName);
+            if (!ParameterNamesConfig.Contains(paramPinDefinitionString))
+            {
+                ParameterNamesConfig.Add(paramPinDefinitionString);
+            }
         }
 
-        public void RemovePin(string paramName)
+        public void RemovePin(string paramPinDefinitionString)
         {
-            ParameterNamesConfig.Remove(paramName);
+            ParameterNamesConfig.Remove(paramPinDefinitionString);
         }
 
         private Dictionary<string, ParamPin> FParamPins = new Dictionary<string, ParamPin>();
@@ -448,25 +461,28 @@ namespace VVVV.Nodes
             var prevPins = new Dictionary<string, ParamPin>(FParamPins);
 
             //create pin?
-            foreach (var pinString in spread)
+            foreach (var pinDefinitionString in spread)
             {
-                if(string.IsNullOrWhiteSpace(pinString))
+                if(string.IsNullOrWhiteSpace(pinDefinitionString))
                     continue;
 
-                if (!prevPins.ContainsKey(pinString))
+                if (!prevPins.ContainsKey(pinDefinitionString))
                 {
-                    var paramPin = ParamPin.Parse(pinString);
+                    var paramPin = ParamPin.Parse(pinDefinitionString);
 
                     var oa = new InputAttribute(paramPin.ParamName);
                     //FLogger.Log(LogType.Debug, col.DataType.ToString());
 
                     paramPin.Pin = FHost.CreateValueInput(oa, typeof(float));
-
-                    FParamPins[pinString] = paramPin;
+                    foreach (var signal in FInternalSignals)
+                    {
+                        UpdateExposedState(signal, paramPin, true);
+                    }
+                    FParamPins[pinDefinitionString] = paramPin;
                 }
                 else
                 {
-                    prevPins.Remove(pinString);
+                    prevPins.Remove(pinDefinitionString);
                 }
             }
 
@@ -475,6 +491,19 @@ namespace VVVV.Nodes
             {
                 FHost.DeletePin(pin.Value.Pin);
                 FParamPins.Remove(pin.Key);
+
+                foreach (var signal in FInternalSignals)
+                {
+                    UpdateExposedState(signal, pin.Value, false);
+                }
+            }
+        }
+
+        public static void UpdateExposedState(VSTSignal signal, ParamPin pin, bool isExposed)
+        {
+            if (signal.PluginContext.PluginCommandStub.GetEffectName() == pin.PluginName)
+            {
+                signal.InfoForm.ChangeExposedState(pin.ParamIndex, isExposed);
             }
         }
 

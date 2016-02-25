@@ -31,14 +31,15 @@
             System.Windows.Forms.GroupBox groupBox1;
             System.Windows.Forms.GroupBox groupBox2;
             this.PluginPropertyListVw = new System.Windows.Forms.ListView();
-            this.PropertyNameHdr = new System.Windows.Forms.ColumnHeader();
-            this.PropertyValueHdr = new System.Windows.Forms.ColumnHeader();
+            this.PropertyNameHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PropertyValueHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.PluginParameterListVw = new System.Windows.Forms.ListView();
-            this.ParameterNameHdr = new System.Windows.Forms.ColumnHeader();
-            this.ParameterValueHdr = new System.Windows.Forms.ColumnHeader();
-            this.ParameterLabelHdr = new System.Windows.Forms.ColumnHeader();
-            this.ParameterShortLabelHdr = new System.Windows.Forms.ColumnHeader();
+            this.ParameterNameHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ParameterValueHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ParameterLabelHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ParameterShortLabelHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             groupBox1 = new System.Windows.Forms.GroupBox();
             groupBox2 = new System.Windows.Forms.GroupBox();
             groupBox1.SuspendLayout();
@@ -47,6 +48,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -89,6 +91,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(this.trackBar1);
             groupBox2.Controls.Add(this.PluginParameterListVw);
             groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             groupBox2.Location = new System.Drawing.Point(0, 0);
@@ -103,6 +106,7 @@
             this.PluginParameterListVw.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.PluginParameterListVw.CheckBoxes = true;
             this.PluginParameterListVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ParameterNameHdr,
             this.ParameterValueHdr,
@@ -117,6 +121,7 @@
             this.PluginParameterListVw.TabIndex = 2;
             this.PluginParameterListVw.UseCompatibleStateImageBehavior = false;
             this.PluginParameterListVw.View = System.Windows.Forms.View.Details;
+            this.PluginParameterListVw.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.PluginParameterListVw_ItemCheck);
             // 
             // ParameterNameHdr
             // 
@@ -156,6 +161,13 @@
             this.splitContainer1.SplitterDistance = 233;
             this.splitContainer1.TabIndex = 2;
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(270, 16);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(104, 45);
+            this.trackBar1.TabIndex = 3;
+            // 
             // PluginInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -165,10 +177,12 @@
             this.Size = new System.Drawing.Size(625, 467);
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -184,6 +198,6 @@
         private System.Windows.Forms.ColumnHeader ParameterValueHdr;
         private System.Windows.Forms.ColumnHeader ParameterLabelHdr;
         private System.Windows.Forms.ColumnHeader ParameterShortLabelHdr;
-
+        private System.Windows.Forms.TrackBar trackBar1;
     }
 }
