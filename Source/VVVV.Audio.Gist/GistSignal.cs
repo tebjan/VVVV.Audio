@@ -23,7 +23,8 @@ namespace VVVV.Audio
                 FGist.Dispose();
             }
             
-            FGist = new Gist(SampleRate, BufferSize);
+            if(BufferSize > 2 && SampleRate > 0)
+                FGist = new Gist(SampleRate, BufferSize);
         }
         
         protected CircularBuffer FRingBuffer = new CircularBuffer(512);
@@ -56,17 +57,22 @@ namespace VVVV.Audio
         
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
-            //base.FillBuffer(buffer, offset, count);
-            FGist.ProcessFrame(buffer, count);
-            FFT.Value = FGist.SpectrumData;
+            if (FGist != null)
+            {
+                InputSignal.Read(buffer, offset, count);
+                //base.FillBuffer(buffer, offset, count);
+                FGist.ProcessFrame(buffer, count);
+                FFT.Value = FGist.SpectrumData;
 
-            //get flags
-            AudioFeaturesFlags flags = (AudioFeaturesFlags)2047;
+                //get flags
+                AudioFeaturesFlags flags = (AudioFeaturesFlags)2047;
 
-            var features = FGist.GetFeatures(flags);
-            var vals = new float[11];
-            features.Values.CopyTo(vals, 0);
-            Features.Value = vals;
+                var features = FGist.GetFeatures(flags);
+                var vals = new float[11];
+                features.Values.CopyTo(vals, 0);
+                Features.Value = vals; 
+
+            }
             
         }
         

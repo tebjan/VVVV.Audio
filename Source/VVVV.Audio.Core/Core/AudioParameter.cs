@@ -19,11 +19,13 @@ namespace VVVV.Audio
     {
         public readonly string Name;
         public readonly bool IsOutput;
+        public readonly int PinOrder;
         
-        protected SigParamBase(string name, bool isOutput = false)
+        protected SigParamBase(string name, bool isOutput = false, int pinOrder = 0)
         {
             Name = name;
             IsOutput = isOutput;
+            PinOrder = pinOrder;
         }
         
         public abstract Type GetValueType();
@@ -42,13 +44,13 @@ namespace VVVV.Audio
     {
         public readonly T InitialValue;
         
-        protected SigParamBaseGeneric(string name, bool isOutput = false)
-            : this(name, default(T), isOutput)
+        protected SigParamBaseGeneric(string name, bool isOutput = false, int pinOrder = 0)
+            : this(name, default(T), isOutput, pinOrder)
         {
         }
         
-        protected SigParamBaseGeneric(string name, T initValue, bool isOutput = false)
-            : base(name, isOutput)
+        protected SigParamBaseGeneric(string name, T initValue, bool isOutput = false, int pinOrder = 0)
+            : base(name, isOutput, pinOrder)
         {
             InitialValue = initValue;
         }
@@ -82,13 +84,13 @@ namespace VVVV.Audio
     /// </summary>
     public class SigParam<T> : SigParamBaseGeneric<T>
     {
-        public SigParam(string name, bool isOutput = false)
-            : base(name, isOutput)
+        public SigParam(string name, bool isOutput = false, int pinOrder = 0)
+            : base(name, isOutput, pinOrder)
         {
         }
         
-        public SigParam(string name, T initValue, bool isOutput = false)
-            : base(name, initValue, isOutput)
+        public SigParam(string name, T initValue, bool isOutput = false, int pinOrder = 0)
+            : base(name, initValue, isOutput, pinOrder)
         {
             
         }
@@ -108,13 +110,13 @@ namespace VVVV.Audio
         //callback for value changes
         public Action<T> ValueChanged;
         
-        public SigParamDiff(string name, bool isOutput = false)
-            : base(name, isOutput)
+        public SigParamDiff(string name, bool isOutput = false, int pinOrder = 0)
+            : base(name, isOutput, pinOrder)
         {
         }
         
-        public SigParamDiff(string name, T initValue, Action<T> valueChanged = null, bool isOutput = false)
-            : base(name, initValue, isOutput)
+        public SigParamDiff(string name, T initValue, Action<T> valueChanged = null, bool isOutput = false, int pinOrder = 0)
+            : base(name, initValue, isOutput, pinOrder)
         {
             Value = initValue;
             ValueChanged = valueChanged;
@@ -149,8 +151,8 @@ namespace VVVV.Audio
     
     public class SigParamAudio : SigParamDiff<AudioSignal>
     {
-        public SigParamAudio(string name, bool isOutput = false)
-            : base(name, isOutput)
+        public SigParamAudio(string name, bool isOutput = false, int pinOrder = 0)
+            : base(name, isOutput, pinOrder)
         {
         }
         
@@ -172,8 +174,8 @@ namespace VVVV.Audio
     
     public class SigParamBang : SigParam<bool>
     {
-        public SigParamBang(string name, bool isOutput = false)
-            : base(name, isOutput)
+        public SigParamBang(string name, bool isOutput = false, int pinOrder = 0)
+            : base(name, isOutput, pinOrder)
         {
         }
     }

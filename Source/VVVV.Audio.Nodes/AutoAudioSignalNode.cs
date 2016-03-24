@@ -37,7 +37,7 @@ namespace VVVV.Nodes
 	    
 	    //param to pin
 	    Dictionary<SigParamBase, IDiffSpread> FInputPinToParamMap = new Dictionary<SigParamBase, IDiffSpread>();
-	    Dictionary<SigParamBase, ISpread> FOutputPinRelation = new Dictionary<SigParamBase, ISpread>();
+	    Dictionary<SigParamBase, ISpread> FOutputPinToParamMap = new Dictionary<SigParamBase, ISpread>();
 	    
 	    //create pins
         public override void OnImportsSatisfied()
@@ -62,6 +62,7 @@ namespace VVVV.Nodes
 				    if(!param.IsOutput)
 				    {
 				        var ia = new InputAttribute(param.Name);
+                        ia.Order = param.PinOrder;
 				        var spreadType = typeof(IDiffSpread<>).MakeGenericType(valType);
 				        
 				        if(valType == typeof(double))
@@ -111,6 +112,7 @@ namespace VVVV.Nodes
 				    else //output
 				    {
 				        var oa = new OutputAttribute(param.Name);
+                        oa.Order = param.PinOrder;
 				        var spreadType = typeof(ISpread<>).MakeGenericType(valType);
 
                         //array types need Spread<Spread<T>>
@@ -212,7 +214,7 @@ namespace VVVV.Nodes
                 {
                     var spread = new Spread<float>(floatArray.Length);
                     Array.Copy(floatArray, spread.Stream.Buffer, floatArray.Length);
-                    FOutputPinRelation[param][i] = spread;
+                    FOutputPinToParamMap[param][i] = spread;
                     continue; //finished
                 }
 
@@ -221,7 +223,7 @@ namespace VVVV.Nodes
                 {
                     var spread = new Spread<float>(doubleArray.Length);
                     Array.Copy(doubleArray, spread.Stream.Buffer, doubleArray.Length);
-                    FOutputPinRelation[param][i] = spread;
+                    FOutputPinToParamMap[param][i] = spread;
                     continue; //finished
                 }
 
@@ -230,11 +232,11 @@ namespace VVVV.Nodes
                 {
                     var spread = new Spread<float>(intArray.Length);
                     Array.Copy(intArray, spread.Stream.Buffer, intArray.Length);
-                    FOutputPinRelation[param][i] = spread;
+                    FOutputPinToParamMap[param][i] = spread;
                     continue; //finished
                 }
 
-                FOutputPinRelation[param][i] = param.GetValue();
+                FOutputPinToParamMap[param][i] = param.GetValue();
             }
         }
 
@@ -247,7 +249,7 @@ namespace VVVV.Nodes
             {
                 if(param.IsOutput)
                 {
-                    FOutputPinRelation[param] = FOutputPins[param.Name];
+                    FOutputPinToParamMap[param] = FOutputPins[param.Name];
                 }
                 else
                 {
@@ -265,7 +267,7 @@ namespace VVVV.Nodes
             {
                 if(param.IsOutput)
                 {
-                    FOutputPinRelation.Remove(param);
+                    FOutputPinToParamMap.Remove(param);
                 }
                 else
                 {

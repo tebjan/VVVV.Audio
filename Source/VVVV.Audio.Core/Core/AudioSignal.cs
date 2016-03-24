@@ -99,6 +99,7 @@ namespace VVVV.Audio
             AudioService.Engine.Settings.SampleRateChanged += Engine_SampleRateChanged;
             AudioService.Engine.Settings.BufferSizeChanged += Engine_BufferSizeChanged;
             Engine_SampleRateChanged(null, null);
+            Engine_BufferSizeChanged(null, null);
         }
 
         //set new sample rate
@@ -251,7 +252,7 @@ namespace VVVV.Audio
     
     public class AudioSignalInput : AudioSignal
     {
-        public SigParamAudio InputSignal = new SigParamAudio("Input");
+        public SigParamAudio InputSignal = new SigParamAudio("Input", false, -10);
     }
 
 }
