@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using VVVV.Audio;
 using VVVV.PluginInterfaces.V2;
 using VVVV.PluginInterfaces.V2.NonGeneric;
@@ -35,7 +36,7 @@ namespace VVVV.Nodes
 	    Dictionary<string, ISpread> FOutputPins = new Dictionary<string, ISpread>();
 	    
 	    //param to pin
-	    Dictionary<SigParamBase, IDiffSpread> FInputPinRelation = new Dictionary<SigParamBase, IDiffSpread>();
+	    Dictionary<SigParamBase, IDiffSpread> FInputPinToParamMap = new Dictionary<SigParamBase, IDiffSpread>();
 	    Dictionary<SigParamBase, ISpread> FOutputPinRelation = new Dictionary<SigParamBase, ISpread>();
 	    
 	    //create pins
@@ -107,12 +108,26 @@ namespace VVVV.Nodes
 				        FInputPins[param.Name] = inPin;
 				        FDiffInputs.Add(inPin);
 				    }
-				    else
+				    else //output
 				    {
 				        var oa = new OutputAttribute(param.Name);
 				        var spreadType = typeof(ISpread<>).MakeGenericType(valType);
 
-				        var outPin = (ISpread)FIOFactory.CreateIO(spreadType, oa);
+                        //array types need Spread<Spread<T>>
+                        if (valType == typeof(float[]))
+                        {
+                            spreadType = typeof(ISpread<>).MakeGenericType(typeof(ISpread<float>));
+                        }
+                        else if (valType == typeof(int[]))
+                        {
+                            spreadType = typeof(ISpread<>).MakeGenericType(typeof(ISpread<int>));
+                        }
+                        else if (valType == typeof(double[]))
+                        {
+                            spreadType = typeof(ISpread<>).MakeGenericType(typeof(ISpread<double>));
+                        }
+
+                        var outPin = (ISpread)FIOFactory.CreateIO(spreadType, oa);
 				        FOutputPins[param.Name] = outPin;
 				    }
 				}
@@ -125,42 +140,39 @@ namespace VVVV.Nodes
 		{
             foreach (var param in instance.InParams) 
             {
-                var inputValue = FInputPinRelation[param][i];
-                object val = null;
+                //get slice
+                var inputValue = FInputPinToParamMap[param][i];
                 
+                //check array types and do block copy
                 var floatSpread = inputValue as ISpread<float>;
                 if(floatSpread != null)
                 {
                     var arr = new float[floatSpread.SliceCount];
                     Array.Copy(floatSpread.Stream.Buffer, arr, floatSpread.SliceCount);
-                    val = arr;
+                    param.SetValue(arr);
+                    continue; //finished
                 }
-                else
+
+                var doubleSpread = inputValue as ISpread<double>;
+                if (doubleSpread != null)
                 {
-                    var doubleSpread = inputValue as ISpread<double>;
-                    if(doubleSpread != null)
-                    {
-                        var arr = new double[doubleSpread.SliceCount];
-                        Array.Copy(doubleSpread.Stream.Buffer, arr, doubleSpread.SliceCount);
-                        val = arr;
-                    }
-                    else
-                    {
-                        var intSpread = inputValue as ISpread<int>;
-                        if(intSpread != null)
-                        {
-                            var arr = new int[intSpread.SliceCount];
-                            Array.Copy(intSpread.Stream.Buffer, arr, intSpread.SliceCount);
-                            val = arr;
-                        }
-                        else
-                        {
-                            val = inputValue;
-                        }
-                    }
+                    var arr = new double[doubleSpread.SliceCount];
+                    Array.Copy(doubleSpread.Stream.Buffer, arr, doubleSpread.SliceCount);
+                    param.SetValue(arr);
+                    continue; //finished
                 }
-                
-                param.SetValue(val);
+
+                var intSpread = inputValue as ISpread<int>;
+                if (intSpread != null)
+                {
+                    var arr = new int[intSpread.SliceCount];
+                    Array.Copy(intSpread.Stream.Buffer, arr, intSpread.SliceCount);
+                    param.SetValue(arr);
+                    continue; //finished
+                }
+
+                //normal value
+                param.SetValue(inputValue);
             }
 		}
 		
@@ -190,6 +202,38 @@ namespace VVVV.Nodes
         {
             foreach (var param in instance.OutParams) 
             {
+                var inputValue = param.GetValue();
+
+                if (inputValue == null) continue;
+
+                //check array types and do block copy
+                var floatArray = inputValue as float[];
+                if (floatArray != null)
+                {
+                    var spread = new Spread<float>(floatArray.Length);
+                    Array.Copy(floatArray, spread.Stream.Buffer, floatArray.Length);
+                    FOutputPinRelation[param][i] = spread;
+                    continue; //finished
+                }
+
+                var doubleArray = inputValue as double[];
+                if (doubleArray != null)
+                {
+                    var spread = new Spread<float>(doubleArray.Length);
+                    Array.Copy(doubleArray, spread.Stream.Buffer, doubleArray.Length);
+                    FOutputPinRelation[param][i] = spread;
+                    continue; //finished
+                }
+
+                var intArray = inputValue as int[];
+                if (intArray != null)
+                {
+                    var spread = new Spread<float>(intArray.Length);
+                    Array.Copy(intArray, spread.Stream.Buffer, intArray.Length);
+                    FOutputPinRelation[param][i] = spread;
+                    continue; //finished
+                }
+
                 FOutputPinRelation[param][i] = param.GetValue();
             }
         }
@@ -207,7 +251,7 @@ namespace VVVV.Nodes
                 }
                 else
                 {
-                    FInputPinRelation[param] = FInputPins[param.Name];
+                    FInputPinToParamMap[param] = FInputPins[param.Name];
                 }
             }
             
@@ -225,7 +269,7 @@ namespace VVVV.Nodes
                 }
                 else
                 {
-                    FInputPinRelation.Remove(param);
+                    FInputPinToParamMap.Remove(param);
                 }
             }
             

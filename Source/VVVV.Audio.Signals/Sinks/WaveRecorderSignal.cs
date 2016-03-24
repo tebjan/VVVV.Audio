@@ -16,21 +16,28 @@ namespace VVVV.Audio
 
 		private string FFileName;
 
-		public string Filename {
-			get {
+		public string Filename
+        {
+			get
+            {
 				return FFileName;
 			}
-			set {
-				if (!string.IsNullOrWhiteSpace(value) && FFileName != value) {
+
+			set
+            {
+				if (!string.IsNullOrWhiteSpace(value) && FFileName != value)
+                {
 					FFileName = value;
-					if (FWriter != null) {
+					if (FWriter != null)
+                    {
 						FWriter.Close();
 						FWriter.Dispose();
 					}
 					FWriter = new WaveFileWriter(FFileName, new WaveFormat(WaveFormat.SampleRate, 16, 1));
 					SamplesWritten = 0;
 				}
-				else {
+				else
+                {
 					SamplesWritten = 0;
 					FFlushCounter = 0;
 				}
@@ -52,7 +59,8 @@ namespace VVVV.Audio
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (Write && InputSignal.Value != null && FWriter != null) {
+			if (Write && InputSignal.Value != null && FWriter != null)
+            {
 				var byteCount = count * 2;
 				if (FByteBuffer.Length < byteCount)
 					FByteBuffer = new byte[byteCount];
@@ -62,34 +70,40 @@ namespace VVVV.Audio
 				FWriter.Write(FByteBuffer, 0, byteCount);
 				SamplesWritten += count;
 				FFlushCounter += count;
-				if (FFlushCounter >= 32768) {
+				if (FFlushCounter >= 32768)
+                {
 					FWriter.Flush();
 					FFlushCounter = 0;
 				}
 				FLastWriteState = true;
 			}
-			else {
+			else
+            {
 				FFlushCounter = 0;
-				if (FLastWriteState) {
+				if (FLastWriteState)
+                {
 					FWriter.Flush();
 					FLastWriteState = false;
 				}
 			}
 		}
 
-		public int SamplesWritten {
+		public int SamplesWritten
+        {
 			get;
 			protected set;
 		}
 
-		public bool Write {
+		public bool Write
+        {
 			get;
 			set;
 		}
 
 		public override void Dispose()
 		{
-			if (FWriter != null) {
+			if (FWriter != null)
+            {
 				FWriter.Close();
 				FWriter.Dispose();
 				FWriter = null;

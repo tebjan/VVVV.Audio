@@ -89,10 +89,9 @@ namespace VVVV.Audio.VST
             for (int i = 0; i < PluginContext.PluginInfo.ParameterCount; i++)
             {
                 string name = PluginContext.PluginCommandStub.GetParameterName(i);
-                string label = PluginContext.PluginCommandStub.GetParameterLabel(i);
                 string display = PluginContext.PluginCommandStub.GetParameterDisplay(i);
 
-                AddParameter(name, display, label, String.Empty);
+                AddParameter(name, display);
             }
         }
 
@@ -101,12 +100,10 @@ namespace VVVV.Audio.VST
             PluginParameterListVw.Items[paramIndex].Checked = exposed;
         }
 
-        private void AddParameter(string paramName, string paramValue, string label, string shortLabel)
+        private void AddParameter(string paramName, string paramValue)
         {
             ListViewItem lvItem = new ListViewItem(paramName);
             lvItem.SubItems.Add(paramValue);
-            lvItem.SubItems.Add(label);
-            lvItem.SubItems.Add(shortLabel);
 
             PluginParameterListVw.Items.Add(lvItem);
         }

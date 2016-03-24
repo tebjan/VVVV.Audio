@@ -27,8 +27,18 @@ namespace VVVV.Audio
         }
         
         protected CircularBuffer FRingBuffer = new CircularBuffer(512);
-        
+
+        //SigParamDiff<int> GistBufferSize = new SigParamDiff<int>("Gist Buffer Size");
+        SigParam<bool> GetFeatures = new SigParam<bool>("GetFeatures", true, false);
+
+        SigParam<float> RMS = new SigParam<float>("RMS", true);
+        SigParam<float[]> Features = new SigParam<float[]>("Features", true);
         SigParam<float[]> FFT = new SigParam<float[]>("Spectrum", true);
+
+        public GistSignal()
+        {
+            //GistBufferSize.ValueChanged = v => v
+        }
         
         protected override void Engine_SampleRateChanged(object sender, EventArgs e)
         {
@@ -46,7 +56,18 @@ namespace VVVV.Audio
         
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
-            base.FillBuffer(buffer, offset, count);
+            //base.FillBuffer(buffer, offset, count);
+            FGist.ProcessFrame(buffer, count);
+            FFT.Value = FGist.SpectrumData;
+
+            //get flags
+            AudioFeaturesFlags flags = (AudioFeaturesFlags)2047;
+
+            var features = FGist.GetFeatures(flags);
+            var vals = new float[11];
+            features.Values.CopyTo(vals, 0);
+            Features.Value = vals;
+            
         }
         
         public override void Dispose()

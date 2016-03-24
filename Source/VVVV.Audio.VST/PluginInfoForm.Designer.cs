@@ -36,10 +36,7 @@
             this.PluginParameterListVw = new System.Windows.Forms.ListView();
             this.ParameterNameHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ParameterValueHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ParameterLabelHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ParameterShortLabelHdr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
             groupBox1 = new System.Windows.Forms.GroupBox();
             groupBox2 = new System.Windows.Forms.GroupBox();
             groupBox1.SuspendLayout();
@@ -48,7 +45,6 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -91,7 +87,6 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(this.trackBar1);
             groupBox2.Controls.Add(this.PluginParameterListVw);
             groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             groupBox2.Location = new System.Drawing.Point(0, 0);
@@ -109,9 +104,7 @@
             this.PluginParameterListVw.CheckBoxes = true;
             this.PluginParameterListVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ParameterNameHdr,
-            this.ParameterValueHdr,
-            this.ParameterLabelHdr,
-            this.ParameterShortLabelHdr});
+            this.ParameterValueHdr});
             this.PluginParameterListVw.FullRowSelect = true;
             this.PluginParameterListVw.HideSelection = false;
             this.PluginParameterListVw.Location = new System.Drawing.Point(7, 19);
@@ -126,22 +119,12 @@
             // ParameterNameHdr
             // 
             this.ParameterNameHdr.Text = "Parameter Name";
-            this.ParameterNameHdr.Width = 119;
+            this.ParameterNameHdr.Width = 122;
             // 
             // ParameterValueHdr
             // 
             this.ParameterValueHdr.Text = "Value";
-            this.ParameterValueHdr.Width = 50;
-            // 
-            // ParameterLabelHdr
-            // 
-            this.ParameterLabelHdr.Text = "Label";
-            this.ParameterLabelHdr.Width = 59;
-            // 
-            // ParameterShortLabelHdr
-            // 
-            this.ParameterShortLabelHdr.Text = "Short Lbl";
-            this.ParameterShortLabelHdr.Width = 66;
+            this.ParameterValueHdr.Width = 115;
             // 
             // splitContainer1
             // 
@@ -161,13 +144,6 @@
             this.splitContainer1.SplitterDistance = 233;
             this.splitContainer1.TabIndex = 2;
             // 
-            // trackBar1
-            // 
-            this.trackBar1.Location = new System.Drawing.Point(270, 16);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(104, 45);
-            this.trackBar1.TabIndex = 3;
-            // 
             // PluginInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -177,12 +153,10 @@
             this.Size = new System.Drawing.Size(625, 467);
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -196,8 +170,5 @@
         private System.Windows.Forms.ListView PluginParameterListVw;
         private System.Windows.Forms.ColumnHeader ParameterNameHdr;
         private System.Windows.Forms.ColumnHeader ParameterValueHdr;
-        private System.Windows.Forms.ColumnHeader ParameterLabelHdr;
-        private System.Windows.Forms.ColumnHeader ParameterShortLabelHdr;
-        private System.Windows.Forms.TrackBar trackBar1;
     }
 }
