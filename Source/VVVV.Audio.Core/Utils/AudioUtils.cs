@@ -48,8 +48,16 @@ namespace VVVV.Audio
 				buffer[i+offset] = (float)(source[i+offset]);
 			}
 		}
-		
-		public static void ResampleMax(float[] source, float[] dest, int outCount)
+
+        public static void WriteDoubleWindowed(this float[] buffer, double[] source, double[] window, int offset, int count, double gain = 1)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                buffer[i + offset] = (float)(source[i + offset] * window[i + offset] * gain);
+            }
+        }
+
+        public static void ResampleMax(float[] source, float[] dest, int outCount)
 		{
 		    
 		    var samples = source.Length;

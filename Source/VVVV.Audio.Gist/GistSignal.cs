@@ -32,13 +32,15 @@ namespace VVVV.Audio
         //SigParamDiff<int> GistBufferSize = new SigParamDiff<int>("Gist Buffer Size");
         SigParam<bool> GetFeatures = new SigParam<bool>("GetFeatures", true, false);
 
-        SigParam<float> RMS = new SigParam<float>("RMS", true);
+        //SigParam<float> RMS = new SigParam<float>("RMS", true);
         SigParam<float[]> Features = new SigParam<float[]>("Features", true);
         SigParam<float[]> FFT = new SigParam<float[]>("Spectrum", true);
+        SigParam<string> FeatureNames = new SigParam<string>("Feature Names", true);
 
         public GistSignal()
         {
             //GistBufferSize.ValueChanged = v => v
+            FeatureNames.Value = String.Join(Environment.NewLine, Enum.GetNames(typeof(AudioFeaturesFlags)));
         }
         
         protected override void Engine_SampleRateChanged(object sender, EventArgs e)

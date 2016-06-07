@@ -11,27 +11,110 @@ using Lomont;
 
 namespace VVVV.Audio
 {
+    public class IFFTPullBuffer : CircularPullBuffer
+    {
+        public IFFTPullBuffer(SigParam<double[]> fftDataReal, SigParam<double[]> fftDataImag, int size, WindowFunction window)
+            : base(size)
+        {
+            FFFTDataReal = fftDataReal;
+            FFFTDataImag = fftDataImag;
+            RealImagData = new double[size];
+            TimeDomain = new float[size];
+            Window = AudioUtils.CreateWindowDouble(size, window);
+            WindowFunc = window;
+            PullCount = size;
+        }
+
+        readonly SigParam<double[]> FFFTDataReal;
+        readonly SigParam<double[]> FFFTDataImag;
+        readonly double[] RealImagData;
+        readonly double[] Window;
+        public readonly WindowFunction WindowFunc;
+        readonly float[] TimeDomain;
+        readonly LomontFFT FFFT = new LomontFFT();
+
+        public double Gain = 1;
+
+        public override void Pull(int count)
+        {
+            var fft = FFFTDataReal.Value;
+            var copyCount = Math.Min(count / 2, fft.Length);
+            var j = 0;
+            for (int i = 0; i < copyCount; i++)
+            {
+                RealImagData[j++] = fft[i];
+                RealImagData[j++] = 0;
+            }
+
+            if(copyCount < count/2)
+            {
+
+                for (int i = copyCount; i < count/2; i++)
+                {
+                    RealImagData[j++] = 0;
+                    RealImagData[j++] = 0;
+                }
+            }
+
+            FFFT.RealFFT(RealImagData, false);
+
+            //RealImagData[0] = RealImagData[1];
+
+            TimeDomain.WriteDoubleWindowed(RealImagData, Window, 0, count, Gain);
+
+            Write(TimeDomain, 0, count);
+        }
+    }
+
     /// <summary>
     /// Description of IFFTSignal.
     /// </summary>
     public class IFFTSignal : AudioSignal
     {
-        SigParam<double[]> FFTData = new SigParam<double[]>("FFT Data");
-        SigParam<float> BufferSize = new SigParam<float>("Buffer Size", true);
-        
-        LomontFFT FFFT = new LomontFFT();
+        SigParam<double[]> FFTDataReal = new SigParam<double[]>("FFT Data Real");
+        SigParam<double[]> FFTDataImag = new SigParam<double[]>("FFT Data Imaginary");
+        SigParam<WindowFunction> FWindowFunc = new SigParam<WindowFunction>("Window Function");
+        SigParam<double> FGain = new SigParam<double>("Gain", 0.5);
+        SigParam<int> BufferSize = new SigParam<int>("IFFT Buffer Size", true);
         
         public IFFTSignal()
         {
         }
-        
-        double[] RealImagData = new double[1];
-        
+
+        IFFTPullBuffer FIFFTBuffer;
+
+        int NextPow2(int val)
+        {
+            var result = 2;
+            while(result < val)
+            {
+                result *= 2;
+            }
+
+            return result;
+        }
+
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
-            //perform IFFT
+            //recreate ring buffer?
+            var size = NextPow2(FFTDataReal.Value.Length) * 2;
 
-            base.FillBuffer(buffer, offset, count);
+            if (size < count)
+            {
+                BufferSize.Value = 0;
+                return;
+            }
+
+            if(FIFFTBuffer == null || size != FIFFTBuffer.PullCount || FWindowFunc.Value != FIFFTBuffer.WindowFunc)
+            {
+                FIFFTBuffer = new IFFTPullBuffer(FFTDataReal, FFTDataImag, size, FWindowFunc.Value);
+                BufferSize.Value = size;
+            }
+
+            FIFFTBuffer.Gain = FGain.Value;
+
+            //perform IFFT
+            FIFFTBuffer.Read(buffer, offset, count);
         }
     }
 }
