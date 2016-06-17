@@ -17,9 +17,8 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {
 	
-	[PluginInfo(Name = "ADSR", Category = "VAudio", Version = "Source", Help = "Generates an ADSR envelope in 0..1 range", AutoEvaluate = true, Tags = "Sine, Triangle, Square, Sawtooth, Wave")]
+	[PluginInfo(Name = "ADSR", Category = "VAudio", Version = "Source", Help = "Generates an ADSR envelope in 0..1 range", AutoEvaluate = true, Tags = "Envelope")]
 	public class ADSRSignalNode : AutoAudioSignalNode<ADSRSignal>
 	{
-	    
 	}
 }
