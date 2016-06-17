@@ -37,13 +37,34 @@ namespace VVVV.Audio
 
         public override void Pull(int count)
         {
-            var fft = FFFTDataReal.Value;
-            var copyCount = Math.Min(count / 2, fft.Length);
+            var real = FFFTDataReal.Value;
+            var imag = FFFTDataImag.Value;
+            var copyCount = Math.Min(count / 2, Math.Max(real.Length, imag.Length));
             var j = 0;
-            for (int i = 0; i < copyCount; i++)
+
+            if (real.Length > imag.Length)
             {
-                RealImagData[j++] = fft[i];
-                RealImagData[j++] = 0;
+                for (int i = 0; i < copyCount; i++)
+                {
+                    RealImagData[j++] = real[i];
+                    RealImagData[j++] = imag[AudioUtils.Zmod(i, imag.Length)];
+                }
+            }
+            else if(real.Length == imag.Length)
+            {
+                for (int i = 0; i < copyCount; i++)
+                {
+                    RealImagData[j++] = real[i];
+                    RealImagData[j++] = imag[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < copyCount; i++)
+                {
+                    RealImagData[j++] = real[AudioUtils.Zmod(i, real.Length)];
+                    RealImagData[j++] = imag[i];
+                }
             }
 
             if(copyCount < count/2)
@@ -97,7 +118,7 @@ namespace VVVV.Audio
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
             //recreate ring buffer?
-            var size = NextPow2(FFTDataReal.Value.Length) * 2;
+            var size = Math.Max(NextPow2(FFTDataReal.Value.Length), NextPow2(FFTDataImag.Value.Length)) * 2;
 
             if (size < count)
             {
