@@ -16,7 +16,7 @@ namespace VVVV.Audio
     /// </summary>
     public class AudioFileReaderVVVV : WaveStream, ISampleProvider
     {
-        public string FFileName;
+        public string FileName;
         private WaveStream FReaderStream; // the waveStream which we will use for all positioning
         private VolumeSampleProvider FSampleChannel; // sample provider that gives us most stuff we need
         private readonly int FDestBytesPerSample;
@@ -41,31 +41,57 @@ namespace VVVV.Audio
         	}
         }
         
-        float[][] FCache;
+        public float[][] Cache;
 		void DoCacheFile()
 		{
 			if(FCacheFile)
 			{
-				FCache = new float[FSampleChannel.WaveFormat.Channels][];
+                var channels = FSampleChannel.WaveFormat.Channels;
+                var cacheSize = FReaderStream.Length / (4 * channels);
+
+                Cache = new float[channels][];
 				
-				for (int i = 0; i < FCache.Length; i++) 
+				for (int i = 0; i < Cache.Length; i++) 
 				{
-					FCache[i] = new float[FReaderStream.Length/4];
+					Cache[i] = new float[cacheSize];
 				}
 				
-				long outputLength = 0;
-                var buffer = new float[FSampleChannel.WaveFormat.AverageBytesPerSecond * 4];
-                //var stream = new BufferedSampleProvider();
+				long totalFloatsRead = 0;
+                var buffer = new float[FSampleChannel.WaveFormat.AverageBytesPerSecond * 4 * channels];
+                var cacheIndex = 0;
+                FReaderStream.Position = 0;
+
                 while (true)
                 {
-                    int bytesRead = FSampleChannel.Read(buffer, 0, buffer.Length);
-                    if (bytesRead == 0)
+                    int floatsRead = FSampleChannel.Read(buffer, 0, buffer.Length);
+
+                    totalFloatsRead += floatsRead;
+
+                    bool finished = false;
+                    for (int i = 0; i < floatsRead; i += channels)
+                    {
+                        for (int channel = 0; channel < channels; channel++)
+                        {
+                            Cache[channel][cacheIndex] = buffer[i + channel];
+                        }
+
+                        cacheIndex++;
+                        if (cacheIndex >= cacheSize)
+                        {
+                            finished = true;
+                            break;
+                        }
+                    }
+
+
+                    if (finished)
                     {
                         //end of source
-                        break;
+                        break; 
                     }
-                    outputLength += bytesRead;
-                    if (outputLength > Int32.MaxValue)
+
+
+                    if (totalFloatsRead > Int32.MaxValue)
                     {
                         throw new InvalidOperationException("WAV File cannot be greater than 2GB. Check that sourceProvider is not an endless stream.");
                     }
@@ -80,7 +106,7 @@ namespace VVVV.Audio
         public AudioFileReaderVVVV(string fileName)
         {
             FLockObject = new object();
-            this.FFileName = fileName;
+            this.FileName = fileName;
             CreateReaderStream(fileName);
             FSourceBytesPerSample = (FReaderStream.WaveFormat.BitsPerSample / 8) * FReaderStream.WaveFormat.Channels;
             
