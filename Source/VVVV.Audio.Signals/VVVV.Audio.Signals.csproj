@@ -113,6 +113,7 @@
     <Compile Include="Sources\IFFTSignal.cs" />
     <Compile Include="Sources\ValueSequenceSignal.cs" />
     <Compile Include="Sources\OscSignal.cs" />
+    <Compile Include="Sources\GranulatorSignal.cs" />
     <Compile Include="Sources\ValueToAudioSignal.cs" />
     <Compile Include="Sources\WaveTableSignal.cs" />
   </ItemGroup>

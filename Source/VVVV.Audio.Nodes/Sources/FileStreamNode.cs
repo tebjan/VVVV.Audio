@@ -70,7 +70,7 @@ namespace VVVV.Nodes
 
 		protected override void SetParameters(int i, FileStreamSignal instance)
 		{
-		    if(FFilename.IsChanged && (instance.FAudioFile == null || instance.FAudioFile.FFileName != FFilename[i]))
+		    if(FFilename.IsChanged && (instance.FAudioFile == null || instance.FAudioFile.FileName != FFilename[i]))
 			{ 
 				instance.OpenFile(FFilename[i]);
                 
