@@ -40,7 +40,7 @@ namespace VVVV.Audio
         public GistSignal()
         {
             //GistBufferSize.ValueChanged = v => v
-            FeatureNames.Value = String.Join(Environment.NewLine, Enum.GetNames(typeof(AudioFeaturesFlags)));
+            FeatureNames.Value = string.Join(Environment.NewLine, Enum.GetNames(typeof(AudioFeaturesFlags)));
         }
         
         protected override void Engine_SampleRateChanged(object sender, EventArgs e)

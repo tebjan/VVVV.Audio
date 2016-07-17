@@ -241,7 +241,7 @@ namespace VVVV.Audio.MIDI
         //inputs
         SigParamDiff<float> Length = new SigParamDiff<float>("Length", 4);
         SigParamDiff<float[]> Times = new SigParamDiff<float[]>("Positions");
-        SigParamDiff<int[]> Values = new SigParamDiff<int[]>("Notes");
+        SigParamDiff<int[]> Notes = new SigParamDiff<int[]>("Notes");
         SigParamDiff<float[]> Velocities = new SigParamDiff<float[]>("Velocities");
         SigParamDiff<float[]> Lengths = new SigParamDiff<float[]>("Lengths");
         SigParam<int> Channel = new SigParam<int>("Channel");
@@ -254,7 +254,7 @@ namespace VVVV.Audio.MIDI
         public MidiSequenceSignal()
         {
             Times.ValueChanged = TimesChanged;
-            Values.ValueChanged = ValuesChanged;
+            Notes.ValueChanged = NotesChanged;
             Lengths.ValueChanged = LengthsChanged;
             Velocities.ValueChanged = VelocitiesChanged;
             Length.ValueChanged = LengthChanged;
@@ -282,7 +282,7 @@ namespace VVVV.Audio.MIDI
             BuildSequence();
         }
 
-        void ValuesChanged(int[] obj)
+        void NotesChanged(int[] obj)
         {
             BuildSequence();
         }
@@ -290,10 +290,10 @@ namespace VVVV.Audio.MIDI
         MidiSequence FSequence = null;
         void BuildSequence()
         {
-            if(Times.Value != null && Values.Value != null && Lengths.Value != null && Velocities.Value != null && Length.Value > 0)
+            if(Times.Value != null && Notes.Value != null && Lengths.Value != null && Velocities.Value != null && Length.Value > 0)
             {
                 FSequence = new MidiSequence(Times.Value, 
-                                             Values.Value, 
+                                             Notes.Value, 
                                              Lengths.Value, 
                                              Velocities.Value, 
                                              Length.Value, 
