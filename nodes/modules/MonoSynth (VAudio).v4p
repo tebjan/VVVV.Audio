@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45debug33.8.dtd" >
-   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\MonoSynth (VAudio).v4p" systemname="MonoSynth (VAudio)" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\MonoSynth (VAudio).v4p" scrollx="0" scrolly="0">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta34.2.dtd" >
+   <PATCH nodename="C:\vvvv\vvvv_45beta34.2_x64\packs\VVVV.Audio\nodes\modules\MonoSynth (VAudio).v4p" systemname="MonoSynth (VAudio)" filename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\modules\MonoSynth (VAudio).v4p" scrollx="0" scrolly="0">
    <NODE systemname="Osc (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Osc (VAudio Source)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="5520" top="3270" width="100" height="100">
    </BOUNDS>
@@ -27,9 +27,11 @@
    </BOUNDS>
    <BOUNDS type="Node" left="5835" top="2250" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" visible="1" values="Sawtooth">
+   <PIN pinname="Input Enum" slicecount="1" visible="1" values="Square">
    </PIN>
    <PIN pinname="Output Enum" visible="1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Waveform">
    </PIN>
    </NODE>
    <NODE systemname="Osc (VAudio Source)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="Osc (VAudio Source)" componentmode="Hidden" id="2">
@@ -230,9 +232,9 @@
    </NODE>
    <LINK srcnodeid="15" srcpinname="Y Output Value" dstnodeid="10" dstpinname="Input 2">
    </LINK>
-   <BOUNDS type="Window" left="5895" top="5040" width="17010" height="11490">
+   <BOUNDS type="Window" left="13005" top="4335" width="17010" height="11490">
    </BOUNDS>
-   <PACK Name="addonpack" Version="33.8.0">
+   <PACK Name="addonpack" Version="34.1.0">
    </PACK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="16" systemname="IOBox (Node)">
    <BOUNDS type="Box" left="3150" top="315" width="795" height="240">
@@ -307,7 +309,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="1830" top="3465" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.07">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.23">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -339,7 +341,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="2295" top="5205" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.1">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.8">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -387,7 +389,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="9780" top="2595" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.04">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.29">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -403,7 +405,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="9960" top="3090" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.02">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.1">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -473,5 +475,7 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="32" srcpinname="Output Node" dstnodeid="6" dstpinname="Resonance">
+   </LINK>
+   <LINK srcnodeid="1" srcpinname="Output Enum" dstnodeid="2" dstpinname="Waveform">
    </LINK>
    </PATCH>
