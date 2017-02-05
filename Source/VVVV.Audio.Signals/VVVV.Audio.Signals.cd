@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="VVVV.Audio.BufferAudioSignal" Collapsed="true">
+    <Position X="43.75" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAEAACAIAAAAAQAAAEAAAAAAAAAAEAAAAAAAIEA=</HashCode>
+      <FileName>Buffers\BufferAudioSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.BufferReaderSignal" Collapsed="true">
+    <Position X="42.5" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAIAAAAAAAgAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Buffers\BufferReaderSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.BufferWriterSignal" Collapsed="true">
+    <Position X="45" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAAAAIAAACAAgAAAAAAAAAAQAAAAAYAA=</HashCode>
+      <FileName>Buffers\BufferWriterSignal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VVVV.Audio.AnalogModelingFilterSignal" Collapsed="true">
+    <Position X="17" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYIAABAACgLBREJEAAAAAAMEoAACEARgcBCBISQACA=</HashCode>
+      <FileName>Filters\AnalogModelingFilterSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.OnePoleLowPassSignal" Collapsed="true">
+    <Position X="21.5" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAgAACAAAAACAAAA=</HashCode>
+      <FileName>Filters\OnePoleLowPassSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.R8BrainSampleRateConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAEAAACAIAAAAAgAAQgAAAAAAAAAAAQAAQiBAAAA=</HashCode>
+      <FileName>Filters\R8BrainSampleRateConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VVVV.Audio.R8BrainDLLWrapper" Collapsed="true">
+    <Position X="80.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAgAAAAAAAAEAAEAAAAAAAABAAAA=</HashCode>
+      <FileName>Filters\R8BrainSampleRateConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.ResamplerPullBuffer" Collapsed="true">
+    <Position X="76.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAACAAAAAAAAAmAAAEAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Filters\ResampleSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.ResampleSignal">
+    <Position X="47.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAIAACAAQAAAAQAAAAAAAAAAAAkAgAAAAA=</HashCode>
+      <FileName>Filters\ResampleSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.WaveShaperSignal" Collapsed="true">
+    <Position X="24" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAgAAAAAAACCACEEAAAAAAAA=</HashCode>
+      <FileName>Filters\WaveShaperSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.WaveFormSignal" Collapsed="true">
+    <Position X="67" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIACYAAIggAABAAAAAIECgAUAACAAAAACADAA=</HashCode>
+      <FileName>Misc\WaveFormSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.MultiChannelInputSignal" Collapsed="true">
+    <Position X="64" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>MultiChannelInputSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignalOperator" Collapsed="true">
+    <Position X="10" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAIAAAAAAAAAAAAEAAAAAAgAAEAAAAAAAA=</HashCode>
+      <FileName>Routing\AudioSignalOperator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignalMultiplyOperator" Collapsed="true">
+    <Position X="8" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Routing\AudioSignalOperator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignalAddOperator" Collapsed="true">
+    <Position X="10.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Routing\AudioSignalOperator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignalSubtractOperator" Collapsed="true">
+    <Position X="12.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Routing\AudioSignalOperator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.MatrixMixerSignal" Collapsed="true">
+    <Position X="64" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAEAAAAAACAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Routing\MatrixMixerSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioToValueSignal" Collapsed="true">
+    <Position X="54.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Sinks\AudioToValueSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.BufferOutSignal" Collapsed="true">
+    <Position X="56.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAQAAAAAEAAAAQAA=</HashCode>
+      <FileName>Sinks\BufferOutSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.FFTOutSignal" Collapsed="true">
+    <Position X="58.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQIgAABCAAAAAAAAABAAACAAAACgAAAAAA=</HashCode>
+      <FileName>Sinks\FFTOutSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.LevelMeterSignal" Collapsed="true">
+    <Position X="49.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sinks\LevelMeterSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.WaveRecorderSignal" Collapsed="true">
+    <Position X="52" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIQCAAAAAACAFAAAAAAFAIAAAgAAEAAAA=</HashCode>
+      <FileName>Sinks\WaveRecorderSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.ADSRSignal" Collapsed="true">
+    <Position X="14.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FAAAABAAABAKAAQAEAAACAAQAoAIIAAAQIQAABEAAEg=</HashCode>
+      <FileName>Sources\ADSRSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioInSignal" Collapsed="true">
+    <Position X="26.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAIEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sources\AudioInSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.FileStreamSignal" Collapsed="true">
+    <Position X="69.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIFAIAACAAAAAAAAAQAAABAECAAUAABABAAAACAAA=</HashCode>
+      <FileName>Sources\FileStreamSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.RefCounted&lt;T&gt;" Collapsed="true">
+    <Position X="83.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACCAAAAgAAAAAAAAAAAAAAkAAAAACA=</HashCode>
+      <FileName>Sources\GranulatorSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.GranulatorFilePool" Collapsed="true">
+    <Position X="80.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAIAAA=</HashCode>
+      <FileName>Sources\GranulatorSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.Grain" Collapsed="true">
+    <Position X="78.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAgAAAAAACACAAQAAABAgABAAABABAAAAAEACEAAACA=</HashCode>
+      <FileName>Sources\GranulatorSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.GranulatorSignal" Collapsed="true">
+    <Position X="28.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAACAKAAAAAAAAAABCAAAAAAACAAQAAABAAAA=</HashCode>
+      <FileName>Sources\GranulatorSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.IFFTPullBuffer" Collapsed="true">
+    <Position X="82" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAIAAAAABBAACAAAAACAACggA=</HashCode>
+      <FileName>Sources\IFFTSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.IFFTSignal" Collapsed="true">
+    <Position X="37.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAIACAAIAAAAAAAAQAggAAAABAAAAAA=</HashCode>
+      <FileName>Sources\IFFTSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.OscSignal" Collapsed="true">
+    <Position X="30.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAQAEUQAwgIAAQIAAAAAAAgAcDHEgMAIiFkIYkECEg=</HashCode>
+      <FileName>Sources\OscSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.MultiSineSignal" Collapsed="true">
+    <Position X="19.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAAAEAAAAABAA=</HashCode>
+      <FileName>Sources\OscSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.ValueSequence" Collapsed="true">
+    <Position X="78.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkgAEAAABAAAEIAggAAABAQgAAAAAAAAAAAAgAUAAAA=</HashCode>
+      <FileName>Sources\ValueSequenceSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.ValueSequenceSignal" Collapsed="true">
+    <Position X="35.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgCAAAAAAIAAA4BAAACABABAAAAAIAAAAgAAACAAA=</HashCode>
+      <FileName>Sources\ValueSequenceSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.ValueToAudioSignal" Collapsed="true">
+    <Position X="39.75" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAIAAAAAAAAAAAAAAAAAgAAAAAAAACAAAA=</HashCode>
+      <FileName>Sources\ValueToAudioSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.WaveTableSignal" Collapsed="true">
+    <Position X="33" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCAAAAAAAAAIEAAAAAAAAAAAAIJAAAAAIAAAAAAAIAA=</HashCode>
+      <FileName>Sources\WaveTableSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignalBase" Collapsed="true">
+    <Position X="41" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignal" Collapsed="true">
+    <Position X="41" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignalInput" Collapsed="true">
+    <Position X="50.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.SingleSignal" Collapsed="true">
+    <Position X="61" Y="3.25" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.MultiChannelSignal" Collapsed="true">
+    <Position X="66" Y="3.25" Width="2.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.ListExtra" Collapsed="true">
+    <Position X="83.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.VolumeProcessor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="80.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VVVV.Audio.AudioEffectSignal" Collapsed="true">
+    <Position X="71.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.AudioEngine" Collapsed="true">
+    <Position X="76.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.AudioEngineSettings" Collapsed="true">
+    <Position X="78.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.AudioService" Collapsed="true">
+    <Position X="82" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.BufferEventArgs" Collapsed="true">
+    <Position X="76.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.BufferDictionary" Collapsed="true">
+    <Position X="83.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.AudioEngineTimer" Collapsed="true">
+    <Position X="80.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.SigParamBase" Collapsed="true">
+    <Position X="6" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.SigParamBaseGeneric&lt;T&gt;" Collapsed="true">
+    <Position X="6" Y="7.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.SigParam&lt;T&gt;" Collapsed="true">
+    <Position X="4.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.SigParamDiff&lt;T&gt;" Collapsed="true">
+    <Position X="7" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.SigParamAudio" Collapsed="true">
+    <Position X="7" Y="10.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.SigParamBang" Collapsed="true">
+    <Position X="4.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.MasterChannel" Collapsed="true">
+    <Position X="76.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VVVV.Audio.MasterWaveProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="78.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VVVV.Audio.SinkSignal" Collapsed="true">
+    <Position X="54.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VVVV.Audio.NotifyProccessSinkSignal" Collapsed="true">
+    <Position X="73.75" Y="3.25" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="VVVV.Audio.ICanCopyBuffer" Collapsed="true">
+    <Position X="78.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="VVVV.Audio.IAudioEffect" Collapsed="true">
+    <Position X="76.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="VVVV.Audio.IAudioSink">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="VVVV.Audio.INotifyProcess">
+    <Position X="4.75" Y="2.25" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="VVVV.Audio.AnalogModelingFilterAlgorithm" Collapsed="true">
+    <Position X="76.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\AnalogModelingFilterSignal.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="VVVV.Audio.AnalogModelingFilterType" Collapsed="true">
+    <Position X="78.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAACAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\AnalogModelingFilterSignal.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="VVVV.Audio.R8BrainResamplerResolution" Collapsed="true">
+    <Position X="83.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAABAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\R8BrainSampleRateConverter.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="VVVV.Audio.WaveShaperCurve" Collapsed="true">
+    <Position X="78.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAACAAAEAAAAAAAAA=</HashCode>
+      <FileName>Filters\WaveShaperSignal.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="VVVV.Audio.FFTWindowFunction" Collapsed="true">
+    <Position X="82" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAIAABAAAAAAEAAAA=</HashCode>
+      <FileName>Sinks\FFTOutSignal.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="VVVV.Audio.WaveFormSelection" Collapsed="true">
+    <Position X="76.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAQAgAAgAABAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Sources\OscSignal.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="VVVV.Audio.AntiAliasingAlgorithm" Collapsed="true">
+    <Position X="80.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Sources\OscSignal.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

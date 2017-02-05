@@ -75,6 +75,9 @@
     <Compile Include="Utils\NAudio\AudioFileReaderVVVV.cs" />
     <Compile Include="Utils\NAudio\WaveProviderToWaveStream.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="VVVV.Audio.Core.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <Import Project="packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets" Condition="Exists('packages\VVVV.SlimDX.1.0.1\build\net40\VVVV.SlimDX.targets')" />
   <Import Project="packages\VVVV.PluginInterfaces.32.2.0-develop-468\build\net40\VVVV.PluginInterfaces.targets" Condition="Exists('packages\VVVV.PluginInterfaces.32.2.0-develop-468\build\net40\VVVV.PluginInterfaces.targets')" />

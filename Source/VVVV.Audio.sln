@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Core", "VVVV.Audio.Core\VVVV.Audio.Core.csproj", "{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.MIDI", "VVVV.Audio.MIDI\VVVV.Audio.MIDI.csproj", "{737AD730-2A7F-4F83-8EEB-25253006D957}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Gist", "VVVV.Audio.Gist\VVVV.Audio.Gist.csproj", "{A4AEA69C-44CA-4B91-B6B7-E5401A7595E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.VL", "VVVV.Audio.VL\VVVV.Audio.VL.csproj", "{3D611451-3616-4050-90C1-246F0BCF455B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{A4AEA69C-44CA-4B91-B6B7-E5401A7595E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4AEA69C-44CA-4B91-B6B7-E5401A7595E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4AEA69C-44CA-4B91-B6B7-E5401A7595E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D611451-3616-4050-90C1-246F0BCF455B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D611451-3616-4050-90C1-246F0BCF455B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D611451-3616-4050-90C1-246F0BCF455B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D611451-3616-4050-90C1-246F0BCF455B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

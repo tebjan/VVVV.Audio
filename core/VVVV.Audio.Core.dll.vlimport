@@ -1,0 +1,54 @@
+{
+  "Version": 2,
+  "Types": [
+    {
+      "TypeAttribute": {
+        "Name": "AudioSignal",
+        "Category": "VVVV.Audio",
+        "Help": "Base class for signals which just generate audio",
+        "ImportedHelp": "<member name=\"T:VVVV.Audio.AudioSignal\">\r\n  <summary>\r\n            Base class for signals which just generate audio\r\n            </summary>\r\n</member>"
+      },
+      "Members": [
+        {
+          "NodeAttribute": {
+            "Name": "Create"
+          },
+          "DotNetName": ".ctor"
+        },
+        {
+          "NodeAttribute": {
+            "Name": "Destroy"
+          },
+          "DotNetName": "Dispose"
+        },
+        {
+          "NodeAttribute": {
+            "Name": "Read"
+          },
+          "Parameters": [
+            {
+              "TypeFullName": "System.Single[]",
+              "DotNetName": "buffer"
+            },
+            {
+              "TypeFullName": "System.Int32",
+              "DotNetName": "offset"
+            },
+            {
+              "TypeFullName": "System.Int32",
+              "DotNetName": "count"
+            }
+          ],
+          "ReturnValue": {
+            "TypeFullName": "System.Int32",
+            "PinDirection": 1,
+            "DotNetName": "return"
+          },
+          "DotNetName": "Read"
+        }
+      ],
+      "DotNetName": "VVVV.Audio.AudioSignal"
+    }
+  ],
+  "DotNetName": "VVVV.Audio.Core, Version=1.7.6209.8759, Culture=neutral, PublicKeyToken=null"
+}

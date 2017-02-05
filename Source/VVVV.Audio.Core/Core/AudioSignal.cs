@@ -137,6 +137,7 @@ namespace VVVV.Audio
         public int Read(float[] buffer, int offset, int count)
         {
             //TODO: find solid way to decide whether buffer copy is needed
+            //maybe hold a list of sinks that updates on each...
             if(true || NeedsBufferCopy)
             {
                 //ensure internal buffer size and shrink size if too large

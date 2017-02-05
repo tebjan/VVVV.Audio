@@ -70,3 +70,7 @@ nodes/plugins/Sanford.Multimedia.Midi.xml
 nodes/plugins/VVVV.Audio.MIDI.*
 core/VVVV.Audio.*.dll
 nodes/plugins/VVVV.Audio.*
+core/$RANDOM_SEED$
+core/nunit_random_seed.tmp
+nodes/plugins/$RANDOM_SEED$
+nodes/plugins/nunit_random_seed.tmp

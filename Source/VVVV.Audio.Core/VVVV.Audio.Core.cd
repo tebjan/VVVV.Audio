@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="VVVV.Audio.VolumeProcessor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Core\AudioEffectSignal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VVVV.Audio.AudioEffectSignal" Collapsed="true">
+    <Position X="8.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAgEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\AudioEffectSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioEngine" Collapsed="true">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gQAAIAAAACAFEDAIAEAAAAAAEAgAAAEQ5AAAEEAEAAI=</HashCode>
+      <FileName>Core\AudioEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioEngineSettings" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAEAAAAAAAAACAAAAAAAAACAADAAEAAAAAAAEAA=</HashCode>
+      <FileName>Core\AudioEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioService" Collapsed="true">
+    <Position X="22.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAIIgAAAAAAAAAAAAAABAAAEAAAAAA=</HashCode>
+      <FileName>Core\AudioEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.BufferEventArgs" Collapsed="true">
+    <Position X="19" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Core\AudioEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.BufferDictionary" Collapsed="true">
+    <Position X="17.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAQAAAAAAAAAAAAAAAAAAEAEA=</HashCode>
+      <FileName>Core\AudioEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioEngineTimer" Collapsed="true">
+    <Position X="19" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DEAAKAAooABAAAAAAgAAAQIqAUAAIAASAoAAAACQEQA=</HashCode>
+      <FileName>Core\AudioEngineTimer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.SigParamBase" Collapsed="true">
+    <Position X="5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAQgAgAABAAAAAQAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Core\AudioParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.SigParamBaseGeneric&lt;T&gt;" Collapsed="true">
+    <Position X="5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgIAAAAgAADAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Core\AudioParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.SigParam&lt;T&gt;" Collapsed="true">
+    <Position X="3.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Core\AudioParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.SigParamDiff&lt;T&gt;" Collapsed="true">
+    <Position X="6" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAEAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Core\AudioParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.SigParamAudio" Collapsed="true">
+    <Position X="6" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\AudioParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.SigParamBang" Collapsed="true">
+    <Position X="3.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\AudioParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignalBase" Collapsed="true">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQggCAABAAAAACAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Core\AudioSignal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignal" Collapsed="true">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hABAEAAAACAIQAAACAAAIIAgAAAAgAABAAgEAAAAAAA=</HashCode>
+      <FileName>Core\AudioSignal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VVVV.Audio.AudioSignalInput" Collapsed="true">
+    <Position X="10.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\AudioSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.MasterChannel" Collapsed="true">
+    <Position X="22.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\MasterWaveProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.MasterWaveProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIAEAgAAAAAAAFIAAAABAAgAIAAAAAEAAAAEAAAAAA=</HashCode>
+      <FileName>Core\MasterWaveProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VVVV.Audio.SingleSignal" Collapsed="true">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAAAAAAAAAAAAAEAAAAAAEAAAAAAAAEA=</HashCode>
+      <FileName>Core\MultiChannelSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.MultiChannelSignal" Collapsed="true">
+    <Position X="6.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAACAAAAAAAAAAgAEAAAIAAAAgAAAAAACA=</HashCode>
+      <FileName>Core\MultiChannelSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.ListExtra" Collapsed="true">
+    <Position X="19" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Core\MultiChannelSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.SinkSignal" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Core\SinkSignal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VVVV.Audio.NotifyProccessSinkSignal" Collapsed="true">
+    <Position X="13" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAAgAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Core\SinkSignal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VVVV.Audio.AudioUtils" Collapsed="true">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAgAAAEIAAAABApAAAAgAAAAAAAAAIQACABAAAAAAg=</HashCode>
+      <FileName>Utils\AudioUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.BufferWiseResampler" Collapsed="true">
+    <Position X="20.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAABAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\BufferWiseResampler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.CircularArray&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAACAABAAACACAAAAAAAAAAAAAoABAAAABAAg=</HashCode>
+      <FileName>Utils\CircularArray.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VVVV.Audio.CircularBuffer" Collapsed="true">
+    <Position X="15.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAgAACAAAAgAAhAAAAAQAAAAAAAAEAQAA=</HashCode>
+      <FileName>Utils\CircularBuffer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VVVV.Audio.CircularPullBuffer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABABAIAGAABAAAAAAAAAQgEAAIAAAAEAAQAAEAgAg=</HashCode>
+      <FileName>Utils\CircularBuffer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VVVV.Audio.AudioFileReaderVVVV" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABgAFAAgACAAAAAhQAAESARgAAEAACAAAAIAAABAKAA=</HashCode>
+      <FileName>Utils\NAudio\AudioFileReaderVVVV.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VVVV.Audio.WaveProviderToWaveStream" Collapsed="true">
+    <Position X="19" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAgAAAAAABgAAAAAAAAABAAAYAAAAA=</HashCode>
+      <FileName>Utils\NAudio\WaveProviderToWaveStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lomont.LomontFFT" Collapsed="true">
+    <Position X="20.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAgAAAAAQAQAAIEAAAAAAAAAEAAAAACIAEAAAA=</HashCode>
+      <FileName>Utils\LomontFFT.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="VVVV.Audio.IAudioEffect" Collapsed="true">
+    <Position X="15.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\AudioEffectSignal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VVVV.Audio.ICanCopyBuffer" Collapsed="true">
+    <Position X="17.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\AudioSignal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VVVV.Audio.IAudioSink" Collapsed="true">
+    <Position X="8.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\SinkSignal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VVVV.Audio.INotifyProcess" Collapsed="true">
+    <Position X="8.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\SinkSignal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="VVVV.Audio.WindowFunction" Collapsed="true">
+    <Position X="15.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAgAAAAAAAAAAAAAAAAAAAIAABAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\AudioUtils.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

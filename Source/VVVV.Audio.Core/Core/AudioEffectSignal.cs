@@ -5,7 +5,7 @@ using System;
 namespace VVVV.Audio
 {
 	
-	//DRAFT
+	//DRAFT not in use
 	public interface IAudioEffect
 	{
 		unsafe void Process(float* sample);
