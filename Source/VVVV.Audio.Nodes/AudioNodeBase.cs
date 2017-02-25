@@ -205,8 +205,12 @@ namespace VVVV.Nodes
 			//set out buffer slice count to 0 so the
 			FOutputSignals.SliceCount = 0;
 		}
-		
-		protected virtual PinVisibility GetOutputVisiblilty()
+
+        /// <summary>
+        /// Can be overwritten in subclass to change the visibility of the default Audio output
+        /// </summary>
+        /// <returns></returns>
+        protected virtual PinVisibility GetOutputVisiblilty()
 		{
 			return PinVisibility.True;
 		}

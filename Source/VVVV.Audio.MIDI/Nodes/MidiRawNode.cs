@@ -10,6 +10,7 @@ using System;
 using VVVV.PluginInterfaces.V2;
 using System.ComponentModel.Composition;
 using VVVV.Audio.MIDI;
+using Sanford.Multimedia.Midi;
 
 namespace VVVV.Nodes
 {

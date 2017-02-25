@@ -61,6 +61,12 @@
             Audio source nodes
             </summary>
         </member>
+        <member name="M:VVVV.Nodes.GenericAudioSourceNode`1.GetOutputVisiblilty">
+            <summary>
+            Can be overwritten in subclass to change the visibility of the default Audio output
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:VVVV.Nodes.GenericMultiAudioSourceNode`1">
             <summary>
             Audio node base class with multichannel signals and automatic instance handling

@@ -58,8 +58,8 @@
       <HintPath>..\Dependencies\AnyCPU\NAudio\NAudio.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Sanford.Multimedia.Midi, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sanford.Multimedia.Midi.6.1.0\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
+    <Reference Include="Sanford.Multimedia.Midi, Version=6.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sanford.Multimedia.Midi.6.3.0\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -100,10 +100,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\InputDeviceMidiEvents.cs" />
     <Compile Include="Core\ManualMidiEvents.cs" />
-    <Compile Include="Core\MergeMidiEvents.cs" />
-    <Compile Include="Core\MidiEvents.cs" />
     <Compile Include="Nodes\MidiInNode.cs" />
     <Compile Include="Nodes\MidiMergeNode.cs" />
     <Compile Include="Nodes\MidiRawNode.cs" />

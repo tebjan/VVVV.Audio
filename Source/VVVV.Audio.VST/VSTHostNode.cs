@@ -23,6 +23,7 @@ using VVVV.PluginInterfaces.V2.NonGeneric;
 using VVVV.Utils.VColor;
 using VVVV.Utils.VMath;
 using VVVV.Nodes.Nodes.VST;
+using Sanford.Multimedia.Midi;
 
 #endregion usings
 
