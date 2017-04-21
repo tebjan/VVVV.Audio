@@ -17,20 +17,20 @@ using VVVV.Audio.MIDI;
 
 namespace VVVV.Nodes
 {
-    public class MidiEventSourceManager : IEnumerator<IList<RawMessageEventArgs>>, IDisposable
+    public class MidiEventSourceManager : IEnumerator<IList<ShortMessageEventArgs>>, IDisposable
     {
-        public readonly IEnumerator<IList<RawMessageEventArgs>> FReceivedEvents;
+        public readonly IEnumerator<IList<ShortMessageEventArgs>> FReceivedEvents;
         
         public MidiEventSourceManager(MidiEvents evts)
         {
             if(evts != null)
             {
-                var obs = Observable.FromEventPattern<RawMessageEventArgs>(evts, "RawMessageReceived");
+                var obs = Observable.FromEventPattern<ShortMessageEventArgs>(evts, "ShortMessageReceived");
                 FReceivedEvents = obs.Select(evt => evt.EventArgs).Chunkify().GetEnumerator();
             }
             else
             {
-                FReceivedEvents = Observable.Empty<RawMessageEventArgs>().Chunkify().GetEnumerator();
+                FReceivedEvents = Observable.Empty<ShortMessageEventArgs>().Chunkify().GetEnumerator();
             }
         }
 
@@ -52,7 +52,7 @@ namespace VVVV.Nodes
             }
         }
         
-        public IList<RawMessageEventArgs> Current 
+        public IList<ShortMessageEventArgs> Current 
         {
             get 
             {
@@ -136,10 +136,10 @@ namespace VVVV.Nodes
                         FOnDataOut[i] = true;
                         foreach (var evt in evts) 
                         {
-                            messageSpread.Add(evt.Message[0]);
-                            data1Spread.Add(evt.Message[1]);
-                            data2Spread.Add(evt.Message[2]);
-                            sampleOffsetSpread.Add(evt.DeltaFrames);
+                            messageSpread.Add(evt.Message.Bytes[0]);
+                            data1Spread.Add(evt.Message.Bytes[1]);
+                            data2Spread.Add(evt.Message.Bytes[2]);
+                            sampleOffsetSpread.Add(evt.Message.DeltaFrames);
                         }
                     }
                     else

@@ -171,7 +171,11 @@ namespace VVVV.Nodes
 	            Tags = "generic, spreadop, collection",
 	            AutoEvaluate = true
 	           )]
-	public class AudioSignalBufferNode : BufferNode<AudioSignal> {}
+	public class AudioSignalBufferNode : BufferNode<AudioSignal>
+    {
+        public AudioSignalBufferNode()
+            : base(Copier<AudioSignal>.Immutable) { }
+    }
     
     [PluginInfo(Name = "Queue",
 	            Category = "VAudio",
@@ -179,7 +183,11 @@ namespace VVVV.Nodes
 	            Tags = "generic, spreadop, collection",
 	            AutoEvaluate = true
 	           )]
-	public class AudioSignalQueueNode : QueueNode<AudioSignal> {}
+	public class AudioSignalQueueNode : QueueNode<AudioSignal>
+    {
+        public AudioSignalQueueNode()
+            : base(Copier<AudioSignal>.Immutable) { }
+    }
 	
 	[PluginInfo(Name = "RingBuffer",
 	            Category = "VAudio",
@@ -187,7 +195,11 @@ namespace VVVV.Nodes
 	            Tags = "generic, spreadop, collection",
 	            AutoEvaluate = true
 	           )]
-	public class AudioSignalRingBufferNode : RingBufferNode<AudioSignal> {}
+	public class AudioSignalRingBufferNode : RingBufferNode<AudioSignal>
+    {
+        public AudioSignalRingBufferNode()
+            : base(Copier<AudioSignal>.Immutable) { }
+    }
     
 	[PluginInfo(Name = "Store", 
 	            Category = "VAudio", 

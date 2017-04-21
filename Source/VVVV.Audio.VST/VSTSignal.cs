@@ -381,21 +381,21 @@ namespace VVVV.Audio.VST
             if(FMidiEventSource != midiEvents)
             {
                 if(FMidiEventSource != null)
-                    FMidiEventSource.RawMessageReceived -= FMidiEventSource_RawMessageReceived;
+                    FMidiEventSource.ShortMessageReceived -= FMidiEventSource_RawMessageReceived;
                 
                 FMidiEventSource = midiEvents;
                 
                 if(FMidiEventSource != null)
                 {
                     //receive midi events
-                    FMidiEventSource.RawMessageReceived += FMidiEventSource_RawMessageReceived;
+                    FMidiEventSource.ShortMessageReceived += FMidiEventSource_RawMessageReceived;
                 }
             }
         }
 
-        void FMidiEventSource_RawMessageReceived(object sender, RawMessageEventArgs e)
+        void FMidiEventSource_RawMessageReceived(object sender, ShortMessageEventArgs e)
         {
-            SetMidiEvent(e.DeltaFrames, e.Message);
+            SetMidiEvent(e.Message.DeltaFrames, e.Message.Bytes);
         }      
         
         //midi events

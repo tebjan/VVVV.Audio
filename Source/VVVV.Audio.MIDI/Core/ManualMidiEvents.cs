@@ -12,13 +12,13 @@ namespace VVVV.Audio.MIDI
 {
     public class ManualMidiEvents : MidiEvents
     {
-
-        public event EventHandler<RawMessageEventArgs> RawMessageReceived;
         public event EventHandler<ChannelMessageEventArgs> ChannelMessageReceived;
         public event EventHandler<SysExMessageEventArgs> SysExMessageReceived;
         public event EventHandler<SysCommonMessageEventArgs> SysCommonMessageReceived;
         public event EventHandler<SysRealtimeMessageEventArgs> SysRealtimeMessageReceived;
-        
+        public event MidiMessageEventHandler MessageReceived;
+        public event EventHandler<ShortMessageEventArgs> ShortMessageReceived;
+
         public int DeviceID
         {
             get
@@ -33,40 +33,28 @@ namespace VVVV.Audio.MIDI
         
         public void SendRawMessage(byte status, byte data1, byte data2)
         {
-            var handler = RawMessageReceived;
-            if(handler != null)
-            {
-                handler(this, new RawMessageEventArgs(status, data1, data2));
-            }
+            ShortMessageReceived?.Invoke(this, new ShortMessageEventArgs(status, data1, data2));
         } 
 
         public void SendRawMessage(int sampleOffset, byte status, byte data1, byte data2)
         {
-            var handler = RawMessageReceived;
+            var handler = ShortMessageReceived;
             if(handler != null)
             {
-                var args = new RawMessageEventArgs(status, data1, data2);
-                args.DeltaFrames = sampleOffset;
+                var args = new ShortMessageEventArgs(status, data1, data2);
+                args.Message.DeltaFrames = sampleOffset;
                 handler(this, args);
             }
         }   
 
         public void SendChannelMessage(ChannelCommand command, int midiChannel, byte data1, byte data2)
         {
-            var handler = ChannelMessageReceived;
-            if(handler != null)
-            {
-                handler(this, new ChannelMessageEventArgs(new ChannelMessage(command, midiChannel, data1, data2)));
-            }
+            ChannelMessageReceived?.Invoke(this, new ChannelMessageEventArgs(new ChannelMessage(command, midiChannel, data1, data2)));
         }
 
         public void SendChannelMessage(ChannelCommand command, int midiChannel, byte data1)
         {
-            var handler = ChannelMessageReceived;
-            if(handler != null)
-            {
-                handler(this, new ChannelMessageEventArgs(new ChannelMessage(command, midiChannel, data1)));
-            }
+            ChannelMessageReceived?.Invoke(this, new ChannelMessageEventArgs(new ChannelMessage(command, midiChannel, data1)));
         }
     }
 }
