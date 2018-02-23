@@ -1,8 +1,8 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta35.dtd" >
-   <PATCH nodename="C:\Users\TF\Desktop\sGS\VL Test.v4p" systemname="VL Test" filename="C:\Users\TF\Desktop\sGS\VL Test.v4p">
-   <BOUNDS type="Window" left="1815" top="2535" width="10215" height="9735">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha35.18.dtd" >
+   <PATCH nodename="C:\vvvv\vvvv_50alpha35.18_x64\packs\VVVV.Audio\nodes\vl\Template (VAudio) help.v4p" systemname="VL Test" filename="C:\Users\TF\Desktop\sGS\VL Test.v4p">
+   <BOUNDS type="Window" left="2145" top="5595" width="10215" height="9735">
    </BOUNDS>
-   <PACK Name="addonpack" Version="35.0.0">
+   <PACK Name="addonpack" Version="36.0.0">
    </PACK>
    <NODE systemname="AudioEngine (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\plugins\VVVV.Audio.Nodes.dll" nodename="AudioEngine (VAudio)" componentmode="Hidden" id="3">
    <BOUNDS type="Node" left="5625" top="2595" width="100" height="100">
@@ -75,9 +75,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="8" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="2430" top="2670" width="795" height="240">
+   <BOUNDS type="Box" left="3360" top="2685" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="2430" top="2670" width="0" height="0">
+   <BOUNDS type="Node" left="3360" top="2685" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" visible="1" values="3">
    </PIN>
@@ -89,9 +89,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="9" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="3540" top="2655" width="795" height="240">
+   <BOUNDS type="Box" left="4470" top="2670" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="3540" top="2655" width="0" height="0">
+   <BOUNDS type="Node" left="4470" top="2670" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
    </PIN>
@@ -116,7 +116,7 @@
    <PIN pinname="Y Input Value" slicecount="2" values="0,0">
    </PIN>
    </NODE>
-   <NODE systemname="Renderer (EX9)" nodename="Renderer (EX9)" componentmode="InABox" id="13">
+   <NODE systemname="RENDERER (EX9)" nodename="Renderer (EX9)" componentmode="InABox" id="13">
    <BOUNDS type="Node" left="690" top="6000" width="100" height="100">
    </BOUNDS>
    <BOUNDS type="Box" left="690" top="6000" width="7980" height="2895">
@@ -124,6 +124,8 @@
    <BOUNDS type="Window" left="18480" top="4395" width="6240" height="5085">
    </BOUNDS>
    <PIN pinname="Layers" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Auto Aspect Ratio" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE systemname="DisplaySamples" filename="%VVVV%\packs\VVVV.Audio\girlpower\subpatches\DisplaySamples.v4p" nodename="%VVVV%\packs\VVVV.Audio\girlpower\subpatches\DisplaySamples.v4p" componentmode="Hidden" id="12">
@@ -143,7 +145,7 @@
    <LINK srcnodeid="12" srcpinname="Layer" dstnodeid="13" dstpinname="Layers">
    </LINK>
    <NODE systemname="Scale (Transform Vector)" nodename="Scale (Transform Vector)" componentmode="Hidden" id="14">
-   <BOUNDS type="Node" left="2640" top="4860" width="100" height="100">
+   <BOUNDS type="Node" left="3135" top="4890" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Transform Out" visible="1">
    </PIN>
@@ -261,11 +263,11 @@
    <LINK srcnodeid="17" srcpinname="Position" dstnodeid="22" dstpinname="Y Input Value">
    </LINK>
    <NODE id="2" systemname="Template (VAudio)" filename="%VVVV%\packs\VVVV.Audio\nodes\vl\VVVV.VAudio.Template.vl" nodename="Template (VAudio)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
-   <BOUNDS type="Node" left="960" top="3225" width="3930" height="270">
+   <BOUNDS type="Node" left="795" top="3240" width="3930" height="270">
    </BOUNDS>
    <PIN pinname="Audio Signals" visible="1">
    </PIN>
-   <BOUNDS type="Box" left="330" top="1815" width="2400" height="1800">
+   <BOUNDS type="Box" left="165" top="1830" width="2400" height="1800">
    </BOUNDS>
    <BOUNDS type="Window" left="0" top="0" width="6000" height="4500">
    </BOUNDS>
@@ -312,4 +314,10 @@
    </LINK>
    <LINK srcnodeid="2" srcpinname="Samples" dstnodeid="12" dstpinname="Input 1">
    </LINK>
+   <PACK Name="vvvv-Message" Version="2.9.10">
+   </PACK>
+   <PACK Name="dx11" Version="1.2">
+   </PACK>
+   <PACK Name="vvvv-ZeroMQ" Version="0.5.7">
+   </PACK>
    </PATCH>

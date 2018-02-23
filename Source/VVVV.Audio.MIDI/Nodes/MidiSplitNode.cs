@@ -8,12 +8,11 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Reactive;
-using System.Reactive.Linq;
 using Sanford.Multimedia.Midi;
 using VVVV.PluginInterfaces.V2;
 using System.ComponentModel.Composition;
 using VVVV.Audio.MIDI;
+using System.Reactive.Linq;
 
 namespace VVVV.Nodes
 {

@@ -10,8 +10,6 @@ using VVVV.Audio.Signals;
 
 namespace VL.Lib.VAudio
 {
-    [Type]
-    [Node(OperationsOfProcessNode = "Create, Update", StateTypeParameter = nameof(TState))]
     public class AudioSignalRegion<TState, TIn, TOut> : IDisposable
        where TState : class
     {
@@ -20,7 +18,6 @@ namespace VL.Lib.VAudio
         readonly Subject<TOut> FSubject;
         readonly IObservable<TOut> FResult;
 
-        [Node(Hidden = true)]
         public AudioSignalRegion()
             : this(new BufferCallerSignal())
         {
@@ -43,7 +40,6 @@ namespace VL.Lib.VAudio
             internal set;
         }
 
-        [Node(Hidden = true)]
         public Spread<AudioSignal> Update(IEnumerable<AudioSignal> stereoInput, TIn input, bool reset, Func<TState> create, Func<TState, TIn, AudioBufferStereo, Tuple<TState, TOut>> update, out IObservable<TOut> onBufferProcessed, out Time time)
         {
             if (reset || State == null)
@@ -78,7 +74,6 @@ namespace VL.Lib.VAudio
             return PerBufferSignal.Outputs.ToSpread();
         }
 
-        [Node(Hidden = true)]
         public void Dispose()
         {
             var disposable = State as IDisposable;

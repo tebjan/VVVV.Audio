@@ -9,23 +9,18 @@ using VL.Lib.Animation;
 
 namespace VL.Lib.VAudio
 {
-    [Type(IsImmutable = true)]
     public struct StereoSample
     {
-        [Node]
         public readonly float Left;
 
-        [Node]
         public readonly float Right;
 
-        [Node]
         public StereoSample(float left, float right)
         {
             Left = left;
             Right = right;
         }
 
-        [Node]
         public void Split(out float left, out float right)
         {
             left = Left;
@@ -33,7 +28,6 @@ namespace VL.Lib.VAudio
         }
     }
 
-    [Type(Name = "AudioBuffer", Version = "Stereo")]
     public class AudioBufferStereo
     {
         private float[] FLeft;
@@ -42,7 +36,6 @@ namespace VL.Lib.VAudio
         internal int SampleRate;
         internal Time StartTime;
 
-        [Node]
         public void GetConstants(out int count, out int sampleRate, out Time startTime)
         {
             count = Size;
@@ -57,7 +50,6 @@ namespace VL.Lib.VAudio
             StartTime = startTime;
         }
 
-        [Node]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetLeftRight(int index, float left, float right)
         {
@@ -65,7 +57,6 @@ namespace VL.Lib.VAudio
             FRight[index] = right;
         }
 
-        [Node]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetStereoSample(int index, StereoSample sample)
         {
@@ -73,27 +64,22 @@ namespace VL.Lib.VAudio
             FRight[index] = sample.Right;
         }
 
-        [Node]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public StereoSample GetStereoSample(int index)
         {
             return new StereoSample(FLeft[index], FRight[index]);
         }
 
-        [Node]
         public AudioBufferStereo Clone()
         {
             return new AudioBufferStereo() { FLeft = (float[])this.FLeft.Clone(), FRight = (float[])this.FRight.Clone() };
         }
     }
 
-    [Type]
-    [Node(OperationsOfProcessNode = "Create, Update", StateTypeParameter = nameof(TState))]
     public class AudioBufferLoop<TState, TSampleAccum> : IDisposable
     {
         public readonly AudioSampleFrameClock SampleClock;
 
-        [Node(Hidden = true)]
         public AudioBufferLoop()
             : this(new AudioSampleFrameClock())
         {
@@ -110,14 +96,12 @@ namespace VL.Lib.VAudio
             internal set;
         }
 
-        [Node(Hidden = true)]
         public void Dispose()
         {
             var disposable = State as IDisposable;
             disposable?.Dispose();
         }
 
-        [Node(Hidden = true)]
         public TSampleAccum Update(AudioBufferStereo buffer, TSampleAccum input, bool reset, Func<IFrameClock, TState> create, Func<TState, StereoSample, TSampleAccum, int, Tuple<TState, StereoSample, TSampleAccum>> update)
         {
             if (reset || State == null)
