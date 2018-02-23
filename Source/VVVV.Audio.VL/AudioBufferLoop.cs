@@ -81,20 +81,11 @@ namespace VL.Lib.VAudio
         public readonly AudioSampleFrameClock SampleClock;
 
         public AudioBufferLoop()
-            : this(new AudioSampleFrameClock())
         {
+            SampleClock = new AudioSampleFrameClock();
         }
 
-        public AudioBufferLoop(AudioSampleFrameClock sampleClock)
-        {
-            SampleClock = sampleClock;
-        }
-
-        public TState State
-        {
-            get;
-            internal set;
-        }
+        TState State;
 
         public void Dispose()
         {

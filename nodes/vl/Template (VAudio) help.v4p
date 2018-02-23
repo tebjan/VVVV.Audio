@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha35.18.dtd" >
-   <PATCH nodename="C:\vvvv\vvvv_50alpha35.18_x64\packs\VVVV.Audio\nodes\vl\Template (VAudio) help.v4p" systemname="VL Test" filename="C:\Users\TF\Desktop\sGS\VL Test.v4p">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50debug35.18.dtd" >
+   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\vl\Template (VAudio) help.v4p" systemname="VL Test" filename="C:\Users\TF\Desktop\sGS\VL Test.v4p">
    <BOUNDS type="Window" left="2145" top="5595" width="10215" height="9735">
    </BOUNDS>
    <PACK Name="addonpack" Version="36.0.0">

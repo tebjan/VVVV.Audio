@@ -913,7 +913,7 @@
           <Choice Kind="ClassType, HasMasterPatchFlag, DefinitionFlag" Name="Class" />
         </p:NodeReference>
         <Patch Id="HLCCFJynXDlOLy76hgXtuZ" IsGeneric="true">
-          <Canvas Id="Ov6fQDfXIP0OS2Y2gGFnCp" BordersChecked="false">
+          <Canvas Id="Ov6fQDfXIP0OS2Y2gGFnCp">
             <Pad Id="A7SkBeZJx4yOgBUrChcJYE" SlotId="Jegs6pBRvGzO9SPXZ2XUl4" Bounds="447,200">
               <p:ValueBoxSettings />
             </Pad>
@@ -1199,5 +1199,5 @@
       </Pad>
     </Canvas>
   </Patch>
-  <DocumentDependency Id="VEfymY9enV1PQRYUsCcXni" Location="../../../../../../Dev/vvvv/VVVV.Audio/nodes/vl/VVVV.Audio.VL.vl" />
+  <NugetDependency Id="OY9XhmmCnBaPq3NgAwSk7U" Location="VVVV.Audio" Version="0.77" />
 </Document>

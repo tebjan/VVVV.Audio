@@ -16,29 +16,18 @@ namespace VL.Lib.VAudio
         internal BufferCallerSignal PerBufferSignal;
 
         readonly Subject<TOut> FSubject;
-        readonly IObservable<TOut> FResult;
 
         public AudioSignalRegion()
-            : this(new BufferCallerSignal())
-        {
-        }
-
-        public AudioSignalRegion(BufferCallerSignal bufferSignal)
         {
             //signal
-            PerBufferSignal = bufferSignal;
+            PerBufferSignal = new BufferCallerSignal();
             FSubject = new Subject<TOut>();
-            FResult = FSubject.Publish().RefCount();
         }
 
         Func<TState, TIn, AudioBufferStereo, Tuple<TState, TOut>> FUpdater;
         TOut FOutput;
 
-        public TState State
-        {
-            get;
-            internal set;
-        }
+        TState State;
 
         public Spread<AudioSignal> Update(IEnumerable<AudioSignal> stereoInput, TIn input, bool reset, Func<TState> create, Func<TState, TIn, AudioBufferStereo, Tuple<TState, TOut>> update, out IObservable<TOut> onBufferProcessed, out Time time)
         {
@@ -70,7 +59,7 @@ namespace VL.Lib.VAudio
             
             if(FOutput != null)
                 FSubject.OnNext(FOutput);
-            onBufferProcessed = FResult;
+            onBufferProcessed = FSubject;
             return PerBufferSignal.Outputs.ToSpread();
         }
 

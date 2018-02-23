@@ -260,5 +260,5 @@
   <NugetDependency Id="SqD2CEf2ivaMxzgn3Xz9uO" Location="VL.Core" Version="0.77.13-gc7d9e261c9" />
   <NugetDependency Id="HQgwRYM82FdNvdmQCikIbz" Location="VL.CoreLib" Version="0.77.13-gc7d9e261c9" />
   <NugetDependency Id="HNOxrin0jDwMEdgCFfqIpa" Location="VL.CoreLib.VVVV" Version="0.77.13-gc7d9e261c9" />
-  <PlatformDependency Id="HW6PuDWfLQ5LFuBuPrcMuH" Location="../../core/VVVV.Audio.VL.dll" />
+  <PlatformDependency Id="HW6PuDWfLQ5LFuBuPrcMuH" Location="./core/VVVV.Audio.VL.dll" />
 </Document>
