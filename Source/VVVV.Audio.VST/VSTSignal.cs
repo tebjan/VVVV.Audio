@@ -38,27 +38,33 @@ namespace VVVV.Audio.VST
 
         static void SetupVSTTime(object sender, EventArgs e)
         {
-            var Timer = AudioService.Engine.Timer;
-            var Settings = AudioService.Engine.Settings;
-            TimeInfo.SamplePosition = Timer.BufferStart;
-            TimeInfo.SampleRate = Settings.SampleRate;
-            TimeInfo.NanoSeconds = Timer.Time * 1000000000;
-            TimeInfo.PpqPosition = Timer.Beat;
-            TimeInfo.CycleStartPosition = 0;
-            TimeInfo.CycleEndPosition = 8;
-            TimeInfo.BarStartPosition = Math.Floor(Timer.Beat / 4) * 4;
-            TimeInfo.Tempo = Timer.BPM;
-            TimeInfo.TimeSignatureNumerator = Timer.TimeSignatureNumerator;
-            TimeInfo.TimeSignatureDenominator = Timer.TimeSignatureDenominator;
-            
+            var timer = AudioService.Engine.Timer;
+            var settings = AudioService.Engine.Settings;
+            TimeInfo.SamplePosition = timer.BufferStart;
+            TimeInfo.SampleRate = settings.SampleRate;
+            TimeInfo.NanoSeconds = timer.Time * 1000000000;
+            TimeInfo.PpqPosition = timer.Beat;
+            TimeInfo.CycleStartPosition = timer.LoopStartBeat;
+            TimeInfo.CycleEndPosition = timer.LoopEndBeat;
+            TimeInfo.BarStartPosition = Math.Floor(timer.Beat / 4) * 4;
+            TimeInfo.Tempo = timer.BPM;
+            TimeInfo.TimeSignatureNumerator = timer.TimeSignatureNumerator;
+            TimeInfo.TimeSignatureDenominator = timer.TimeSignatureDenominator;
+
 
             TimeInfo.Flags = VstTimeInfoFlags.NanoSecondsValid |
-                VstTimeInfoFlags.TempoValid | 
-                VstTimeInfoFlags.PpqPositionValid | 
-                VstTimeInfoFlags.CyclePositionValid | 
-                VstTimeInfoFlags.BarStartPositionValid | 
-                VstTimeInfoFlags.TimeSignatureValid | 
-                VstTimeInfoFlags.TransportPlaying;
+                VstTimeInfoFlags.TempoValid |
+                VstTimeInfoFlags.PpqPositionValid |
+                VstTimeInfoFlags.CyclePositionValid |
+                VstTimeInfoFlags.BarStartPositionValid |
+                VstTimeInfoFlags.TransportChanged |
+                VstTimeInfoFlags.TimeSignatureValid;
+
+            if (AudioService.Engine.Play)
+                TimeInfo.Flags |= VstTimeInfoFlags.TransportPlaying;
+
+            if (timer.Loop)
+                TimeInfo.Flags |= VstTimeInfoFlags.TransportCycleActive;
 
         }
     }

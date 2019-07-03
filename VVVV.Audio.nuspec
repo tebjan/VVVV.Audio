@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>VVVV.Audio</id>
+        <version>1.0.0</version>
+        <title>VAudio</title>
+        <authors>Tebjan Halm</authors>
+        <owners>Tebjan Halm</owners>
+        <projectUrl>https://github.com/tebjan/VVVV.Audio</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Nodes to use VVVV.Audio with VL.</description>
+        <copyright>Copyright © 2017 by Tebjan Halm. All rights reserved.</copyright>
+        <tags>VL Audio ASIO</tags>
+    </metadata>
+    <files>
+        <file src="VVVV.Audio.vl" target="VVVV.Audio.vl" />
+        <file src="core\VVVV.Audio.VL.dll" target="core\VVVV.Audio.VL.dll" />
+    </files>
+</package>

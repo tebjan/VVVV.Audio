@@ -7,7 +7,8 @@ namespace VVVV.Audio
 {
 	public class BufferWriterSignal : BufferAudioSignal, IAudioSink
 	{
-		public BufferWriterSignal(AudioSignal input, string bufferKey, int previewSize) : base(bufferKey)
+		public BufferWriterSignal(AudioSignal input, string bufferKey, int previewSize) 
+            : base(bufferKey)
 		{
 			AudioService.AddSink(this);
 			InputSignal.Value = input;
@@ -22,22 +23,36 @@ namespace VVVV.Audio
 
 		public int PreviewSize;
 
-		public volatile bool DoRead;
+		public volatile bool DoWrite;
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			if (DoRead) {
+            if (FClearBuffer)
+            {
+                Array.Clear(FBuffer, 0, FBuffer.Length);
+                FClearBuffer = false;
+            }
+
+            if (FSetNewWritePosition)
+            {
+                WritePosition = FNewWritePosition;
+                FSetNewWritePosition = false;
+            }
+
+			if (DoWrite)
+            {
 				InputSignal.Read(buffer, offset, count);
 				if (WritePosition >= FBufferSize)
 					WritePosition %= FBufferSize;
 				var copyCount = Math.Min(FBufferSize - WritePosition, count);
 				Array.Copy(buffer, 0, FBuffer, WritePosition, copyCount);
 				if (copyCount < count)//copy rest to front
-				 {
+				{
 					Array.Copy(buffer, 0, FBuffer, 0, count - copyCount);
 				}
 				WritePosition += count;
 			}
+
 			//do preview
 			if (PreviewSize > 0) {
 				if (Preview.Length != PreviewSize)
@@ -64,7 +79,21 @@ namespace VVVV.Audio
 			AudioService.RemoveSink(this);
 			base.Dispose();
 		}
-	}
+
+        bool FClearBuffer;
+        public void Clear()
+        {
+            FClearBuffer = true;
+        }
+
+        int FNewWritePosition;
+        bool FSetNewWritePosition;
+        public void SetWritePosition(int newWritePosition)
+        {
+            FNewWritePosition = newWritePosition;
+            FSetNewWritePosition = true;
+        }
+    }
 }
 
 

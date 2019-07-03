@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50debug35.18.dtd" >
-   <PATCH nodename="C:\Dev\vvvv\vvvv\public\vvvv45\packs\VVVV.Audio\nodes\vl\Template (VAudio) help.v4p" systemname="VL Test" filename="C:\Users\TF\Desktop\sGS\VL Test.v4p">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta37.dtd" >
+   <PATCH nodename="C:\vvvv\vvvv_50beta37_x64\packs\VVVV.Audio\nodes\vl\Template (VAudio) help.v4p" systemname="VL Test" filename="C:\Users\TF\Desktop\sGS\VL Test.v4p">
    <BOUNDS type="Window" left="2145" top="5595" width="10215" height="9735">
    </BOUNDS>
    <PACK Name="addonpack" Version="36.0.0">
@@ -129,7 +129,7 @@
    </PIN>
    </NODE>
    <NODE systemname="DisplaySamples" filename="%VVVV%\packs\VVVV.Audio\girlpower\subpatches\DisplaySamples.v4p" nodename="%VVVV%\packs\VVVV.Audio\girlpower\subpatches\DisplaySamples.v4p" componentmode="Hidden" id="12">
-   <BOUNDS type="Node" left="3405" top="5430" width="100" height="100">
+   <BOUNDS type="Node" left="3165" top="5430" width="1335" height="270">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -145,7 +145,7 @@
    <LINK srcnodeid="12" srcpinname="Layer" dstnodeid="13" dstpinname="Layers">
    </LINK>
    <NODE systemname="Scale (Transform Vector)" nodename="Scale (Transform Vector)" componentmode="Hidden" id="14">
-   <BOUNDS type="Node" left="3135" top="4890" width="100" height="100">
+   <BOUNDS type="Node" left="2895" top="4890" width="495" height="270">
    </BOUNDS>
    <PIN pinname="Transform Out" visible="1">
    </PIN>
@@ -316,8 +316,12 @@
    </LINK>
    <PACK Name="vvvv-Message" Version="2.9.10">
    </PACK>
-   <PACK Name="dx11" Version="1.2">
+   <PACK Name="dx11" Version="1.3">
    </PACK>
    <PACK Name="vvvv-ZeroMQ" Version="0.5.7">
+   </PACK>
+   <PACK Name="dx11.particles" Version="1.0.5">
+   </PACK>
+   <PACK Name="VVVV.Packs.Image" Version="0.2.0">
    </PACK>
    </PATCH>

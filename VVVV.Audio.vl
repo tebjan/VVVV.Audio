@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="H9PUHmOfgYSNKtmLmMhSgq" Version="0.77">
+<Document xmlns:p="property" Id="H9PUHmOfgYSNKtmLmMhSgq" Version="0.91">
   <Patch Id="C4lSFx9A1KeNOAyFezjuZ2">
-    <Canvas Id="LtB71aNOCq2OfSRG3vtaGF">
+    <Canvas Id="LtB71aNOCq2OfSRG3vtaGF" CanvasType="FullCategory">
       <Canvas Id="JVOSTphgT69P9oHOvu6Mbk" Name="Audio" Position="242,150">
         <!--
 
@@ -17,7 +17,7 @@
             <Choice Kind="TypeFlag" Name="AudioBufferStereo" />
           </p:TypeAnnotation>
           <Patch Id="GkLSrnMoqmINpPawXmN8K5">
-            <Canvas Id="TSoG43PsXBAMuLOiWVHety">
+            <Canvas Id="TSoG43PsXBAMuLOiWVHety" CanvasType="Group">
               <!--
 
     ************************ PrepareBuffer ************************
@@ -28,7 +28,7 @@
                   <Choice Kind="OperationDefinition" Name="Operation" />
                   <FullNameCategoryReference ID="Primitive" />
                 </p:NodeReference>
-                <Patch Id="RSah22cjDiZMVld8wxfWra" IsExplicitlyHidden="true">
+                <Patch Id="RSah22cjDiZMVld8wxfWra" Name=" (Hidden)">
                   <Node Bounds="416,207,10,10" AutoConnect="true" Id="Q0O3XJ7OZjMMtTuuOJF3kM">
                     <p:NodeReference LastCategoryFullName="VL.Lib.VAudio.AudioBufferStereo" LastSymbolSource="VVVV.Audio.VL.dll">
                       <Choice Kind="OperationNode" Name="PrepareBuffer" />
@@ -67,7 +67,7 @@
             <Choice Kind="TypeFlag" Name="AudioBufferLoop`2" />
           </p:TypeAnnotation>
           <Patch Id="JVb6MRGyltgMlkKZ4ssYH5">
-            <Canvas Id="C3xdnIqs21hP7z0es8jcO1">
+            <Canvas Id="C3xdnIqs21hP7z0es8jcO1" CanvasType="Group">
               <!--
 
     ************************ Create ************************
@@ -86,6 +86,7 @@
                     </p:NodeReference>
                     <Pin Id="LqnkxOgQNAbNB86nQVYDe0" Name="Output" Kind="StateOutputPin" />
                   </Node>
+                  <Pin Id="DDj2yzeRKTMOAmCYKR75Oz" Name="Output" Kind="OutputPin" />
                 </Patch>
               </Node>
               <!--
@@ -133,7 +134,7 @@
                   <Choice Kind="OperationDefinition" Name="Operation" />
                   <FullNameCategoryReference ID="Primitive" />
                 </p:NodeReference>
-                <Patch Id="EhL6JshgNBMQQsXrXX3OhY" IsGeneric="true" IsExplicitlyHidden="true">
+                <Patch Id="EhL6JshgNBMQQsXrXX3OhY" Name=" (Hidden)" IsGeneric="true">
                   <Node Bounds="354,334,79,22" AutoConnect="true" Id="M6EwJrIO3KQPrqvjsPHbG3">
                     <p:NodeReference LastCategoryFullName="VL.Lib.VAudio.AudioBufferLoop`2" LastSymbolSource="VVVV.Audio.VL.dll">
                       <Choice Kind="OperationNode" Name="Create" />
@@ -169,7 +170,7 @@
             <Choice Kind="TypeFlag" Name="AudioSignalRegion`3" />
           </p:TypeAnnotation>
           <Patch Id="T4JmQJ5npJ8Ol1xsTRWVtJ">
-            <Canvas Id="J7NNzZG7VRmQMuq4tNnQJ4">
+            <Canvas Id="J7NNzZG7VRmQMuq4tNnQJ4" CanvasType="Group">
               <!--
 
     ************************ Create ************************
@@ -188,6 +189,7 @@
                     </p:NodeReference>
                     <Pin Id="QuIHHRGOPYpOctHOLbSksF" Name="Output" Kind="StateOutputPin" />
                   </Node>
+                  <Pin Id="LAE4LvalHkjMs8uSLGlEuI" Name="Output" Kind="OutputPin" />
                 </Patch>
               </Node>
               <!--
@@ -250,14 +252,13 @@
             <Choice Kind="TypeFlag" Name="StereoSample" />
           </p:TypeAnnotation>
           <Patch Id="N4PDWerF739PA3oYe8oCRp">
-            <Canvas Id="MBDtPm0fZpsM8bZjG4a2yj" />
+            <Canvas Id="MBDtPm0fZpsM8bZjG4a2yj" CanvasType="Group" />
             <ProcessDefinition Id="LKWK76Uo6HxPfCbz6FPYw9" IsHidden="true" />
           </Patch>
         </Node>
       </Canvas>
     </Canvas>
   </Patch>
-  <NugetDependency Id="SqD2CEf2ivaMxzgn3Xz9uO" Location="VL.Core" Version="0.77.13-gc7d9e261c9" />
   <NugetDependency Id="HQgwRYM82FdNvdmQCikIbz" Location="VL.CoreLib" Version="0.77.13-gc7d9e261c9" />
   <NugetDependency Id="HNOxrin0jDwMEdgCFfqIpa" Location="VL.CoreLib.VVVV" Version="0.77.13-gc7d9e261c9" />
   <PlatformDependency Id="HW6PuDWfLQ5LFuBuPrcMuH" Location="./core/VVVV.Audio.VL.dll" />

@@ -5,6 +5,7 @@ using System.Linq;
 
 using NAudio.Wave;
 using NAudio.Wave.Asio;
+using NAudio.CoreAudioApi;
 
 
 #endregion usings
@@ -18,6 +19,7 @@ namespace VVVV.Audio
 		
 		//the driver wrapper
 		public AsioOut AsioOut;
+        public WasapiOut WasapiOut;
 		
 		//singleton pattern
 		private static AudioEngine SInstance;

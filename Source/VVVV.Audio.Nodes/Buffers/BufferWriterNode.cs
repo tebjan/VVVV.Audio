@@ -24,9 +24,18 @@ namespace VVVV.Nodes
 		public IDiffSpread<AudioSignal> FInput;
 		
 		[Input("Write")]
-		public IDiffSpread<bool> FReadIn;
-		
-		[Input("Preview Spread Count", DefaultValue = 100)]
+		public IDiffSpread<bool> FWriteIn;
+
+        [Input("Write Position")]
+        public IDiffSpread<int> FWritePositionIn;
+
+        [Input("Set Write Position", IsBang = true)]
+        public IDiffSpread<bool> FSetWritePositionIn;
+
+        [Input("Clear Buffer", IsBang = true)]
+        public IDiffSpread<bool> FClearIn;
+
+        [Input("Preview Spread Count", DefaultValue = 100)]
 		public IDiffSpread<int> FPreviewSizeIn;
 		
 		[Input("Buffer ID", EnumName = "AudioBufferStorageKeys")]
@@ -34,8 +43,11 @@ namespace VVVV.Nodes
 		
 		[Output("Buffer Preview")]
 		public ISpread<ISpread<float>> FBufferPreviewOut;
-		
-		Spread<BufferWriterSignal> FBufferReaders = new Spread<BufferWriterSignal>();
+
+        [Output("Current Write Position")]
+        public ISpread<int> FCurrentWritePositionOut;
+
+        Spread<BufferWriterSignal> FBufferWriters = new Spread<BufferWriterSignal>();
 		
 		[ImportingConstructor]
 		public BufferWriterNode()
@@ -60,33 +72,43 @@ namespace VVVV.Nodes
 			{
 				
 				//delete and dispose all inputs
-				foreach (var element in FBufferReaders) 
+				foreach (var element in FBufferWriters) 
 				{
 					if(element != null)
 						element.Dispose();
 				}
 				
-				FBufferReaders.SliceCount = SpreadMax;
+				FBufferWriters.SliceCount = SpreadMax;
 				for (int i = 0; i < SpreadMax; i++)
 				{
 					if(FInput[i] != null)
 					{
-						FBufferReaders[i] = (new BufferWriterSignal(FInput[i], FKeys[i].Name, FPreviewSizeIn[i]));
+						FBufferWriters[i] = (new BufferWriterSignal(FInput[i], FKeys[i].Name, FPreviewSizeIn[i]));
 					}
 				}
 				
 				FBufferPreviewOut.SliceCount = SpreadMax;
+                FCurrentWritePositionOut.SliceCount = SpreadMax;
 			}
 
 			//output value
 			for (int i = 0; i < SpreadMax; i++)
 			{
-				if(FBufferReaders[i] != null)
+                var bufferWriter = FBufferWriters[i];
+                if (bufferWriter != null)
 				{
-					FBufferReaders[i].DoRead = FReadIn[i];
-					FBufferReaders[i].PreviewSize = FPreviewSizeIn[i];
+                    if(FSetWritePositionIn[i])
+                        bufferWriter.SetWritePosition(FWritePositionIn[i]);
+
+                    if (FClearIn[i])
+                        bufferWriter.Clear();
+
+                    bufferWriter.DoWrite = FWriteIn[i];
+                    bufferWriter.PreviewSize = FPreviewSizeIn[i];
+
+                    FCurrentWritePositionOut[i] = bufferWriter.WritePosition;
 					var spread = FBufferPreviewOut[i];
-					float[] val = FBufferReaders[i].Preview;
+					float[] val = bufferWriter.Preview;
 					//FBufferReaders[i].GetLatestValue(out val);
 					if(val != null)
 					{
