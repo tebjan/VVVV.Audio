@@ -16,37 +16,37 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {	
     
-	[PluginInfo(Name = "FFT", Category = "VAudio", Version = "Sink", Help = "Calculates the FFT of an audio signal", Tags = "Spectrum, Frequencies")]
-	public class FFTOutNode : GenericAudioSinkNode<FFTOutSignal>
-	{
-	    [Input("Window Function")]
-		public IDiffSpread<WindowFunction> FWindowFuncIn;
-	    
-	    [Input("Buffer Size", DefaultValue = 256)]
-		public IDiffSpread<int> FSize;
-		
-		[Input("dB Range", DefaultValue = 120)]
-		public IDiffSpread<float> FdBRange;
-		
-		[Output("Output")]
-		ISpread<ISpread<double>> FFFTOut;
+    [PluginInfo(Name = "FFT", Category = "VAudio", Version = "Sink", Help = "Calculates the FFT of an audio signal", Tags = "Spectrum, Frequencies")]
+    public class FFTOutNode : GenericAudioSinkNode<FFTOutSignal>
+    {
+        [Input("Window Function")]
+        public IDiffSpread<WindowFunction> FWindowFuncIn;
+        
+        [Input("Buffer Size", DefaultValue = 256)]
+        public IDiffSpread<int> FSize;
+        
+        [Input("dB Range", DefaultValue = 120)]
+        public IDiffSpread<float> FdBRange;
+        
+        [Output("Output")]
+        ISpread<ISpread<double>> FFFTOut;
 
 //		[Output("Output Complex")]
 //		ISpread<ISpread<double>> FFFTOutComplex;
-		
-		uint UpperPow2(uint v)
-		{
-		    v--;
-		    v |= v >> 1;
-		    v |= v >> 2;
-		    v |= v >> 4;
-		    v |= v >> 8;
-		    v |= v >> 16;
-		    v++;
-		    return v;
-		}
         
-		float FMindB = (float)Decibels.DecibelsToLinear(-120);
+        uint UpperPow2(uint v)
+        {
+            v--;
+            v |= v >> 1;
+            v |= v >> 2;
+            v |= v >> 4;
+            v |= v >> 8;
+            v |= v >> 16;
+            v++;
+            return v;
+        }
+        
+        float FMindB = (float)Decibels.DecibelsToLinear(-120);
         protected override void SetOutputs(int i, FFTOutSignal instance)
         {
             if (instance != null)

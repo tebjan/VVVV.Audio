@@ -69,18 +69,18 @@ namespace VVVV.Audio.VST
         }
     }
     
-	public class VSTSignal : MultiChannelInputSignal
-	{
-		public VstPluginContext PluginContext;
+    public class VSTSignal : MultiChannelInputSignal
+    {
+        public VstPluginContext PluginContext;
         internal PluginInfoForm InfoForm;
-		protected int FInputCount, FOutputCount;
-		IWin32Window FOwnerWindow;
-		
-		public VSTSignal(string filename, IWin32Window ownerWindow)
-		{
-			FOwnerWindow = ownerWindow;
+        protected int FInputCount, FOutputCount;
+        IWin32Window FOwnerWindow;
+        
+        public VSTSignal(string filename, IWin32Window ownerWindow)
+        {
+            FOwnerWindow = ownerWindow;
             Filename = filename;
-		}
+        }
 
         private string FFilename;
 
@@ -172,8 +172,8 @@ namespace VVVV.Audio.VST
             set;
         }
         
-		void GetPluginInfo()
-		{
+        void GetPluginInfo()
+        {
 //			PluginContext.PluginInfo.PluginID;
 //			
 //			 ListViewItem lvItem = new ListViewItem(PluginContext.PluginCommandStub.GetEffectName());
@@ -181,19 +181,19 @@ namespace VVVV.Audio.VST
 //                lvItem.SubItems.Add(PluginContext.PluginCommandStub.GetVendorString());
 //                lvItem.SubItems.Add(PluginContext.PluginCommandStub.GetVendorVersion().ToString());
 //                lvItem.SubItems.Add(PluginContext.Find<string>("PluginPath"));
-		}
+        }
 
         
         private void GetProgramNames()
         {
-        	ProgramNames = new string[PluginContext.PluginInfo.ProgramCount];
-        	
-        	for (int i = 0; i < ProgramNames.Length; i++)
+            ProgramNames = new string[PluginContext.PluginInfo.ProgramCount];
+            
+            for (int i = 0; i < ProgramNames.Length; i++)
             {
                 ProgramNames[i] = PluginContext.PluginCommandStub.GetProgramNameIndexed(i);
             }
-        	
-        	//HACK: very evil hack
+            
+            //HACK: very evil hack
 //            var ctx = OpenPlugin(FFilename);
 //
 //            for (int i = 0; i < ctx.PluginInfo.ProgramCount; i++)
@@ -300,62 +300,62 @@ namespace VVVV.Audio.VST
         #endregion
 
         private void HostCmdStub_PluginCalled(object sender, PluginCalledEventArgs e)
-		{
-			HostCommandStub hostCmdStub = (HostCommandStub)sender;
-			
-			// can be null when called from inside the plugin main entry point.
-			if (hostCmdStub.PluginContext.PluginInfo != null)
-			{
-				Debug.WriteLine("Plugin " + hostCmdStub.PluginContext.PluginInfo.PluginID + " called:" + e.Message);
-			}
-			else
-			{
-				Debug.WriteLine("The loading Plugin called:" + e.Message);
-			}
-		}
-		
+        {
+            HostCommandStub hostCmdStub = (HostCommandStub)sender;
+            
+            // can be null when called from inside the plugin main entry point.
+            if (hostCmdStub.PluginContext.PluginInfo != null)
+            {
+                Debug.WriteLine("Plugin " + hostCmdStub.PluginContext.PluginInfo.PluginID + " called:" + e.Message);
+            }
+            else
+            {
+                Debug.WriteLine("The loading Plugin called:" + e.Message);
+            }
+        }
+        
         //load from file
-		private VstPluginContext OpenPlugin(string pluginPath)
-		{
-			try
-			{
-				HostCommandStub hostCmdStub = new HostCommandStub();
+        private VstPluginContext OpenPlugin(string pluginPath)
+        {
+            try
+            {
+                HostCommandStub hostCmdStub = new HostCommandStub();
                 hostCmdStub.PluginCalled += HostCmdStub_PluginCalled;
                 hostCmdStub.RaiseSave = SetNeedsSafe;
-				
-				VstPluginContext ctx = VstPluginContext.Create(pluginPath, hostCmdStub);
-				var midiOutChannels = ctx.PluginCommandStub.GetNumberOfMidiOutputChannels();
-				
-				//if(midiOutChannels > 0)
-				{
-					hostCmdStub.FProcessEventsAction = ReceiveEvents;
-				}
-				
-				// add custom data to the context
-				ctx.Set("PluginPath", pluginPath);
-				ctx.Set("HostCmdStub", hostCmdStub);
-				
-				// actually open the plugin itself
-				ctx.PluginCommandStub.Open();
-				
-				return ctx;
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show(FOwnerWindow, e.ToString(), "VST Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-			
-			return null;
-		}
-		
-		//midi out
-		void ReceiveEvents(VstEvent[] events)
-		{
+                
+                VstPluginContext ctx = VstPluginContext.Create(pluginPath, hostCmdStub);
+                var midiOutChannels = ctx.PluginCommandStub.GetNumberOfMidiOutputChannels();
+                
+                //if(midiOutChannels > 0)
+                {
+                    hostCmdStub.FProcessEventsAction = ReceiveEvents;
+                }
+                
+                // add custom data to the context
+                ctx.Set("PluginPath", pluginPath);
+                ctx.Set("HostCmdStub", hostCmdStub);
+                
+                // actually open the plugin itself
+                ctx.PluginCommandStub.Open();
+                
+                return ctx;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(FOwnerWindow, e.ToString(), "VST Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+            return null;
+        }
+        
+        //midi out
+        void ReceiveEvents(VstEvent[] events)
+        {
             foreach (var evt in events) 
             {
                 MidiEventSender.SendRawMessage(evt.DeltaFrames, evt.Data[0], evt.Data[1], evt.Data[2]);
             }
-		}
+        }
 
         //format changes
         protected override void Engine_SampleRateChanged(object sender, EventArgs e)
@@ -423,28 +423,28 @@ namespace VVVV.Audio.VST
         public ManualMidiEvents MidiEventSender = new ManualMidiEvents();
         
         #endregion
-		
-        //unmanaged buffers
-		VstAudioBufferManager FInputMgr = new VstAudioBufferManager(2, 1);
-        VstAudioBufferManager FOutputMgr = new VstAudioBufferManager(2, 1);
-		VstAudioBuffer[] FInputBuffers;
-		VstAudioBuffer[] FOutputBuffers;
         
-		protected void ManageBuffers(int count)
-		{
-			if(FInputMgr.BufferSize != count)
-			{
-				FInputMgr.Dispose();
-				FOutputMgr.Dispose();
-				
-				FInputMgr = new VstAudioBufferManager(FInputCount, count);
-				FOutputMgr = new VstAudioBufferManager(FOutputCount, count);
-				
-				FInputBuffers = FInputMgr.ToArray();
-				FOutputBuffers = FOutputMgr.ToArray();
-			}
-		}
-		
+        //unmanaged buffers
+        VstAudioBufferManager FInputMgr = new VstAudioBufferManager(2, 1);
+        VstAudioBufferManager FOutputMgr = new VstAudioBufferManager(2, 1);
+        VstAudioBuffer[] FInputBuffers;
+        VstAudioBuffer[] FOutputBuffers;
+        
+        protected void ManageBuffers(int count)
+        {
+            if(FInputMgr.BufferSize != count)
+            {
+                FInputMgr.Dispose();
+                FOutputMgr.Dispose();
+                
+                FInputMgr = new VstAudioBufferManager(FInputCount, count);
+                FOutputMgr = new VstAudioBufferManager(FOutputCount, count);
+                
+                FInputBuffers = FInputMgr.ToArray();
+                FOutputBuffers = FOutputMgr.ToArray();
+            }
+        }
+        
         //process
         bool FDoProcess;
 
@@ -454,23 +454,23 @@ namespace VVVV.Audio.VST
             set;
         }
 
-		protected override void FillBuffers(float[][] buffer, int offset, int count)
-		{
-		    
-		    if(Bypass) //effects just bypass
-		    {
-		        if(FIsSynth) //synths return silece
-		        {
-		            foreach(var buf in buffer)
-		            {
-		                buf.ReadSilence(offset, count);
-		            }
-		        }
-		        else
-		        {
-		            var minChannels = Math.Min(FInputCount, FOutputCount);    
-		            
-		            for (int b = 0; b < minChannels; b++)
+        protected override void FillBuffers(float[][] buffer, int offset, int count)
+        {
+            
+            if(Bypass) //effects just bypass
+            {
+                if(FIsSynth) //synths return silece
+                {
+                    foreach(var buf in buffer)
+                    {
+                        buf.ReadSilence(offset, count);
+                    }
+                }
+                else
+                {
+                    var minChannels = Math.Min(FInputCount, FOutputCount);    
+                    
+                    for (int b = 0; b < minChannels; b++)
                     {
                         var inSig = FInput[b];
                         if (inSig != null)
@@ -479,22 +479,22 @@ namespace VVVV.Audio.VST
                             inSig.Read(buffer[b], offset, count);
                         }
                     }
-		            
-		            if(FOutputCount > FInputCount)
-		            {
-		                var remains = FOutputCount - FInputCount;
-		                for(int i = 0; i < remains; i++)
-		                {
-		                    buffer[i + minChannels - 1] = buffer[i % minChannels];
-		                }
-		            }
-		        }
-		            
-		        
-		        return;
-		    }
-		       
-		    
+                    
+                    if(FOutputCount > FInputCount)
+                    {
+                        var remains = FOutputCount - FInputCount;
+                        for(int i = 0; i < remains; i++)
+                        {
+                            buffer[i + minChannels - 1] = buffer[i % minChannels];
+                        }
+                    }
+                }
+                    
+                
+                return;
+            }
+               
+            
             if (PluginContext != null && FDoProcess)
             {
                 ManageBuffers(count);
@@ -541,20 +541,20 @@ namespace VVVV.Audio.VST
                     }
                 }
             }
-		}
-		
-		public override void Dispose()
-		{
+        }
+        
+        public override void Dispose()
+        {
             FDoProcess = false;
 
-			//close and dispose vst
+            //close and dispose vst
             if (PluginContext != null && PluginContext.PluginCommandStub != null)
-			{
-				PluginContext.PluginCommandStub.StopProcess();
-				PluginContext.PluginCommandStub.MainsChanged(false);
-				PluginContext.Dispose();
+            {
+                PluginContext.PluginCommandStub.StopProcess();
+                PluginContext.PluginCommandStub.MainsChanged(false);
+                PluginContext.Dispose();
                 
-			}
+            }
 
             if (FInputMgr != null)
             {
@@ -568,9 +568,9 @@ namespace VVVV.Audio.VST
                 InfoForm.Dispose();
             }
 
-			
-			base.Dispose();
-		}
+            
+            base.Dispose();
+        }
 
 
         public bool NeedsSave { get; set; }

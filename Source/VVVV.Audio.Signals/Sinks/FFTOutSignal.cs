@@ -12,17 +12,17 @@ namespace VVVV.Audio
         BlackmannHarris
     }
     
-	public class FFTOutSignal : SinkSignal
-	{
-		protected LomontFFT FFFT = new LomontFFT();
-		protected CircularBuffer FRingBuffer = new CircularBuffer(512);
+    public class FFTOutSignal : SinkSignal
+    {
+        protected LomontFFT FFFT = new LomontFFT();
+        protected CircularBuffer FRingBuffer = new CircularBuffer(512);
 
-		public FFTOutSignal(AudioSignal input)
-		{
-			InputSignal.Value = input;
-		}
+        public FFTOutSignal(AudioSignal input)
+        {
+            InputSignal.Value = input;
+        }
 
-		public int Size 
+        public int Size 
         {
             get 
             {
@@ -33,7 +33,7 @@ namespace VVVV.Audio
                 FRingBuffer.Size = value;
             }
         }
-		
+        
         WindowFunction windowFunc;
         
         public WindowFunction WindowFunc 
@@ -52,37 +52,37 @@ namespace VVVV.Audio
             }
         }
 
-		public int BufferSize;
+        public int BufferSize;
 
-		double[] FFFTBuffer = new double[1];
-		public double[] FFTOut = new double[2];
-		double[] FWindow = new double[1];
+        double[] FFFTBuffer = new double[1];
+        public double[] FFTOut = new double[2];
+        double[] FWindow = new double[1];
 
-		protected override void FillBuffer(float[] buffer, int offset, int count)
-		{
-			if (InputSignal.Value != null) 
-			{
-			    InputSignal.Read(buffer, offset, count);
-			    
-			    //write to buffer
-			    FRingBuffer.Write(buffer, offset, count);
-			    
-			    //calc fft
-			    var fftSize = FRingBuffer.Size;
-			    
-				if (FFFTBuffer.Length != fftSize)
-				{
-					FFFTBuffer = new double[fftSize];
-					FFTOut = new double[fftSize];
-					FWindow = AudioUtils.CreateWindowDouble(fftSize, WindowFunc);
-				}
-			
-				FRingBuffer.ReadDoubleWindowed(FFFTBuffer, FWindow, 0, fftSize);
-				FFFT.RealFFT(FFFTBuffer, true);
-				Array.Copy(FFFTBuffer, FFTOut, fftSize);
-			}
-		}
-	}
+        protected override void FillBuffer(float[] buffer, int offset, int count)
+        {
+            if (InputSignal.Value != null) 
+            {
+                InputSignal.Read(buffer, offset, count);
+                
+                //write to buffer
+                FRingBuffer.Write(buffer, offset, count);
+                
+                //calc fft
+                var fftSize = FRingBuffer.Size;
+                
+                if (FFFTBuffer.Length != fftSize)
+                {
+                    FFFTBuffer = new double[fftSize];
+                    FFTOut = new double[fftSize];
+                    FWindow = AudioUtils.CreateWindowDouble(fftSize, WindowFunc);
+                }
+            
+                FRingBuffer.ReadDoubleWindowed(FFFTBuffer, FWindow, 0, fftSize);
+                FFFT.RealFFT(FFFTBuffer, true);
+                Array.Copy(FFFTBuffer, FFTOut, fftSize);
+            }
+        }
+    }
 }
 
 

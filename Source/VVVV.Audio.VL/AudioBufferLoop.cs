@@ -76,6 +76,43 @@ namespace VL.Lib.VAudio
         }
     }
 
+    public class AudioBufferMulti
+    {
+        private float[][] FBuffers;
+        internal int Channels = 2;
+        internal int Size;
+        internal int SampleRate;
+        internal Time StartTime;
+
+        public void GetConstants(out int count, out int channels, out int sampleRate, out Time startTime)
+        {
+            count = Size;
+            channels = Channels;
+            sampleRate = SampleRate;
+            startTime = StartTime;
+        }
+
+        public void PrepareBuffer(float[][] buffers, Time startTime)
+        {
+            FBuffers = buffers;
+            StartTime = startTime;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void SetSamples(int index, float[] samples)
+        {
+            for (int i = 0; i < Channels; i++)
+            {
+                FBuffers[i][index] = samples[i];
+            }
+        }
+
+        //public AudioBufferStereo Clone()
+        //{
+        //    return new AudioBufferMultiChannel() { FBuffers = (float[])this.FBuffers.Clone(), FRight = (float[])this.FRight.Clone() };
+        //}
+    }
+
     public class AudioBufferLoop<TState, TSampleAccum> : IDisposable
     {
         public readonly AudioSampleFrameClock SampleClock;
@@ -107,6 +144,45 @@ namespace VL.Lib.VAudio
                 var result = update(State, buffer.GetStereoSample(i), accum, i);
                 State = result.Item1;
                 buffer.SetStereoSample(i, result.Item2);
+                accum = result.Item3;
+                SampleClock.IncrementTime(timeIncrement);
+            }
+
+            return input;
+        }
+    }
+
+    public class AudioBufferLoopMulti<TState, TSampleAccum> : IDisposable
+    {
+        public readonly AudioSampleFrameClock SampleClock;
+
+        public AudioBufferLoopMulti()
+        {
+            SampleClock = new AudioSampleFrameClock();
+        }
+
+        TState State;
+
+        public void Dispose()
+        {
+            var disposable = State as IDisposable;
+            disposable?.Dispose();
+        }
+
+        public TSampleAccum Update(AudioBufferMulti buffer, TSampleAccum input, bool reset, Func<IFrameClock, TState> create, Func<TState, TSampleAccum, int, Tuple<TState, float[], TSampleAccum>> update)
+        {
+            if (reset || State == null)
+                State = create(SampleClock);
+
+            var iterationCount = buffer.Size;
+            var timeIncrement = 1.0 / buffer.SampleRate;
+            //SampleClock.SetFrameTime(buffer.StartTime);
+            var accum = input;
+            for (int i = 0; i < iterationCount; i++)
+            {
+                var result = update(State, accum, i);
+                State = result.Item1;
+                buffer.SetSamples(i, result.Item2);
                 accum = result.Item3;
                 SampleClock.IncrementTime(timeIncrement);
             }
