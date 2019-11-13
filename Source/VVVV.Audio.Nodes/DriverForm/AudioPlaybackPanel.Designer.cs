@@ -125,7 +125,7 @@
             // toolStripButtonOpenFile
             // 
             this.toolStripButtonOpenFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonOpenFile.Image = global::NAudioDemo.Images.Open;
+            this.toolStripButtonOpenFile.Image = global::VVVV.Audio.Nodes.Images.Open;
             this.toolStripButtonOpenFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonOpenFile.Name = "toolStripButtonOpenFile";
             this.toolStripButtonOpenFile.Size = new System.Drawing.Size(23, 22);
@@ -135,7 +135,7 @@
             // buttonPlay
             // 
             this.buttonPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.buttonPlay.Image = global::NAudioDemo.Images.Play;
+            this.buttonPlay.Image = global::VVVV.Audio.Nodes.Images.Play;
             this.buttonPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonPlay.Name = "buttonPlay";
             this.buttonPlay.Size = new System.Drawing.Size(23, 22);
@@ -145,7 +145,7 @@
             // buttonPause
             // 
             this.buttonPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.buttonPause.Image = global::NAudioDemo.Images.Pause;
+            this.buttonPause.Image = global::VVVV.Audio.Nodes.Images.Pause;
             this.buttonPause.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonPause.Name = "buttonPause";
             this.buttonPause.Size = new System.Drawing.Size(23, 22);
@@ -155,7 +155,7 @@
             // buttonStop
             // 
             this.buttonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.buttonStop.Image = global::NAudioDemo.Images.Stop;
+            this.buttonStop.Image = global::VVVV.Audio.Nodes.Images.Stop;
             this.buttonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(23, 22);

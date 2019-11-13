@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>VVVV.Nodes</RootNamespace>
     <AssemblyName>VVVV.Audio.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <OutputPath>..\..\core\</OutputPath>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoWin32Manifest>False</NoWin32Manifest>
