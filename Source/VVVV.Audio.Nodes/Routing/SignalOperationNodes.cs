@@ -11,6 +11,7 @@ using VVVV.Audio;
 
 
 using VVVV.Core.Logging;
+using System.Linq;
 #endregion usings
 
 namespace VVVV.Nodes
@@ -33,7 +34,7 @@ namespace VVVV.Nodes
 				for(int outSlice=0; outSlice<SpreadMax; outSlice++)
 				{
 					var sig = new TOperator();
-					sig.Inputs = new Spread<AudioSignal>(Inputs.SliceCount);
+					sig.Inputs = new List<AudioSignal>(Inputs.SliceCount);
 					
 					for(int i=0; i<Inputs.SliceCount; i++)
 					{
@@ -65,7 +66,7 @@ namespace VVVV.Nodes
 				for(int outSlice=0; outSlice<OutBuffer.SliceCount; outSlice++)
 				{
 					if(OutBuffer[outSlice] == null) OutBuffer[outSlice] = new TOperator();
-					(OutBuffer[outSlice] as AudioSignalOperator).Inputs = Inputs[outSlice];
+					(OutBuffer[outSlice] as AudioSignalOperator).Inputs = Inputs[outSlice].ToList();
 				}
 			}
 		}

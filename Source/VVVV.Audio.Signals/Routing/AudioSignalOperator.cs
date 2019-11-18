@@ -1,5 +1,6 @@
 ﻿#region usings
 using System;
+using System.Collections.Generic;
 using NAudio.Utils;
 using VVVV.PluginInterfaces.V2;
 #endregion
@@ -11,9 +12,9 @@ namespace VVVV.Audio
 		{
 		}
 
-		private ISpread<AudioSignal> FInputs;
+		private IList<AudioSignal> FInputs;
 
-		public ISpread<AudioSignal> Inputs {
+		public IList<AudioSignal> Inputs {
 			get {
 				return FInputs;
 			}
@@ -29,9 +30,9 @@ namespace VVVV.Audio
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
 			FTempBuffer = BufferHelpers.Ensure(FTempBuffer, count);
-			if (FInputs != null && FInputs.SliceCount > 0) {
+			if (FInputs != null && FInputs.Count > 0) {
 				bool first = true;
-				for (int slice = 0; slice < FInputs.SliceCount; slice++) {
+				for (int slice = 0; slice < FInputs.Count; slice++) {
 					if (FInputs[slice] != null) {
 						if (first) {
 							FInputs[slice].Read(buffer, offset, count);
