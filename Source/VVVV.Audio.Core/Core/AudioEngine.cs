@@ -6,6 +6,7 @@ using System.Linq;
 using NAudio.Wave;
 using NAudio.Wave.Asio;
 using NAudio.CoreAudioApi;
+using System.Reactive.Subjects;
 
 
 #endregion usings
@@ -136,8 +137,11 @@ namespace VVVV.Audio
             
             System.Diagnostics.Debug.WriteLine("Sink Removed: " + sink.GetType());
         }
-        
+
         #region asio
+
+        public IObservable<string> DriverSettingsChanged => SettingsChanged;
+        private Subject<string> SettingsChanged = new Subject<string>();
 
         /// <summary>
         /// Initializes the Audio Driver if necessary
@@ -192,6 +196,8 @@ namespace VVVV.Audio
                 this.Settings.SampleRate = sampleRate;
 
                 NeedsReset = false;
+
+                SettingsChanged.OnNext(driverName);
             }
         }
 
