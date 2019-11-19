@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using VVVV.PluginInterfaces.V2;
-using VVVV.Utils.VMath;
+using VVVV.Audio.Utils;
 #endregion
 namespace VVVV.Audio
 {
@@ -163,7 +163,7 @@ namespace VVVV.Audio
         void CalcTriangleCoefficients(double slope)
         {
             //triangle magnitudes
-            var slopeClamp = VMath.Clamp(slope, 0.01, 0.99);
+            var slopeClamp = MathUtils.Clamp(slope, 0.01, 0.99);
             A = 1/slopeClamp;
             B = -1/(1-slopeClamp);
             AoverB = A / B;
@@ -432,7 +432,7 @@ namespace VVVV.Audio
         {
 
             var t2 = 2*T;
-            var slope = VMath.Clamp(Slope.Value, 0.01, 0.99);
+            var slope = MathUtils.Clamp(Slope.Value, 0.01, 0.99);
             switch (WaveForm.Value)
             {
                 case WaveFormSelection.Sine:
@@ -530,7 +530,7 @@ namespace VVVV.Audio
         {
 
             var t2 = 2*T;
-            var slope = VMath.Clamp(Slope.Value, 0.01, 0.99);
+            var slope = MathUtils.Clamp(Slope.Value, 0.01, 0.99);
             switch (WaveForm.Value)
             {
                 case WaveFormSelection.Sine:
