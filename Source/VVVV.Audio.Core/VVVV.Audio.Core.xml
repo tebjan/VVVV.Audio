@@ -355,22 +355,6 @@
             </summary>
             <param name="count">Bytes to advance</param>
         </member>
-        <member name="M:VVVV.Audio.Utils.MathUtils.Min(System.Single,System.Single)">
-            <summary>
-            Min function
-            </summary>
-            <param name="a"></param>
-            <param name="b"></param>
-            <returns>Smaller value of the two input parameters</returns>
-        </member>
-        <member name="M:VVVV.Audio.Utils.MathUtils.Max(System.Single,System.Single)">
-            <summary>
-            Max function
-            </summary>
-            <param name="a"></param>
-            <param name="b"></param>
-            <returns>Greater value of the two input parameters</returns>
-        </member>
         <member name="M:VVVV.Audio.Utils.MathUtils.Clamp(System.Single,System.Single,System.Single)">
             <summary>
             Clamp function, clamps a floating point value into the range [min..max]
