@@ -215,7 +215,7 @@ namespace VVVV.Audio
     //    private volatile bool FWriting;
     //    private T FValueToPass;
     //    private T FLastValue;
-		
+        
     //    bool GetLatestValue(out T value)
     //    {
     //        var success = false;
@@ -229,12 +229,12 @@ namespace VVVV.Audio
     //        {
     //            System.Diagnostics.Debug.WriteLine("Could not read");
     //        }
-			
+            
     //        value = FLastValue;
     //        FReading = false;
     //        return success;
     //    }
-		
+        
     //    bool SetLatestValue(T newValue)
     //    {
     //        var success = false;
@@ -251,12 +251,12 @@ namespace VVVV.Audio
     //        FWriting = false;
     //        return success;
     //    }
-		
+        
     //    public override object GetValue()
     //    {
     //        return Value;
     //    }
-		
+        
     //    public override void SetValue(object value)
     //    {
     //        Value = (T)value;

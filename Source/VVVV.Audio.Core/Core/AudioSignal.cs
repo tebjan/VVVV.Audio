@@ -190,15 +190,15 @@ namespace VVVV.Audio
         public static IEnumerable<SigParamBase> GetParams(AudioSignal instance)
         {
             var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-			var fields = instance.GetType().GetFields(flags);
-			
-			foreach (var fi in fields)
-			{
-				if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
-				{
-				    yield return (SigParamBase)fi.GetValue(instance);
-				}
-			}
+            var fields = instance.GetType().GetFields(flags);
+            
+            foreach (var fi in fields)
+            {
+                if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
+                {
+                    yield return (SigParamBase)fi.GetValue(instance);
+                }
+            }
         }
         
         /// <summary>
@@ -209,20 +209,20 @@ namespace VVVV.Audio
         public static IEnumerable<SigParamBase> GetInputParams(AudioSignal instance)
         {
             var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-			var fields = instance.GetType().GetFields(flags);
-			
-			foreach (var fi in fields)
-			{
-				if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
-				{
-				    var param = (SigParamBase)fi.GetValue(instance);
-				    
-				    if(!param.IsOutput)
-				    {
-				        yield return param;
-				    }
-				}
-			}
+            var fields = instance.GetType().GetFields(flags);
+            
+            foreach (var fi in fields)
+            {
+                if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
+                {
+                    var param = (SigParamBase)fi.GetValue(instance);
+                    
+                    if(!param.IsOutput)
+                    {
+                        yield return param;
+                    }
+                }
+            }
         }
         
         /// <summary>
@@ -233,20 +233,20 @@ namespace VVVV.Audio
         public static IEnumerable<SigParamBase> GetOutputParams(AudioSignal instance)
         {
             var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-			var fields = instance.GetType().GetFields(flags);
-			
+            var fields = instance.GetType().GetFields(flags);
+            
             foreach (var fi in fields)
-			{
-				if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
-				{
-				    var param = (SigParamBase)fi.GetValue(instance);
-				    
-				    if(param.IsOutput)
-				    {
-				        yield return param;
-				    }
-				}
-			}
+            {
+                if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
+                {
+                    var param = (SigParamBase)fi.GetValue(instance);
+                    
+                    if(param.IsOutput)
+                    {
+                        yield return param;
+                    }
+                }
+            }
         }
 
     }

@@ -9,147 +9,152 @@ using NAudio.Utils;
 
 namespace VVVV.Audio
 {
-	/// <summary>
-	/// A combination of audio signal and the driver output channel number
-	/// </summary>
-	public class MasterChannel
-	{
-		public MasterChannel(AudioSignal sig, int channel)
-		{
-			Signal = sig;
-			Channel = channel;
-		}
-		
-		public AudioSignal Signal;
-		public int Channel;
-	}
-	
-	/// <summary>
-	/// Helper class for when you need to convert back to an IWaveProvider from
-	/// an ISampleProvider. Keeps it as IEEE float
-	/// </summary>
-	public class MasterWaveProvider : IWaveProvider
-	{
-		private object FSourceLock =  new object();
-		private List<MasterChannel> FSources = new List<MasterChannel>();
-		private List<IAudioSink> FSinks = new List<IAudioSink>();
-		private List<INotifyProcess> FNotifys = new List<INotifyProcess>();
-		private Action<int> FReadingFinished;
-		
-		/// <summary>
-		/// Initializes a new instance of the WaveProviderFloatToWaveProvider class
-		/// </summary>
-		/// <param name="source">Source wave provider</param>
-		public MasterWaveProvider(WaveFormat format, Action<int> readingFinished)
-		{
-			this.WaveFormat = format;
-			this.FReadingFinished = readingFinished;
-		}
-		
-		//add/remove sample providers
-		public void Add(MasterChannel provider)
-		{
-			lock(FSourceLock)
-			{
-				if(!FSources.Contains(provider))
-					FSources.Add(provider);
-			}
-		}
-		
-		public void Remove(MasterChannel provider)
-		{
-			lock(FSourceLock)
-			{
-				FSources.Remove(provider);
-			}
-		}
-		
-		//add/remove sinks
-		public void AddSink(IAudioSink sink)
-		{
-			lock(FSourceLock)
-			{
-				if(!FSinks.Contains(sink))
-				{
-					FSinks.Add(sink);
-					
-					var notifyProcess = sink as INotifyProcess;
-					if(notifyProcess != null)
-					{
-					    FNotifys.Add(notifyProcess);
-					}
-				}
+    /// <summary>
+    /// A combination of audio signal and the driver output channel number
+    /// </summary>
+    public class MasterChannel
+    {
+        public MasterChannel(AudioSignal sig, int channel)
+        {
+            Signal = sig;
+            Channel = channel;
+        }
+        
+        public AudioSignal Signal;
+        public int Channel;
+    }
+    
+    /// <summary>
+    /// Helper class for when you need to convert back to an IWaveProvider from
+    /// an ISampleProvider. Keeps it as IEEE float
+    /// </summary>
+    public class MasterWaveProvider : IWaveProvider
+    {
+        private object FSourceLock =  new object();
+        private List<MasterChannel> FSources = new List<MasterChannel>();
+        private List<IAudioSink> FSinks = new List<IAudioSink>();
+        private List<INotifyProcess> FNotifys = new List<INotifyProcess>();
+        private Action<int> FReadingFinished;
+        private Action<int> FReadingStarted;
+
+        /// <summary>
+        /// Initializes a new instance of the WaveProviderFloatToWaveProvider class
+        /// </summary>
+        /// <param name="source">Source wave provider</param>
+        public MasterWaveProvider(WaveFormat format, Action<int> readingStarted, Action<int> readingFinished)
+        {
+            this.WaveFormat = format;
+            this.FReadingStarted = readingStarted;
+            this.FReadingFinished = readingFinished;
+        }
+        
+        //add/remove sample providers
+        public void Add(MasterChannel provider)
+        {
+            lock(FSourceLock)
+            {
+                if(!FSources.Contains(provider))
+                    FSources.Add(provider);
+            }
+        }
+        
+        public void Remove(MasterChannel provider)
+        {
+            lock(FSourceLock)
+            {
+                FSources.Remove(provider);
+            }
+        }
+        
+        //add/remove sinks
+        public void AddSink(IAudioSink sink)
+        {
+            lock(FSourceLock)
+            {
+                if(!FSinks.Contains(sink))
+                {
+                    FSinks.Add(sink);
+                    
+                    var notifyProcess = sink as INotifyProcess;
+                    if(notifyProcess != null)
+                    {
+                        FNotifys.Add(notifyProcess);
+                    }
+                }
                 System.Diagnostics.Debug.WriteLine("Sink Count: " + FSinks.Count);
                 System.Diagnostics.Debug.WriteLine("Notify Process Count: " + FNotifys.Count);
-			}
-		}
-		
-		public void RemoveSink(IAudioSink sink)
-		{
-		    lock(FSourceLock)
-		    {
-		        FSinks.Remove(sink);
-		        var notifyProcess = sink as INotifyProcess;
-		        if(notifyProcess != null)
-		        {
-		            FNotifys.Remove(notifyProcess);
-		        }
-		    }
-		}
+            }
+        }
+        
+        public void RemoveSink(IAudioSink sink)
+        {
+            lock(FSourceLock)
+            {
+                FSinks.Remove(sink);
+                var notifyProcess = sink as INotifyProcess;
+                if(notifyProcess != null)
+                {
+                    FNotifys.Remove(notifyProcess);
+                }
+            }
+        }
 
-		
-		/// <summary>
-		/// Reads from this provider
-		/// </summary>
-		float[] FMixerBuffer = new float[1];
-		
-		//this gets called from the soundcard
-		public int Read(byte[] buffer, int offset, int count)
-		{
-			var channels = WaveFormat.Channels;
-			int samplesNeeded = count / (4*channels);
-			WaveBuffer wb = new WaveBuffer(buffer);
-			
-			//fix buffer size
-			FMixerBuffer = BufferHelpers.Ensure(FMixerBuffer, samplesNeeded);
-			
-			//empty buffer
-			wb.Clear();
-			
-			lock(FSourceLock)
-			{
-			    //first notify to prepare for buffer
-			    foreach(var notify in FNotifys)
-				{
-					try
-					{
-						notify.NotifyProcess(samplesNeeded);
-					}
-					catch (Exception e)
-					{
-						System.Diagnostics.Debug.WriteLine(e.Message);
-						System.Diagnostics.Debug.WriteLine(e.Source);
-						System.Diagnostics.Debug.WriteLine(e.StackTrace);
-					}
-				}
-			    
-				//evaluate the sinks,
-				//e.g. buffer writers should write first to have the latest data in the buffer storage
-				foreach(var sink in FSinks) 
-				{
-					try
-					{
-						sink.Read(offset / 4, samplesNeeded);
-					}
-					catch (Exception e)
-					{
-						System.Diagnostics.Debug.WriteLine(e.Message);
-						System.Diagnostics.Debug.WriteLine(e.Source);
-						System.Diagnostics.Debug.WriteLine(e.StackTrace);
-					}
-				}
-					
-				//evaluate the inputs
+        
+        /// <summary>
+        /// Reads from this provider
+        /// </summary>
+        float[] FMixerBuffer = new float[1];
+        
+        //this gets called from the soundcard
+        public int Read(byte[] buffer, int offset, int count)
+        {
+            var channels = WaveFormat.Channels;
+            int samplesNeeded = count / (4*channels);
+
+            FReadingStarted?.Invoke(samplesNeeded);
+
+            WaveBuffer wb = new WaveBuffer(buffer);
+            
+            //fix buffer size
+            FMixerBuffer = BufferHelpers.Ensure(FMixerBuffer, samplesNeeded);
+            
+            //empty buffer
+            wb.Clear();
+            
+            lock(FSourceLock)
+            {
+                //first notify to prepare for buffer
+                foreach(var notify in FNotifys)
+                {
+                    try
+                    {
+                        notify.NotifyProcess(samplesNeeded);
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.Message);
+                        System.Diagnostics.Debug.WriteLine(e.Source);
+                        System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                    }
+                }
+                
+                //evaluate the sinks,
+                //e.g. buffer writers should write first to have the latest data in the buffer storage
+                foreach(var sink in FSinks) 
+                {
+                    try
+                    {
+                        sink.Read(offset / 4, samplesNeeded);
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.Message);
+                        System.Diagnostics.Debug.WriteLine(e.Source);
+                        System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                    }
+                }
+                    
+                //evaluate the inputs
                 var inputCount = FSources.Count;
                 for (int i = 0; i < inputCount; i++)
                 {
@@ -176,22 +181,22 @@ namespace VVVV.Audio
                         System.Diagnostics.Debug.WriteLine(e.StackTrace);
                     }
                 }
-				
-				//tell the engine that reading has finished
-				FReadingFinished(samplesNeeded);
-			}
-			return count; //always run
-		}
-		
-		/// <summary>
-		/// The waveformat of this WaveProvider (same as the source)
-		/// </summary>
-		public WaveFormat WaveFormat
-		{
-			get;
-			set;
-		}
-	}
+                
+                //tell the engine that reading has finished
+                FReadingFinished?.Invoke(samplesNeeded);
+            }
+            return count; //always run
+        }
+        
+        /// <summary>
+        /// The waveformat of this WaveProvider (same as the source)
+        /// </summary>
+        public WaveFormat WaveFormat
+        {
+            get;
+            set;
+        }
+    }
 }
 
 

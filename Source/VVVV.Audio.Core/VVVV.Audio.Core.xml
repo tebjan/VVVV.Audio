@@ -9,7 +9,7 @@
             the buffers from the audio input
             </summary>
         </member>
-        <member name="M:VVVV.Audio.AudioEngine.ChangeDriverSettings(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+        <member name="M:VVVV.Audio.AudioEngine.ChangeDriverSettings(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Initializes the Audio Driver if necessary
             </summary>
@@ -147,7 +147,7 @@
             an ISampleProvider. Keeps it as IEEE float
             </summary>
         </member>
-        <member name="M:VVVV.Audio.MasterWaveProvider.#ctor(NAudio.Wave.WaveFormat,System.Action{System.Int32})">
+        <member name="M:VVVV.Audio.MasterWaveProvider.#ctor(NAudio.Wave.WaveFormat,System.Action{System.Int32},System.Action{System.Int32})">
             <summary>
             Initializes a new instance of the WaveProviderFloatToWaveProvider class
             </summary>

@@ -17,7 +17,15 @@ namespace VVVV.Audio
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
 		{
-			Array.Copy(FEngine.InputBuffers[FIndex], offset, buffer, offset, count);
+			//Asio case:
+			if (FEngine.AsioDevice != null)
+			{
+				Array.Copy(FEngine.InputBuffers[FIndex], offset, buffer, offset, count);
+			}
+			else
+			{
+				FEngine.WasapiDevice?.SampleProvider.Read(buffer, offset, count);
+			}
 		}
 	}
 }

@@ -7,6 +7,7 @@ using NAudio.Wave;
 using NAudio.Wave.Asio;
 using NAudio.CoreAudioApi;
 using System.Reactive.Subjects;
+using System.Diagnostics;
 
 
 #endregion usings
@@ -19,9 +20,14 @@ namespace VVVV.Audio
         MasterWaveProvider MasterWaveProvider;
         
         //the driver wrapper
-        public AsioOut AsioOut;
-        public WasapiOut WasapiOut;
-        
+        public AsioOut AsioDevice;
+        public WasapiInOut WasapiDevice;
+        public IWavePlayer CurrentDevice;
+
+        public const string WasapiPrefix = "WASAPI: ";
+        public const string WasapiSystemDevice = "Current System Device";
+        public const string WasapiLoopbackPrefix = "Loopback ";
+
         //singleton pattern
         private static AudioEngine SInstance;
         public static AudioEngine Instance
@@ -42,9 +48,14 @@ namespace VVVV.Audio
             Settings = new AudioEngineSettings { SampleRate = 44100, BufferSize = 512 };
             Timer = new AudioEngineTimer(Settings.SampleRate);
             var format = WaveFormat.CreateIeeeFloatWaveFormat(Settings.SampleRate, 1);
-            MasterWaveProvider = new MasterWaveProvider(format, samples => OnFinishedReading(samples));
+            MasterWaveProvider = new MasterWaveProvider(format, OnStartedReading, OnFinishedReading);
         }
-        
+
+        private void OnStartedReading(int samples)
+        {
+            Settings.BufferSize = samples;
+        }
+
         public AudioEngineSettings Settings
         {
             get;
@@ -75,8 +86,8 @@ namespace VVVV.Audio
             set
             {
                 FPlay = value;
-                if(FPlay) AsioOut.Play();
-                else AsioOut.Pause();
+                if (FPlay) CurrentDevice.Play();
+                else CurrentDevice.Pause();
             }
             
             get
@@ -88,7 +99,7 @@ namespace VVVV.Audio
         
         public void Stop()
         {
-            AsioOut.Stop();
+            CurrentDevice.Stop();
         }
 
         //tells the subscribers to prepare for the next frame
@@ -96,10 +107,8 @@ namespace VVVV.Audio
         
         protected void OnFinishedReading(int calledSamples)
         {
-            var handle = FinishedReading;
-            if(handle != null)
-                handle(this, new EventArgs());
-            
+            FinishedReading?.Invoke(this, new EventArgs());
+
             //lock(FTimerLock) //needed?
             {
                 Timer.Progress(calledSamples);
@@ -152,61 +161,186 @@ namespace VVVV.Audio
         /// <param name="inputChannelOffset"></param>
         /// <param name="outputChannels"></param>
         /// <param name="outputChannelOffset"></param>
-        public void ChangeDriverSettings(string driverName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
+        public void ChangeDriverSettings(string driverName, string wasapiRecordingName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
         {
-            if(AsioOut == null || AsioOut.DriverName != driverName
-               || MasterWaveProvider.WaveFormat.SampleRate != sampleRate
-               || AsioOut.NumberOfInputChannels != inputChannels
-               || AsioOut.InputChannelOffset != inputChannelOffset
-               || AsioOut.NumberOfOutputChannels != outputChannels
-               || AsioOut.ChannelOffset != outputChannelOffset)
+            if (driverName.StartsWith(WasapiPrefix))
+            {
+                driverName = driverName.Replace(WasapiPrefix, "");
+                ChangeWASAPIDriverSettings(driverName, wasapiRecordingName, sampleRate, inputChannels, inputChannelOffset, outputChannels, outputChannelOffset);
+            }
+            else
+            {
+                ChangeASIODriverSettings(driverName, sampleRate, inputChannels, inputChannelOffset, outputChannels, outputChannelOffset);
+            }
+        }
+
+        public bool IsSampleRateSupported(int sampleRate)
+        {
+            if (CurrentDevice is AsioOut asioOut)
+            {
+                return asioOut.IsSampleRateSupported(sampleRate);
+            }
+            else if (CurrentDevice is WasapiOut wasapiOut)
+            {
+                return wasapiOut.OutputWaveFormat.SampleRate == sampleRate;
+            }
+            return false;
+        }
+
+        private void ChangeASIODriverSettings(string driverName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
+        {
+            if (AsioDevice == null || AsioDevice.DriverName != driverName
+                           || MasterWaveProvider.WaveFormat.SampleRate != sampleRate
+                           || AsioDevice.NumberOfInputChannels != inputChannels
+                           || AsioDevice.InputChannelOffset != inputChannelOffset
+                           || AsioDevice.NumberOfOutputChannels != outputChannels
+                           || AsioDevice.ChannelOffset != outputChannelOffset)
             {
                 //dispose device if necessary
-                if (this.AsioOut != null)
-                {
-                    Cleanup();
-                }
-                
+                Cleanup();
+
                 //create new driver
-                this.AsioOut = new AsioOut(driverName);
-                
+                this.AsioDevice = new AsioOut(driverName);
+
                 //set channel offset
-                AsioOut.ChannelOffset = outputChannelOffset;
-                AsioOut.InputChannelOffset = inputChannelOffset;
-                
+                AsioDevice.ChannelOffset = outputChannelOffset;
+                AsioDevice.InputChannelOffset = inputChannelOffset;
+
                 //init driver
                 MasterWaveProvider.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, outputChannels);
-                this.AsioOut.InitRecordAndPlayback(MasterWaveProvider, inputChannels, sampleRate);
-                
+                this.AsioDevice.InitRecordAndPlayback(MasterWaveProvider, inputChannels, sampleRate);
+
                 //register for recording
-                FRecordBuffers = new float[AsioOut.DriverInputChannelCount][];
+                FRecordBuffers = new float[AsioDevice.DriverInputChannelCount][];
                 for (int i = 0; i < FRecordBuffers.Length; i++)
                 {
                     FRecordBuffers[i] = new float[512];
                 }
-                this.AsioOut.AudioAvailable += AudioEngine_AudioAvailable;
-                
-                Settings.SampleRate = sampleRate;
-                Settings.BufferSize = AsioOut.BufferSize;
-                Timer.SampleRate = sampleRate;
-                Timer.FillBeatBuffer(AsioOut.BufferSize);
+                this.AsioDevice.AudioAvailable += AudioEngine_AudioAvailable;
 
-                this.AsioOut.DriverResetRequest += AsioOut_DriverResetRequest;
-                
+                Settings.SampleRate = sampleRate;
+                Settings.BufferSize = AsioDevice.FramesPerBuffer;
+                Timer.SampleRate = sampleRate;
+                Timer.FillBeatBuffer(AsioDevice.FramesPerBuffer);
+
+                this.AsioDevice.DriverResetRequest += AsioOut_DriverResetRequest;
+
                 this.Settings.SampleRate = sampleRate;
 
                 NeedsReset = false;
 
+                CurrentDevice = AsioDevice;
+
                 SettingsChanged.OnNext(driverName);
             }
         }
+
+        private void ChangeWASAPIDriverSettings(string driverName, string wasapiRecordingName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
+        {
+            var mmDeviceEnumerator = new MMDeviceEnumerator();
+            var allEndpoints = mmDeviceEnumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active);
+            var renderDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Render);
+            var captureDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Capture);
+
+            MMDevice inputDevice;
+            MMDevice outputDevice;
+
+            //find output device
+            if (driverName == WasapiSystemDevice)
+            {
+                if (mmDeviceEnumerator.HasDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia))
+                {
+                    outputDevice = mmDeviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+                    driverName = outputDevice.FriendlyName;
+                }
+                else
+                {
+                    outputDevice = renderDevices.FirstOrDefault();
+                    driverName = outputDevice?.FriendlyName;
+                }
+            }
+            else
+            {
+                outputDevice = renderDevices.FirstOrDefault(d => d.FriendlyName == driverName);
+            }
+
+            //find input device
+            var isLoopback = false;
+            if (wasapiRecordingName.StartsWith(WasapiLoopbackPrefix))
+            {
+                isLoopback = true;
+                wasapiRecordingName = wasapiRecordingName.Replace(WasapiLoopbackPrefix, "");
+            }
+
+            if (wasapiRecordingName == WasapiSystemDevice)
+            {
+                var dataFlow = isLoopback ? DataFlow.Render : DataFlow.Capture;
+                if (mmDeviceEnumerator.HasDefaultAudioEndpoint(dataFlow, Role.Multimedia))
+                {
+                    inputDevice = mmDeviceEnumerator.GetDefaultAudioEndpoint(dataFlow, Role.Multimedia);
+                    wasapiRecordingName = inputDevice.FriendlyName;
+                }
+                else
+                {
+                    inputDevice = (isLoopback ? renderDevices : captureDevices).FirstOrDefault();
+                    wasapiRecordingName = inputDevice?.FriendlyName;
+                }
+            }
+            else
+            {
+                inputDevice = (isLoopback ? renderDevices : captureDevices).FirstOrDefault(d => d.FriendlyName == wasapiRecordingName);
+            }
+
+            if (WasapiDevice == null || WasapiDevice.MMOutDevice?.FriendlyName != driverName
+                || WasapiDevice.MMInDevice?.FriendlyName != wasapiRecordingName
+                || MasterWaveProvider.WaveFormat.SampleRate != sampleRate)
+            {
+                //dispose device if necessary
+                Cleanup();
+
+                //create new driver
+                this.WasapiDevice = new WasapiInOut(outputDevice, inputDevice, isLoopback);
+
+                //set channel offset
+                //WasapiOut.ChannelOffset = outputChannelOffset;
+                //WasapiOut.InputChannelOffset = inputChannelOffset;
+
+                //init driver
+                MasterWaveProvider.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, outputChannels);
+                this.WasapiDevice.InitRecordAndPlayback(MasterWaveProvider, inputChannels, sampleRate);
+
+                //get actual samplerate
+                sampleRate = WasapiDevice.Output.OutputWaveFormat.SampleRate;
+                MasterWaveProvider.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, outputChannels);
+
+                //register for recording
+                FRecordBuffers = new float[WasapiDevice.DriverInputChannelCount][];
+                for (int i = 0; i < FRecordBuffers.Length; i++)
+                {
+                    FRecordBuffers[i] = new float[512];
+                }
+                WasapiDevice.Input.DataAvailable += AudioEngine_WasapiAudioAvailable;
+
+                Settings.SampleRate = sampleRate;
+                Timer.SampleRate = sampleRate;
+
+                Settings.SampleRate = sampleRate;
+
+                NeedsReset = false;
+
+                CurrentDevice = WasapiDevice.Output;
+
+                SettingsChanged.OnNext(driverName);
+            }
+        }
+
 
         //audio input
         protected float[][] FRecordBuffers;
         protected void AudioEngine_AudioAvailable(object sender, AsioAudioAvailableEventArgs e)
         {
             //create buffers if neccessary
-            if(FRecordBuffers[0].Length != e.SamplesPerBuffer)
+            if (FRecordBuffers[0].Length != e.SamplesPerBuffer)
             {
                 for (int i = 0; i < FRecordBuffers.Length; i++)
                 {
@@ -215,9 +349,20 @@ namespace VVVV.Audio
             }
             
             //fill and convert buffers
-            GetInputBuffers(FRecordBuffers, e);
+            GetInputBuffersAsio(FRecordBuffers, e);
         }
-        
+
+        private void AudioEngine_WasapiAudioAvailable(object sender, WaveInEventArgs e)
+        {
+            if (FRecordBuffers[0].Length != Settings.BufferSize)
+            {
+                for (int i = 0; i < FRecordBuffers.Length; i++)
+                {
+                    FRecordBuffers[i] = new float[Settings.BufferSize];
+                }
+            }
+        }
+
         //close
         public void Dispose()
         {
@@ -227,12 +372,17 @@ namespace VVVV.Audio
         //close ASIO
         private void Cleanup()
         {
-            if (this.AsioOut != null)
+            if (this.AsioDevice != null)
             {
-                this.AsioOut.DriverResetRequest -= AsioOut_DriverResetRequest;
-                this.AsioOut.AudioAvailable -= AudioEngine_AudioAvailable;
-                this.AsioOut.Dispose();
-                this.AsioOut = null;
+                this.AsioDevice.DriverResetRequest -= AsioOut_DriverResetRequest;
+                this.AsioDevice.AudioAvailable -= AudioEngine_AudioAvailable;
+                this.AsioDevice.Dispose();
+                this.AsioDevice = null;
+            }
+            if (this.WasapiDevice != null)
+            {
+                this.WasapiDevice.Dispose();
+                this.WasapiDevice = null;
             }
         }
 
@@ -254,7 +404,7 @@ namespace VVVV.Audio
         /// Converts all the recorded audio into a buffer of 32 bit floating point samples
         /// </summary>
         /// <samples>The samples as 32 bit floating point, interleaved</samples>
-        public int GetInputBuffers(float[][] samples, AsioAudioAvailableEventArgs e)
+        public int GetInputBuffersAsio(float[][] samples, AsioAudioAvailableEventArgs e)
         {
             int channels = e.InputBuffers.Length;
             unsafe
@@ -328,7 +478,7 @@ namespace VVVV.Audio
             
             set
             {
-                if(FBufferSize != value)
+                if (FBufferSize != value)
                 {
                     FBufferSize = value;
                     OnBufferSizeChanged();
@@ -340,11 +490,7 @@ namespace VVVV.Audio
         
         void OnBufferSizeChanged()
         {
-            var handler = BufferSizeChanged;
-            if(handler != null)
-            {
-                handler(this, new EventArgs());
-            }
+            BufferSizeChanged?.Invoke(this, new EventArgs());
         }
         
         private int FSampleRate;
@@ -369,11 +515,7 @@ namespace VVVV.Audio
         
         void OnSampleRateChanged()
         {
-            var handler = SampleRateChanged;
-            if(handler != null)
-            {
-                handler(this, new EventArgs());
-            }
+            SampleRateChanged?.Invoke(this, new EventArgs());
         }
     }
     
@@ -441,27 +583,92 @@ namespace VVVV.Audio
         public void SetBuffer(string key, float[] buffer)
         {
             this[key] = buffer;
-            
-            var handler = BufferSet;
-            if(handler != null)
-            {
-                handler(this, new BufferEventArgs { Buffer = this[key], BufferName = key });
-            }
+
+            BufferSet?.Invoke(this, new BufferEventArgs { Buffer = this[key], BufferName = key });
         }
         
         public void RemoveBuffer(string key)
         {
             var buffer = this[key];
             this.Remove(key);
-            
-            var handler = BufferRemoved;
-            if(handler != null)
-            {
-                handler(this, new BufferEventArgs { Buffer = buffer, BufferName = key });
-            }
+
+            BufferRemoved?.Invoke(this, new BufferEventArgs { Buffer = buffer, BufferName = key });
         }
         
         public event EventHandler<BufferEventArgs> BufferSet;
         public event EventHandler<BufferEventArgs> BufferRemoved;
+    }
+
+    public class WasapiInOut : IDisposable
+    {
+        public WasapiOut Output;
+        public WasapiCapture Input;
+        public ISampleProvider SampleProvider;
+        public MMDevice MMOutDevice;
+        public MMDevice MMInDevice;
+
+        public long MinPeriod { get; }
+        public long DefaultPeriod { get; }
+
+        private bool IsLoopback;
+
+        public bool DeviceAvailable { get; }
+        public bool OutputInitialized { get; private set; }
+        public bool InputInitialized { get; private set; }
+
+        public int DriverInputChannelCount { get; internal set; } = 2;
+        public int BufferSize 
+        { 
+            get
+            {
+                if (OutputInitialized)
+                {
+                    try
+                    {
+                        return MMOutDevice.AudioClient.BufferSize;
+                    }
+                    catch
+                    {
+                        Debug.WriteLine("Can't read buffer size");
+                    }
+                }
+
+                return 512;
+            }
+        }
+
+        public WasapiInOut(MMDevice outputDevice, MMDevice inputDevice, bool isLoopback)
+        {
+            MMOutDevice = outputDevice;
+            MMInDevice = inputDevice;
+            IsLoopback = isLoopback;
+            MinPeriod = MMOutDevice.AudioClient.MinimumDevicePeriod;
+            DefaultPeriod = MMOutDevice.AudioClient.MinimumDevicePeriod;
+        }
+
+        internal void InitRecordAndPlayback(MasterWaveProvider masterWaveProvider, int inputChannels, int sampleRate)
+        {
+            Input = IsLoopback ? new WasapiLoopbackCapture(MMInDevice) : new WasapiCapture(MMInDevice, true);
+
+            Output = new WasapiOut(MMOutDevice, AudioClientShareMode.Shared, true, (int)Math.Ceiling(MinPeriod / 10000.0));
+
+            Output.Init(masterWaveProvider);
+            Input.StartRecording();
+
+            OutputInitialized = Output != null;
+            InputInitialized = Input != null;
+
+            if (InputInitialized)
+            {
+                var wip = new WaveInProvider(Input);
+                SampleProvider = wip.ToSampleProvider();
+            }
+
+        }
+        public void Dispose()
+        {
+            Output?.Dispose();
+            Input?.Dispose();
+        }
     }
 }
