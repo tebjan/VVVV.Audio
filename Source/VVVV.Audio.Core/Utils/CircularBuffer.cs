@@ -21,7 +21,7 @@ namespace VVVV.Audio
     public class CircularBuffer
     {
         int FSize;
-        float[] Buffer;
+        float[] FBuffer;
         
         public CircularBuffer(int size)
         {
@@ -36,18 +36,25 @@ namespace VVVV.Audio
             }
             set 
             { 
-                if(FSize != value)
+                if (FSize != value)
                 {
-                    Buffer = new float[value];
+                    FBuffer = new float[value];
                     FSize = value;
-                    FWritePos = -1;
+                    FWritePosition = 0;
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Occurs when the internal buffer was filled completely, e.g. write position has wrapped around.
+        /// </summary>
         public Action<float[]> BufferFilled;
         
-        int FWritePos = -1;
+        int FWritePosition;
+        int FReadPosition;
+        int FFloatCount;
+        public bool FirstRead = true;
+
         /// <summary>
         /// Writes new data after the latest ones
         /// </summary>
@@ -55,19 +62,25 @@ namespace VVVV.Audio
         /// <param name="offset"></param>
         /// <param name="count"></param>
         public void Write(float[] data, int offset, int count)
-	    {
-            for (int i = 0; i < count; i++) 
+        {
+            var samplesWritten = 0;
+
+            // write to end
+            int writeToEnd = Math.Min(FBuffer.Length - FWritePosition, count);
+            Array.Copy(data, offset, FBuffer, FWritePosition, writeToEnd);
+            FWritePosition += writeToEnd;
+            FWritePosition %= FBuffer.Length;
+            samplesWritten += writeToEnd;
+            if (samplesWritten < count)
             {
-                FWritePos++;
-                if(FWritePos >= FSize)
-                {
-                    FWritePos = 0;
-                    if(BufferFilled != null)
-                        BufferFilled(Buffer);
-                }
-                
-                Buffer[FWritePos] = data[i+offset];
+                BufferFilled?.Invoke(FBuffer);
+                Debug.Assert(FWritePosition == 0);
+                // must have wrapped round. Write to start
+                Array.Copy(data, offset + samplesWritten, FBuffer, FWritePosition, count - samplesWritten);
+                FWritePosition += (count - samplesWritten);
+                samplesWritten = count;
             }
+            FFloatCount += samplesWritten;
         }
         
         /// <summary>
@@ -78,17 +91,68 @@ namespace VVVV.Audio
         /// <param name="count"></param>
         public void Read(float[] data, int offset, int count)
         {
-            var readPos = FWritePos;
-            for (int i = 0; i < count; i++) 
+            var readPos = FWritePosition;
+            int samplesRead = 0;
+            int readToEnd = Math.Min(FBuffer.Length - readPos, count);
+            Array.Copy(FBuffer, readPos, data, offset, readToEnd);
+            samplesRead += readToEnd;
+            readPos += readToEnd;
+            readPos %= FBuffer.Length;
+
+            if (samplesRead < count)
             {
-                readPos++;
-                if(readPos >= FSize)
-                    readPos = 0;
-                
-                data[i+offset] = Buffer[readPos];
+                // must have wrapped round. Read from start
+                Debug.Assert(readPos == 0);
+                Array.Copy(FBuffer, readPos, data, offset + samplesRead, count - samplesRead);
+                readPos += (count - samplesRead);
+                samplesRead = count;
             }
+
+            FFloatCount -= samplesRead;
+            Debug.Assert(FFloatCount >= 0);
+
         }
-        
+
+        /// <summary>
+        /// Starts reading where the last Read call left off, but will not read further than the most recent sample.
+        /// Will pad with 0 if there not enough samples available.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        public void ReadFromLastPosition(float[] data, int offset, int count)
+        {
+            if (FirstRead)
+                FReadPosition = AudioUtils.Zmod(FWritePosition - Math.Min(FFloatCount, count), FBuffer.Length);
+
+            var samplesRequested = count;
+            count = Math.Min(samplesRequested, FFloatCount);
+
+            int samplesRead = 0;
+            int readToEnd = Math.Min(FBuffer.Length - FReadPosition, count);
+            Array.Copy(FBuffer, FReadPosition, data, offset, readToEnd);
+            samplesRead += readToEnd;
+            FReadPosition += readToEnd;
+            FReadPosition %= FBuffer.Length;
+
+            if (samplesRead < count)
+            {
+                // must have wrapped round. Read from start
+                Debug.Assert(FReadPosition == 0);
+                Array.Copy(FBuffer, FReadPosition, data, offset + samplesRead, count - samplesRead);
+                FReadPosition += (count - samplesRead);
+                samplesRead = count;
+            }
+
+            if (samplesRequested > samplesRead)
+            {
+                data.ReadSilence(samplesRead, samplesRequested - samplesRead);
+            }
+
+            FFloatCount -= samplesRead;
+            Debug.Assert(FFloatCount >= 0);
+        }
+
         /// <summary>
         /// Starts reading right after the last write position, which is the oldest value
         /// </summary>
@@ -97,14 +161,14 @@ namespace VVVV.Audio
         /// <param name="count"></param>
         public void ReadDouble(double[] data, int offset, int count)
         {
-            var readPos = FWritePos;
+            var readPos = FWritePosition;
             for (int i = 0; i < count; i++) 
             {
                 readPos++;
                 if(readPos >= FSize)
                     readPos = 0;
                 
-                data[i+offset] = Buffer[readPos];
+                data[i+offset] = FBuffer[readPos];
             }
         }
         
@@ -116,188 +180,187 @@ namespace VVVV.Audio
         /// <param name="count"></param>
         public void ReadDoubleWindowed(double[] data, double[] window, int offset, int count)
         {
-            var readPos = FWritePos;
+            var readPos = FWritePosition;
             for (int i = 0; i < count; i++) 
             {
                 readPos++;
                 if(readPos >= FSize)
                     readPos = 0;
                 
-                data[i+offset] = Buffer[readPos] * window[i+offset];
+                data[i+offset] = FBuffer[readPos] * window[i+offset];
             }
         }
     }
     
-	/// <summary>
-	/// A very basic circular buffer implementation
-	/// </summary>
-	public class CircularPullBuffer : IDisposable
-	{
-	    private readonly float[] FBuffer;
-	    private int FWritePosition;
-	    private int FReadPosition;
-	    private int FFloatCount;
-	
-	    /// <summary>
-	    /// Create a new circular buffer
-	    /// </summary>
-	    /// <param name="size">Max buffer size in samples</param>
-	    public CircularPullBuffer(int size)
-	    {
-	    	FBuffer = new float[size];
-	    	PullCount = 1024;
-	    }
-	    
-	    public ISampleProvider Input
-	    {
-	    	get;
-	    	set;
-	    }
-	    
-	    /// <summary>
-	    /// Write data to the buffer
-	    /// </summary>
-	    /// <param name="data">Data to write</param>
-	    /// <param name="offset">Offset into data</param>
-	    /// <param name="count">Number of bytes to write</param>
-	    /// <returns>number of bytes written</returns>
-	    public int Write(float[] data, int offset, int count)
-	    {
-	    	var samplesWritten = 0;
-	    	if (count > FBuffer.Length - FFloatCount)
-	    	{
-	    		count = FBuffer.Length - FFloatCount;
-	    	}
-	    	// write to end
-	    	int writeToEnd = Math.Min(FBuffer.Length - FWritePosition, count);
-	    	Array.Copy(data, offset, FBuffer, FWritePosition, writeToEnd);
-	    	FWritePosition += writeToEnd;
-	    	FWritePosition %= FBuffer.Length;
-	    	samplesWritten += writeToEnd;
-	    	if (samplesWritten < count)
-	    	{
-	    		Debug.Assert(FWritePosition == 0);
-	    		// must have wrapped round. Write to start
-	    		Array.Copy(data, offset + samplesWritten, FBuffer, FWritePosition, count - samplesWritten);
-	    		FWritePosition += (count - samplesWritten);
-	    		samplesWritten = count;
-	    	}
-	    	FFloatCount += samplesWritten;
-	    	return samplesWritten;
-	    }
-	    
-	    /// <summary>
-	    /// The amount of data to be pulled
-	    /// </summary>
-	    public int PullCount { get; set; }
-	    
-	    protected float[] FTmpBuffer = new float[1];
-	    /// <summary>
-	    /// Pulls a specified amount of samples from the input.
-	    /// </summary>
-	    /// <param name="count"></param>
-	    public virtual void Pull(int count)
-	    {
-	    	if(FTmpBuffer.Length != count)
-	    		FTmpBuffer = new float[count];
-	    	
-	    	if(Input != null)
-	    	{
-	    		Input.Read(FTmpBuffer, 0, count);
-	    	}
-	    	else
-	    	{
-	    		FTmpBuffer.ReadSilence(0, count);
-	    	}
-	    	
-	    	Write(FTmpBuffer, 0, count);
-	    }
-	
-	    /// <summary>
-	    /// Read from the buffer
-	    /// </summary>
-	    /// <param name="data">Buffer to read into</param>
-	    /// <param name="offset">Offset into read buffer</param>
-	    /// <param name="count">Bytes to read</param>
-	    /// <returns>Number of bytes actually read</returns>
-	    public int Read(float[] data, int offset, int count)
-	    {
-			//pull in enough samples
-	    	while (count > FFloatCount)
-	    	{
-	    		//count = FFloatCount;
-	    		Pull(PullCount);
-	    	}
-	    	
-	    	int samplesRead = 0;
-	    	int readToEnd = Math.Min(FBuffer.Length - FReadPosition, count);
-	    	Array.Copy(FBuffer, FReadPosition, data, offset, readToEnd);
-	    	samplesRead += readToEnd;
-	    	FReadPosition += readToEnd;
-	    	FReadPosition %= FBuffer.Length;
-	    	
-	    	if (samplesRead < count)
-	    	{
-	    		// must have wrapped round. Read from start
-	    		Debug.Assert(FReadPosition == 0);
-	    		Array.Copy(FBuffer, FReadPosition, data, offset + samplesRead, count - samplesRead);
-	    		FReadPosition += (count - samplesRead);
-	    		samplesRead = count;
-	    	}
-	    	
-	    	FFloatCount -= samplesRead;
-	    	Debug.Assert(FFloatCount >= 0);
-	    	return samplesRead;
-	    }
-	    
-	    /// <summary>
-	    /// Maximum length of this circular buffer
-	    /// </summary>
-	    public int MaxLength
-	    {
-	    	get { return FBuffer.Length; }
-	    }
-	
-	    /// <summary>
-	    /// Number of bytes currently stored in the circular buffer
-	    /// </summary>
-	    public int Count
-	    {
-	        get { return FFloatCount; }
-	    }
-	
-	    /// <summary>
-	    /// Resets the buffer
-	    /// </summary>
-	    public void Reset()
-	    {
-	        FFloatCount = 0;
-	        FReadPosition = 0;
-	        FWritePosition = 0;
-	    }
-	
-	    /// <summary>
-	    /// Advances the buffer, discarding bytes
-	    /// </summary>
-	    /// <param name="count">Bytes to advance</param>
-	    public void Advance(int count)
-	    {
-	        if (count >= FFloatCount)
-	        {
-	            Reset();
-	        }
-	        else
-	        {
-	            FFloatCount -= count;
-	            FReadPosition += count;
-	            FReadPosition %= MaxLength;
-	        }
-	    }
-	    
-	    		
-		public virtual void Dispose()
-		{
-			Input = null;
-		}
-	}
+    /// <summary>
+    /// A circular buffer implementation
+    /// </summary>
+    public class CircularPullBuffer : IDisposable
+    {
+        private readonly float[] FBuffer;
+        private int FWritePosition;
+        private int FReadPosition;
+        private int FFloatCount;
+    
+        /// <summary>
+        /// Create a new circular buffer
+        /// </summary>
+        /// <param name="size">Max buffer size in samples</param>
+        public CircularPullBuffer(int size)
+        {
+            FBuffer = new float[size];
+            PullCount = 1024;
+        }
+        
+        public ISampleProvider Input
+        {
+            get;
+            set;
+        }
+        
+        /// <summary>
+        /// Write data to the buffer
+        /// </summary>
+        /// <param name="data">Data to write</param>
+        /// <param name="offset">Offset into data</param>
+        /// <param name="count">Number of bytes to write</param>
+        /// <returns>number of bytes written</returns>
+        public int Write(float[] data, int offset, int count)
+        {
+            var samplesWritten = 0;
+            if (count > FBuffer.Length - FFloatCount)
+            {
+                count = FBuffer.Length - FFloatCount;
+            }
+            // write to end
+            int writeToEnd = Math.Min(FBuffer.Length - FWritePosition, count);
+            Array.Copy(data, offset, FBuffer, FWritePosition, writeToEnd);
+            FWritePosition += writeToEnd;
+            FWritePosition %= FBuffer.Length;
+            samplesWritten += writeToEnd;
+            if (samplesWritten < count)
+            {
+                Debug.Assert(FWritePosition == 0);
+                // must have wrapped round. Write to start
+                Array.Copy(data, offset + samplesWritten, FBuffer, FWritePosition, count - samplesWritten);
+                FWritePosition += (count - samplesWritten);
+                samplesWritten = count;
+            }
+            FFloatCount += samplesWritten;
+            return samplesWritten;
+        }
+        
+        /// <summary>
+        /// The amount of data to be pulled
+        /// </summary>
+        public int PullCount { get; set; }
+        
+        protected float[] FTmpBuffer = new float[1];
+        /// <summary>
+        /// Pulls a specified amount of samples from the input.
+        /// </summary>
+        /// <param name="count"></param>
+        public virtual void Pull(int count)
+        {
+            if(FTmpBuffer.Length != count)
+                FTmpBuffer = new float[count];
+            
+            if(Input != null)
+            {
+                Input.Read(FTmpBuffer, 0, count);
+            }
+            else
+            {
+                FTmpBuffer.ReadSilence(0, count);
+            }
+            
+            Write(FTmpBuffer, 0, count);
+        }
+    
+        /// <summary>
+        /// Read from the buffer
+        /// </summary>
+        /// <param name="data">Buffer to read into</param>
+        /// <param name="offset">Offset into read buffer</param>
+        /// <param name="count">Bytes to read</param>
+        /// <returns>Number of bytes actually read</returns>
+        public int Read(float[] data, int offset, int count)
+        {
+            //pull in enough samples
+            while (count > FFloatCount)
+            {
+                //count = FFloatCount;
+                Pull(PullCount);
+            }
+            
+            int samplesRead = 0;
+            int readToEnd = Math.Min(FBuffer.Length - FReadPosition, count);
+            Array.Copy(FBuffer, FReadPosition, data, offset, readToEnd);
+            samplesRead += readToEnd;
+            FReadPosition += readToEnd;
+            FReadPosition %= FBuffer.Length;
+            
+            if (samplesRead < count)
+            {
+                // must have wrapped round. Read from start
+                Debug.Assert(FReadPosition == 0);
+                Array.Copy(FBuffer, FReadPosition, data, offset + samplesRead, count - samplesRead);
+                FReadPosition += (count - samplesRead);
+                samplesRead = count;
+            }
+            
+            FFloatCount -= samplesRead;
+            Debug.Assert(FFloatCount >= 0);
+            return samplesRead;
+        }
+        
+        /// <summary>
+        /// Maximum length of this circular buffer
+        /// </summary>
+        public int MaxLength
+        {
+            get { return FBuffer.Length; }
+        }
+    
+        /// <summary>
+        /// Number of bytes currently stored in the circular buffer
+        /// </summary>
+        public int Count
+        {
+            get { return FFloatCount; }
+        }
+    
+        /// <summary>
+        /// Resets the buffer
+        /// </summary>
+        public void Reset()
+        {
+            FFloatCount = 0;
+            FReadPosition = 0;
+            FWritePosition = 0;
+        }
+    
+        /// <summary>
+        /// Advances the buffer, discarding bytes
+        /// </summary>
+        /// <param name="count">Bytes to advance</param>
+        public void Advance(int count)
+        {
+            if (count >= FFloatCount)
+            {
+                Reset();
+            }
+            else
+            {
+                FFloatCount -= count;
+                FReadPosition += count;
+                FReadPosition %= MaxLength;
+            }
+        }
+                
+        public virtual void Dispose()
+        {
+            Input = null;
+        }
+    }
 }

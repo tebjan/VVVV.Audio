@@ -25,7 +25,7 @@
             If this is true the engine driver should be reset
             </summary>
         </member>
-        <member name="M:VVVV.Audio.AudioEngine.GetInputBuffers(System.Single[][],NAudio.Wave.AsioAudioAvailableEventArgs)">
+        <member name="M:VVVV.Audio.AudioEngine.GetInputBuffersAsio(System.Single[][],NAudio.Wave.AsioAudioAvailableEventArgs)">
             <summary>
             Converts all the recorded audio into a buffer of 32 bit floating point samples
             </summary>
@@ -198,6 +198,52 @@
             Base class for all sink signals which have audio input but no audio output
             </summary>
         </member>
+        <member name="T:VVVV.Audio.VAudioWasapiLoopbackCapture">
+            <summary>
+            WASAPI Loopback Capture
+            based on a contribution from "Pygmy" - http://naudio.codeplex.com/discussions/203605
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.VAudioWasapiLoopbackCapture.#ctor(NAudio.CoreAudioApi.MMDevice,System.Boolean,System.Int32)">
+            <summary>
+            Initialises a new instance of the WASAPI capture class
+            </summary>
+            <param name="captureDevice">Capture device to use</param>
+            <param name="useEventSync">true if sync is done with event. false use sleep.</param>
+            <param name="audioBufferMillisecondsLength">Length of the audio buffer in milliseconds. A lower value means lower latency but increased CPU usage.</param>
+        </member>
+        <member name="P:VVVV.Audio.VAudioWasapiLoopbackCapture.WaveFormat">
+            <summary>
+            Capturing wave format
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.VAudioWasapiLoopbackCapture.GetAudioClientStreamFlags">
+            <summary>
+            Specify loopback
+            </summary>
+        </member>
+        <member name="T:VVVV.Audio.VAudioWasapiWaveInProvider">
+            <summary>
+            Buffered WaveProvider taking source data from WaveIn
+            </summary>
+        </member>
+        <member name="M:VVVV.Audio.VAudioWasapiWaveInProvider.#ctor(NAudio.Wave.IWaveIn)">
+            <summary>
+            Creates a new WaveInProvider
+            n.b. Should make sure the WaveFormat is set correctly on IWaveIn before calling
+            </summary>
+            <param name="waveIn">The source of wave data</param>
+        </member>
+        <member name="M:VVVV.Audio.VAudioWasapiWaveInProvider.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads data from the WaveInProvider
+            </summary>
+        </member>
+        <member name="P:VVVV.Audio.VAudioWasapiWaveInProvider.WaveFormat">
+            <summary>
+            The WaveFormat
+            </summary>
+        </member>
         <member name="T:VVVV.Audio.AudioUtils">
             <summary>
             Audio helpers, all audio samples are considered float32 in the range [-1..1]
@@ -262,6 +308,11 @@
             Simple wrapper around a float array
             </summary>
         </member>
+        <member name="F:VVVV.Audio.CircularBuffer.BufferFilled">
+            <summary>
+            Occurs when the internal buffer was filled completely, e.g. write position has wrapped around.
+            </summary>
+        </member>
         <member name="M:VVVV.Audio.CircularBuffer.Write(System.Single[],System.Int32,System.Int32)">
             <summary>
             Writes new data after the latest ones
@@ -273,6 +324,15 @@
         <member name="M:VVVV.Audio.CircularBuffer.Read(System.Single[],System.Int32,System.Int32)">
             <summary>
             Starts reading right after the last write position, which is the oldest value
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:VVVV.Audio.CircularBuffer.ReadFromLastPosition(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Starts reading where the last Read call left off, but will not read further than the most recent sample.
+            Will pad with 0 if there not enough samples available.
             </summary>
             <param name="data"></param>
             <param name="offset"></param>
@@ -296,7 +356,7 @@
         </member>
         <member name="T:VVVV.Audio.CircularPullBuffer">
             <summary>
-            A very basic circular buffer implementation
+            A circular buffer implementation
             </summary>
         </member>
         <member name="M:VVVV.Audio.CircularPullBuffer.#ctor(System.Int32)">

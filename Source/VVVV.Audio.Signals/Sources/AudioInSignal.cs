@@ -24,7 +24,7 @@ namespace VVVV.Audio
 			}
 			else
 			{
-				FEngine.WasapiDevice?.SampleProvider.Read(buffer, offset, count);
+				FEngine.FWasapiInputBuffers[FIndex].ReadFromLastPosition(buffer, offset, count);
 			}
 		}
 	}

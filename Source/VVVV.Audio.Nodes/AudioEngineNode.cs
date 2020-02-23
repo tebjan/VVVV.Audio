@@ -35,7 +35,7 @@ namespace VVVV.Nodes
     }
     
     [PluginInfo(Name = "AudioEngine", Category = "VAudio", Help = "Configures the audio engine", AutoEvaluate = true, Tags = "Asio")]
-    public class AudioEngineNode : IPluginEvaluate, IDisposable
+    public class AudioEngineNode : IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification
     {
         #region fields & pins
         #pragma warning disable 0649
@@ -104,7 +104,10 @@ namespace VVVV.Nodes
         
         [Output("Open Output Chanels")]
         ISpread<int> FOpenOutputChannelsOut;
-    
+
+        [Output("WASAPI Device Infos")]
+        ISpread<string> FWasapiDeviceInfosOut;
+
         [Import()]
         ILogger FLogger;
         AudioEngine FEngine;
@@ -113,6 +116,11 @@ namespace VVVV.Nodes
         
         [ImportingConstructor]
         public AudioEngineNode()
+        {
+            
+        }
+
+        public void OnImportsSatisfied()
         {
             FEngine = AudioService.Engine;
 
@@ -138,7 +146,7 @@ namespace VVVV.Nodes
             }
             else
             {
-                var enums = new string[]{"No Audio Device Found!? -> Check Your Drivers"};
+                var enums = new string[] { "No Audio Device Found!? -> Check Your Drivers" };
                 EnumManager.UpdateEnum("NAudioASIO", enums[0], enums);
             }
 
@@ -172,9 +180,27 @@ namespace VVVV.Nodes
             //also add default entries to the sampling rate enum
             var samplingRates = new string[] { "44100", "48000" };
             EnumManager.UpdateEnum("ASIODriverSampleRates", samplingRates[0], samplingRates);
-            
-        }
 
+            //build all device infos
+            var defaultRender = "";
+            if (mmDeviceEnumerator.HasDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia))
+                defaultRender = mmDeviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia).FriendlyName;
+
+            var defaultCapture = "";
+            if (mmDeviceEnumerator.HasDefaultAudioEndpoint(DataFlow.Capture, Role.Multimedia))
+                defaultCapture = mmDeviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Multimedia).FriendlyName;
+
+            FWasapiDeviceInfosOut.SliceCount = 0;
+            foreach (var ep in allEndpoints)
+            {
+                var df = ep.DataFlow.ToString();
+                var sr = ep.AudioClient.MixFormat.SampleRate / 1000.0f;
+                var defaultName = ep.DataFlow == DataFlow.Render ? defaultRender : defaultCapture;
+                var def = ep.FriendlyName == defaultName ? " (System Default)" : ""; 
+                FWasapiDeviceInfosOut.Add(df + " " + sr + ": " + ep.FriendlyName + def);
+            }
+        }
+         
         private void UpdateSampleRateEnum()
         {
             var tempList = new List<string>();
@@ -274,7 +300,6 @@ namespace VVVV.Nodes
         {
             AudioService.DisposeEngine();
         }
-    
     }
 }
 

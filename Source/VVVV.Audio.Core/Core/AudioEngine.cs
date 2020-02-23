@@ -26,7 +26,7 @@ namespace VVVV.Audio
 
         public const string WasapiPrefix = "WASAPI: ";
         public const string WasapiSystemDevice = "Current System Device";
-        public const string WasapiLoopbackPrefix = "Loopback ";
+        public const string WasapiLoopbackPrefix = "Loopback: ";
 
         //singleton pattern
         private static AudioEngine SInstance;
@@ -216,7 +216,7 @@ namespace VVVV.Audio
                 {
                     FRecordBuffers[i] = new float[512];
                 }
-                this.AsioDevice.AudioAvailable += AudioEngine_AudioAvailable;
+                this.AsioDevice.AudioAvailable += AsioAudioAvailable;
 
                 Settings.SampleRate = sampleRate;
                 Settings.BufferSize = AsioDevice.FramesPerBuffer;
@@ -315,11 +315,14 @@ namespace VVVV.Audio
 
                 //register for recording
                 FRecordBuffers = new float[WasapiDevice.DriverInputChannelCount][];
+                FWasapiInputBuffers.Clear();
                 for (int i = 0; i < FRecordBuffers.Length; i++)
                 {
-                    FRecordBuffers[i] = new float[512];
+                    FRecordBuffers[i] = new float[1];
+                    FWasapiInputBuffers.Add(new CircularBuffer(3));
+
                 }
-                WasapiDevice.Input.DataAvailable += AudioEngine_WasapiAudioAvailable;
+                WasapiDevice.Input.DataAvailable += WasapiAudioAvailable;
 
                 Settings.SampleRate = sampleRate;
                 Timer.SampleRate = sampleRate;
@@ -337,7 +340,7 @@ namespace VVVV.Audio
 
         //audio input
         protected float[][] FRecordBuffers;
-        protected void AudioEngine_AudioAvailable(object sender, AsioAudioAvailableEventArgs e)
+        protected void AsioAudioAvailable(object sender, AsioAudioAvailableEventArgs e)
         {
             //create buffers if neccessary
             if (FRecordBuffers[0].Length != e.SamplesPerBuffer)
@@ -352,15 +355,31 @@ namespace VVVV.Audio
             GetInputBuffersAsio(FRecordBuffers, e);
         }
 
-        private void AudioEngine_WasapiAudioAvailable(object sender, WaveInEventArgs e)
+        public List<CircularBuffer> FWasapiInputBuffers = new List<CircularBuffer>();
+        private void WasapiAudioAvailable(object sender, WaveInEventArgs e)
         {
-            if (FRecordBuffers[0].Length != Settings.BufferSize)
+            var bytes = e.BytesRecorded;
+            var bytesPerSample = WasapiDevice.Input.WaveFormat.BitsPerSample / 8;
+            var channels = WasapiDevice.Input.WaveFormat.Channels;
+            var samples = bytes / (channels * bytesPerSample);
+
+            if (FRecordBuffers[0].Length < samples)
             {
                 for (int i = 0; i < FRecordBuffers.Length; i++)
                 {
-                    FRecordBuffers[i] = new float[Settings.BufferSize];
+                    FRecordBuffers[i] = new float[samples];
+                    FWasapiInputBuffers[i] = new CircularBuffer(samples * 3);
                 }
             }
+
+            //fill and convert buffers
+            GetInputBuffersWasapi(FRecordBuffers, samples, e);
+
+            for (int i = 0; i < FRecordBuffers.Length; i++)
+            {
+                FWasapiInputBuffers[i].Write(FRecordBuffers[i], 0, samples);
+            }
+
         }
 
         //close
@@ -375,12 +394,13 @@ namespace VVVV.Audio
             if (this.AsioDevice != null)
             {
                 this.AsioDevice.DriverResetRequest -= AsioOut_DriverResetRequest;
-                this.AsioDevice.AudioAvailable -= AudioEngine_AudioAvailable;
+                this.AsioDevice.AudioAvailable -= AsioAudioAvailable;
                 this.AsioDevice.Dispose();
                 this.AsioDevice = null;
             }
             if (this.WasapiDevice != null)
             {
+                this.WasapiDevice.Input.DataAvailable -= WasapiAudioAvailable;
                 this.WasapiDevice.Dispose();
                 this.WasapiDevice = null;
             }
@@ -455,14 +475,74 @@ namespace VVVV.Audio
                 }
                 else
                 {
-                    throw new NotImplementedException(String.Format("ASIO Sample Type {0} not supported", e.AsioSampleType));
+                    throw new NotImplementedException(string.Format("ASIO Sample Type {0} not supported", e.AsioSampleType));
                 }
             }
             return e.SamplesPerBuffer*channels;
         }
-        
+
+
+        public int GetInputBuffersWasapi(float[][] samples, int sampleCount, WaveInEventArgs e)
+        {
+            int channels = WasapiDevice.DriverInputChannelCount;
+            unsafe
+            {
+                //if (e.AsioSampleType == AsioSampleType.Int32LSB)
+                //{
+                //    for (int ch = 0; ch < channels; ch++)
+                //    {
+                //        for (int n = 0; n < e.SamplesPerBuffer; n++)
+                //        {
+                //            samples[ch][n] = *((int*)e.InputBuffers[ch] + n) / (float)Int32.MaxValue;
+                //        }
+                //    }
+                //}
+                //else if (e.AsioSampleType == AsioSampleType.Int16LSB)
+                //{
+                //    for (int ch = 0; ch < channels; ch++)
+                //    {
+                //        for (int n = 0; n < e.SamplesPerBuffer; n++)
+                //        {
+                //            samples[ch][n] = *((short*)e.InputBuffers[ch] + n) / (float)Int16.MaxValue;
+                //        }
+                //    }
+                //}
+                //else if (e.AsioSampleType == AsioSampleType.Int24LSB)
+                //{
+                //    for (int ch = 0; ch < channels; ch++)
+                //    {
+                //        for (int n = 0; n < e.SamplesPerBuffer; n++)
+                //        {
+                //            byte* pSample = ((byte*)e.InputBuffers[ch] + n * 3);
+
+                //            //int sample = *pSample + *(pSample+1) << 8 + (sbyte)*(pSample+2) << 16;
+                //            int sample = pSample[0] | (pSample[1] << 8) | ((sbyte)pSample[2] << 16);
+                //            samples[ch][n] = sample / 8388608.0f;
+                //        }
+                //    }
+                //}
+                //else
+                if (WasapiDevice.Input.WaveFormat.BitsPerSample == 32 && WasapiDevice.Input.WaveFormat.Encoding == WaveFormatEncoding.IeeeFloat)
+                {
+                    var floatBuffer = new WaveBuffer(e.Buffer).FloatBuffer;
+                    for (int ch = 0; ch < channels; ch++)
+                    {
+                        for (int n = 0; n < sampleCount; n++)
+                        {
+                            samples[ch][n] = floatBuffer[n * channels + ch];
+                        }
+                    }
+                }
+                else
+                {
+                    throw new NotImplementedException("Input Format Not Supported: " + WasapiDevice.Input.WaveFormat);
+                }
+            }
+            return sampleCount * channels;
+        }
+
         #endregion asio
-        
+
     }
 
     
@@ -603,12 +683,8 @@ namespace VVVV.Audio
     {
         public WasapiOut Output;
         public WasapiCapture Input;
-        public ISampleProvider SampleProvider;
         public MMDevice MMOutDevice;
         public MMDevice MMInDevice;
-
-        public long MinPeriod { get; }
-        public long DefaultPeriod { get; }
 
         private bool IsLoopback;
 
@@ -617,40 +693,22 @@ namespace VVVV.Audio
         public bool InputInitialized { get; private set; }
 
         public int DriverInputChannelCount { get; internal set; } = 2;
-        public int BufferSize 
-        { 
-            get
-            {
-                if (OutputInitialized)
-                {
-                    try
-                    {
-                        return MMOutDevice.AudioClient.BufferSize;
-                    }
-                    catch
-                    {
-                        Debug.WriteLine("Can't read buffer size");
-                    }
-                }
-
-                return 512;
-            }
-        }
+        public ISampleProvider InputSampleProvider { get; private set; }
 
         public WasapiInOut(MMDevice outputDevice, MMDevice inputDevice, bool isLoopback)
         {
             MMOutDevice = outputDevice;
             MMInDevice = inputDevice;
             IsLoopback = isLoopback;
-            MinPeriod = MMOutDevice.AudioClient.MinimumDevicePeriod;
-            DefaultPeriod = MMOutDevice.AudioClient.MinimumDevicePeriod;
         }
 
         internal void InitRecordAndPlayback(MasterWaveProvider masterWaveProvider, int inputChannels, int sampleRate)
         {
-            Input = IsLoopback ? new WasapiLoopbackCapture(MMInDevice) : new WasapiCapture(MMInDevice, true);
+            var minPeriod = 11;// (int)Math.Ceiling(MMInDevice.AudioClient.MinimumDevicePeriod / 10000.0) ;
+            Input = IsLoopback ? new VAudioWasapiLoopbackCapture(MMInDevice, false, minPeriod) : new WasapiCapture(MMInDevice, true, minPeriod);
 
-            Output = new WasapiOut(MMOutDevice, AudioClientShareMode.Shared, true, (int)Math.Ceiling(MinPeriod / 10000.0));
+            //minPeriod = (int)Math.Ceiling(MMOutDevice.AudioClient.MinimumDevicePeriod / 10000.0);
+            Output = new WasapiOut(MMOutDevice, AudioClientShareMode.Shared, true, minPeriod);
 
             Output.Init(masterWaveProvider);
             Input.StartRecording();
@@ -660,10 +718,12 @@ namespace VVVV.Audio
 
             if (InputInitialized)
             {
-                var wip = new WaveInProvider(Input);
-                SampleProvider = wip.ToSampleProvider();
+                DriverInputChannelCount = Input.WaveFormat.Channels;
+                //var wip = new VAudioWasapiWaveInProvider(Input);
+                //wip.BufferedWaveProvider.DiscardOnBufferOverflow = true;
+                //wip.BufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(latency * 2);
+                //InputSampleProvider = wip.ToSampleProvider();
             }
-
         }
         public void Dispose()
         {

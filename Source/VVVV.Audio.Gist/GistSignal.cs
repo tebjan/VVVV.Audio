@@ -27,8 +27,6 @@ namespace VVVV.Audio
                 FGist = new Gist(SampleRate, BufferSize);
         }
         
-        protected CircularBuffer FRingBuffer = new CircularBuffer(512);
-
         //SigParamDiff<int> GistBufferSize = new SigParamDiff<int>("Gist Buffer Size");
         SigParam<bool> GetFeatures = new SigParam<bool>("GetFeatures", true, false);
 
