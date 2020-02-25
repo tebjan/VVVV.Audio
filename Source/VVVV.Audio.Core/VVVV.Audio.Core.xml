@@ -37,6 +37,11 @@
             TODO: find better life time management
             </summary>
         </member>
+        <member name="M:VVVV.Audio.AudioService.InvalidateDeviceEnums">
+            <summary>
+            Forces a new device enumeration on next acces of any device info property.
+            </summary>
+        </member>
         <member name="T:VVVV.Audio.ICanCopyBuffer">
             <summary>
             Interface which provides buffer copy of the output.

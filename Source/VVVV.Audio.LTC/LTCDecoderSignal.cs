@@ -12,7 +12,7 @@ namespace VVVV.Audio
 		public LTCDecoderSignal(AudioSignal input)
 		{
 			InputSignal.Value = input;
-			FDecoder = new Decoder(AudioEngine.Instance.Settings.SampleRate, 25, 2);
+			FDecoder = new Decoder(AudioService.Engine.Settings.SampleRate, 25, 2);
 		}
 
 		protected override void Engine_SampleRateChanged(object sender, EventArgs e)
@@ -20,7 +20,7 @@ namespace VVVV.Audio
 			base.Engine_SampleRateChanged(sender, e);
 			if (FDecoder != null)
 				FDecoder.Dispose();
-			FDecoder = new Decoder(AudioEngine.Instance.Settings.SampleRate, 25, 2);
+			FDecoder = new Decoder(AudioService.Engine.Settings.SampleRate, 25, 2);
 		}
 
 		public Timecode Timecode;

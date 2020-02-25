@@ -63,6 +63,7 @@ namespace VVVV.Audio
         /// <param name="count"></param>
         public void Write(float[] data, int offset, int count)
         {
+            count = Math.Min(count, FBuffer.Length);
             var samplesWritten = 0;
 
             // write to end

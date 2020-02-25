@@ -124,25 +124,10 @@ namespace VVVV.Nodes
         {
             FEngine = AudioService.Engine;
 
-            var asioDrivers = AsioOut.GetDriverNames();
-
-            var mmDeviceEnumerator = new MMDeviceEnumerator();
-            var allEndpoints = mmDeviceEnumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active);
-            var renderDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Render);
-            var captureDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Capture);
-
-            var driverNames = new List<string>(asioDrivers);
-            var defaultIndex = driverNames.Count;
-            driverNames.Add(AudioEngine.WasapiPrefix + AudioEngine.WasapiSystemDevice);
-            foreach (var mmDevice in renderDevices)
+            if (AudioService.OutputDrivers.Count > 0)
             {
-                driverNames.Add(AudioEngine.WasapiPrefix + mmDevice.FriendlyName);
-            }
-
-            if (driverNames.Count > 0)
-            {
-                var enums = driverNames.ToArray();
-                EnumManager.UpdateEnum("NAudioASIO", enums[defaultIndex], enums);
+                var enums = AudioService.OutputDrivers.ToArray();
+                EnumManager.UpdateEnum("NAudioASIO", enums[AudioService.OutputDriversDefaultIndex], enums);
             }
             else
             {
@@ -151,25 +136,10 @@ namespace VVVV.Nodes
             }
 
 
-            var wasapiInputDriverNames = new List<string>();
-            wasapiInputDriverNames.Add(AudioEngine.WasapiSystemDevice);
-            foreach (var mmDevice in captureDevices)
+            if (AudioService.WasapiInputDevices.Count > 0)
             {
-                wasapiInputDriverNames.Add(mmDevice.FriendlyName);
-            }
-
-            defaultIndex = wasapiInputDriverNames.Count;
-            wasapiInputDriverNames.Add(AudioEngine.WasapiLoopbackPrefix + AudioEngine.WasapiSystemDevice);
-
-            foreach (var mmDevice in renderDevices)
-            {
-                wasapiInputDriverNames.Add(AudioEngine.WasapiLoopbackPrefix + mmDevice.FriendlyName);
-            }
-
-            if (wasapiInputDriverNames.Count > 0)
-            {
-                var enums = wasapiInputDriverNames.ToArray();
-                EnumManager.UpdateEnum("NAudioWasapiRecording", enums[defaultIndex], enums);
+                var enums = AudioService.WasapiInputDevices.ToArray();
+                EnumManager.UpdateEnum("NAudioWasapiRecording", enums[AudioService.WasapiInputDevicesDefaultIndex], enums);
             }
             else
             {
@@ -181,24 +151,8 @@ namespace VVVV.Nodes
             var samplingRates = new string[] { "44100", "48000" };
             EnumManager.UpdateEnum("ASIODriverSampleRates", samplingRates[0], samplingRates);
 
-            //build all device infos
-            var defaultRender = "";
-            if (mmDeviceEnumerator.HasDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia))
-                defaultRender = mmDeviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia).FriendlyName;
-
-            var defaultCapture = "";
-            if (mmDeviceEnumerator.HasDefaultAudioEndpoint(DataFlow.Capture, Role.Multimedia))
-                defaultCapture = mmDeviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Multimedia).FriendlyName;
-
             FWasapiDeviceInfosOut.SliceCount = 0;
-            foreach (var ep in allEndpoints)
-            {
-                var df = ep.DataFlow.ToString();
-                var sr = ep.AudioClient.MixFormat.SampleRate / 1000.0f;
-                var defaultName = ep.DataFlow == DataFlow.Render ? defaultRender : defaultCapture;
-                var def = ep.FriendlyName == defaultName ? " (System Default)" : ""; 
-                FWasapiDeviceInfosOut.Add(df + " " + sr + ": " + ep.FriendlyName + def);
-            }
+            FWasapiDeviceInfosOut.AssignFrom(AudioService.WasapiDeviceInfos);
         }
          
         private void UpdateSampleRateEnum()

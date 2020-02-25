@@ -27,23 +27,8 @@ namespace VVVV.Audio
         public const string WasapiPrefix = "WASAPI: ";
         public const string WasapiSystemDevice = "Current System Device";
         public const string WasapiLoopbackPrefix = "Loopback: ";
-
-        //singleton pattern
-        private static AudioEngine SInstance;
-        public static AudioEngine Instance
-        {
-            get
-            {
-                if(SInstance == null)
-                {
-                    SInstance = new AudioEngine();
-                }
-                
-                return SInstance;
-            }
-        }
         
-        private AudioEngine()
+        internal AudioEngine()
         {
             Settings = new AudioEngineSettings { SampleRate = 44100, BufferSize = 512 };
             Timer = new AudioEngineTimer(Settings.SampleRate);
@@ -368,7 +353,7 @@ namespace VVVV.Audio
                 for (int i = 0; i < FRecordBuffers.Length; i++)
                 {
                     FRecordBuffers[i] = new float[samples];
-                    FWasapiInputBuffers[i] = new CircularBuffer(samples * 3);
+                    FWasapiInputBuffers[i] = new CircularBuffer(samples);
                 }
             }
 
@@ -544,99 +529,6 @@ namespace VVVV.Audio
         #endregion asio
 
     }
-
-    
-    public class AudioEngineSettings
-    {
-        private int FBufferSize;
-        public int BufferSize
-        {
-            get
-            {
-                return FBufferSize;
-            }
-            
-            set
-            {
-                if (FBufferSize != value)
-                {
-                    FBufferSize = value;
-                    OnBufferSizeChanged();
-                }
-            }
-        }
-        
-        public event EventHandler BufferSizeChanged;
-        
-        void OnBufferSizeChanged()
-        {
-            BufferSizeChanged?.Invoke(this, new EventArgs());
-        }
-        
-        private int FSampleRate;
-        public int SampleRate
-        {
-            get
-            {
-                return FSampleRate;
-            }
-            
-            set
-            {
-                if(FSampleRate != value)
-                {
-                    FSampleRate = value;
-                    OnSampleRateChanged();
-                }
-            }
-        }
-        
-        public event EventHandler SampleRateChanged;
-        
-        void OnSampleRateChanged()
-        {
-            SampleRateChanged?.Invoke(this, new EventArgs());
-        }
-    }
-    
-    /// <summary>
-    /// Static and naive access to the AudioEngine
-    /// TODO: find better life time management
-    /// </summary>
-    public static class AudioService
-    {
-        private static AudioEngine FAudioEngine;
-        
-        public static AudioEngine Engine
-        {
-            get
-            {
-                if(FAudioEngine == null)
-                {
-                    FAudioEngine = AudioEngine.Instance;
-                }
-                
-                return FAudioEngine;
-            }
-        }
-        
-        public static void DisposeEngine()
-        {
-            FAudioEngine.Dispose();
-        }
-        
-        public static void AddSink(IAudioSink sink)
-        {
-            FAudioEngine.AddSink(sink);
-        }
-        
-        public static void RemoveSink(IAudioSink sink)
-        {
-            FAudioEngine.RemoveSink(sink);
-        }
-        
-        public static BufferDictionary BufferStorage = new BufferDictionary();
-    }
     
     public class BufferEventArgs : EventArgs
     {
@@ -677,58 +569,5 @@ namespace VVVV.Audio
         
         public event EventHandler<BufferEventArgs> BufferSet;
         public event EventHandler<BufferEventArgs> BufferRemoved;
-    }
-
-    public class WasapiInOut : IDisposable
-    {
-        public WasapiOut Output;
-        public WasapiCapture Input;
-        public MMDevice MMOutDevice;
-        public MMDevice MMInDevice;
-
-        private bool IsLoopback;
-
-        public bool DeviceAvailable { get; }
-        public bool OutputInitialized { get; private set; }
-        public bool InputInitialized { get; private set; }
-
-        public int DriverInputChannelCount { get; internal set; } = 2;
-        public ISampleProvider InputSampleProvider { get; private set; }
-
-        public WasapiInOut(MMDevice outputDevice, MMDevice inputDevice, bool isLoopback)
-        {
-            MMOutDevice = outputDevice;
-            MMInDevice = inputDevice;
-            IsLoopback = isLoopback;
-        }
-
-        internal void InitRecordAndPlayback(MasterWaveProvider masterWaveProvider, int inputChannels, int sampleRate)
-        {
-            var minPeriod = 11;// (int)Math.Ceiling(MMInDevice.AudioClient.MinimumDevicePeriod / 10000.0) ;
-            Input = IsLoopback ? new VAudioWasapiLoopbackCapture(MMInDevice, false, minPeriod) : new WasapiCapture(MMInDevice, true, minPeriod);
-
-            //minPeriod = (int)Math.Ceiling(MMOutDevice.AudioClient.MinimumDevicePeriod / 10000.0);
-            Output = new WasapiOut(MMOutDevice, AudioClientShareMode.Shared, true, minPeriod);
-
-            Output.Init(masterWaveProvider);
-            Input.StartRecording();
-
-            OutputInitialized = Output != null;
-            InputInitialized = Input != null;
-
-            if (InputInitialized)
-            {
-                DriverInputChannelCount = Input.WaveFormat.Channels;
-                //var wip = new VAudioWasapiWaveInProvider(Input);
-                //wip.BufferedWaveProvider.DiscardOnBufferOverflow = true;
-                //wip.BufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(latency * 2);
-                //InputSampleProvider = wip.ToSampleProvider();
-            }
-        }
-        public void Dispose()
-        {
-            Output?.Dispose();
-            Input?.Dispose();
-        }
     }
 }

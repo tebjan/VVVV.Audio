@@ -115,7 +115,7 @@ namespace VVVV.Nodes
 			if(FEncoderRingBuffer != null)
 				FEncoderRingBuffer.Dispose();
 			
-			var encoder = new Encoder(AudioEngine.Instance.Settings.SampleRate, fps, tvStd, bgFlags);
+			var encoder = new Encoder(AudioService.Engine.Settings.SampleRate, fps, tvStd, bgFlags);
 			FEncoderRingBuffer = new LTCPullBuffer(encoder);
 			FInitialized = true;
 		}
