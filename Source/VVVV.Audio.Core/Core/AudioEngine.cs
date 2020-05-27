@@ -36,6 +36,8 @@ namespace VVVV.Audio
             MasterWaveProvider = new MasterWaveProvider(format, OnStartedReading, OnFinishedReading);
         }
 
+        
+
         private void OnStartedReading(int samples)
         {
             Settings.BufferSize = samples;
@@ -98,8 +100,13 @@ namespace VVVV.Audio
             {
                 Timer.Progress(calledSamples);
             }
+
+            //reduce samples count if any input signal exists
+            if (RecordingRequestedStack.Count > 0 && SamplesCounter >= calledSamples)
+                SamplesCounter -= calledSamples;
+
         }
-        
+
         //add/remove outputs
         public void AddOutput(IEnumerable<MasterChannel> provider)
         {
@@ -325,8 +332,12 @@ namespace VVVV.Audio
 
         //audio input
         protected float[][] FRecordBuffers;
+        public Stack<object> RecordingRequestedStack = new Stack<object>();
         protected void AsioAudioAvailable(object sender, AsioAudioAvailableEventArgs e)
         {
+            if (RecordingRequestedStack.Count <= 0)
+                return;
+                
             //create buffers if neccessary
             if (FRecordBuffers[0].Length != e.SamplesPerBuffer)
             {
@@ -338,22 +349,34 @@ namespace VVVV.Audio
             
             //fill and convert buffers
             GetInputBuffersAsio(FRecordBuffers, e);
+
+            SamplesCounter += e.SamplesPerBuffer;
         }
+
+        public int SamplesCounter = 0;
 
         public List<CircularBuffer> FWasapiInputBuffers = new List<CircularBuffer>();
         private void WasapiAudioAvailable(object sender, WaveInEventArgs e)
         {
+            if (RecordingRequestedStack.Count <= 0)
+                return;
+
+
             var bytes = e.BytesRecorded;
             var bytesPerSample = WasapiDevice.Input.WaveFormat.BitsPerSample / 8;
             var channels = WasapiDevice.Input.WaveFormat.Channels;
             var samples = bytes / (channels * bytesPerSample);
+
+            ////only push samples if queue not too long
+            //if (SamplesCounter > samples * 3)
+            //    return;
 
             if (FRecordBuffers[0].Length < samples)
             {
                 for (int i = 0; i < FRecordBuffers.Length; i++)
                 {
                     FRecordBuffers[i] = new float[samples];
-                    FWasapiInputBuffers[i] = new CircularBuffer(samples);
+                    FWasapiInputBuffers[i] = new CircularBuffer(samples * 3);
                 }
             }
 
@@ -365,6 +388,7 @@ namespace VVVV.Audio
                 FWasapiInputBuffers[i].Write(FRecordBuffers[i], 0, samples);
             }
 
+            SamplesCounter += samples;
         }
 
         //close

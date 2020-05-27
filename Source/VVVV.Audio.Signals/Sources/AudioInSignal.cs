@@ -13,6 +13,7 @@ namespace VVVV.Audio
 		{
 			FEngine = engine;
 			FIndex = index;
+			FEngine.RecordingRequestedStack.Push(this);
 		}
 
 		protected override void FillBuffer(float[] buffer, int offset, int count)
@@ -24,8 +25,15 @@ namespace VVVV.Audio
 			}
 			else
 			{
-				FEngine.FWasapiInputBuffers[FIndex].ReadFromLastPosition(buffer, offset, count);
+				if (FEngine.SamplesCounter > count)
+					FEngine.FWasapiInputBuffers[FIndex].ReadFromLastPosition(buffer, offset, count);
 			}
+		}
+
+		public override void Dispose()
+		{
+			FEngine.RecordingRequestedStack.Pop();
+			base.Dispose();
 		}
 	}
 }

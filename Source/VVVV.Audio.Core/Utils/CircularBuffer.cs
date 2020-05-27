@@ -41,6 +41,7 @@ namespace VVVV.Audio
                     FBuffer = new float[value];
                     FSize = value;
                     FWritePosition = 0;
+                    FirstRead = true;
                 }
             }
         }
@@ -81,7 +82,7 @@ namespace VVVV.Audio
                 FWritePosition += (count - samplesWritten);
                 samplesWritten = count;
             }
-            FFloatCount += samplesWritten;
+            FFloatCount = Math.Min(FFloatCount + samplesWritten, FBuffer.Length);
         }
         
         /// <summary>
@@ -116,32 +117,33 @@ namespace VVVV.Audio
 
         /// <summary>
         /// Starts reading where the last Read call left off, but will not read further than the most recent sample.
-        /// Will pad with 0 if there not enough samples available.
+        /// Will pad with 0 if there are not enough samples available.
         /// </summary>
         /// <param name="data"></param>
         /// <param name="offset"></param>
         /// <param name="count"></param>
         public void ReadFromLastPosition(float[] data, int offset, int count)
         {
-            if (FirstRead)
-                FReadPosition = AudioUtils.Zmod(FWritePosition - Math.Min(FFloatCount, count), FBuffer.Length);
+            var readPosition = FReadPosition;
+            //if (FirstRead)
+            //    readPosition = AudioUtils.Zmod(FWritePosition - Math.Min(FFloatCount, count), FBuffer.Length);
 
             var samplesRequested = count;
             count = Math.Min(samplesRequested, FFloatCount);
 
             int samplesRead = 0;
-            int readToEnd = Math.Min(FBuffer.Length - FReadPosition, count);
-            Array.Copy(FBuffer, FReadPosition, data, offset, readToEnd);
+            int readToEnd = Math.Min(FBuffer.Length - readPosition, count);
+            Array.Copy(FBuffer, readPosition, data, offset, readToEnd);
             samplesRead += readToEnd;
-            FReadPosition += readToEnd;
-            FReadPosition %= FBuffer.Length;
+            readPosition += readToEnd;
+            readPosition %= FBuffer.Length;
 
             if (samplesRead < count)
             {
                 // must have wrapped round. Read from start
-                Debug.Assert(FReadPosition == 0);
-                Array.Copy(FBuffer, FReadPosition, data, offset + samplesRead, count - samplesRead);
-                FReadPosition += (count - samplesRead);
+                Debug.Assert(readPosition == 0);
+                Array.Copy(FBuffer, readPosition, data, offset + samplesRead, count - samplesRead);
+                readPosition += (count - samplesRead);
                 samplesRead = count;
             }
 
@@ -149,8 +151,13 @@ namespace VVVV.Audio
             {
                 data.ReadSilence(samplesRead, samplesRequested - samplesRead);
             }
+            else
+            {
+                FReadPosition = readPosition;
+            }
 
             FFloatCount -= samplesRead;
+            FirstRead = false;
             Debug.Assert(FFloatCount >= 0);
         }
 

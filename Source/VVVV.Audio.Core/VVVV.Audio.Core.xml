@@ -337,7 +337,7 @@
         <member name="M:VVVV.Audio.CircularBuffer.ReadFromLastPosition(System.Single[],System.Int32,System.Int32)">
             <summary>
             Starts reading where the last Read call left off, but will not read further than the most recent sample.
-            Will pad with 0 if there not enough samples available.
+            Will pad with 0 if there are not enough samples available.
             </summary>
             <param name="data"></param>
             <param name="offset"></param>

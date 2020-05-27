@@ -35,7 +35,7 @@ namespace VVVV.Audio
         internal void InitRecordAndPlayback(MasterWaveProvider masterWaveProvider, int inputChannels, int sampleRate)
         {
             var minPeriod = (int)Math.Ceiling(MMInDevice.AudioClient.MinimumDevicePeriod / 10000.0);
-            Input = IsLoopback ? new VAudioWasapiLoopbackCapture(MMInDevice, false, minPeriod) : new WasapiCapture(MMInDevice, true, minPeriod);
+            Input = IsLoopback ? new VAudioWasapiLoopbackCapture(MMInDevice, true, minPeriod) : new WasapiCapture(MMInDevice, true, minPeriod);
 
             minPeriod = (int)Math.Ceiling(MMOutDevice.AudioClient.MinimumDevicePeriod / 10000.0);
             Output = new WasapiOut(MMOutDevice, AudioClientShareMode.Shared, true, minPeriod);

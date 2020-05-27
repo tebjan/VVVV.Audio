@@ -105,6 +105,9 @@ namespace VVVV.Nodes
         [Output("Open Output Chanels")]
         ISpread<int> FOpenOutputChannelsOut;
 
+        [Output("Recorded Samples")]
+        ISpread<int> FRecordedSamplesOut;
+
         [Output("WASAPI Device Infos")]
         ISpread<string> FWasapiDeviceInfosOut;
 
@@ -245,6 +248,7 @@ namespace VVVV.Nodes
             }
             
             FBufferSizeOut[0] = FEngine.Settings.BufferSize;
+            FRecordedSamplesOut[0] = FEngine.SamplesCounter;
             FTime[0] = FEngine.Timer.Time;
             FBeat[0] = FEngine.Timer.Beat;
         }
