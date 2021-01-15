@@ -138,6 +138,11 @@
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
         </member>
+        <member name="T:VVVV.Audio.SpreadUtils">
+            <summary>
+            Description of SpreadUtils.
+            </summary>
+        </member>
         <member name="F:NAudioDemo.AudioPlaybackDemo.AsioOutSettingsPanel.components">
             <summary> 
             Required designer variable.

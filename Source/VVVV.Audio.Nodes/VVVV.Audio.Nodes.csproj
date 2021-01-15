@@ -161,6 +161,7 @@
     <Compile Include="Sources\OscSignalNode.cs" />
     <Compile Include="Sources\ValueToAudioNode.cs" />
     <Compile Include="Sources\WaveTableNode.cs" />
+    <Compile Include="SpreadUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

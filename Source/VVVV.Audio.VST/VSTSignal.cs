@@ -20,7 +20,6 @@ using VVVV.PluginInterfaces.V2;
 using VVVV.PluginInterfaces.V2.Graph;
 using VVVV.PluginInterfaces.V2.NonGeneric;
 using VVVV.Utils.VColor;
-using VVVV.Utils.VMath;
 using System.IO;
 
 #endregion usings

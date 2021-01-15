@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using NAudio.Utils;
-using VVVV.PluginInterfaces.V2;
 #endregion
 namespace VVVV.Audio
 {

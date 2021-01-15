@@ -21,7 +21,6 @@ using VVVV.PluginInterfaces.V2;
 using VVVV.PluginInterfaces.V2.Graph;
 using VVVV.PluginInterfaces.V2.NonGeneric;
 using VVVV.Utils.VColor;
-using VVVV.Utils.VMath;
 using VVVV.Nodes.Nodes.VST;
 using Sanford.Multimedia.Midi;
 
@@ -30,33 +29,33 @@ using Sanford.Multimedia.Midi;
 namespace VVVV.Nodes
 {
 
-	
-	[PluginInfo(Name = "VSTHost", Category = "VAudio", Version = "Source", Help = "Loads a VST plugin", AutoEvaluate = true, Tags = "plugin, effect")]
+    
+    [PluginInfo(Name = "VSTHost", Category = "VAudio", Version = "Source", Help = "Loads a VST plugin", AutoEvaluate = true, Tags = "plugin, effect")]
     public class VSTHostNode : UserControl, IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification
-	{
+    {
         [Config("Safe Data")]
         public ISpread<string> FSafeConfig;
 
         [Config("Exposed Pins")]
         public IDiffSpread<string> ParameterNamesConfig;
 
-		[Input("Input", BinSize = 2)]
-		public IDiffSpread<ISpread<AudioSignal>> FInputSignals;
+        [Input("Input", BinSize = 2)]
+        public IDiffSpread<ISpread<AudioSignal>> FInputSignals;
 
         [Input("Midi Events")]
         public IDiffSpread<MidiEvents> FMidiEventsIn;
-		
-		[Input("Filename", StringType = StringType.Filename, FileMask="VST Plugin (*.dll, *.vst3)|*.dll;*.vst3")]
-		public IDiffSpread<string> FFilename;
+        
+        [Input("Filename", StringType = StringType.Filename, FileMask="VST Plugin (*.dll, *.vst3)|*.dll;*.vst3")]
+        public IDiffSpread<string> FFilename;
 
         [Input("Auto Save", DefaultValue = 1)]
         public IDiffSpread<bool> FAutosaveIn;
         
         [Input("Bypass")]
         public IDiffSpread<bool> FBypassIn;
-		
-		[Output("Audio Out", Order = -10)]
-		public Pin<AudioSignal> FOutputSignals;
+        
+        [Output("Audio Out", Order = -10)]
+        public Pin<AudioSignal> FOutputSignals;
 
         [Output("Latency")]
         public ISpread<int> FLatencyOut;
@@ -73,111 +72,111 @@ namespace VVVV.Nodes
         [Output("Midi Events")]
         public ISpread<MidiEvents> FMidiEventsOut;
         
-		IHDEHost FHDEHost;
+        IHDEHost FHDEHost;
 
-		IPluginHost FHost;
+        IPluginHost FHost;
 
         [Import]
         IIOFactory FIOFactory;
-		
-		protected List<IDiffSpread> FDiffInputs = new List<IDiffSpread>();
-		
-		protected AudioEngine FEngine;
-		
-        VstPluginControl FPluginControl;
-		VstPluginContext SelectedPluginContext;
         
-		[ImportingConstructor]
+        protected List<IDiffSpread> FDiffInputs = new List<IDiffSpread>();
+        
+        protected AudioEngine FEngine;
+        
+        VstPluginControl FPluginControl;
+        VstPluginContext SelectedPluginContext;
+        
+        [ImportingConstructor]
         public VSTHostNode([Import] IHDEHost host, [Import] IPluginHost plugHost)
-		{
-			FHDEHost = host;
+        {
+            FHDEHost = host;
             FHost = plugHost;
-			
+            
             //add plugin control
-			FPluginControl = new VstPluginControl(this);
+            FPluginControl = new VstPluginControl(this);
             FPluginControl.Dock = DockStyle.Fill;
             FPluginControl.Parent = this;
             this.Controls.Add(FPluginControl);	
-			
-			Rectangle wndRect = new Rectangle();
-			if (SelectedPluginContext != null)
-			{
-				var PluginCommandStub = SelectedPluginContext.PluginCommandStub;
+            
+            Rectangle wndRect = new Rectangle();
+            if (SelectedPluginContext != null)
+            {
+                var PluginCommandStub = SelectedPluginContext.PluginCommandStub;
 
-				this.Text = PluginCommandStub.GetEffectName();
+                this.Text = PluginCommandStub.GetEffectName();
 
-				if (PluginCommandStub.EditorGetRect(out wndRect))
-				{
-					PluginCommandStub.EditorOpen(this.Handle);
-				}
-				
-				//when window mode changes
-				FHDEHost.BeforeComponentModeChange += delegate(object sender, ComponentModeEventArgs args)
-				{
-					var me = (FHost as INode);
-					if(me == args.Window.Node.InternalCOMInterf)
-						PluginCommandStub.EditorClose();
-				};
-				
-				FHDEHost.AfterComponentModeChange += delegate(object sender, ComponentModeEventArgs args)
-				{
-					var me = (FHost as INode);
-					if(me == args.Window.Node.InternalCOMInterf)
-						PluginCommandStub.EditorOpen(this.Handle);
-				};
-			}
-		}
-		
-		#region audio node base copy
-		public virtual void OnImportsSatisfied()
-		{
-			FEngine = AudioService.Engine;
+                if (PluginCommandStub.EditorGetRect(out wndRect))
+                {
+                    PluginCommandStub.EditorOpen(this.Handle);
+                }
+                
+                //when window mode changes
+                FHDEHost.BeforeComponentModeChange += delegate(object sender, ComponentModeEventArgs args)
+                {
+                    var me = (FHost as INode);
+                    if(me == args.Window.Node.InternalCOMInterf)
+                        PluginCommandStub.EditorClose();
+                };
+                
+                FHDEHost.AfterComponentModeChange += delegate(object sender, ComponentModeEventArgs args)
+                {
+                    var me = (FHost as INode);
+                    if(me == args.Window.Node.InternalCOMInterf)
+                        PluginCommandStub.EditorOpen(this.Handle);
+                };
+            }
+        }
+        
+        #region audio node base copy
+        public virtual void OnImportsSatisfied()
+        {
+            FEngine = AudioService.Engine;
             ParameterNamesConfig.SliceCount = 0;
-			
-			var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+            
+            var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
-			//Retrieve all FieldInfos
-			var fields = GetType().GetFields(flags);
-			
-			FDiffInputs.Clear();
-			
-			foreach (var fi in fields)
-			{
-				if(typeof(IDiffSpread).IsAssignableFrom(fi.FieldType))
-				{
-					//Retrieve the value of the field, and cast as necessary
-					var spread = (IDiffSpread)fi.GetValue(this);
-					FDiffInputs.Add(spread);
-				}
-			}
+            //Retrieve all FieldInfos
+            var fields = GetType().GetFields(flags);
+            
+            FDiffInputs.Clear();
+            
+            foreach (var fi in fields)
+            {
+                if(typeof(IDiffSpread).IsAssignableFrom(fi.FieldType))
+                {
+                    //Retrieve the value of the field, and cast as necessary
+                    var spread = (IDiffSpread)fi.GetValue(this);
+                    FDiffInputs.Add(spread);
+                }
+            }
 
             ParameterNamesConfig.Changed += ParameterNamesConfig_Changed;
-		}
-		
-		/// <summary>
-		/// Should return whether new parameters need to be set on the audio signals
-		/// </summary>
-		/// <returns></returns>
-		protected virtual bool AnyInputChanged()
-		{
+        }
+        
+        /// <summary>
+        /// Should return whether new parameters need to be set on the audio signals
+        /// </summary>
+        /// <returns></returns>
+        protected virtual bool AnyInputChanged()
+        {
             FChangedParamPins.Clear();
             foreach (var paramPin in FParamPins.Values)
             {
                 if (paramPin.Pin.PinIsChanged)
                     FChangedParamPins.Add(paramPin);
             }
-	
-			for (int i = 0; i < FDiffInputs.Count; i++) 
-			{
-				if (FDiffInputs[i].IsChanged) 
+    
+            for (int i = 0; i < FDiffInputs.Count; i++) 
+            {
+                if (FDiffInputs[i].IsChanged) 
                     return true;
-			}
+            }
 
-			return FChangedParamPins.Count > 0;
-		}
+            return FChangedParamPins.Count > 0;
+        }
         private List<ParamPin> FChangedParamPins = new List<ParamPin>();
-		
-		//for other methods
+        
+        //for other methods
         protected int CalculatedSpreadMax
         {
             get;
@@ -192,48 +191,48 @@ namespace VVVV.Nodes
 
         public void Evaluate(int SpreadMax)
         {
-        	CalculatedSpreadMax = GetSpreadMax(SpreadMax);
-        	FInternalSignals.Resize(CalculatedSpreadMax, GetInstance, DisposeInstance);
+            CalculatedSpreadMax = GetSpreadMax(SpreadMax);
+            FInternalSignals.Resize(CalculatedSpreadMax, GetInstance, DisposeInstance);
 
             if (AnyInputChanged())
             {
                 for(int i=0; i<CalculatedSpreadMax; i++)
-				{
-					var audioSignal = FInternalSignals[i];
-					
-					if(audioSignal == null) 
-						audioSignal = GetInstance(i);
-					
-					SetParameters(i, audioSignal);
-				}
+                {
+                    var audioSignal = FInternalSignals[i];
+                    
+                    if(audioSignal == null) 
+                        audioSignal = GetInstance(i);
+                    
+                    SetParameters(i, audioSignal);
+                }
                 
                 var outCount = 0;
-				for (int i = 0; i < FInternalSignals.SliceCount; i++)
-				{
-					outCount += FInternalSignals[i].Outputs.Count;
-				}
-				
-				if(FOutputSignals.SliceCount != outCount)
-				{
-					FOutputSignals.SliceCount = outCount;
-					
-					var outSlice = 0;
-					for (int i = 0; i < FInternalSignals.SliceCount; i++)
-					{
-						for (int j = 0; j < FInternalSignals[i].Outputs.Count; j++)
-						{
-							FOutputSignals[outSlice] = FInternalSignals[i].Outputs[j];
-							outSlice++;
-						}
-					}
-				}
+                for (int i = 0; i < FInternalSignals.SliceCount; i++)
+                {
+                    outCount += FInternalSignals[i].Outputs.Count;
+                }
+                
+                if(FOutputSignals.SliceCount != outCount)
+                {
+                    FOutputSignals.SliceCount = outCount;
+                    
+                    var outSlice = 0;
+                    for (int i = 0; i < FInternalSignals.SliceCount; i++)
+                    {
+                        for (int j = 0; j < FInternalSignals[i].Outputs.Count; j++)
+                        {
+                            FOutputSignals[outSlice] = FInternalSignals[i].Outputs[j];
+                            outSlice++;
+                        }
+                    }
+                }
             }
             
             SetOutputSliceCount(CalculatedSpreadMax);
             
             for(int i=0; i < CalculatedSpreadMax; i++)
             {
-            	var audioSignal = FInternalSignals[i];
+                var audioSignal = FInternalSignals[i];
                 if (audioSignal != null)
                 {
                     SetOutputs(i, audioSignal);
@@ -254,8 +253,8 @@ namespace VVVV.Nodes
 
             FPluginControl.SetSliceCount(FInternalSignals.SliceCount);
 
-			FFrameDivider++;
-			FFrameDivider %= 4;
+            FFrameDivider++;
+            FFrameDivider %= 4;
         }
 
         /// <summary>
@@ -276,7 +275,7 @@ namespace VVVV.Nodes
         protected VSTSignal GetInstance(int i)
         {
             
-        	var vst = new VSTSignal(FFilename[i], this);
+            var vst = new VSTSignal(FFilename[i], this);
             vst.LoadFromSafeString(FSafeConfig[i]);
 
             SetOutputSliceCount(CalculatedSpreadMax);
@@ -298,10 +297,10 @@ namespace VVVV.Nodes
         
         protected void DisposeInstance(VSTSignal instance)
         {
-        	if(instance != null) 
-        	{
-        		instance.Dispose();
-        	}
+            if(instance != null) 
+            {
+                instance.Dispose();
+            }
         }
 
         /// <summary>
@@ -311,11 +310,11 @@ namespace VVVV.Nodes
         /// <param name="instance">Curretn instance</param>
         protected void SetParameters(int i, VSTSignal instance)
         {
-        	instance.Input = FInputSignals[i];
+            instance.Input = FInputSignals[i];
             instance.Filename = FFilename[i];
 
             foreach (var item in FChangedParamPins)
-	        {
+            {
                 if (instance.PluginContext.PluginCommandStub.GetParameterName(item.ParamIndex) == item.ParamName)
                 {
                     double val;
@@ -333,14 +332,14 @@ namespace VVVV.Nodes
             
             instance.Bypass = FBypassIn[i];
         }
-		
-		/// <summary>
-		/// Set the output pins of the node
-		/// </summary>
-		/// <param name="i">Current slice index</param>
-		/// <param name="instance">Current instance</param>
-		protected void SetOutputs(int i, VSTSignal instance)
-		{
+        
+        /// <summary>
+        /// Set the output pins of the node
+        /// </summary>
+        /// <param name="i">Current slice index</param>
+        /// <param name="instance">Current instance</param>
+        protected void SetOutputs(int i, VSTSignal instance)
+        {
             if (FAutosaveIn[i] && instance.NeedsSave)
             {
                 FSafeConfig[i] = instance.GetSaveString();
@@ -355,32 +354,32 @@ namespace VVVV.Nodes
 
             FEditorHandleOut[i] = FPluginControl.EditorHandle;
 
-		}
-		
-		/// <summary>
-		/// In this method the slicecount of the output pins should be set
-		/// </summary>
-		/// <param name="sliceCount"></param>
-		protected void SetOutputSliceCount(int sliceCount)
-		{
+        }
+        
+        /// <summary>
+        /// In this method the slicecount of the output pins should be set
+        /// </summary>
+        /// <param name="sliceCount"></param>
+        protected void SetOutputSliceCount(int sliceCount)
+        {
             if (sliceCount != FSafeConfig.SliceCount) FSafeConfig.SliceCount = sliceCount;
             FLatencyOut.SliceCount = sliceCount;
             FInChannelsOut.SliceCount = sliceCount;
             FOutChannelsOut.SliceCount = sliceCount;
             FMidiEventsOut.SliceCount = sliceCount;
-		}
+        }
 
-		#endregion
-			
-		//dispose stuff
-		public virtual void Dispose()
-		{
-			foreach (var element in FInternalSignals) 
-			{
-				if(element != null)
-					element.Dispose();
-			}
-		}
+        #endregion
+            
+        //dispose stuff
+        public virtual void Dispose()
+        {
+            foreach (var element in FInternalSignals) 
+            {
+                if(element != null)
+                    element.Dispose();
+            }
+        }
 
         private void InitializeComponent()
         {

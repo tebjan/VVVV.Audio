@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Jacobi.Vst.Interop.Host;
 using Jacobi.Vst.Core;
-using VVVV.Utils.VMath;
+using VVVV.Audio.Utils;
 
 namespace VVVV.Audio.VST
 {
@@ -79,7 +79,7 @@ namespace VVVV.Audio.VST
             trackbar.Dock = DockStyle.Top;
             trackbar.TickFrequency = 1;
             trackbar.TickStyle = TickStyle.None;
-            trackbar.Value = VMath.Clamp((int)(value * 1000), trackbar.Minimum, trackbar.Maximum);
+            trackbar.Value = MathUtils.Clamp((int)(value * 1000), trackbar.Minimum, trackbar.Maximum);
             trackbar.MouseDown += Trackbar_MouseDown;
             trackbar.MouseUp += Trackbar_MouseUp;
             trackbar.ValueChanged += Trackbar_ValueChanged;
@@ -132,7 +132,7 @@ namespace VVVV.Audio.VST
             {
                 var trackbar = PluginParameterListVw[index];
                 var value = PluginContext.PluginCommandStub.GetParameter(index);
-                trackbar.Value = VMath.Clamp((int)(value*1000), trackbar.Minimum, trackbar.Maximum);
+                trackbar.Value = MathUtils.Clamp((int)(value*1000), trackbar.Minimum, trackbar.Maximum);
                 var label = (Label)trackbar.Tag;
                 label.Text = GetParamText(index);
                 

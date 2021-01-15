@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
 using VVVV.Utils.VColor;
-using VVVV.Utils.VMath;
 using VVVV.Audio;
 
 using LTCSharp;
@@ -18,13 +17,13 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	
-	[PluginInfo(Name = "LTCDecoder", Category = "VAudio", Version = "Sink", Help = "Decodes LTC audio signals", Tags = "timecode, SMPTE, synchronization")]
-	public class LTCDecoderSignalNode : GenericAudioSinkNode<LTCDecoderSignal>
-	{		
-		
-		[Output("Timecode")]
-		public ISpread<Timecode> FTimecodeOut;
+    
+    [PluginInfo(Name = "LTCDecoder", Category = "VAudio", Version = "Sink", Help = "Decodes LTC audio signals", Tags = "timecode, SMPTE, synchronization")]
+    public class LTCDecoderSignalNode : GenericAudioSinkNode<LTCDecoderSignal>
+    {		
+        
+        [Output("Timecode")]
+        public ISpread<Timecode> FTimecodeOut;
 
         protected override void SetOutputs(int i, LTCDecoderSignal instance)
         {
@@ -34,7 +33,7 @@ namespace VVVV.Nodes
             }
             else
             {
-            	FTimecodeOut[i] = new Timecode();
+                FTimecodeOut[i] = new Timecode();
             }
         }
 
