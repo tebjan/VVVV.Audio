@@ -50,6 +50,11 @@ namespace VL.Lib.VAudio
             throw new NotImplementedException();
         }
 
+        public IObservable<FrameFinishedMessage> GetFrameFinished()
+        {
+            throw new NotImplementedException();
+        }
+
         public double TimeDifference { get; private set; }
     }
 

@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
 using VVVV.Utils.VColor;
-using VVVV.Utils.VMath;
 using VVVV.Audio;
 using VVVV.Core.Logging;
 using LTCSharp;
