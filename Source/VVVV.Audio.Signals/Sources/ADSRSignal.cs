@@ -1,8 +1,7 @@
 ﻿#region usings
 using System;
-using System.Collections.Generic;
-using VVVV.PluginInterfaces.V2;
-using VVVV.Utils.VMath;
+using VVVV.Audio.Utils;
+
 #endregion
 namespace VVVV.Audio
 {
@@ -120,7 +119,7 @@ namespace VVVV.Audio
                 if(FCurrentStage == EnvelopStage.Sustain)
                 {
                     FCurrentLevel *= FMultiplier;
-                    FCurrentLevel = VMath.Clamp(FCurrentLevel, 0, 1);
+                    FCurrentLevel = MathUtils.Clamp(FCurrentLevel, 0, 1);
                 }
                 else if (FCurrentStage != EnvelopStage.Off)
                 {

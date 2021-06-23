@@ -7,7 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using VVVV.Utils.VMath;
+using VVVV.Audio.Utils;
 
 namespace VVVV.Audio
 {
@@ -115,7 +115,7 @@ namespace VVVV.Audio
         void CalcTransistorCoeffs(float cutoff, float resonance)
         {
             // tuning and feedbacc
-            Ff = Math.Tan(Math.PI * (VMath.Clamp(cutoff + FCutoffOffset, 15, SampleRate * 0.45))/SampleRate);
+            Ff = Math.Tan(Math.PI * (MathUtils.Clamp(cutoff + FCutoffOffset, 15, SampleRate * 0.45))/SampleRate);
             Fr = (80.0/9.0) * (resonance + FResonanceOffset);
         }
 
@@ -227,7 +227,7 @@ namespace VVVV.Audio
 
         void CalcMoogCoeffs2(float cutoff, float resonance)
         {
-            var f = (float)VMath.Clamp(cutoff + FCutoffOffset, 15, SampleRate * 0.25);
+            var f = (float)MathUtils.Clamp(cutoff + FCutoffOffset, 15, SampleRate * 0.25);
             f = (f + f) / SampleRate;
             //[0 - 1]
             // empirical tuning

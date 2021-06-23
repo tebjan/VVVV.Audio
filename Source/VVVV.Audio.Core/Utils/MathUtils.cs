@@ -5,6 +5,20 @@ namespace VVVV.Audio.Utils
 {
     public sealed class MathUtils
     {
+        // <summary>
+        /// Clamp function, clamps an integer value into the range [min..max]
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static int Clamp(int x, int min, int max)
+        {
+            int minTemp = Min(min, max);
+            int maxTemp = Max(min, max);
+            return Min(Max(x, minTemp), maxTemp);
+        }
+
         /// <summary>
         /// Clamp function, clamps a floating point value into the range [min..max]
         /// </summary>

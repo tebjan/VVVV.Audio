@@ -1,6 +1,5 @@
 ﻿#region usings
 using System;
-using VVVV.Utils.VMath;
 #endregion
 namespace VVVV.Audio
 {

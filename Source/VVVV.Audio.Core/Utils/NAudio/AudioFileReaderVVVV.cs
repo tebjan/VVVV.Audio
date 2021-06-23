@@ -27,36 +27,36 @@ namespace VVVV.Audio
         bool FCacheFile;
         public bool CacheFile 
         {
-        	get 
-        	{ 
-        		return FCacheFile; 
-        	}
-        	set
-        	{
-        		if(FCacheFile != value)
-        		{
-        			FCacheFile = value;
-        			DoCacheFile();
-        		}
-        	}
+            get 
+            { 
+                return FCacheFile; 
+            }
+            set
+            {
+                if(FCacheFile != value)
+                {
+                    FCacheFile = value;
+                    DoCacheFile();
+                }
+            }
         }
         
         public float[][] Cache;
-		void DoCacheFile()
-		{
-			if(FCacheFile)
-			{
+        void DoCacheFile()
+        {
+            if(FCacheFile)
+            {
                 var channels = FSampleChannel.WaveFormat.Channels;
                 var cacheSize = FReaderStream.Length / (4 * channels);
 
                 Cache = new float[channels][];
-				
-				for (int i = 0; i < Cache.Length; i++) 
-				{
-					Cache[i] = new float[cacheSize];
-				}
-				
-				long totalFloatsRead = 0;
+                
+                for (int i = 0; i < Cache.Length; i++) 
+                {
+                    Cache[i] = new float[cacheSize];
+                }
+                
+                long totalFloatsRead = 0;
                 var buffer = new float[FSampleChannel.WaveFormat.AverageBytesPerSecond * 4 * channels];
                 var cacheIndex = 0;
                 FReaderStream.Position = 0;
@@ -96,8 +96,8 @@ namespace VVVV.Audio
                         throw new InvalidOperationException("WAV File cannot be greater than 2GB. Check that sourceProvider is not an endless stream.");
                     }
                 }
-			}
-		}
+            }
+        }
         
         /// <summary>
         /// Initializes a new instance of AudioFileReader
@@ -122,45 +122,45 @@ namespace VVVV.Audio
         /// <param name="fileName">File Name</param>
         private void CreateReaderStream(string fileName, bool alwaysUseMediaFoundationReader = false)
         {
-        	if(alwaysUseMediaFoundationReader)
-        	{
-        		FReaderStream = new MediaFoundationReader(fileName);
-        	}
-        	else
-        	{
-        		if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
-        		{
-        			FReaderStream = new WaveFileReader(fileName);
-        			if (FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm
-        			    && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat
-        			    && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Extensible)
-        			{
-        				FReaderStream = WaveFormatConversionStream.CreatePcmStream(FReaderStream);
-        				FReaderStream = new BlockAlignReductionStream(FReaderStream);
-        			}
+            if(alwaysUseMediaFoundationReader)
+            {
+                FReaderStream = new MediaFoundationReader(fileName);
+            }
+            else
+            {
+                if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+                {
+                    FReaderStream = new WaveFileReader(fileName);
+                    if (FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm
+                        && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat
+                        && FReaderStream.WaveFormat.Encoding != WaveFormatEncoding.Extensible)
+                    {
+                        FReaderStream = WaveFormatConversionStream.CreatePcmStream(FReaderStream);
+                        FReaderStream = new BlockAlignReductionStream(FReaderStream);
+                    }
 
                     OriginalFileFormat = FReaderStream.WaveFormat;
-        		}
-        		else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
-        		{
-        			FReaderStream = new Mp3FileReader(fileName);
+                }
+                else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+                {
+                    FReaderStream = new Mp3FileReader(fileName);
 
                     OriginalFileFormat = (FReaderStream as Mp3FileReader).Mp3WaveFormat;
-        		}
-        		else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
-        		{
-        			FReaderStream = new AiffFileReader(fileName);
+                }
+                else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
+                {
+                    FReaderStream = new AiffFileReader(fileName);
 
                     OriginalFileFormat = FReaderStream.WaveFormat;
-        		}
-        		else
-        		{
-        			// fall back to media foundation reader, see if that can play it
+                }
+                else
+                {
+                    // fall back to media foundation reader, see if that can play it
                     FReaderStream = new MediaFoundationReader(fileName, new MediaFoundationReader.MediaFoundationReaderSettings { RepositionInRead = true, RequestFloatOutput = true });
                     OriginalFileFormat = FReaderStream.WaveFormat;
-        		}
-        	}
-        	
+                }
+            }
+            
             ////needs resampling?
             //if(FReaderStream.WaveFormat.SampleRate != desiredSamplerate)
             //{
@@ -203,10 +203,10 @@ namespace VVVV.Audio
             get { return SourceToDest(FReaderStream.Position); }
             set 
             { 
-            	//lock (FLockObject) 
-            	{ 
-            		FReaderStream.Position = DestToSource(value); 
-            	}  
+                //lock (FLockObject) 
+                { 
+                    FReaderStream.Position = DestToSource(value); 
+                }  
             }
         }
 
@@ -273,8 +273,8 @@ namespace VVVV.Audio
         {
             if (disposing)
             {
-            	if(FReaderStream != null)
-                	FReaderStream.Dispose();
+                if(FReaderStream != null)
+                    FReaderStream.Dispose();
                 FReaderStream = null;
             }
             base.Dispose(disposing);
