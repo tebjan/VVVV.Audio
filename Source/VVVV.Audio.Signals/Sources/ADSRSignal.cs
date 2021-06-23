@@ -93,8 +93,8 @@ namespace VVVV.Audio
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
             if (FEnableBuffer.Length < count) 
-			{
-				FEnableBuffer = new float[count];
+            {
+                FEnableBuffer = new float[count];
             }
             
             Enable.Read(FEnableBuffer, offset, count);
