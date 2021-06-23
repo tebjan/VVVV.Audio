@@ -15,19 +15,19 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	
-	
-	[PluginInfo(Name = "GetBuffer", Category = "VAudio", Version = "Sink", Help = "Returns the last N samples rescaled to M values", Tags = "Scope, Samples")]
+    
+    
+    [PluginInfo(Name = "GetBuffer", Category = "VAudio", Version = "Sink", Help = "Returns the last N samples rescaled to M values", Tags = "Scope, Samples")]
     public class BufferOutNode : GenericAudioSinkNode<BufferOutSignal>
-	{
-		[Input("Buffer Size", DefaultValue = 512)]
-		public IDiffSpread<int> FSize;
-		
-		[Input("Spread Count", DefaultValue = 512)]
-		public IDiffSpread<int> FSpreadCount;
-		
-		[Output("Buffer")]
-		public ISpread<ISpread<float>> FBufferOut;
+    {
+        [Input("Buffer Size", DefaultValue = 512)]
+        public IDiffSpread<int> FSize;
+        
+        [Input("Spread Count", DefaultValue = 512)]
+        public IDiffSpread<int> FSpreadCount;
+        
+        [Output("Buffer")]
+        public ISpread<ISpread<float>> FBufferOut;
 
         protected override void SetOutputs(int i, BufferOutSignal instance)
         {

@@ -184,7 +184,7 @@ namespace VVVV.Audio.VST
         {
             //RaisePluginCalled("ProcessEvents(" + events.Length + ")");
             if(FProcessEventsAction != null)
-            	FProcessEventsAction(events);
+                FProcessEventsAction(events);
             return false;
         }
         

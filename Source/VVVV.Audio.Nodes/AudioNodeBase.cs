@@ -19,41 +19,41 @@ namespace VVVV.Nodes
     public abstract class AudioNodeBase<TSignal> : IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification where TSignal : AudioSignal
     {
         protected List<IDiffSpread> FDiffInputs = new List<IDiffSpread>();
-		
-		protected AudioEngine FEngine;
-		public virtual void OnImportsSatisfied()
-		{
-			FEngine = AudioService.Engine;
-			
-			BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+        
+        protected AudioEngine FEngine;
+        public virtual void OnImportsSatisfied()
+        {
+            FEngine = AudioService.Engine;
+            
+            BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
-			//Retrieve all FieldInfos
-			var fields = GetType().GetFields(flags);
-			
-			foreach (var fi in fields)
-			{
-				if(typeof(IDiffSpread).IsAssignableFrom(fi.FieldType))
-				{
-					//Retrieve the value of the field, and cast as necessary
-					var spread = (IDiffSpread)fi.GetValue(this);
-					FDiffInputs.Add(spread);
-				}
-			}
-		}
+            //Retrieve all FieldInfos
+            var fields = GetType().GetFields(flags);
+            
+            foreach (var fi in fields)
+            {
+                if(typeof(IDiffSpread).IsAssignableFrom(fi.FieldType))
+                {
+                    //Retrieve the value of the field, and cast as necessary
+                    var spread = (IDiffSpread)fi.GetValue(this);
+                    FDiffInputs.Add(spread);
+                }
+            }
+        }
         
         /// <summary>
-		/// Should return whether new parameters need to be set on the audio signals
-		/// </summary>
-		/// <returns></returns>
-		protected virtual bool AnyInputChanged()
-		{			
-			for (int i = 0; i < FDiffInputs.Count; i++) 
-			{
-				if(FDiffInputs[i].IsChanged) return true;
-			}
-			
-			return false;
-		}
+        /// Should return whether new parameters need to be set on the audio signals
+        /// </summary>
+        /// <returns></returns>
+        protected virtual bool AnyInputChanged()
+        {            
+            for (int i = 0; i < FDiffInputs.Count; i++) 
+            {
+                if(FDiffInputs[i].IsChanged) return true;
+            }
+            
+            return false;
+        }
         
         //for subclasses
         protected int CalculatedSpreadMax
@@ -133,23 +133,23 @@ namespace VVVV.Nodes
         /// <param name="instance">Curretn instance</param>
         protected abstract void SetParameters(int i, TSignal instance);
         
-        		/// <summary>
-		/// Set the output pins of the node
-		/// </summary>
-		/// <param name="i">Current slice index</param>
-		/// <param name="instance">Current instance</param>
-		protected virtual void SetOutputs(int i, TSignal instance) {}
-		
-		/// <summary>
-		/// In this method the slicecount of the output pins should be set
-		/// </summary>
-		/// <param name="sliceCount"></param>
-		protected virtual void SetOutputSliceCount(int sliceCount) {}
-		
-		//dispose stuff?
-		public virtual void Dispose()
-		{
-		}
+                /// <summary>
+        /// Set the output pins of the node
+        /// </summary>
+        /// <param name="i">Current slice index</param>
+        /// <param name="instance">Current instance</param>
+        protected virtual void SetOutputs(int i, TSignal instance) {}
+        
+        /// <summary>
+        /// In this method the slicecount of the output pins should be set
+        /// </summary>
+        /// <param name="sliceCount"></param>
+        protected virtual void SetOutputSliceCount(int sliceCount) {}
+        
+        //dispose stuff?
+        public virtual void Dispose()
+        {
+        }
     }
 
     /// <summary>
@@ -172,135 +172,135 @@ namespace VVVV.Nodes
     /// Audio source nodes
     /// </summary>
     public abstract class GenericAudioSourceNode<TSignal> : AudioNodeBase<TSignal> where TSignal : AudioSignal
-	{
-    	[Import]
-    	protected IIOFactory FIOFactory;
-		
-    	//[Output("Audio Out", Order = -10)]
-		public Pin<AudioSignal> FOutputSignals;
+    {
+        [Import]
+        protected IIOFactory FIOFactory;
+        
+        //[Output("Audio Out", Order = -10)]
+        public Pin<AudioSignal> FOutputSignals;
 
-		public override void OnImportsSatisfied()
-		{
-			
-			base.OnImportsSatisfied();
+        public override void OnImportsSatisfied()
+        {
+            
+            base.OnImportsSatisfied();
 
-			var outputAttribute = new OutputAttribute("Audio Out")
-			{
-				Order = -10,
-				Visibility = GetOutputVisiblilty()
-			};
-			
-			FOutputSignals = FIOFactory.CreatePin<AudioSignal>(outputAttribute);
-			
-			FOutputSignals.Connected += delegate
-			{
-				CheckOutConnections();
-			};
-			
-			FOutputSignals.Disconnected += delegate
-			{
-				CheckOutConnections();
-			};
+            var outputAttribute = new OutputAttribute("Audio Out")
+            {
+                Order = -10,
+                Visibility = GetOutputVisiblilty()
+            };
+            
+            FOutputSignals = FIOFactory.CreatePin<AudioSignal>(outputAttribute);
+            
+            FOutputSignals.Connected += delegate
+            {
+                CheckOutConnections();
+            };
+            
+            FOutputSignals.Disconnected += delegate
+            {
+                CheckOutConnections();
+            };
 
-			//set out buffer slice count to 0 so the
-			FOutputSignals.SliceCount = 0;
-		}
+            //set out buffer slice count to 0 so the
+            FOutputSignals.SliceCount = 0;
+        }
 
         /// <summary>
         /// Can be overwritten in subclass to change the visibility of the default Audio output
         /// </summary>
         /// <returns></returns>
         protected virtual PinVisibility GetOutputVisiblilty()
-		{
-			return PinVisibility.True;
-		}
-		
-		private void CheckOutConnections()
-		{
-			var hasMultiple = (FOutputSignals.PluginIO as IPin).GetConnectedPins().Length > 1;
-			
-			for (int i = 0; i < FOutputSignals.SliceCount; i++)
-			{
-				FOutputSignals[i].NeedsBufferCopy = hasMultiple;
-			}
-		}
+        {
+            return PinVisibility.True;
+        }
+        
+        private void CheckOutConnections()
+        {
+            var hasMultiple = (FOutputSignals.PluginIO as IPin).GetConnectedPins().Length > 1;
+            
+            for (int i = 0; i < FOutputSignals.SliceCount; i++)
+            {
+                FOutputSignals[i].NeedsBufferCopy = hasMultiple;
+            }
+        }
 
         protected override ISpread<AudioSignal> GetSignalSpread()
         {
             return FOutputSignals;
         }
     }
-	
-	/// <summary>
-	/// Audio node base class with multichannel signals and automatic instance handling
-	/// </summary>
+    
+    /// <summary>
+    /// Audio node base class with multichannel signals and automatic instance handling
+    /// </summary>
     public abstract class GenericMultiAudioSourceNode<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : MultiChannelSignal
-	{
-		protected ISpread<TSignal> FInternalSignals = new Spread<TSignal>();
-		
-		//for subclasses
-		protected int CalculatedSpreadMax
-		{
-			get;
-			private set;
-		}
-		
-		public override void Evaluate(int SpreadMax)
-		{
-			CalculatedSpreadMax = GetSpreadMax(SpreadMax);
-			FInternalSignals.Resize(CalculatedSpreadMax, GetInstance, x => { if(x != null) x.Dispose(); } );
-			
-			if(AnyInputChanged())
-			{
-				for(int i=0; i<CalculatedSpreadMax; i++)
-				{
-					var audioSignal = FInternalSignals[i];
-					
-					if(audioSignal == null) 
-						audioSignal = GetInstance(i);
-					
+    {
+        protected ISpread<TSignal> FInternalSignals = new Spread<TSignal>();
+        
+        //for subclasses
+        protected int CalculatedSpreadMax
+        {
+            get;
+            private set;
+        }
+        
+        public override void Evaluate(int SpreadMax)
+        {
+            CalculatedSpreadMax = GetSpreadMax(SpreadMax);
+            FInternalSignals.Resize(CalculatedSpreadMax, GetInstance, x => { if(x != null) x.Dispose(); } );
+            
+            if(AnyInputChanged())
+            {
+                for(int i=0; i<CalculatedSpreadMax; i++)
+                {
+                    var audioSignal = FInternalSignals[i];
+                    
+                    if(audioSignal == null) 
+                        audioSignal = GetInstance(i);
+                    
                     var tSignal = audioSignal as TSignal;
-					if(tSignal != null)
+                    if(tSignal != null)
                         SetParameters(i, tSignal);
-				}
-				
-				var outCount = 0;
-				for (int i = 0; i < FInternalSignals.SliceCount; i++)
-				{
-					outCount += FInternalSignals[i].Outputs.Count;
-				}
-				
-				if(FOutputSignals.SliceCount != outCount)
-				{
-					//FOutputSignals.SliceCount = outCount;
-					FOutputSignals.ResizeAndDispose(outCount, () => { return null; });
-					
-					var outSlice = 0;
-					for (int i = 0; i < FInternalSignals.SliceCount; i++)
-					{
-						for (int j = 0; j < FInternalSignals[i].Outputs.Count; j++)
-						{
-							FOutputSignals[outSlice] = FInternalSignals[i].Outputs[j];
-							outSlice++;
-						}
-					}
-				}
-			}
-			
-			SetOutputSliceCount(CalculatedSpreadMax);
-			
-			for(int i=0; i<CalculatedSpreadMax; i++)
-			{
-				var audioSignal = FInternalSignals[i];
-				
+                }
+                
+                var outCount = 0;
+                for (int i = 0; i < FInternalSignals.SliceCount; i++)
+                {
+                    outCount += FInternalSignals[i].Outputs.Count;
+                }
+                
+                if(FOutputSignals.SliceCount != outCount)
+                {
+                    //FOutputSignals.SliceCount = outCount;
+                    FOutputSignals.ResizeAndDispose(outCount, () => { return null; });
+                    
+                    var outSlice = 0;
+                    for (int i = 0; i < FInternalSignals.SliceCount; i++)
+                    {
+                        for (int j = 0; j < FInternalSignals[i].Outputs.Count; j++)
+                        {
+                            FOutputSignals[outSlice] = FInternalSignals[i].Outputs[j];
+                            outSlice++;
+                        }
+                    }
+                }
+            }
+            
+            SetOutputSliceCount(CalculatedSpreadMax);
+            
+            for(int i=0; i<CalculatedSpreadMax; i++)
+            {
+                var audioSignal = FInternalSignals[i];
+                
                 var tSignal = audioSignal as TSignal;
-				if(tSignal != null)
+                if(tSignal != null)
                     SetOutputs(i, tSignal);
-			}
-		}
-		
-	}
-	
+            }
+        }
+        
+    }
+    
 }
 
 

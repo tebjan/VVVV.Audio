@@ -16,12 +16,12 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	
-	[PluginInfo(Name = "IFFT", Category = "VAudio", Version = "Source", Help = "Creates an audio signal from spectrum data", AutoEvaluate = true, Tags = "additive, synthesis")]
-	public class IFFTSignalNode : AutoAudioSignalNode<IFFTSignal>
-	{
-	    
-	}
+    
+    [PluginInfo(Name = "IFFT", Category = "VAudio", Version = "Source", Help = "Creates an audio signal from spectrum data", AutoEvaluate = true, Tags = "additive, synthesis")]
+    public class IFFTSignalNode : AutoAudioSignalNode<IFFTSignal>
+    {
+        
+    }
 }
 
 

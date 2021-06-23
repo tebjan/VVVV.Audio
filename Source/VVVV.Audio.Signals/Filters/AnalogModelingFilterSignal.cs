@@ -183,7 +183,7 @@ namespace VVVV.Audio
                                 break;    
                             default:
                                 @out[n] = (float)y3;
-                                break;		                        
+                                break;                                
                         }
                         break;
                     case AnalogModelingFilterType.HighPass:

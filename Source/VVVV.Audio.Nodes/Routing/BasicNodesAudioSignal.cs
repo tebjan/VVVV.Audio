@@ -93,7 +93,7 @@ namespace VVVV.Nodes
     
     [PluginInfo(Name = "Select", 
                 Category = "VAudio",
-                Version = "Bin",				
+                Version = "Bin",                
                 Help = "Select the slices which form the new spread.", 
                 Tags = "repeat, generic, spreadop",
                 Author = "woei"
@@ -124,7 +124,7 @@ namespace VVVV.Nodes
     
     [PluginInfo(Name = "Zip", 
                 Category = "VAudio",
-                Version = "Bin",	            
+                Version = "Bin",                
                 Help = "Zips spreads together.", 
                 Tags = "join, generic, spreadop"
                )]

@@ -16,10 +16,10 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	
-	[PluginInfo(Name = "WaveShaper", Category = "VAudio", Version = "Filter", Help = "Wave shaper to distort the audio signal", AutoEvaluate = true, Tags = "distortion, saturation")]
+    
+    [PluginInfo(Name = "WaveShaper", Category = "VAudio", Version = "Filter", Help = "Wave shaper to distort the audio signal", AutoEvaluate = true, Tags = "distortion, saturation")]
     public class WaveShaperNode : AutoAudioSignalNode<WaveShaperSignal>
-	{
-	    
-	}
+    {
+        
+    }
 }

@@ -96,7 +96,7 @@ namespace VVVV.Nodes
             FPluginControl = new VstPluginControl(this);
             FPluginControl.Dock = DockStyle.Fill;
             FPluginControl.Parent = this;
-            this.Controls.Add(FPluginControl);	
+            this.Controls.Add(FPluginControl);    
             
             Rectangle wndRect = new Rectangle();
             if (SelectedPluginContext != null)

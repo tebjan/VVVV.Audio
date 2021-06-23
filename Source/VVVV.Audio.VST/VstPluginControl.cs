@@ -17,22 +17,22 @@ using System.Runtime.InteropServices;
 
 namespace VVVV.Nodes.Nodes.VST
 {
-	/// <summary>
-	/// Description of VstPluginControl.
-	/// </summary>
-	public partial class VstPluginControl : UserControl
-	{
-		public VstPluginControl(VSTHostNode node)
-		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
+    /// <summary>
+    /// Description of VstPluginControl.
+    /// </summary>
+    public partial class VstPluginControl : UserControl
+    {
+        public VstPluginControl(VSTHostNode node)
+        {
+            //
+            // The InitializeComponent() call is required for Windows Forms designer support.
+            //
+            InitializeComponent();
             Node = node;
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-		}
+            //
+            // TODO: Add constructor code after the InitializeComponent() call.
+            //
+        }
 
         public VSTHostNode Node 
         { 

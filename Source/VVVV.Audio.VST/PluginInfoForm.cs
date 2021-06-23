@@ -155,7 +155,7 @@ namespace VVVV.Audio.VST
                         {
                             if (inputBuffers[i][j] != outputBuffers[i][j])
                             {
-                            	if (outputBuffers[i][j] != 0.0)
+                                if (outputBuffers[i][j] != 0.0)
                                 {
                                     MessageBox.Show(this, "The plugin has processed the audio.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     return;

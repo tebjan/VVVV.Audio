@@ -20,7 +20,7 @@ namespace VVVV.Nodes
     
     [PluginInfo(Name = "LTCDecoder", Category = "VAudio", Version = "Sink", Help = "Decodes LTC audio signals", Tags = "timecode, SMPTE, synchronization")]
     public class LTCDecoderSignalNode : GenericAudioSinkNode<LTCDecoderSignal>
-    {		
+    {        
         
         [Output("Timecode")]
         public ISpread<Timecode> FTimecodeOut;

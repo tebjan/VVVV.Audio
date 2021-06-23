@@ -14,7 +14,7 @@ using VVVV.Core.Logging;
 #endregion usings
 
 namespace VVVV.Nodes
-{	
+{    
     
     [PluginInfo(Name = "FFT", Category = "VAudio", Version = "Sink", Help = "Calculates the FFT of an audio signal", Tags = "Spectrum, Frequencies")]
     public class FFTOutNode : GenericAudioSinkNode<FFTOutSignal>
@@ -31,8 +31,8 @@ namespace VVVV.Nodes
         [Output("Output")]
         ISpread<ISpread<double>> FFFTOut;
 
-//		[Output("Output Complex")]
-//		ISpread<ISpread<double>> FFFTOutComplex;
+//        [Output("Output Complex")]
+//        ISpread<ISpread<double>> FFFTOutComplex;
         
         uint UpperPow2(uint v)
         {

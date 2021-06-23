@@ -173,9 +173,9 @@ namespace VVVV.Audio.VST
         
         void GetPluginInfo()
         {
-//			PluginContext.PluginInfo.PluginID;
-//			
-//			 ListViewItem lvItem = new ListViewItem(PluginContext.PluginCommandStub.GetEffectName());
+//            PluginContext.PluginInfo.PluginID;
+//            
+//             ListViewItem lvItem = new ListViewItem(PluginContext.PluginCommandStub.GetEffectName());
 //                lvItem.SubItems.Add(PluginContext.PluginCommandStub.GetProductString());
 //                lvItem.SubItems.Add(PluginContext.PluginCommandStub.GetVendorString());
 //                lvItem.SubItems.Add(PluginContext.PluginCommandStub.GetVendorVersion().ToString());

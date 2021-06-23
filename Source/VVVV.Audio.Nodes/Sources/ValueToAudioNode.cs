@@ -13,7 +13,7 @@ using VVVV.PluginInterfaces.V2;
 namespace VVVV.Nodes
 {
 
-	[PluginInfo(Name = "V2A", Category = "VAudio", Version = "Source", Help = "Converts a value into a static audio signal", AutoEvaluate = true, Tags = "")]
+    [PluginInfo(Name = "V2A", Category = "VAudio", Version = "Source", Help = "Converts a value into a static audio signal", AutoEvaluate = true, Tags = "")]
     public class ValueToAudioNode : AutoAudioSignalNode<ValueToAudioSignal>
     {
     }

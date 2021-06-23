@@ -335,28 +335,28 @@ namespace VVVV.Audio
                             FEPTRPhase -= 2.0;
                         
                         var r2 = FEPTRPhase *0.5 + 0.5;       // ramp rescaled to 0-1 for EPTR calcs
-                        //            	if (inc2<.125){      // if Fc<sr/16 (2756Hz @441000 sr)
+                        //                if (inc2<.125){      // if Fc<sr/16 (2756Hz @441000 sr)
                         var d1 = t2 * 2;   // width of phase transition region (4*fc/sr)
                         buffer[i] = (float)(EPTR(r2, 2*t2, slope) * Gain.Value);
-                        //            	} else {                // adding 3x oversampling at higher freqs
-                        //            		t0 = delta(r2);
-                        //            		if (t0>0){ t2 = r2 -t0 *.6666667;                     //z-2
-                        //            			t1 = r2 -t0 *.3333333;             //z-1
-                        //            		} else {   t2 =wrap(zt *.3333333 +zr, 0, 1);          //z-2
-                        //            			t1 =wrap(zt *.6666667 +zr, 0, 1);          //z-1
-                        //            		}
-                        //            		zt = t0;               // ramp and delta history for interp
-                        //            		zr = r2;
-                        //            		d1  = inc2;            // shrink transition region
-                        //            		t2 =eptr(t2, d1, w1);
-                        //            		t1 =eptr(t1, d1, w1);
-                        //            		t0 =eptr(r2, d1, w1);
+                        //                } else {                // adding 3x oversampling at higher freqs
+                        //                    t0 = delta(r2);
+                        //                    if (t0>0){ t2 = r2 -t0 *.6666667;                     //z-2
+                        //                        t1 = r2 -t0 *.3333333;             //z-1
+                        //                    } else {   t2 =wrap(zt *.3333333 +zr, 0, 1);          //z-2
+                        //                        t1 =wrap(zt *.6666667 +zr, 0, 1);          //z-1
+                        //                    }
+                        //                    zt = t0;               // ramp and delta history for interp
+                        //                    zr = r2;
+                        //                    d1  = inc2;            // shrink transition region
+                        //                    t2 =eptr(t2, d1, w1);
+                        //                    t1 =eptr(t1, d1, w1);
+                        //                    t0 =eptr(r2, d1, w1);
                         //
-                        //            		if      (t2==t1 &amp;&amp; t1==t0)                   out1 = t0;
-                        //            		else if (t2!=-1 &amp;&amp; t1==-1 &amp;&amp; t0!=-1) out1 = -1;
-                        //            		else if (t2!=1  &amp;&amp; t1==1  &amp;&amp; t0!=1)  out1 =  1;
-                        //            		else out1 = (t2 + t1 + t0) * .33333333;
-                        //            	}
+                        //                    if      (t2==t1 &amp;&amp; t1==t0)                   out1 = t0;
+                        //                    else if (t2!=-1 &amp;&amp; t1==-1 &amp;&amp; t0!=-1) out1 = -1;
+                        //                    else if (t2!=1  &amp;&amp; t1==1  &amp;&amp; t0!=1)  out1 =  1;
+                        //                    else out1 = (t2 + t1 + t0) * .33333333;
+                        //                }
                     }
                     break;
             }
@@ -609,7 +609,7 @@ namespace VVVV.Audio
         
         protected override void FillBuffer(float[] buffer, int offset, int count)
         {
-//			PerfCounter.Start("MultiSine");
+//            PerfCounter.Start("MultiSine");
             var spreadMax = Frequencies.CombineWith(Gains);
             Phases.Resize(spreadMax, () => default(float), f => f = 0);
             for (int slice = 0; slice < spreadMax; slice++)
@@ -651,7 +651,7 @@ namespace VVVV.Audio
                 Phases[slice] = phase; //write back
             }
             
-//			PerfCounter.Stop("MultiSine");
+//            PerfCounter.Stop("MultiSine");
         }
         
     }

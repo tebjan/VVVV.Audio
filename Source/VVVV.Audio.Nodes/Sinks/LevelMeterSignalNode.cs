@@ -16,19 +16,19 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {
 
-	[PluginInfo(Name = "Meter", Category = "VAudio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Meter, dB, Level")]
-	public class LevelMeterSignalNode : GenericAudioSinkNode<LevelMeterSignal>
-	{		
-		[Input("Smoothing")]
-		public IDiffSpread<double> FSmoothing;
+    [PluginInfo(Name = "Meter", Category = "VAudio", Version = "Sink", Help = "Calculates the max dBs", Tags = "Meter, dB, Level")]
+    public class LevelMeterSignalNode : GenericAudioSinkNode<LevelMeterSignal>
+    {        
+        [Input("Smoothing")]
+        public IDiffSpread<double> FSmoothing;
 
         [Output("Level dBs")]
         public ISpread<double> FLeveldBsOut;
-		
-		[Output("Level")]
-		public ISpread<double> FLevelOut;
-		
-		readonly float Min150dB = (float)Decibels.DecibelsToLinear(-150);
+        
+        [Output("Level")]
+        public ISpread<double> FLevelOut;
+        
+        readonly float Min150dB = (float)Decibels.DecibelsToLinear(-150);
 
         protected override void SetOutputs(int i, LevelMeterSignal instance)
         {

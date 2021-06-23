@@ -15,10 +15,10 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	
-	[PluginInfo(Name = "Writer", Category = "VAudio", Version = "Sink", Help = "Records audio to disk", Tags = "file, wave, record")]
-	public class WaveWriterNode : GenericAudioSinkNode<WaveRecorderSignal>
-	{
+    
+    [PluginInfo(Name = "Writer", Category = "VAudio", Version = "Sink", Help = "Records audio to disk", Tags = "file, wave, record")]
+    public class WaveWriterNode : GenericAudioSinkNode<WaveRecorderSignal>
+    {
 
         [Input("Write")]
         public IDiffSpread<bool> FWriteIn;

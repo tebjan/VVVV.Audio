@@ -16,9 +16,9 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	
-	[PluginInfo(Name = "Granulator", Category = "VAudio", Version = "Source", Help = "Reads grains from an audio file", AutoEvaluate = true, Tags = "synthesis")]
-	public class GranulatorNode : AutoAudioSignalNode<GranulatorSignal>
-	{
-	}
+    
+    [PluginInfo(Name = "Granulator", Category = "VAudio", Version = "Source", Help = "Reads grains from an audio file", AutoEvaluate = true, Tags = "synthesis")]
+    public class GranulatorNode : AutoAudioSignalNode<GranulatorSignal>
+    {
+    }
 }

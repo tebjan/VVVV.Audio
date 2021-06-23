@@ -30,23 +30,23 @@ namespace VVVV.Nodes
 
         [ImportingConstructor]
         public MidiInNode()
-		{
-            RefreshDrivers();			
-		}
+        {
+            RefreshDrivers();            
+        }
         
         void RefreshDrivers()
         {
             var drivers = GetDriverNames();
-			
-			if (drivers.Length > 0)
-			{
-				EnumManager.UpdateEnum("VAudioMidiDevice", drivers[0], drivers);
-			}
-			else
-			{
-				drivers = new string[]{"No Midi Devices Found"};
-				EnumManager.UpdateEnum("VAudioMidiDevice", drivers[0], drivers);
-			}
+            
+            if (drivers.Length > 0)
+            {
+                EnumManager.UpdateEnum("VAudioMidiDevice", drivers[0], drivers);
+            }
+            else
+            {
+                drivers = new string[]{"No Midi Devices Found"};
+                EnumManager.UpdateEnum("VAudioMidiDevice", drivers[0], drivers);
+            }
         }
 
         private string[] GetDriverNames()

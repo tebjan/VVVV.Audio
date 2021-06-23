@@ -16,10 +16,10 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	
-	[PluginInfo(Name = "IIR", Category = "VAudio", Version = "Filter", Help = "Simple one pole lowpass filer, mainly for value smoothing", AutoEvaluate = true, Tags = "smoothing, damper")]
+    
+    [PluginInfo(Name = "IIR", Category = "VAudio", Version = "Filter", Help = "Simple one pole lowpass filer, mainly for value smoothing", AutoEvaluate = true, Tags = "smoothing, damper")]
     public class OnePoleLowpassNode : AutoAudioSignalNode<OnePoleLowPassSignal>
-	{
-	    
-	}
+    {
+        
+    }
 }

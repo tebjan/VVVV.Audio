@@ -16,15 +16,15 @@ using VVVV.Core.Logging;
 namespace VVVV.Nodes
 {
 
-	[PluginInfo(Name = "A2V", Category = "VAudio", Version = "Sink", Help = "Outputs the latest audio sample as value", Tags = "Meter")]
-	public class AudioToValueNode : GenericAudioSinkNode<AudioToValueSignal>
-	{		
-		[Input("Smoothing")]
-		public IDiffSpread<double> FSmoothing;
-		
-		[Output("Sample")]
-		public ISpread<double> FSampleOut;
-		
+    [PluginInfo(Name = "A2V", Category = "VAudio", Version = "Sink", Help = "Outputs the latest audio sample as value", Tags = "Meter")]
+    public class AudioToValueNode : GenericAudioSinkNode<AudioToValueSignal>
+    {        
+        [Input("Smoothing")]
+        public IDiffSpread<double> FSmoothing;
+        
+        [Output("Sample")]
+        public ISpread<double> FSampleOut;
+        
         protected override void SetOutputs(int i, AudioToValueSignal instance)
         {
             if (instance != null)

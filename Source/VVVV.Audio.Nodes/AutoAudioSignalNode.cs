@@ -30,16 +30,16 @@ namespace VVVV.Nodes
     }
     
     public class AutoAudioSignalNode<TSignal> : GenericAudioSourceNode<TSignal> where TSignal : AudioSignal, new()
-	{
-	    //static pin storage
-	    Dictionary<string, IDiffSpread> FInputPins = new Dictionary<string, IDiffSpread>();
-	    Dictionary<string, ISpread> FOutputPins = new Dictionary<string, ISpread>();
-	    
-	    //param to pin
-	    Dictionary<SigParamBase, IDiffSpread> FInputPinToParamMap = new Dictionary<SigParamBase, IDiffSpread>();
-	    Dictionary<SigParamBase, ISpread> FOutputPinToParamMap = new Dictionary<SigParamBase, ISpread>();
-	    
-	    //create pins
+    {
+        //static pin storage
+        Dictionary<string, IDiffSpread> FInputPins = new Dictionary<string, IDiffSpread>();
+        Dictionary<string, ISpread> FOutputPins = new Dictionary<string, ISpread>();
+        
+        //param to pin
+        Dictionary<SigParamBase, IDiffSpread> FInputPinToParamMap = new Dictionary<SigParamBase, IDiffSpread>();
+        Dictionary<SigParamBase, ISpread> FOutputPinToParamMap = new Dictionary<SigParamBase, ISpread>();
+        
+        //create pins
         public override void OnImportsSatisfied()
         {
             base.OnImportsSatisfied();
@@ -49,71 +49,71 @@ namespace VVVV.Nodes
             var t = tempSig.GetType();
             var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
-			//Retrieve all FieldInfos
-			var fields = t.GetFields(flags);
-			
-			foreach (var fi in fields)
-			{
-				if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
-				{
-				    var param = (SigParamBase)fi.GetValue(tempSig);
-				    var valType = param.GetValueType();
-				    
-				    if(!param.IsOutput)
-				    {
-				        var ia = new InputAttribute(param.Name);
+            //Retrieve all FieldInfos
+            var fields = t.GetFields(flags);
+            
+            foreach (var fi in fields)
+            {
+                if(typeof(SigParamBase).IsAssignableFrom(fi.FieldType))
+                {
+                    var param = (SigParamBase)fi.GetValue(tempSig);
+                    var valType = param.GetValueType();
+                    
+                    if(!param.IsOutput)
+                    {
+                        var ia = new InputAttribute(param.Name);
                         ia.Order = param.PinOrder;
-				        var spreadType = typeof(IDiffSpread<>).MakeGenericType(valType);
-				        
-				        if(valType == typeof(double))
-				        {
-				            ia.DefaultValue = (double)param.GetDefaultValue();
-				        }
-				        else if(valType == typeof(float))
-				        {
-				            ia.DefaultValue = (float)param.GetDefaultValue();
-				        }
-				        else if(valType == typeof(int))
-				        {
-				            ia.DefaultValue = (int)param.GetDefaultValue();
-				        }
-				        else if(valType == typeof(long))
-				        {
-				            ia.DefaultValue = (long)param.GetDefaultValue();
-				        }
-				        else if(valType == typeof(float[]))
-				        {
-				            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<float>));
-				        }
-				        else if(valType == typeof(int[]))
-				        {
-				            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<int>));
-				        }
-				        else if(valType == typeof(double[]))
-				        {
-				            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<double>));
-				        }
-				        else if(typeof(Enum).IsAssignableFrom(valType))
-				        {
-				            ia.DefaultEnumEntry = param.GetDefaultValue().ToString();
-				        }
-				        else
-				        {
-				            if(param is SigParamBang)
-				            {
-				                ia.IsBang = true;
-				            }
-				        }
+                        var spreadType = typeof(IDiffSpread<>).MakeGenericType(valType);
+                        
+                        if(valType == typeof(double))
+                        {
+                            ia.DefaultValue = (double)param.GetDefaultValue();
+                        }
+                        else if(valType == typeof(float))
+                        {
+                            ia.DefaultValue = (float)param.GetDefaultValue();
+                        }
+                        else if(valType == typeof(int))
+                        {
+                            ia.DefaultValue = (int)param.GetDefaultValue();
+                        }
+                        else if(valType == typeof(long))
+                        {
+                            ia.DefaultValue = (long)param.GetDefaultValue();
+                        }
+                        else if(valType == typeof(float[]))
+                        {
+                            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<float>));
+                        }
+                        else if(valType == typeof(int[]))
+                        {
+                            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<int>));
+                        }
+                        else if(valType == typeof(double[]))
+                        {
+                            spreadType = typeof(IDiffSpread<>).MakeGenericType(typeof(ISpread<double>));
+                        }
+                        else if(typeof(Enum).IsAssignableFrom(valType))
+                        {
+                            ia.DefaultEnumEntry = param.GetDefaultValue().ToString();
+                        }
+                        else
+                        {
+                            if(param is SigParamBang)
+                            {
+                                ia.IsBang = true;
+                            }
+                        }
 
-				        var inPin = (IDiffSpread)FIOFactory.CreateIO(spreadType, ia);
-				        FInputPins[param.Name] = inPin;
-				        FDiffInputs.Add(inPin);
-				    }
-				    else //output
-				    {
-				        var oa = new OutputAttribute(param.Name);
+                        var inPin = (IDiffSpread)FIOFactory.CreateIO(spreadType, ia);
+                        FInputPins[param.Name] = inPin;
+                        FDiffInputs.Add(inPin);
+                    }
+                    else //output
+                    {
+                        var oa = new OutputAttribute(param.Name);
                         oa.Order = param.PinOrder;
-				        var spreadType = typeof(ISpread<>).MakeGenericType(valType);
+                        var spreadType = typeof(ISpread<>).MakeGenericType(valType);
 
                         //array types need Spread<Spread<T>>
                         if (valType == typeof(float[]))
@@ -130,16 +130,16 @@ namespace VVVV.Nodes
                         }
 
                         var outPin = (ISpread)FIOFactory.CreateIO(spreadType, oa);
-				        FOutputPins[param.Name] = outPin;
-				    }
-				}
-			}
-			
-			tempSig.Dispose();
+                        FOutputPins[param.Name] = outPin;
+                    }
+                }
+            }
+            
+            tempSig.Dispose();
         }
-		
-		protected override void SetParameters(int i, TSignal instance)
-		{
+        
+        protected override void SetParameters(int i, TSignal instance)
+        {
             foreach (var param in instance.InParams) 
             {
                 //get slice
@@ -176,8 +176,8 @@ namespace VVVV.Nodes
                 //normal value
                 param.SetValue(inputValue);
             }
-		}
-		
+        }
+        
         protected override int GetSpreadMax(int originalSpreadMax)
         {
             var original = base.GetSpreadMax(originalSpreadMax);
@@ -189,7 +189,7 @@ namespace VVVV.Nodes
             
             return Math.Min(result, original);
         }
-		
+        
         protected override void SetOutputSliceCount(int sliceCount)
         {
             base.SetOutputSliceCount(sliceCount);
@@ -241,7 +241,7 @@ namespace VVVV.Nodes
         }
 
         protected override TSignal GetInstance(int i)
-		{
+        {
             var instance = new TSignal();
 
             //assign pin relation
@@ -257,8 +257,8 @@ namespace VVVV.Nodes
                 }
             }
             
-			return instance;
-		}
+            return instance;
+        }
         
         protected override void DisposeInstance(AudioSignal instance)
         {
@@ -277,5 +277,5 @@ namespace VVVV.Nodes
             
             base.DisposeInstance(instance);
         }
-	}
+    }
 }

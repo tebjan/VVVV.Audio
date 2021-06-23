@@ -16,10 +16,10 @@ using VVVV.Core.Logging;
 
 namespace VVVV.Nodes
 {
-	
-	[PluginInfo(Name = "Filter", Category = "VAudio", Version = "Filter", Help = "Analog modeling filter", AutoEvaluate = true, Tags = "Moog, Zero Delay")]
-	public class AnalogModelingFilterSignalNode : AutoAudioSignalNode<AnalogModelingFilterSignal>
-	{
-	    
-	}
+    
+    [PluginInfo(Name = "Filter", Category = "VAudio", Version = "Filter", Help = "Analog modeling filter", AutoEvaluate = true, Tags = "Moog, Zero Delay")]
+    public class AnalogModelingFilterSignalNode : AutoAudioSignalNode<AnalogModelingFilterSignal>
+    {
+        
+    }
 }
