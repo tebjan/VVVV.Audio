@@ -187,9 +187,9 @@ namespace VVVV.Audio
                 this.AsioOut.AudioAvailable += AudioEngine_AudioAvailable;
                 
                 Settings.SampleRate = sampleRate;
-                Settings.BufferSize = AsioOut.BufferSize;
+                Settings.BufferSize = AsioOut.FramesPerBuffer;
                 Timer.SampleRate = sampleRate;
-                Timer.FillBeatBuffer(AsioOut.BufferSize);
+                Timer.FillBeatBuffer(AsioOut.FramesPerBuffer);
 
                 this.AsioOut.DriverResetRequest += AsioOut_DriverResetRequest;
                 

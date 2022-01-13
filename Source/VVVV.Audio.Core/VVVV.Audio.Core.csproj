@@ -12,11 +12,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.0.1" />
     <PackageReference Include="System.Reactive" Version="4.3.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="NAudio">
-      <HintPath>..\Dependencies\AnyCPU\NAudio\NAudio.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>
