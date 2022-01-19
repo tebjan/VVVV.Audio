@@ -143,6 +143,32 @@ namespace VVVV.Audio
         public IObservable<string> DriverSettingsChanged => SettingsChanged;
         private Subject<string> SettingsChanged = new Subject<string>();
 
+        public void ChangeDriver(string driverName, int inputChannelOffset, int outputChannelOffset)
+        {
+            if (AsioOut == null || AsioOut.DriverName != driverName
+                   || AsioOut.InputChannelOffset != inputChannelOffset
+                   || AsioOut.ChannelOffset != outputChannelOffset)
+            {
+                //dispose device if necessary
+                if (this.AsioOut != null)
+                {
+                    Cleanup();
+                }
+
+                //create new driver
+                this.AsioOut = new AsioOut(driverName);
+
+                //set channel offset
+                AsioOut.ChannelOffset = outputChannelOffset;
+                AsioOut.InputChannelOffset = inputChannelOffset;
+
+                AsioOut.AudioAvailable += AudioEngine_AudioAvailable;
+                AsioOut.DriverResetRequest += AsioOut_DriverResetRequest;
+
+                SettingsChanged.OnNext(driverName);
+            }
+        }
+
         /// <summary>
         /// Initializes the Audio Driver if necessary
         /// </summary>
@@ -152,28 +178,12 @@ namespace VVVV.Audio
         /// <param name="inputChannelOffset"></param>
         /// <param name="outputChannels"></param>
         /// <param name="outputChannelOffset"></param>
-        public void ChangeDriverSettings(string driverName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
+        public void ChangeDriverSettings(int sampleRate, int inputChannels, int outputChannels)
         {
-            if(AsioOut == null || AsioOut.DriverName != driverName
-               || MasterWaveProvider.WaveFormat.SampleRate != sampleRate
+            if(MasterWaveProvider.WaveFormat.SampleRate != sampleRate
                || AsioOut.NumberOfInputChannels != inputChannels
-               || AsioOut.InputChannelOffset != inputChannelOffset
-               || AsioOut.NumberOfOutputChannels != outputChannels
-               || AsioOut.ChannelOffset != outputChannelOffset)
+               || AsioOut.NumberOfOutputChannels != outputChannels)
             {
-                //dispose device if necessary
-                if (this.AsioOut != null)
-                {
-                    Cleanup();
-                }
-                
-                //create new driver
-                this.AsioOut = new AsioOut(driverName);
-                
-                //set channel offset
-                AsioOut.ChannelOffset = outputChannelOffset;
-                AsioOut.InputChannelOffset = inputChannelOffset;
-                
                 //init driver
                 MasterWaveProvider.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, outputChannels);
                 this.AsioOut.InitRecordAndPlayback(MasterWaveProvider, inputChannels, sampleRate);
@@ -184,20 +194,17 @@ namespace VVVV.Audio
                 {
                     FRecordBuffers[i] = new float[512];
                 }
-                this.AsioOut.AudioAvailable += AudioEngine_AudioAvailable;
                 
                 Settings.SampleRate = sampleRate;
                 Settings.BufferSize = AsioOut.FramesPerBuffer;
                 Timer.SampleRate = sampleRate;
                 Timer.FillBeatBuffer(AsioOut.FramesPerBuffer);
 
-                this.AsioOut.DriverResetRequest += AsioOut_DriverResetRequest;
-                
                 this.Settings.SampleRate = sampleRate;
 
                 NeedsReset = false;
 
-                SettingsChanged.OnNext(driverName);
+                SettingsChanged.OnNext(AsioOut.DriverName);
             }
         }
 
@@ -401,6 +408,7 @@ namespace VVVV.Audio
         public static void DisposeEngine()
         {
             FAudioEngine.Dispose();
+            FAudioEngine = null;
         }
         
         public static void AddSink(IAudioSink sink)

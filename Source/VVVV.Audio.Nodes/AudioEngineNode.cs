@@ -168,12 +168,8 @@ namespace VVVV.Nodes
                FInputChannelsIn.IsChanged || FInputChannelOffsetIn.IsChanged ||
                FOutputChannelsIn.IsChanged || FOutputChannelOffsetIn.IsChanged || FEngine.NeedsReset)
             {
-                FEngine.ChangeDriverSettings(FDriverIn[0].Name, 
-                                             int.Parse(FSamplingRateIn[0]), 
-                                             FInputChannelsIn[0], 
-                                             FInputChannelOffsetIn[0], 
-                                             FOutputChannelsIn[0], 
-                                             FOutputChannelOffsetIn[0]);
+                FEngine.ChangeDriver(FDriverIn[0].Name, FInputChannelOffsetIn[0], FOutputChannelOffsetIn[0]);
+                FEngine.ChangeDriverSettings(int.Parse(FSamplingRateIn[0]), FInputChannelsIn[0], FOutputChannelsIn[0]);
                 
                 FEngine.Play = FPlayIn[0];
                 FInputChannelsOut[0] = FEngine.AsioOut.DriverInputChannelCount;
