@@ -1,5 +1,6 @@
 ﻿#region usings
 using System;
+using System.Collections.Generic;
 using NAudio.Utils;
 using VVVV.PluginInterfaces.V2;
 #endregion
@@ -7,10 +8,10 @@ namespace VVVV.Audio
 {
 	public class MatrixMixerSignal : MultiChannelInputSignal
 	{
-		public ISpread<float> GainMatrix
+		public IReadOnlyList<float> GainMatrix
 		{
 			get;
-			protected set;
+			set;
 		}
 
 		public int OutputChannelCount
@@ -22,7 +23,7 @@ namespace VVVV.Audio
 			set
 			{
 				SetOutputCount(value);
-				GainMatrix = new Spread<float>(value);
+				GainMatrix = new List<float>(value);
 			}
 		}
 
@@ -30,13 +31,13 @@ namespace VVVV.Audio
 
 		protected override void FillBuffers(float[][] buffer, int offset, int count)
 		{
-			if (FInput != null && FInput.SliceCount != 0) 
+			if (FInput != null && FInput.Count != 0) 
 			{
 				FTempBuffer = BufferHelpers.Ensure(FTempBuffer, count);
 				for (int outSlice = 0; outSlice < FOutputCount; outSlice++)
 				{
 					var outbuf = buffer[outSlice];
-					for (int inSlice = 0; inSlice < FInput.SliceCount; inSlice++)
+					for (int inSlice = 0; inSlice < FInput.Count; inSlice++)
 					{
 						var gain = GainMatrix[outSlice + inSlice * FOutputCount];
 						var inSig = FInput[inSlice];

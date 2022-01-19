@@ -11,7 +11,7 @@ namespace VVVV.Audio
 		/// <summary>
 		/// The input signal
 		/// </summary>
-		public ISpread<AudioSignal> Input {
+		public IReadOnlyList<AudioSignal> Input {
 			get {
 				return FInput;
 			}
@@ -27,11 +27,11 @@ namespace VVVV.Audio
 		/// Override in sub class to know when the input has changed
 		/// </summary>
 		/// <param name="newInput"></param>
-		protected virtual void InputWasSet(ISpread<AudioSignal> newInput)
+		protected virtual void InputWasSet(IReadOnlyList<AudioSignal> newInput)
 		{
 		}
 
-		protected ISpread<AudioSignal> FInput;
+		protected IReadOnlyList<AudioSignal> FInput;
 	}
 }
 
