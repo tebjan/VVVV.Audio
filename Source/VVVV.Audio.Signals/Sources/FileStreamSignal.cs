@@ -129,10 +129,12 @@ namespace VVVV.Audio
             }
         }
 
-        public override void Dispose()
-        {
-            base.Dispose();
-        }
+		public override void Dispose()
+		{
+			FAudioFile.Dispose();
+			FAudioFile = null;
+			base.Dispose();
+		}
     }
 }
 

@@ -12,14 +12,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.0.1" />
     <PackageReference Include="VVVV.PluginInterfaces" Version="38.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VVVV.Audio.Core\VVVV.Audio.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="NAudio">
-      <HintPath>..\Dependencies\AnyCPU\NAudio\NAudio.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

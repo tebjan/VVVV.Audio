@@ -333,6 +333,26 @@ namespace VVVV.Audio
         //audio input
         protected float[][] FRecordBuffers;
         public Stack<object> RecordingRequestedStack = new Stack<object>();
+
+        /// <summary>
+        /// Initialize the driver in order to be able to read its SampleRate options
+        /// </summary>
+        /// <param name="driverName"></param>
+        public void PreviewDriver(string driverName)
+        {
+            if (AsioOut == null || AsioOut.DriverName != driverName)
+            {
+                //dispose device if necessary
+                if (this.AsioOut != null)
+                    Cleanup();
+
+                //create new driver
+                this.AsioOut = new AsioOut(driverName);
+
+                //trigger to update the dynamic SampleRate enum
+                SettingsChanged.OnNext(driverName);
+            }
+        }
         protected void AsioAudioAvailable(object sender, AsioAudioAvailableEventArgs e)
         {
             if (RecordingRequestedStack.Count <= 0)
@@ -567,6 +587,46 @@ namespace VVVV.Audio
             get;
             set;
         }
+    }
+    
+    /// <summary>
+    /// Static and naive access to the AudioEngine
+    /// TODO: find better life time management
+    /// </summary>
+    public static class AudioService
+    {
+        private static AudioEngine FAudioEngine;
+        
+        public static AudioEngine Engine
+        {
+            get
+            {
+                if(FAudioEngine == null)
+                {
+                    FAudioEngine = AudioEngine.Instance;
+                }
+                
+                return FAudioEngine;
+            }
+        }
+        
+        public static void DisposeEngine()
+        {
+            FAudioEngine.Dispose();
+            FAudioEngine = null;
+        }
+        
+        public static void AddSink(IAudioSink sink)
+        {
+            FAudioEngine.AddSink(sink);
+        }
+        
+        public static void RemoveSink(IAudioSink sink)
+        {
+            FAudioEngine.RemoveSink(sink);
+        }
+        
+        public static BufferDictionary BufferStorage = new BufferDictionary();
     }
     
     public class BufferDictionary : Dictionary<string, float[]>

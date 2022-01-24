@@ -109,6 +109,14 @@ namespace VVVV.Audio
         {
             
         }
+
+        public override void Dispose()
+        {
+			foreach (var signal in Outputs)
+				signal.Dispose();
+
+            base.Dispose();
+        }
     }
     
     public static class ListExtra
