@@ -148,6 +148,7 @@ namespace VVVV.Audio
         /// Initialize the driver in order to be able to read its SampleRate options
         /// </summary>
         /// <param name="driverName"></param>
+        /// <param name="wasapiRecordingName"></param>
         public void PreviewDriver(string driverName, string wasapiRecordingName = null)
         {
             if (driverName.StartsWith(WasapiPrefix))
@@ -161,7 +162,7 @@ namespace VVVV.Audio
             }
         }
 
-        public void PreviewASIODriver(string driverName)
+        private void PreviewASIODriver(string driverName)
         {
             if (AsioDevice == null || AsioDevice.DriverName != driverName)
             {
@@ -179,7 +180,7 @@ namespace VVVV.Audio
             }
         }
 
-        public void PreviewWASAPIDriver(string driverName, string wasapiRecordingName)
+        private void PreviewWASAPIDriver(string driverName, string wasapiRecordingName)
         {
             AnalyzeWASAPIDevices(driverName, wasapiRecordingName, out var inputDevice, out var outputDevice, out var isLoopback);
 
@@ -366,7 +367,7 @@ namespace VVVV.Audio
 
             //find input device
             isLoopback = false;
-            if (wasapiRecordingName.StartsWith(WasapiLoopbackPrefix))
+            if (wasapiRecordingName?.StartsWith(WasapiLoopbackPrefix) ?? false)
             {
                 isLoopback = true;
                 wasapiRecordingName = wasapiRecordingName.Replace(WasapiLoopbackPrefix, "");
@@ -472,7 +473,8 @@ namespace VVVV.Audio
             }
             if (this.WasapiDevice != null)
             {
-                this.WasapiDevice.Input.DataAvailable -= WasapiAudioAvailable;
+                if (this.WasapiDevice.Input != null)
+                    this.WasapiDevice.Input.DataAvailable -= WasapiAudioAvailable;
                 this.WasapiDevice.Dispose();
                 this.WasapiDevice = null;
             }
