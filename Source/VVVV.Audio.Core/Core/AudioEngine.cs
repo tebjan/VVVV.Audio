@@ -30,6 +30,10 @@ namespace VVVV.Audio
         public const string WasapiSystemDevice = "Current System Device";
         public const string WasapiLoopbackPrefix = "Loopback: ";
         
+        public string CurrentDriverName = WasapiPrefix + WasapiSystemDevice;
+        public int CurrentDesiredInputChannels = 2;
+        public int CurrentDesiredOutputChannels = 2;
+
         internal AudioEngine()
         {
             Settings = new AudioEngineSettings { SampleRate = 44100, BufferSize = 512 };
@@ -154,6 +158,10 @@ namespace VVVV.Audio
             if (driverName.StartsWith(WasapiPrefix))
             {
                 driverName = driverName.Replace(WasapiPrefix, "");
+
+                if (string.IsNullOrWhiteSpace(wasapiRecordingName))
+                    wasapiRecordingName = WasapiSystemDevice;
+
                 PreviewWASAPIDriver(driverName, wasapiRecordingName);
             }
             else
@@ -213,9 +221,16 @@ namespace VVVV.Audio
         /// <param name="outputChannelOffset"></param>
         public void ChangeDriverSettings(string driverName, string wasapiRecordingName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
         {
+            CurrentDesiredInputChannels = inputChannels;
+            CurrentDesiredOutputChannels = outputChannels;
+
             if (driverName.StartsWith(WasapiPrefix))
             {
                 driverName = driverName.Replace(WasapiPrefix, "");
+
+                if (string.IsNullOrWhiteSpace(wasapiRecordingName))
+                    wasapiRecordingName = WasapiSystemDevice;
+
                 ChangeWASAPIDriverSettings(driverName, wasapiRecordingName, sampleRate, inputChannels, inputChannelOffset, outputChannels, outputChannelOffset);
             }
             else
@@ -235,6 +250,23 @@ namespace VVVV.Audio
                 return wasapiOut.OutputWaveFormat.SampleRate == sampleRate;
             }
             return false;
+        }
+
+        public void GetSupportedChannels(out int inputChannels, out int outputChannels)
+        {
+            inputChannels = 2;
+            outputChannels = 2;
+
+            if (CurrentDevice is AsioOut asioOut)
+            {
+                inputChannels = asioOut.DriverInputChannelCount;
+                outputChannels = asioOut.DriverOutputChannelCount;
+            }
+            else if (CurrentDevice is WasapiOut wasapiOut)
+            {
+                inputChannels = WasapiDevice.DriverInputChannelCount;
+                outputChannels = wasapiOut.OutputWaveFormat.Channels;
+            }
         }
 
         private void ChangeASIODriverSettings(string driverName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
@@ -280,6 +312,7 @@ namespace VVVV.Audio
                 NeedsReset = false;
 
                 CurrentDevice = AsioDevice;
+                CurrentDriverName = driverName;
 
                 driverInitialized = true;
 
@@ -332,6 +365,7 @@ namespace VVVV.Audio
                 NeedsReset = false;
 
                 CurrentDevice = WasapiDevice.Output;
+                CurrentDriverName = WasapiPrefix + driverName;
 
                 driverInitialized = true;
 

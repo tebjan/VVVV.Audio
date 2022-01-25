@@ -107,7 +107,7 @@ namespace VVVV.Audio
             var captureDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Capture);
 
             var driverNames = new List<string>(asioDrivers);
-            OutputDriversDefaultIndex = driverNames.Count;
+            OutputDriversDefaultIndex = driverNames.Count; // set to next entry, which is the current system default
             driverNames.Add(AudioEngine.WasapiPrefix + AudioEngine.WasapiSystemDevice);
             foreach (var mmDevice in renderDevices)
             {
@@ -118,13 +118,13 @@ namespace VVVV.Audio
 
             //wasapi inputs
             var wasapiInputDriverNames = new List<string>();
+            WasapiInputDevicesDefaultIndex = wasapiInputDriverNames.Count; // set to next entry, which is the current system default
             wasapiInputDriverNames.Add(AudioEngine.WasapiSystemDevice);
             foreach (var mmDevice in captureDevices)
             {
                 wasapiInputDriverNames.Add(mmDevice.FriendlyName);
             }
 
-            WasapiInputDevicesDefaultIndex = wasapiInputDriverNames.Count;
             wasapiInputDriverNames.Add(AudioEngine.WasapiLoopbackPrefix + AudioEngine.WasapiSystemDevice);
 
             foreach (var mmDevice in renderDevices)
