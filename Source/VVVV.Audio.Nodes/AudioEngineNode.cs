@@ -195,6 +195,8 @@ namespace VVVV.Nodes
                FInputChannelsIn.IsChanged || FInputChannelOffsetIn.IsChanged ||
                FOutputChannelsIn.IsChanged || FOutputChannelOffsetIn.IsChanged || FEngine.NeedsReset)
             {
+                FEngine.PreviewDriver(FDriverIn[0].Name);
+                UpdateSampleRateEnum();
                 FEngine.ChangeDriverSettings(FDriverIn[0].Name,
                                              FWasapiRecordingIn[0].Name,
                                              int.Parse(FSamplingRateIn[0]), 
@@ -209,7 +211,6 @@ namespace VVVV.Nodes
                 FOpenInputChannelsOut[0] = FEngine.AsioDevice?.NumberOfInputChannels ?? 2;
                 FOpenOutputChannelsOut[0] = FEngine.AsioDevice?.NumberOfOutputChannels ?? 2;
                 
-                UpdateSampleRateEnum();
             }
             
             if(FShowPanelIn[0])

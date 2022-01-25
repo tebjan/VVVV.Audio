@@ -18,12 +18,14 @@ namespace VVVV.Audio
     {
         //this mixes multiple sample providers from the graph to a waveprovider which is set to
         MasterWaveProvider MasterWaveProvider;
-        
+
         //the driver wrapper
+        bool driverInitialized = false;
         public AsioOut AsioDevice;
         public WasapiInOut WasapiDevice;
         public IWavePlayer CurrentDevice;
 
+        public const string ASIOPrefix = "ASIO: ";
         public const string WasapiPrefix = "WASAPI: ";
         public const string WasapiSystemDevice = "Current System Device";
         public const string WasapiLoopbackPrefix = "Loopback: ";
@@ -35,8 +37,6 @@ namespace VVVV.Audio
             var format = WaveFormat.CreateIeeeFloatWaveFormat(Settings.SampleRate, 1);
             MasterWaveProvider = new MasterWaveProvider(format, OnStartedReading, OnFinishedReading);
         }
-
-        
 
         private void OnStartedReading(int samples)
         {
@@ -135,8 +135,8 @@ namespace VVVV.Audio
         {
             if (sink != null)
                 MasterWaveProvider.RemoveSink(sink);
-            
-            System.Diagnostics.Debug.WriteLine("Sink Removed: " + sink.GetType());
+
+            Debug.WriteLine("Sink Removed: " + sink.GetType());
         }
 
         #region asio
@@ -145,9 +145,66 @@ namespace VVVV.Audio
         private Subject<string> SettingsChanged = new Subject<string>();
 
         /// <summary>
+        /// Initialize the driver in order to be able to read its SampleRate options
+        /// </summary>
+        /// <param name="driverName"></param>
+        public void PreviewDriver(string driverName, string wasapiRecordingName = null)
+        {
+            if (driverName.StartsWith(WasapiPrefix))
+            {
+                driverName = driverName.Replace(WasapiPrefix, "");
+                PreviewWASAPIDriver(driverName, wasapiRecordingName);
+            }
+            else
+            {
+                PreviewASIODriver(driverName);
+            }
+        }
+
+        public void PreviewASIODriver(string driverName)
+        {
+            if (AsioDevice == null || AsioDevice.DriverName != driverName)
+            {
+                //dispose device if necessary
+                Cleanup();
+
+                //create new driver
+                AsioDevice = new AsioOut(driverName);
+
+                CurrentDevice = AsioDevice;
+                driverInitialized = false;
+
+                //trigger to update the dynamic SampleRate enum
+                SettingsChanged.OnNext(driverName);
+            }
+        }
+
+        public void PreviewWASAPIDriver(string driverName, string wasapiRecordingName)
+        {
+            AnalyzeWASAPIDevices(driverName, wasapiRecordingName, out var inputDevice, out var outputDevice, out var isLoopback);
+
+            if (WasapiDevice == null || WasapiDevice.MMOutDevice?.FriendlyName != driverName
+                || WasapiDevice.MMInDevice?.FriendlyName != wasapiRecordingName)
+            {
+                //dispose device if necessary
+                Cleanup();
+
+                //create new driver
+                WasapiDevice = new WasapiInOut(outputDevice, inputDevice, isLoopback);
+
+                CurrentDevice = WasapiDevice.Output;
+                driverInitialized = false;
+
+                //trigger to update the dynamic SampleRate enum
+                SettingsChanged.OnNext(driverName);
+            }
+        }
+
+        /// <summary>
         /// Initializes the Audio Driver if necessary
         /// </summary>
         /// <param name="driverName"></param>
+        /// <param name="wasapiRecordingName"></param>
         /// <param name="sampleRate"></param>
         /// <param name="inputChannels"></param>
         /// <param name="inputChannelOffset"></param>
@@ -181,7 +238,7 @@ namespace VVVV.Audio
 
         private void ChangeASIODriverSettings(string driverName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
         {
-            if (AsioDevice == null || AsioDevice.DriverName != driverName
+            if (!driverInitialized || AsioDevice == null || AsioDevice.DriverName != driverName
                            || MasterWaveProvider.WaveFormat.SampleRate != sampleRate
                            || AsioDevice.NumberOfInputChannels != inputChannels
                            || AsioDevice.InputChannelOffset != inputChannelOffset
@@ -223,67 +280,17 @@ namespace VVVV.Audio
 
                 CurrentDevice = AsioDevice;
 
+                driverInitialized = true;
+
                 SettingsChanged.OnNext(driverName);
             }
         }
 
         private void ChangeWASAPIDriverSettings(string driverName, string wasapiRecordingName, int sampleRate, int inputChannels, int inputChannelOffset, int outputChannels, int outputChannelOffset)
         {
-            var mmDeviceEnumerator = new MMDeviceEnumerator();
-            var allEndpoints = mmDeviceEnumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active);
-            var renderDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Render);
-            var captureDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Capture);
+            AnalyzeWASAPIDevices(driverName, wasapiRecordingName, out var inputDevice, out var outputDevice, out var isLoopback);
 
-            MMDevice inputDevice;
-            MMDevice outputDevice;
-
-            //find output device
-            if (driverName == WasapiSystemDevice)
-            {
-                if (mmDeviceEnumerator.HasDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia))
-                {
-                    outputDevice = mmDeviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-                    driverName = outputDevice.FriendlyName;
-                }
-                else
-                {
-                    outputDevice = renderDevices.FirstOrDefault();
-                    driverName = outputDevice?.FriendlyName;
-                }
-            }
-            else
-            {
-                outputDevice = renderDevices.FirstOrDefault(d => d.FriendlyName == driverName);
-            }
-
-            //find input device
-            var isLoopback = false;
-            if (wasapiRecordingName.StartsWith(WasapiLoopbackPrefix))
-            {
-                isLoopback = true;
-                wasapiRecordingName = wasapiRecordingName.Replace(WasapiLoopbackPrefix, "");
-            }
-
-            if (wasapiRecordingName == WasapiSystemDevice)
-            {
-                var dataFlow = isLoopback ? DataFlow.Render : DataFlow.Capture;
-                if (mmDeviceEnumerator.HasDefaultAudioEndpoint(dataFlow, Role.Multimedia))
-                {
-                    inputDevice = mmDeviceEnumerator.GetDefaultAudioEndpoint(dataFlow, Role.Multimedia);
-                    wasapiRecordingName = inputDevice.FriendlyName;
-                }
-                else
-                {
-                    inputDevice = (isLoopback ? renderDevices : captureDevices).FirstOrDefault();
-                    wasapiRecordingName = inputDevice?.FriendlyName;
-                }
-            }
-            else
-            {
-                inputDevice = (isLoopback ? renderDevices : captureDevices).FirstOrDefault(d => d.FriendlyName == wasapiRecordingName);
-            }
-
-            if (WasapiDevice == null || WasapiDevice.MMOutDevice?.FriendlyName != driverName
+            if (!driverInitialized || WasapiDevice == null || WasapiDevice.MMOutDevice?.FriendlyName != driverName
                 || WasapiDevice.MMInDevice?.FriendlyName != wasapiRecordingName
                 || MasterWaveProvider.WaveFormat.SampleRate != sampleRate)
             {
@@ -291,7 +298,7 @@ namespace VVVV.Audio
                 Cleanup();
 
                 //create new driver
-                this.WasapiDevice = new WasapiInOut(outputDevice, inputDevice, isLoopback);
+                WasapiDevice = new WasapiInOut(outputDevice, inputDevice, isLoopback);
 
                 //set channel offset
                 //WasapiOut.ChannelOffset = outputChannelOffset;
@@ -325,7 +332,63 @@ namespace VVVV.Audio
 
                 CurrentDevice = WasapiDevice.Output;
 
+                driverInitialized = true;
+
                 SettingsChanged.OnNext(driverName);
+            }
+        }
+
+        private static void AnalyzeWASAPIDevices(string driverName, string wasapiRecordingName, out MMDevice inputDevice, out MMDevice outputDevice, out bool isLoopback)
+        {
+            var mmDeviceEnumerator = new MMDeviceEnumerator();
+            var allEndpoints = mmDeviceEnumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active);
+            var renderDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Render);
+            var captureDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Capture);
+
+            //find output device
+            if (driverName == WasapiSystemDevice)
+            {
+                if (mmDeviceEnumerator.HasDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia))
+                {
+                    outputDevice = mmDeviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+                    driverName = outputDevice.FriendlyName;
+                }
+                else
+                {
+                    outputDevice = renderDevices.FirstOrDefault();
+                    driverName = outputDevice?.FriendlyName;
+                }
+            }
+            else
+            {
+                outputDevice = renderDevices.FirstOrDefault(d => d.FriendlyName == driverName);
+            }
+
+            //find input device
+            isLoopback = false;
+            if (wasapiRecordingName.StartsWith(WasapiLoopbackPrefix))
+            {
+                isLoopback = true;
+                wasapiRecordingName = wasapiRecordingName.Replace(WasapiLoopbackPrefix, "");
+            }
+
+            if (wasapiRecordingName == WasapiSystemDevice)
+            {
+                var dataFlow = isLoopback ? DataFlow.Render : DataFlow.Capture;
+                if (mmDeviceEnumerator.HasDefaultAudioEndpoint(dataFlow, Role.Multimedia))
+                {
+                    inputDevice = mmDeviceEnumerator.GetDefaultAudioEndpoint(dataFlow, Role.Multimedia);
+                    wasapiRecordingName = inputDevice.FriendlyName;
+                }
+                else
+                {
+                    inputDevice = (isLoopback ? renderDevices : captureDevices).FirstOrDefault();
+                    wasapiRecordingName = inputDevice?.FriendlyName;
+                }
+            }
+            else
+            {
+                inputDevice = (isLoopback ? renderDevices : captureDevices).FirstOrDefault(d => d.FriendlyName == wasapiRecordingName);
             }
         }
 
