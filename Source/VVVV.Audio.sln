@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Core", "VVVV.Audio.Core\VVVV.Audio.Core.csproj", "{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVVV.Audio.Core", "VVVV.Audio.Core\VVVV.Audio.Core.csproj", "{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Nodes", "VVVV.Audio.Nodes\VVVV.Audio.Nodes.csproj", "{B856AC71-61D0-4906-A04A-1BEB32AD5967}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Signals", "VVVV.Audio.Signals\VVVV.Audio.Signals.csproj", "{135530F1-FE32-41AB-9029-2A5D8FF13263}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVVV.Audio.Signals", "VVVV.Audio.Signals\VVVV.Audio.Signals.csproj", "{135530F1-FE32-41AB-9029-2A5D8FF13263}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Nodes", "External Nodes", "{16CEF1A9-4AEA-4569-BD17-970FA51D4A42}"
 EndProject
@@ -19,9 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.MIDI", "VVVV.Aud
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Gist", "VVVV.Audio.Gist\VVVV.Audio.Gist.csproj", "{A4AEA69C-44CA-4B91-B6B7-E5401A7595E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.VL", "VVVV.Audio.VL\VVVV.Audio.VL.csproj", "{3D611451-3616-4050-90C1-246F0BCF455B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Audio.Accord", "VVVV.Audio.Accord\VVVV.Audio.Accord.csproj", "{E19B036F-22AE-42E5-9C8A-315AB289DD81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVVV.Audio.VL", "VVVV.Audio.VL\VVVV.Audio.VL.csproj", "{3D611451-3616-4050-90C1-246F0BCF455B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +59,6 @@ Global
 		{3D611451-3616-4050-90C1-246F0BCF455B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D611451-3616-4050-90C1-246F0BCF455B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D611451-3616-4050-90C1-246F0BCF455B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E19B036F-22AE-42E5-9C8A-315AB289DD81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E19B036F-22AE-42E5-9C8A-315AB289DD81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E19B036F-22AE-42E5-9C8A-315AB289DD81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E19B036F-22AE-42E5-9C8A-315AB289DD81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,7 +68,6 @@ Global
 		{5C7C0E59-C368-412C-9D10-8E63F6E44D94} = {16CEF1A9-4AEA-4569-BD17-970FA51D4A42}
 		{737AD730-2A7F-4F83-8EEB-25253006D957} = {16CEF1A9-4AEA-4569-BD17-970FA51D4A42}
 		{A4AEA69C-44CA-4B91-B6B7-E5401A7595E6} = {16CEF1A9-4AEA-4569-BD17-970FA51D4A42}
-		{E19B036F-22AE-42E5-9C8A-315AB289DD81} = {16CEF1A9-4AEA-4569-BD17-970FA51D4A42}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D316A3B-B5BE-4106-97C4-5F9F2FD29C59}

@@ -8,7 +8,7 @@ namespace VVVV.Audio
 {
     public class MatrixMixerSignal : MultiChannelInputSignal
     {
-		public IReadOnlyList<float> GainMatrix
+		public IList<float> GainMatrix
 		{
 			get;
 			set;
