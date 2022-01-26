@@ -106,7 +106,11 @@ namespace VVVV.Audio
             var renderDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Render);
             var captureDevices = allEndpoints.Where(d => d.DataFlow == DataFlow.Capture);
 
-            var driverNames = new List<string>(asioDrivers);
+            var driverNames = new List<string>();
+            foreach (var asioDriverName in asioDrivers)
+            {
+                driverNames.Add(AudioEngine.ASIOPrefix + asioDriverName);
+            }
             OutputDriversDefaultIndex = driverNames.Count; // set to next entry, which is the current system default
             driverNames.Add(AudioEngine.WasapiPrefix + AudioEngine.WasapiSystemDevice);
             foreach (var mmDevice in renderDevices)

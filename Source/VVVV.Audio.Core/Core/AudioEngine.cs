@@ -166,6 +166,7 @@ namespace VVVV.Audio
             }
             else
             {
+                driverName = driverName.Replace(ASIOPrefix, "");
                 PreviewASIODriver(driverName);
             }
         }
@@ -235,6 +236,7 @@ namespace VVVV.Audio
             }
             else
             {
+                driverName = driverName.Replace(ASIOPrefix, "");
                 ChangeASIODriverSettings(driverName, sampleRate, inputChannels, inputChannelOffset, outputChannels, outputChannelOffset);
             }
         }
@@ -312,7 +314,7 @@ namespace VVVV.Audio
                 NeedsReset = false;
 
                 CurrentDevice = AsioDevice;
-                CurrentDriverName = driverName;
+                CurrentDriverName = ASIOPrefix + driverName;
 
                 driverInitialized = true;
 
@@ -352,7 +354,7 @@ namespace VVVV.Audio
                 for (int i = 0; i < FRecordBuffers.Length; i++)
                 {
                     FRecordBuffers[i] = new float[1];
-                    FWasapiInputBuffers.Add(new CircularBuffer(3));
+                    FWasapiInputBuffers.Add(new CircularBufferWasapi(3));
 
                 }
                 WasapiDevice.Input.DataAvailable += WasapiAudioAvailable;
@@ -453,7 +455,7 @@ namespace VVVV.Audio
 
         public int SamplesCounter = 0;
 
-        public List<CircularBuffer> FWasapiInputBuffers = new List<CircularBuffer>();
+        public List<CircularBufferWasapi> FWasapiInputBuffers = new List<CircularBufferWasapi>();
         private void WasapiAudioAvailable(object sender, WaveInEventArgs e)
         {
             if (RecordingRequestedStack.Count <= 0)
@@ -474,7 +476,7 @@ namespace VVVV.Audio
                 for (int i = 0; i < FRecordBuffers.Length; i++)
                 {
                     FRecordBuffers[i] = new float[samples];
-                    FWasapiInputBuffers[i] = new CircularBuffer(samples * 3);
+                    FWasapiInputBuffers[i] = new CircularBufferWasapi(samples * 3);
                 }
             }
 
